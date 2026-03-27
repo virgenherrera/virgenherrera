@@ -1,0 +1,91 @@
+{
+  "name": "Hugo Virgen Herrera",
+  "headline": "Passionate Software Engineer",
+  "summary": "Software Engineer from Mexico with extensive experience in full-stack development, specializing in TypeScript, Node.js, Angular, and cloud-native architectures. Passionate about building scalable backend systems with NestJS and exploring Go, .NET, and Kotlin.",
+  "location": "Mexico",
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/virgenherrera",
+      "icon": "github"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://linkedin.com/in/virgenherrera",
+      "icon": "linkedin"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Company Name",
+      "role": "Senior Software Engineer",
+      "startDate": "2020-01",
+      "description": "TODO: Fill in with real experience details.",
+      "technologies": ["TypeScript", "Node.js", "NestJS", "Angular", "AWS"]
+    },
+    {
+      "company": "Previous Company",
+      "role": "Software Engineer",
+      "startDate": "2017-01",
+      "endDate": "2019-12",
+      "description": "TODO: Fill in with real experience details.",
+      "technologies": ["JavaScript", "React", "Express.js", "PostgreSQL"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University Name",
+      "degree": "Bachelor's Degree",
+      "field": "Computer Science",
+      "startDate": "2012-08",
+      "endDate": "2016-06"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "TODO: Add real certification",
+      "issuer": "TODO: Add issuer",
+      "date": "2023-01"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "skills": ["JavaScript", "TypeScript", "C#", "Go", "Kotlin"]
+    },
+    {
+      "category": "Backend Frameworks",
+      "skills": ["Node.js", "NestJS", "Express.js", ".NET"]
+    },
+    {
+      "category": "Frontend Frameworks",
+      "skills": ["Angular", "React", "React Native", "Redux", "RxJS", "SASS"]
+    },
+    {
+      "category": "Databases",
+      "skills": ["PostgreSQL", "MySQL", "MongoDB", "SQLite", "Redis", "Cassandra", "DynamoDB", "MariaDB", "SQL Server", "CockroachDB"]
+    },
+    {
+      "category": "Cloud & DevOps",
+      "skills": ["AWS", "Azure", "DigitalOcean", "Docker", "Jenkins"]
+    },
+    {
+      "category": "Web Servers & Tools",
+      "skills": ["Apache", "Nginx", "GraphQL", "Socket.io"]
+    },
+    {
+      "category": "Machine Learning",
+      "skills": ["TensorFlow"]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "proficiency": "Native"
+    },
+    {
+      "language": "English",
+      "proficiency": "Professional"
+    }
+  ]
+}
