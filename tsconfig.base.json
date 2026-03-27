@@ -4,8 +4,6 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "verbatimModuleSyntax": true,
-    "declaration": true,
-    "composite": true,
     "strict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,

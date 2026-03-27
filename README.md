@@ -1,29 +1,107 @@
-<h1 align="center">Hi 👋, I'm Hugo Virgen</h1>
-<h3 align="center">A passionate software Engineer from México</h3>
+# Hugo Enrique Virgen Herrera
 
-# 💫 About Me:
-🔭 I’m currently working on Increase my backend Skills<br>🌱 I’m currently learning to Go, .net 6, Kotlin<br>👯 I’m looking to collaborate on Nestjs<br>👨‍💻 All of my projects are available at https://github.com/virgenherrera?tab=repositories<br>💬 Ask me about Angular, Nestjs, playwright, CI/CD
+**Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations**
 
+Mexico
 
-## 🌐 Socials:
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/virgenherrera) 
+## About
 
-# 💻 Tech Stack:
-![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white) ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white) ![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![Azure](https://img.shields.io/badge/azure-%230072C6.svg?style=for-the-badge&logo=azure-devops&logoColor=white) ![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white) ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white) ![RxJS](https://img.shields.io/badge/rxjs-%23B7178C.svg?style=for-the-badge&logo=reactivex&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white) ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101) ![Apache](https://img.shields.io/badge/apache-%23D42029.svg?style=for-the-badge&logo=apache&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white) ![AmazonDynamoDB](https://img.shields.io/badge/Amazon%20DynamoDB-4053D6?style=for-the-badge&logo=Amazon%20DynamoDB&logoColor=white) ![ApacheCassandra](https://img.shields.io/badge/cassandra-%231287B1.svg?style=for-the-badge&logo=apache-cassandra&logoColor=white) ![CockroachLabs](https://img.shields.io/badge/Cockroach%20Labs-6933FF?style=for-the-badge&logo=Cockroach%20Labs&logoColor=white) ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Sever-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) ![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-# 📊 GitHub Stats:
-![](https://github-readme-stats.vercel.app/api?username=virgenherrera&theme=monokai&hide_border=false&include_all_commits=true&count_private=true)<br/>
-![](https://github-readme-streak-stats.herokuapp.com/?user=virgenherrera&theme=monokai&hide_border=false)<br/>
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=virgenherrera&theme=monokai&hide_border=false&include_all_commits=true&count_private=true&layout=compact)
+Energetic Fullstack Engineer with hands-on experience in JavaScript and TypeScript since 2015, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems.
 
-### ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
+## Skills
+
+- **Languages**: JavaScript, TypeScript, C#, PHP
+- **Backend Frameworks**: Node.js, NestJS, Express.js, .NET, .NET Framework
+- **Frontend Frameworks**: Angular, React, Vue
+- **Databases**: PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis
+- **APIs & Protocols**: REST, GraphQL, gRPC, WebSocket
+- **Cloud & DevOps**: AWS, Azure, Docker, CI/CD
+- **ORMs & ODMs**: Prisma, TypeORM, Sequelize, Mongoose
+- **AI & Integrations**: LangChain, OpenAI API, LLM-based orchestration
+
+## Experience
+
+### Software Developer @ PwC
+
+*2024-08 - Present*
+
+Contributed to the design, implementation, and production release of AI-powered integration services that connect isolated enterprise systems into a unified conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.
+
+  Technologies: JavaScript, TypeScript, Node.js, NestJS, LangChain, OpenAI API, .NET 8, Azure, Azure Functions, CI/CD
+
+### Senior Fullstack Node.js Developer @ Globant
+
+*2021-04 - 2024-08*
+
+Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, focusing on the design, development, and scaling of backend services within AWS-based cloud environments, with an emphasis on robustness, performance, and scalability.
+
+  Technologies: Node.js, TypeScript, NestJS, GraphQL, Angular, React, Vue, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline
+
+### Lead Full Stack JavaScript Engineer @ Unosquare
+
+*2020-03 - 2021-05*
+
+Led a cross-functional team of engineers in the migration of a banking web application to Angular 11, improving maintainability, performance, and compliance with accessibility standards. Designed backend services using C# and .NET, implemented CI/CD pipelines using Azure DevOps, and contributed to cloud-native architectures on Azure including AKS and Azure Functions.
+
+  Technologies: Angular 11, C#, .NET, .NET Core, Azure DevOps, Azure Kubernetes Service, Azure Functions, Golang, Fiber
+
+### Full Stack JavaScript Engineer @ EPAM Systems
+
+*2018-10 - 2020-02*
+
+Contributed to the development of a platform focused on streamlining core business operations such as user registration and email subscription workflows. Supported the adoption of a microservices architecture utilizing Node.js, serverless React components, and Apollo GraphQL.
+
+  Technologies: JavaScript, TypeScript, Node.js, React, Apollo GraphQL, AWS Lambda, AWS SNS, DynamoDB, Mocha, Chai, Istanbul, .NET
+
+### Resources Manager (Leadership Development) @ EPAM Systems
+
+*2019-05 - 2020-02*
+
+Additional leadership development role alongside primary engineering responsibilities. Acted as point of contact for engineers supporting career growth, conducted technical interviews, produced evaluation reports and hiring recommendations, and delivered technical talks and knowledge-sharing sessions.
+
+### Full-stack Software Engineer @ 3Pillar Global (formerly Tiempo Development)
+
+*2016-10 - 2018-10*
+
+Contributed to the design and development of microservices-based systems following Agile/Scrum and Lean methodologies. Developed backend services using Node.js, Express.js, and MongoDB on AWS. Implemented GraphQL APIs within an API Gateway and built CI/CD pipelines using Jenkins.
+
+  Technologies: JavaScript, Node.js, Express.js, MongoDB, AWS, .NET Framework, PHP, GraphQL, Jenkins, Mocha, Chai, Istanbul
+
+### Frontend Software Engineer @ Hitss México
+
+*2016-07 - 2016-10*
+
+Developed components using React ES6 syntax transpiled to ES5 using Webpack and Gulp. Worked as part of a distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities in Scrum meetings.
+
+  Technologies: React, ES6, Webpack, Gulp, Git, JIRA, Bitbucket
+
+### Fullstack Software Engineer @ Ramsal Software
+
+*2015-08 - 2016-06*
+
+First software engineering role. Created and maintained customer web pages, collaborated in developing an integrated Web System combining multiple web tools into a cohesive application. Acquired proficiency in Node.js, Angular, and Git.
+
+  Technologies: JavaScript, jQuery, Node.js, Angular, Git
+
+## Education
+
+- **Bachelor's degree** in Administrative Informatics — Universidad America Latina (*2018 - 2021*)
+
+## Languages
+
+- **Spanish**: Native
+- **English**: C1
+
+## Links
+
+- [GitHub](https://github.com/virgenherrera)
+- [LinkedIn](https://www.linkedin.com/in/virgenherrera)
+- [Phone](tel:+529983386149)
+
+## Contact
+
+- Email: [virgenherrera@gmail.com](mailto:virgenherrera@gmail.com)
 
 ---
-[![](https://visitcount.itsvg.in/api?id=virgenherrera&icon=0&color=0)](https://visitcount.itsvg.in)
 
-
-<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=virgenherrera&show_icons=true&locale=en&layout=compact" alt="virgenherrera" /></p>
-
-<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=virgenherrera&show_icons=true&locale=en" alt="virgenherrera" /></p>
-
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=virgenherrera&" alt="virgenherrera" /></p>
+*Generated by [virgenherrera-cli](https://github.com/virgenherrera/virgenherrera)*

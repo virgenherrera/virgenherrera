@@ -1,4 +1,5 @@
 {
-    "claudeCode.allowDangerouslySkipPermissions": true,
-    "workbench.colorTheme": "Monokai"
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "workbench.colorTheme": "Monokai",
+  "cSpell.words": ["virgenherrera"]
 }

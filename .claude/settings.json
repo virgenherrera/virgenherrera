@@ -27,7 +27,8 @@
       "Bash(git push:*)",
       "Bash(pnpm vitest:*)",
       "Write(**/.env*)",
-      "Edit(**/.env*)"
+      "Edit(**/.env*)",
+      "Bash(chmod +x /Users/hugovirgen/projects/nodejs/virgenherrera/.husky/pre-commit)"
     ]
   }
 }

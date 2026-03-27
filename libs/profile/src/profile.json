@@ -21,7 +21,18 @@
       "role": "Software Developer",
       "startDate": "2024-08",
       "description": "Contributed to the design, implementation, and production release of AI-powered integration services that connect isolated enterprise systems into a unified conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.",
-      "technologies": ["JavaScript", "TypeScript", "Node.js", "NestJS", "LangChain", "OpenAI API", ".NET 8", "Azure", "Azure Functions", "CI/CD"]
+      "technologies": [
+        "JavaScript",
+        "TypeScript",
+        "Node.js",
+        "NestJS",
+        "LangChain",
+        "OpenAI API",
+        ".NET 8",
+        "Azure",
+        "Azure Functions",
+        "CI/CD"
+      ]
     },
     {
       "company": "Globant",
@@ -29,7 +40,23 @@
       "startDate": "2021-04",
       "endDate": "2024-08",
       "description": "Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, focusing on the design, development, and scaling of backend services within AWS-based cloud environments, with an emphasis on robustness, performance, and scalability.",
-      "technologies": ["Node.js", "TypeScript", "NestJS", "GraphQL", "Angular", "React", "Vue", "AWS Lambda", "AWS SNS", "AWS SQS", "AWS Cognito", "AWS Step Functions", "AWS CodeBuild", "AWS CodeDeploy", "AWS CodePipeline"]
+      "technologies": [
+        "Node.js",
+        "TypeScript",
+        "NestJS",
+        "GraphQL",
+        "Angular",
+        "React",
+        "Vue",
+        "AWS Lambda",
+        "AWS SNS",
+        "AWS SQS",
+        "AWS Cognito",
+        "AWS Step Functions",
+        "AWS CodeBuild",
+        "AWS CodeDeploy",
+        "AWS CodePipeline"
+      ]
     },
     {
       "company": "Unosquare",
@@ -37,7 +64,17 @@
       "startDate": "2020-03",
       "endDate": "2021-05",
       "description": "Led a cross-functional team of engineers in the migration of a banking web application to Angular 11, improving maintainability, performance, and compliance with accessibility standards. Designed backend services using C# and .NET, implemented CI/CD pipelines using Azure DevOps, and contributed to cloud-native architectures on Azure including AKS and Azure Functions.",
-      "technologies": ["Angular 11", "C#", ".NET", ".NET Core", "Azure DevOps", "Azure Kubernetes Service", "Azure Functions", "Golang", "Fiber"]
+      "technologies": [
+        "Angular 11",
+        "C#",
+        ".NET",
+        ".NET Core",
+        "Azure DevOps",
+        "Azure Kubernetes Service",
+        "Azure Functions",
+        "Golang",
+        "Fiber"
+      ]
     },
     {
       "company": "EPAM Systems",
@@ -45,7 +82,20 @@
       "startDate": "2018-10",
       "endDate": "2020-02",
       "description": "Contributed to the development of a platform focused on streamlining core business operations such as user registration and email subscription workflows. Supported the adoption of a microservices architecture utilizing Node.js, serverless React components, and Apollo GraphQL.",
-      "technologies": ["JavaScript", "TypeScript", "Node.js", "React", "Apollo GraphQL", "AWS Lambda", "AWS SNS", "DynamoDB", "Mocha", "Chai", "Istanbul", ".NET"]
+      "technologies": [
+        "JavaScript",
+        "TypeScript",
+        "Node.js",
+        "React",
+        "Apollo GraphQL",
+        "AWS Lambda",
+        "AWS SNS",
+        "DynamoDB",
+        "Mocha",
+        "Chai",
+        "Istanbul",
+        ".NET"
+      ]
     },
     {
       "company": "EPAM Systems",
@@ -61,7 +111,20 @@
       "startDate": "2016-10",
       "endDate": "2018-10",
       "description": "Contributed to the design and development of microservices-based systems following Agile/Scrum and Lean methodologies. Developed backend services using Node.js, Express.js, and MongoDB on AWS. Implemented GraphQL APIs within an API Gateway and built CI/CD pipelines using Jenkins.",
-      "technologies": ["JavaScript", "Node.js", "Express.js", "MongoDB", "AWS", ".NET Framework", "PHP", "GraphQL", "Jenkins", "Mocha", "Chai", "Istanbul"]
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "AWS",
+        ".NET Framework",
+        "PHP",
+        "GraphQL",
+        "Jenkins",
+        "Mocha",
+        "Chai",
+        "Istanbul"
+      ]
     },
     {
       "company": "Hitss México",
@@ -69,7 +132,15 @@
       "startDate": "2016-07",
       "endDate": "2016-10",
       "description": "Developed components using React ES6 syntax transpiled to ES5 using Webpack and Gulp. Worked as part of a distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities in Scrum meetings.",
-      "technologies": ["React", "ES6", "Webpack", "Gulp", "Git", "JIRA", "Bitbucket"]
+      "technologies": [
+        "React",
+        "ES6",
+        "Webpack",
+        "Gulp",
+        "Git",
+        "JIRA",
+        "Bitbucket"
+      ]
     },
     {
       "company": "Ramsal Software",
@@ -105,7 +176,14 @@
     },
     {
       "category": "Databases",
-      "skills": ["PostgreSQL", "MySQL", "MariaDB", "MongoDB", "DynamoDB", "Redis"]
+      "skills": [
+        "PostgreSQL",
+        "MySQL",
+        "MariaDB",
+        "MongoDB",
+        "DynamoDB",
+        "Redis"
+      ]
     },
     {
       "category": "APIs & Protocols",
