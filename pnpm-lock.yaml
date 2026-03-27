@@ -29,6 +29,9 @@ importers:
       '@nestjs/core':
         specifier: ^11.0.0
         version: 11.1.17(@nestjs/common@11.1.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@virgenherrera/plugin-readme':
+        specifier: workspace:*
+        version: link:../plugin-readme
       '@virgenherrera/profile':
         specifier: workspace:*
         version: link:../profile
@@ -51,6 +54,18 @@ importers:
       '@types/inquirer':
         specifier: ^8.2.0
         version: 8.2.12
+
+  packages/plugin-readme:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^11.0.0
+        version: 11.1.17(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@virgenherrera/cli':
+        specifier: workspace:*
+        version: link:../cli
+      '@virgenherrera/profile':
+        specifier: workspace:*
+        version: link:../profile
 
   packages/profile:
     dependencies:

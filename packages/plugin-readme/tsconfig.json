@@ -8,6 +8,6 @@
   "include": ["src/**/*.ts"],
   "references": [
     { "path": "../profile" },
-    { "path": "../plugin-readme" }
+    { "path": "../cli" }
   ]
 }

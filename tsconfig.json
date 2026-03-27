@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "./packages/profile" },
-    { "path": "./packages/cli" }
+    { "path": "./packages/cli" },
+    { "path": "./packages/plugin-readme" }
   ]
 }
