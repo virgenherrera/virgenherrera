@@ -20,7 +20,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }

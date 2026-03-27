@@ -1,7 +1,7 @@
 {
-  "name": "Hugo Virgen Herrera",
-  "headline": "Passionate Software Engineer",
-  "summary": "Software Engineer from Mexico with extensive experience in full-stack development, specializing in TypeScript, Node.js, Angular, and cloud-native architectures. Passionate about building scalable backend systems with NestJS and exploring Go, .NET, and Kotlin.",
+  "name": "Hugo Enrique Virgen Herrera",
+  "headline": "Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations",
+  "summary": "Energetic Fullstack Engineer with hands-on experience in JavaScript and TypeScript since 2015, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems.",
   "location": "Mexico",
   "links": [
     {
@@ -11,71 +11,117 @@
     },
     {
       "label": "LinkedIn",
-      "url": "https://linkedin.com/in/virgenherrera",
+      "url": "https://www.linkedin.com/in/virgenherrera",
       "icon": "linkedin"
     }
   ],
   "experience": [
     {
-      "company": "Company Name",
-      "role": "Senior Software Engineer",
-      "startDate": "2020-01",
-      "description": "TODO: Fill in with real experience details.",
-      "technologies": ["TypeScript", "Node.js", "NestJS", "Angular", "AWS"]
+      "company": "PwC",
+      "role": "Software Developer",
+      "startDate": "2024-08",
+      "description": "Contributed to the design, implementation, and production release of AI-powered integration services that connect isolated enterprise systems into a unified conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.",
+      "technologies": ["JavaScript", "TypeScript", "Node.js", "NestJS", "LangChain", "OpenAI API", ".NET 8", "Azure", "Azure Functions", "CI/CD"]
     },
     {
-      "company": "Previous Company",
-      "role": "Software Engineer",
-      "startDate": "2017-01",
-      "endDate": "2019-12",
-      "description": "TODO: Fill in with real experience details.",
-      "technologies": ["JavaScript", "React", "Express.js", "PostgreSQL"]
+      "company": "Globant",
+      "role": "Senior Fullstack Node.js Developer",
+      "startDate": "2021-04",
+      "endDate": "2024-08",
+      "description": "Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, focusing on the design, development, and scaling of backend services within AWS-based cloud environments, with an emphasis on robustness, performance, and scalability.",
+      "technologies": ["Node.js", "TypeScript", "NestJS", "GraphQL", "Angular", "React", "Vue", "AWS Lambda", "AWS SNS", "AWS SQS", "AWS Cognito", "AWS Step Functions", "AWS CodeBuild", "AWS CodeDeploy", "AWS CodePipeline"]
+    },
+    {
+      "company": "Unosquare",
+      "role": "Lead Full Stack JavaScript Engineer",
+      "startDate": "2020-03",
+      "endDate": "2021-05",
+      "description": "Led a cross-functional team of engineers in the migration of a banking web application to Angular 11, improving maintainability, performance, and compliance with accessibility standards. Designed backend services using C# and .NET, implemented CI/CD pipelines using Azure DevOps, and contributed to cloud-native architectures on Azure including AKS and Azure Functions.",
+      "technologies": ["Angular 11", "C#", ".NET", ".NET Core", "Azure DevOps", "Azure Kubernetes Service", "Azure Functions", "Golang", "Fiber"]
+    },
+    {
+      "company": "EPAM Systems",
+      "role": "Full Stack JavaScript Engineer",
+      "startDate": "2018-10",
+      "endDate": "2020-02",
+      "description": "Contributed to the development of a platform focused on streamlining core business operations such as user registration and email subscription workflows. Supported the adoption of a microservices architecture utilizing Node.js, serverless React components, and Apollo GraphQL.",
+      "technologies": ["JavaScript", "TypeScript", "Node.js", "React", "Apollo GraphQL", "AWS Lambda", "AWS SNS", "DynamoDB", "Mocha", "Chai", "Istanbul", ".NET"]
+    },
+    {
+      "company": "EPAM Systems",
+      "role": "Resources Manager (Leadership Development)",
+      "startDate": "2019-05",
+      "endDate": "2020-02",
+      "description": "Additional leadership development role alongside primary engineering responsibilities. Acted as point of contact for engineers supporting career growth, conducted technical interviews, produced evaluation reports and hiring recommendations, and delivered technical talks and knowledge-sharing sessions.",
+      "technologies": []
+    },
+    {
+      "company": "3Pillar Global (formerly Tiempo Development)",
+      "role": "Full-stack Software Engineer",
+      "startDate": "2016-10",
+      "endDate": "2018-10",
+      "description": "Contributed to the design and development of microservices-based systems following Agile/Scrum and Lean methodologies. Developed backend services using Node.js, Express.js, and MongoDB on AWS. Implemented GraphQL APIs within an API Gateway and built CI/CD pipelines using Jenkins.",
+      "technologies": ["JavaScript", "Node.js", "Express.js", "MongoDB", "AWS", ".NET Framework", "PHP", "GraphQL", "Jenkins", "Mocha", "Chai", "Istanbul"]
+    },
+    {
+      "company": "Hitss México",
+      "role": "Frontend Software Engineer",
+      "startDate": "2016-07",
+      "endDate": "2016-10",
+      "description": "Developed components using React ES6 syntax transpiled to ES5 using Webpack and Gulp. Worked as part of a distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities in Scrum meetings.",
+      "technologies": ["React", "ES6", "Webpack", "Gulp", "Git", "JIRA", "Bitbucket"]
+    },
+    {
+      "company": "Ramsal Software",
+      "role": "Fullstack Software Engineer",
+      "startDate": "2015-08",
+      "endDate": "2016-06",
+      "description": "First software engineering role. Created and maintained customer web pages, collaborated in developing an integrated Web System combining multiple web tools into a cohesive application. Acquired proficiency in Node.js, Angular, and Git.",
+      "technologies": ["JavaScript", "jQuery", "Node.js", "Angular", "Git"]
     }
   ],
   "education": [
     {
-      "institution": "University Name",
-      "degree": "Bachelor's Degree",
-      "field": "Computer Science",
-      "startDate": "2012-08",
-      "endDate": "2016-06"
+      "institution": "Universidad America Latina",
+      "degree": "Bachelor's degree",
+      "field": "Administrative Informatics",
+      "startDate": "2018",
+      "endDate": "2021"
     }
   ],
-  "certifications": [
-    {
-      "name": "TODO: Add real certification",
-      "issuer": "TODO: Add issuer",
-      "date": "2023-01"
-    }
-  ],
+  "certifications": [],
   "skills": [
     {
       "category": "Languages",
-      "skills": ["JavaScript", "TypeScript", "C#", "Go", "Kotlin"]
+      "skills": ["JavaScript", "TypeScript", "C#", "PHP"]
     },
     {
       "category": "Backend Frameworks",
-      "skills": ["Node.js", "NestJS", "Express.js", ".NET"]
+      "skills": ["Node.js", "NestJS", "Express.js", ".NET", ".NET Framework"]
     },
     {
       "category": "Frontend Frameworks",
-      "skills": ["Angular", "React", "React Native", "Redux", "RxJS", "SASS"]
+      "skills": ["Angular", "React", "Vue"]
     },
     {
       "category": "Databases",
-      "skills": ["PostgreSQL", "MySQL", "MongoDB", "SQLite", "Redis", "Cassandra", "DynamoDB", "MariaDB", "SQL Server", "CockroachDB"]
+      "skills": ["PostgreSQL", "MySQL", "MariaDB", "MongoDB", "DynamoDB", "Redis"]
+    },
+    {
+      "category": "APIs & Protocols",
+      "skills": ["REST", "GraphQL", "gRPC", "WebSocket"]
     },
     {
       "category": "Cloud & DevOps",
-      "skills": ["AWS", "Azure", "DigitalOcean", "Docker", "Jenkins"]
+      "skills": ["AWS", "Azure", "Docker", "CI/CD"]
     },
     {
-      "category": "Web Servers & Tools",
-      "skills": ["Apache", "Nginx", "GraphQL", "Socket.io"]
+      "category": "ORMs & ODMs",
+      "skills": ["Prisma", "TypeORM", "Sequelize", "Mongoose"]
     },
     {
-      "category": "Machine Learning",
-      "skills": ["TensorFlow"]
+      "category": "AI & Integrations",
+      "skills": ["LangChain", "OpenAI API", "LLM-based orchestration"]
     }
   ],
   "languages": [
@@ -85,7 +131,7 @@
     },
     {
       "language": "English",
-      "proficiency": "Professional"
+      "proficiency": "C1"
     }
   ]
 }

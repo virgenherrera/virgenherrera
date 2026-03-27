@@ -113,7 +113,7 @@ describe("profileSchema", () => {
 describe("getProfile", () => {
   it("should load and validate profile.json successfully", () => {
     const profile = getProfile();
-    expect(profile.name).toBe("Hugo Virgen Herrera");
+    expect(profile.name).toBe("Hugo Enrique Virgen Herrera");
     expect(profile.skills.length).toBeGreaterThan(0);
     expect(profile.links.length).toBeGreaterThan(0);
     expect(profile.experience.length).toBeGreaterThan(0);

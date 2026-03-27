@@ -22,7 +22,12 @@
       "Skill(update-config)",
       "Skill(update-config:*)",
       "Bash(git checkout:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(pnpm vitest:*)",
+      "Write(**/.env*)",
+      "Edit(**/.env*)"
     ]
   }
 }
