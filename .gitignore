@@ -1,8 +1,12 @@
 node_modules/
 dist/
+out-tsc/
 .turbo/
+.angular/
 coverage/
 *.tsbuildinfo
 .env
 .env.*
 !.env.example
+test-results/
+playwright-report/

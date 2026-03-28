@@ -5,21 +5,13 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  {
-    ignores: [
-      "eslint.config.mjs",
-      "node_modules/",
-      "dist/",
-      "coverage/",
-      "apps/ghpages/",
-    ],
-  },
+  { ignores: ["dist/", "node_modules/", ".angular/"] },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
-      globals: { ...globals.node },
+      globals: { ...globals.browser },
       sourceType: "module",
       parserOptions: {
         projectService: true,
