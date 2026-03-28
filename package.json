@@ -3,6 +3,10 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virgenherrera/virgenherrera.git"
+  },
   "engines": {
     "node": ">=24"
   },

@@ -28,7 +28,12 @@
       "Bash(pnpm vitest:*)",
       "Write(**/.env*)",
       "Edit(**/.env*)",
-      "Bash(chmod +x /Users/hugovirgen/projects/nodejs/virgenherrera/.husky/pre-commit)"
+      "Bash(chmod +x /Users/hugovirgen/projects/nodejs/virgenherrera/.husky/pre-commit)",
+      "Read(//private/tmp/claude-501/**)",
+      "Bash(pnpm tsx:*)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/claude-501/-Users-hugovirgen-projects-nodejs-virgenherrera/402be8c1-bff9-4c7a-8f4a-8001dde1a0de/tasks"
     ]
   }
 }

@@ -1,5 +1,8 @@
 # Developer Guide — virgenherrera
 
+> El [README.md](README.md) de este repo es **generado automaticamente** por `apps/readme`.
+> No lo edites a mano — editá el profile en `libs/profile/src/profile.json` y corré `pnpm generate:readme`.
+
 ## Tabla de contenidos
 
 - [Como usar](#como-usar)
