@@ -49,9 +49,9 @@ test.describe("Public route (/)", () => {
   });
 });
 
-test.describe("Private route (/private)", () => {
+test.describe("Private view (/#full)", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/private");
+    await page.goto("/#full");
   });
 
   test("renders all 5 sections", async ({ page }) => {
@@ -66,19 +66,15 @@ test.describe("Private route (/private)", () => {
     await expect(page.locator('[data-testid="contact-section"]')).toBeVisible();
   });
 
-  test("email is visible on private route", async ({ page }) => {
+  test("email is visible on private view", async ({ page }) => {
     await expect(page.locator('[data-testid="contact-email"]')).toBeVisible();
   });
 
-  test("PDF button is visible and disabled on private route", async ({
+  test("PDF button is visible and disabled on private view", async ({
     page,
   }) => {
     const button = page.locator('[data-testid="pdf-button"]');
     await expect(button).toBeVisible();
     await expect(button).toBeDisabled();
-  });
-
-  test("has correct title", async ({ page }) => {
-    await expect(page).toHaveTitle(/Hugo Virgen Herrera.*Full Profile/);
   });
 });

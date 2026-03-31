@@ -7,10 +7,5 @@ export const routes: Routes = [
     component: PortfolioPage,
     title: "Hugo Virgen Herrera \u2014 Portfolio",
   },
-  {
-    path: "private",
-    component: PortfolioPage,
-    title: "Hugo Virgen Herrera \u2014 Full Profile",
-  },
   { path: "**", redirectTo: "" },
 ];

@@ -1,26 +1,24 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { filter, map } from "rxjs";
+import {
+  computed,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  signal,
+} from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import profileJson from "@profile-data";
 import type { ProfileData } from "../types/profile.types";
 
+const PRIVATE_HASH = "#full";
+
 @Injectable({ providedIn: "root" })
 export class ProfileStore {
-  private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly profile = signal<ProfileData>(profileJson as ProfileData);
 
-  private readonly routerUrl = toSignal(
-    this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map((e) => e.urlAfterRedirects),
-    ),
-    { initialValue: this.router.url },
-  );
-
-  readonly isPrivateView = computed(() =>
-    this.routerUrl().includes("/private"),
+  readonly isPrivateView = signal(
+    isPlatformBrowser(this.platformId) && window.location.hash === PRIVATE_HASH,
   );
 
   readonly name = computed(() => this.profile().name);
