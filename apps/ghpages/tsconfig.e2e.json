@@ -1,7 +1,11 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "rootDir": "."
+    "outDir": "./out-tsc/e2e",
+    "types": ["node"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true
   },
-  "include": ["e2e/**/*.ts", "playwright.config.ts", "scripts/**/*.ts"]
+  "include": ["e2e/**/*.ts", "scripts/**/*.ts", "playwright.config.ts"]
 }

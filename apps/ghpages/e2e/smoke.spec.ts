@@ -1,10 +1,84 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("GH Pages Smoke", () => {
-  test("renders the portfolio placeholder", async ({ page }) => {
+test.describe("Public route (/)", () => {
+  test.beforeEach(async ({ page }) => {
     await page.goto("/");
+  });
 
-    await expect(page.locator("h1")).toHaveText("Hugo Virgen Herrera");
-    await expect(page.locator("p")).toHaveText("Portfolio coming soon");
+  test("renders hero section", async ({ page }) => {
+    await expect(page.locator('[data-testid="hero-section"]')).toBeVisible();
+  });
+
+  test("renders about section", async ({ page }) => {
+    await expect(page.locator('[data-testid="about-section"]')).toBeVisible();
+  });
+
+  test("renders experience section", async ({ page }) => {
+    await expect(
+      page.locator('[data-testid="experience-section"]'),
+    ).toBeVisible();
+  });
+
+  test("renders projects section", async ({ page }) => {
+    await expect(
+      page.locator('[data-testid="projects-section"]'),
+    ).toBeVisible();
+  });
+
+  test("renders contact section", async ({ page }) => {
+    await expect(page.locator('[data-testid="contact-section"]')).toBeVisible();
+  });
+
+  test("email is hidden on public route", async ({ page }) => {
+    await expect(
+      page.locator('[data-testid="contact-email"]'),
+    ).not.toBeVisible();
+  });
+
+  test("PDF button is hidden on public route", async ({ page }) => {
+    await expect(page.locator('[data-testid="pdf-button"]')).not.toBeVisible();
+  });
+
+  test("has correct title", async ({ page }) => {
+    await expect(page).toHaveTitle(/Hugo Virgen Herrera.*Portfolio/);
+  });
+
+  test("has meta description", async ({ page }) => {
+    const meta = page.locator('meta[name="description"]');
+    await expect(meta).toHaveAttribute("content", /Hugo Virgen Herrera/);
+  });
+});
+
+test.describe("Private route (/private)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/private");
+  });
+
+  test("renders all 5 sections", async ({ page }) => {
+    await expect(page.locator('[data-testid="hero-section"]')).toBeVisible();
+    await expect(page.locator('[data-testid="about-section"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="experience-section"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid="projects-section"]'),
+    ).toBeVisible();
+    await expect(page.locator('[data-testid="contact-section"]')).toBeVisible();
+  });
+
+  test("email is visible on private route", async ({ page }) => {
+    await expect(page.locator('[data-testid="contact-email"]')).toBeVisible();
+  });
+
+  test("PDF button is visible and disabled on private route", async ({
+    page,
+  }) => {
+    const button = page.locator('[data-testid="pdf-button"]');
+    await expect(button).toBeVisible();
+    await expect(button).toBeDisabled();
+  });
+
+  test("has correct title", async ({ page }) => {
+    await expect(page).toHaveTitle(/Hugo Virgen Herrera.*Full Profile/);
   });
 });

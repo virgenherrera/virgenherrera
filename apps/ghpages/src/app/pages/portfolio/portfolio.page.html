@@ -1,0 +1,17 @@
+<div class="container mx-auto grid min-h-dvh max-w-7xl grid-cols-1 md:grid-cols-12">
+  <!-- SIDEBAR -->
+  <aside class="space-y-8 bg-gray-100 p-5 md:col-span-4 lg:p-14 dark:bg-gray-900">
+    <app-hero [name]="store.name()" [headline]="store.headline()" [location]="store.location()" />
+
+    <app-about [summary]="store.summary()" [skills]="store.skills()" [languages]="store.languages()" />
+
+    <app-contact [links]="store.links()" [email]="store.email()" [showPdfButton]="store.showPdfButton()" />
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="mx-auto max-w-2xl space-y-16 p-5 md:col-span-8 md:p-10">
+    <app-experience [experiences]="store.experience()" />
+
+    <app-projects [links]="store.links()" />
+  </main>
+</div>

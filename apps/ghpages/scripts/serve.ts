@@ -1,16 +1,19 @@
-import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const configPath = resolve(__dirname, "../server-config.json");
-const raw = readFileSync(configPath, "utf-8");
-const config = JSON.parse(raw) as {
+interface ServerConfig {
   root: string;
   port: number;
   dotfiles: boolean;
-};
+}
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const configPath = resolve(__dirname, "../server-config.json");
+const config: ServerConfig = JSON.parse(
+  readFileSync(configPath, "utf-8"),
+) as ServerConfig;
 
 const silent = process.argv.includes("--silent");
 const flags = [
@@ -22,7 +25,7 @@ const flags = [
   .filter(Boolean)
   .join(" ");
 
-execSync(`http-server ${flags}`, {
+execSync(`pnpm exec http-server ${flags}`, {
   stdio: "inherit",
   cwd: resolve(__dirname, ".."),
 });

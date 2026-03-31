@@ -1,17 +1,14 @@
 import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-root",
-  template: `
-    <main
-      class="min-h-screen flex items-center justify-center bg-gray-900 text-white"
-    >
-      <div class="text-center">
-        <h1 class="text-4xl font-bold">Hugo Virgen Herrera</h1>
-        <p class="mt-4 text-xl text-gray-400">Portfolio coming soon</p>
-      </div>
-    </main>
-  `,
   standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: "./app.html",
 })
-export class App {}
+export class App {
+  toggleDark(): void {
+    document.documentElement.classList.toggle("dark");
+  }
+}

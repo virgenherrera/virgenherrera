@@ -2,18 +2,18 @@
   "name": "@virgenherrera/app-ghpages",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "serve:ssr": "tsx scripts/serve.ts",
-    "test:static": "eslint '{src,e2e}/**/*.ts' && prettier --check '{src,e2e}/**/*.ts'",
-    "test:types": "tsc --noEmit -p tsconfig.app.json",
+    "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
+    "test:types": "tsc -p tsconfig.json --noEmit",
     "test:e2e": "pnpm run build && playwright test",
-    "test": "pnpm run test:static && pnpm run test:types && pnpm run test:e2e"
+    "test": "pnpm run test:static && pnpm run test:types && pnpm run test:e2e",
+    "serve:ssr": "http-server dist/app-ghpages/browser -p 8080 --no-dotfiles"
   },
+  "packageManager": "pnpm@10.33.0",
   "dependencies": {
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
@@ -30,10 +30,11 @@
     "@angular/build": "^21.2.5",
     "@angular/cli": "^21.2.5",
     "@angular/compiler-cli": "^21.2.0",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^20.17.19",
     "http-server": "^14.1.1",
+    "prettier": "^3.8.1",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.9.2"
   }

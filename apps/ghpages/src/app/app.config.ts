@@ -1,5 +1,5 @@
 import {
-  type ApplicationConfig,
+  ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from "@angular/core";
@@ -8,7 +8,6 @@ import {
   provideClientHydration,
   withIncrementalHydration,
 } from "@angular/platform-browser";
-
 import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {

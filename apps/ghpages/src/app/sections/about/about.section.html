@@ -1,0 +1,32 @@
+<section data-testid="about-section" class="space-y-6">
+  <p class="text-sm/relaxed text-gray-700 dark:text-gray-300">{{ summary() }}</p>
+
+  <div class="space-y-4">
+    @for (category of skills(); track category.category) {
+      <div>
+        <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-500">{{ category.category }}</h3>
+        <div class="flex flex-wrap gap-1.5">
+          @for (skill of category.skills; track skill) {
+            <span class="inline-flex rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              {{ skill }}
+            </span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div>
+    <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-500">Languages</h3>
+    <div class="flex flex-wrap gap-3">
+      @for (lang of languages(); track lang.language) {
+        <div class="flex items-center gap-2">
+          <span class="text-sm text-gray-700 dark:text-gray-300">{{ lang.language }}</span>
+          <span class="rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500">
+            {{ lang.proficiency }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
