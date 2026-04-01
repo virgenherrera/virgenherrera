@@ -1,177 +1,281 @@
 # Developer Guide — virgenherrera
 
-> El [README.md](README.md) de este repo es **generado automaticamente** por `apps/readme`.
-> No lo edites a mano — editá el profile en `libs/profile/src/profile.json` y corré `pnpm generate:readme`.
+> El [README.md](README.md) es **generado automaticamente** por `apps/readme`.
+> No lo edites a mano — editá `libs/profile/src/profile.json` y corré `pnpm generate:readme`.
 
 ## Tabla de contenidos
 
-- [Como usar](#como-usar)
-  - [Requisitos](#requisitos)
-  - [Setup](#setup)
-  - [Variables de entorno](#variables-de-entorno)
-  - [Generar artefactos](#generar-artefactos)
-  - [Tests y checks](#tests-y-checks)
-  - [Scripts disponibles](#scripts-disponibles)
-- [Como crear una app nueva](#como-crear-una-app-nueva)
-  - [Estructura del monorepo](#estructura-del-monorepo)
-  - [Guia paso a paso](#guia-paso-a-paso)
-  - [DX tooling](#dx-tooling)
-  - [Convenciones](#convenciones)
+- [Arquitectura](#arquitectura)
+- [Setup](#setup)
+- [Variables de entorno](#variables-de-entorno)
+- [Scripts](#scripts)
+- [Apps](#apps)
+  - [apps/readme](#appsreadme)
+  - [apps/ghpages](#appsghpages)
+- [Libs](#libs)
+  - [libs/profile](#libsprofile)
+  - [libs/secrets](#libssecrets)
+- [Testing](#testing)
+- [CI/CD](#cicd)
+- [Crear una app nueva](#crear-una-app-nueva)
+- [Convenciones](#convenciones)
 
 ---
 
-## Como usar
+## Arquitectura
+
+```text
+virgenherrera/
+├── .github/workflows/
+│   ├── ci.yml                # Test en PRs a master
+│   └── cd.yml                # Deploy: README + GH Pages en push a master
+├── libs/
+│   ├── profile/              # Source of truth (profile.json + Zod schema)
+│   └── secrets/              # Env validation (.env → Zod → tipado)
+├── apps/
+│   ├── readme/               # NestJS standalone → genera README.md
+│   └── ghpages/              # Angular 21 → portfolio prerenderizado
+├── tsconfig.base.json        # TS compartido (strict, bundler, noEmit)
+├── eslint.config.mjs         # ESLint flat config (typescript-eslint + prettier)
+├── .lintstagedrc.json        # Auto-fix en staged files
+├── .husky/pre-commit         # Hook: lint-staged → pnpm test
+├── pnpm-workspace.yaml       # Workspace: libs/* + apps/*
+└── .env                      # Secrets (gitignored)
+```
+
+### Flujo de datos
+
+```text
+profile.json ──→ apps/readme ──→ README.md (GitHub profile)
+     │
+     └─────────→ apps/ghpages ──→ Static HTML (GitHub Pages)
+                      │
+.env ──→ libs/secrets ──→ generate:recruiter-link ──→ URL con payload base64
+                                                         │
+                                                         └─→ apps/ghpages decodifica
+                                                              email + phone client-side
+```
+
+---
+
+## Setup
 
 ### Requisitos
 
-- Node.js >= 24
-- pnpm >= 10.33 (unico package manager, no uses npm ni yarn)
-- tsx (se instala como devDependency del root)
+| Herramienta | Version |
+|-------------|---------|
+| Node.js     | >= 24   |
+| pnpm        | >= 10   |
 
-### Setup
+### Instalacion
 
 ```bash
 git clone git@github.com:virgenherrera/virgenherrera.git
 cd virgenherrera
 pnpm install
+cp .env.example .env  # editar con datos reales
 ```
 
-Crear el archivo `.env` en la raiz del proyecto:
+### Playwright (solo si vas a correr e2e)
 
 ```bash
-cp .env.example .env
+npx playwright install chromium
 ```
 
-Editar `.env` con tus datos reales. Sin esto, las apps que necesitan secrets no arrancan.
+---
 
-### Variables de entorno
+## Variables de entorno
 
-El archivo `.env` va en la raiz del repo (gitignored). Las variables requeridas son:
+El archivo `.env` va en la raiz del repo (gitignored).
 
-| Variable      | Tipo            | Descripcion                                       |
-|---------------|-----------------|---------------------------------------------------|
-| PROFILE_EMAIL | email valido    | Email de contacto, se agrega al perfil en runtime |
-| PROFILE_PHONE | string no vacia | Telefono de contacto, se agrega como link `tel:`  |
+| Variable         | Tipo            | Usado por                    | Descripcion                      |
+| ---------------- | --------------- | ---------------------------- | -------------------------------- |
+| `PROFILE_EMAIL`  | email valido    | `generate:recruiter-link`    | Email en el link de recruiter    |
+| `PROFILE_PHONE`  | string no vacia | `generate:recruiter-link`    | Telefono en el link de recruiter |
+| `GITHUB_TOKEN`   | string opcional | `generate:readme`            | GitHub API (mas rate limit)      |
 
-Se validan con Zod al arrancar cada app. Si faltan o son invalidas, el proceso
-falla con un mensaje descriptivo.
+`PROFILE_EMAIL` y `PROFILE_PHONE` se validan con Zod via `libs/secrets`.
+Estos datos **nunca** se commitean ni se incluyen en el bundle — viajan
+codificados en base64 dentro del hash de la URL del recruiter link.
 
-### Generar artefactos
+---
 
-Generar el README.md:
+## Scripts
+
+### Root
+
+| Script                          | Descripcion                                       |
+| ------------------------------- | ------------------------------------------------- |
+| `pnpm test`                     | Pipeline completo: cleanup → lint → tests → types |
+| `pnpm test:static`              | ESLint + Prettier check                           |
+| `pnpm test:types`               | `tsc --noEmit` en todos los packages              |
+| `pnpm generate:readme`          | Genera README.md desde profile + GitHub API       |
+| `pnpm generate:all`             | Corre todas las apps                              |
+| `pnpm generate:recruiter-link`  | Genera URL con secrets encoded para recruiters    |
+| `pnpm build:ghpages`            | Build prerenderizado del portfolio                |
+| `pnpm cleanup`                  | Borra `coverage/`                                 |
+
+### Scripts de apps/ghpages
+
+| Script          | Descripcion                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| `start`         | `ng serve` (dev server con HMR)                                    |
+| `build`         | `ng build` (prerender estatico)                                    |
+| `test`          | lint → build → e2e (Playwright)                                    |
+| `test:static`   | ESLint + Prettier en `src/` y `e2e/`                               |
+| `test:e2e`      | Build + Playwright tests                                           |
+| `serve:ssr`     | Sirve el build estatico con http-server                            |
+| `cleanup`       | Borra `.angular/`, `dist/`, `test-results/`, `playwright-report/`  |
+| `generate:link` | Genera recruiter URL desde `.env`                                  |
+
+### Scripts de apps/readme
+
+| Script        | Descripcion                       |
+| ------------- | --------------------------------- |
+| `start`       | NestJS standalone → genera README |
+| `test:static` | ESLint + Prettier                 |
+| `test:types`  | `tsc --noEmit`                    |
+| `test`        | lint + types                      |
+
+---
+
+## Apps
+
+### apps/readme
+
+NestJS standalone app (`NestFactory.createApplicationContext`). Lee `libs/profile`,
+consulta la GitHub API via `@nestjs/axios` + RxJS, valida con Zod, genera mermaid
+diagrams (timeline + pie chart), y escribe `README.md`.
+
+**Stack**: NestJS, @nestjs/axios, RxJS, Zod
+
+### apps/ghpages
+
+Angular 21 portfolio prerenderizado para GitHub Pages.
+
+**Stack**: Angular 21, @ngrx/signals, Tailwind CSS v4, jsPDF, Playwright
+
+**Caracteristicas**:
+
+- **Zoneless** — `provideZonelessChangeDetection()` (sin zone.js)
+- **Prerender** — Solo `/` se prerenderiza (HTML estático)
+- **Privacy gate** — URL con hash base64 revela email + telefono
+- **Dark/Light toggle** — Class-based con Tailwind `@custom-variant dark`
+- **PDF resume** — jsPDF genera PDF ATS-friendly con texto real
+- **Tailwind v4** — Requiere `.postcssrc.json` (Angular no lo detecta automaticamente)
+
+**Privacidad via URL**:
 
 ```bash
-pnpm generate:readme
+# Generar link para recruiters
+pnpm generate:recruiter-link
+
+# Resultado ejemplo:
+# https://virgenherrera.github.io/virgenherrera/#eyJlbWFp...
 ```
 
-Generar todos los artefactos (corre todas las apps):
+El hash contiene `{ email, phone }` en base64. El `ProfileStore` decodifica,
+valida con Zod, y revela los datos. Hash invalido → snackbar + vista publica.
 
-```bash
-pnpm generate:all
+**E2E tests** (Playwright):
+
+```text
+e2e/
+├── pages/
+│   └── portfolio.page.ts     # POM con getter-based locators
+└── specs/
+    ├── public-view.spec.ts   # Tests de vista publica
+    └── private-view.spec.ts  # Tests de vista privada + payload invalido
 ```
 
-Con directorio de salida custom:
+Reportes: HTML (`playwright-report/`) + JUnit XML (`test-results/junit.xml`).
 
-```bash
-pnpm generate:readme -- --output ./output
-```
+---
 
-### Tests y checks
+## Libs
 
-Correr todo (static + types + tests por package):
+### libs/profile
+
+Source of truth del perfil profesional.
+
+- `profile.json` — datos publicos (nombre, headline, experiencia, skills)
+- `schema.ts` — Zod schema que valida e infiere tipos
+- `getProfile()` — lee + valida + retorna tipado
+
+**Importante**: `getProfile()` usa `readFileSync` — solo funciona en Node.js.
+Para Angular (browser), importar `profile.json` directo con `resolveJsonModule`.
+
+### libs/secrets
+
+Lee `.env`, valida con Zod, exporta tipado.
+
+- `PROFILE_EMAIL` + `PROFILE_PHONE`
+- `getSecrets(envPath?)` — valida y retorna o tira error descriptivo
+
+---
+
+## Testing
+
+### Pipeline completo
 
 ```bash
 pnpm test
 ```
 
-Solo checks estaticos (eslint + prettier):
+Ejecuta en orden: cleanup → eslint + prettier → tests por package → tsc types.
 
-```bash
-pnpm test:static
-```
+Cada package define su propio `test` script:
 
-Solo integridad de tipos:
+| Package      | Pipeline                              |
+| ------------ | ------------------------------------- |
+| libs/*       | `test:static` → `test:types`          |
+| apps/readme  | `test:static` → `test:types`          |
+| apps/ghpages | `test:static` → `build` → `test:e2e`  |
 
-```bash
-pnpm test:types
-```
+### Pre-commit hook
 
-Tests en modo watch:
+Husky intercepta cada commit:
 
-```bash
-pnpm test:watch
-```
+1. **lint-staged** — prettier + eslint --fix en staged files
+2. **pnpm test** — pipeline completo
 
-Tests de un paquete especifico:
-
-```bash
-pnpm vitest run libs/profile
-pnpm vitest run apps/readme
-```
-
-### Scripts disponibles
-
-| Script           | Comando                  | Descripcion                                      |
-|------------------|--------------------------|--------------------------------------------------|
-| generate:readme  | `pnpm generate:readme`   | Genera README.md desde el profile                |
-| generate:all     | `pnpm generate:all`      | Corre todas las apps de generacion               |
-| test             | `pnpm test`              | Cleanup + static + tests + types (todo)          |
-| test:static      | `pnpm test:static`       | ESLint + Prettier check                          |
-| test:types       | `pnpm test:types`        | tsc --noEmit en todos los packages               |
-| test:watch       | `pnpm test:watch`        | Vitest en modo watch                             |
-| cleanup          | `pnpm cleanup`           | Borra coverage/                                  |
-| bumpDependencies | `pnpm bumpDependencies`  | Checa actualizaciones de deps (npm-check-updates)|
-| updatePnpm       | `pnpm updatePnpm`        | Actualiza pnpm a la ultima version               |
-
-[Volver arriba](#developer-guide--virgenherrera)
+Si falla, el commit se bloquea.
 
 ---
 
-## Como crear una app nueva
+## CI/CD
 
-Cada app es un programa autonomo que consume las librerias del monorepo.
-No hay framework, no hay DI, no hay plugin system. Solo tsx scripts.
+### CI (`ci.yml`)
 
-### Estructura del monorepo
+- **Trigger**: PRs a `master`
+- **Que hace**: pnpm install → Playwright install → `pnpm test`
+- **Artifacts**: Playwright report en caso de fallo
 
-```text
-virgenherrera/
-├── libs/
-│   ├── profile/          # Lib: source of truth (JSON + Zod schema)
-│   └── secrets/          # Lib: lee .env, valida con Zod, exporta tipado
-├── apps/
-│   └── readme/           # App: genera README.md desde profile + secrets
-├── tsconfig.base.json    # Config TS compartida (strict, noEmit, ESNext)
-├── eslint.config.mjs     # ESLint flat config (typescript-eslint + prettier)
-├── .prettierrc            # Prettier config
-├── .husky/pre-commit     # Hook: lint-staged + test
-├── .lintstagedrc.json    # Auto-fix en staged files
-├── pnpm-workspace.yaml   # Workspace: libs/* + apps/*
-└── .env                  # Variables sensibles (gitignored)
-```
+### CD (`cd.yml`)
 
-**libs/profile** — Fuente de verdad del perfil profesional. Exporta `getProfile()`,
-`profileSchema`, y `ProfileData`. Datos publicos unicamente. Sin side effects.
+- **Trigger**: push a `master`
+- **Jobs**:
+  1. **test** — mismo pipeline que CI
+  2. **generate-readme** — genera y auto-commitea README.md (si cambió)
+  3. **deploy-ghpages** — build + deploy via `actions/deploy-pages`
 
-**libs/secrets** — Lee `.env` desde la raiz, valida con Zod, exporta `getSecrets()`.
-Acepta un `envPath` opcional para testear sin mocks.
+**Nota**: habilitar Pages en repo settings → Source: GitHub Actions.
 
-**apps/readme** — Script tsx que importa profile + secrets, mergea los datos,
-renderiza markdown con funciones puras, y escribe README.md.
+---
 
-### Guia paso a paso
+## Crear una app nueva
 
-#### Paso 1 — Crear el directorio
+### tsx app (como apps/readme)
 
 ```bash
-mkdir -p apps/tu-app/src
+mkdir -p apps/mi-app/src
 ```
 
-#### Paso 2 — Crear package.json
+`package.json`:
 
 ```json
 {
-  "name": "@virgenherrera/app-tu-app",
+  "name": "@virgenherrera/app-mi-app",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -182,105 +286,50 @@ mkdir -p apps/tu-app/src
     "test": "pnpm run test:static && pnpm run test:types"
   },
   "dependencies": {
-    "@virgenherrera/profile": "workspace:*",
-    "@virgenherrera/secrets": "workspace:*"
+    "@virgenherrera/profile": "workspace:*"
   }
 }
 ```
 
-Solo agrega las libs que tu app necesite. Si no usa secrets, no la pongas.
-
-#### Paso 3 — Crear tsconfig.json
+`tsconfig.json`:
 
 ```json
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": "./src"
-  },
+  "compilerOptions": { "rootDir": "./src" },
   "include": ["src/**/*.ts"]
 }
 ```
 
-#### Paso 4 — Implementar main.ts
-
-```typescript
-// src/main.ts
-import { getProfile } from "@virgenherrera/profile";
-import { getSecrets } from "@virgenherrera/secrets";
-
-const secrets = getSecrets();
-const profile = getProfile();
-
-// Tu logica aqui: render, API call, build, lo que sea
-console.log(`Procesando perfil de ${profile.name}...`);
-```
-
-Sin framework, sin decorators, sin DI. Un script que hace su trabajo.
-
-#### Paso 5 — Instalar y verificar
+### Angular app (como apps/ghpages)
 
 ```bash
-pnpm install
-pnpm --filter @virgenherrera/app-tu-app start
+pnpm dlx @angular/cli@latest new mi-app --directory apps/mi-app --package-manager pnpm --ssr --skip-git --skip-tests
 ```
 
-#### Paso 6 — Agregar script al root (opcional)
+Post-scaffold:
 
-En el root `package.json`:
+1. Renombrar package a `@virgenherrera/app-mi-app`
+2. tsconfig.json extiende `../../tsconfig.base.json`
+3. tsconfig.app.json agrega `noEmit: false`, `allowImportingTsExtensions: false`
+4. Crear `.postcssrc.json` para Tailwind
+5. Crear `eslint.config.mjs` local (root ignora apps/ghpages/)
+6. Agregar scripts estandar: `test:static`, `test:e2e`, `test`, `cleanup`
 
-```json
-"generate:tu-app": "pnpm --filter @virgenherrera/app-tu-app start"
-```
+---
 
-O simplemente deja que `pnpm generate:all` lo recoja automaticamente
-(corre todas las apps en `apps/`).
+## Convenciones
 
-### DX tooling
-
-#### ESLint
-
-Flat config en `eslint.config.mjs`. Usa typescript-eslint con type checking
-y prettier integrado. Las reglas principales:
-
-- `@typescript-eslint/no-floating-promises`: error
-- `eol-last`, `linebreak-style`: unix/LF
-- `max-len`: 150
-- `newline-before-return`: error
-
-#### Prettier
-
-Config en `.prettierrc`. Double quotes, trailing commas, LF.
-
-#### Husky + lint-staged
-
-El pre-commit hook corre automaticamente:
-
-1. `lint-staged` — aplica prettier + eslint --fix a los archivos staged
-2. `pnpm test` — corre todos los checks
-
-Si falla, el commit se bloquea con un mensaje descriptivo.
-
-#### Actualizar dependencias
-
-```bash
-pnpm bumpDependencies
-```
-
-Esto usa `npm-check-updates` para mostrar que deps tienen nuevas versiones.
-Despues de actualizar, correr `pnpm install && pnpm test` para verificar.
-
-### Convenciones
-
-- **TypeScript strict**: modo estricto, cero `any`. Sin excepciones.
-- **Pure TS**: se ejecuta con `tsx`. Sin compilacion, sin `dist/`.
-- **pnpm strict**: unico package manager.
-- **ESM**: todos los paquetes son `"type": "module"`. Imports con extension `.ts`.
-- **Conventional commits**: `tipo(scope): descripcion`.
-- **Zod 4**: para validacion de schemas y env vars.
-- **libs = reutilizables**: datos y logica compartida entre apps (y potencialmente entre repos).
-- **apps = autonomas**: cada app es un script independiente con su propio entry point.
-- **Datos sensibles**: siempre en `.env`, nunca en JSON ni en el repo.
-- **No frameworks en apps**: tsx puro. Sin NestJS, sin DI, sin decorators.
+| Regla | Detalle |
+|-------|---------|
+| TypeScript | strict, cero `any` |
+| Module resolution | `bundler` (unificado para tsx + Angular) |
+| Package manager | pnpm strict |
+| Commits | conventional commits (`tipo(scope): descripcion`) |
+| ESM | `"type": "module"` en todos los packages |
+| Validacion | Zod 4 para schemas, env vars, API responses |
+| Datos sensibles | `.env` gitignored, nunca en JSON ni en el bundle |
+| E2E | Playwright con POM (getter locators) + AAA pattern |
+| CI/CD | GitHub Actions (ci.yml para PRs, cd.yml para deploy) |
 
 [Volver arriba](#developer-guide--virgenherrera)
