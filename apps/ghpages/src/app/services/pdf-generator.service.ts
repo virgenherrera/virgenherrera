@@ -59,38 +59,69 @@ export class PdfGeneratorService {
   }
 
   private renderHeader(data: ResumeData): void {
+    const center = PAGE_WIDTH / 2;
+
     this.doc.setFontSize(FONT_SIZES.name);
     this.doc.setFont("helvetica", "bold");
-    this.doc.text(data.name, MARGIN, this.y);
+    this.doc.text(data.name, center, this.y, { align: "center" });
     this.y += 8;
 
     this.doc.setFontSize(FONT_SIZES.body);
     this.doc.setFont("helvetica", "normal");
     this.doc.setTextColor(100);
-    this.doc.text(data.headline, MARGIN, this.y);
-    this.y += LINE_HEIGHT;
-
-    const contactParts = [data.location];
-    if (data.email) contactParts.push(data.email);
-    if (data.phone) contactParts.push(`tel: ${data.phone}`);
-    data.links.forEach((link) =>
-      contactParts.push(`${link.label}: ${link.url}`),
-    );
+    this.doc.text(data.headline, center, this.y, { align: "center" });
+    this.y += LINE_HEIGHT + 2;
 
     this.doc.setFontSize(FONT_SIZES.small);
-    const contactText = contactParts.join("  |  ");
-    const contactLines = this.doc.splitTextToSize(
-      contactText,
-      CONTENT_WIDTH,
-    ) as string[];
-    this.doc.text(contactLines, MARGIN, this.y);
-    this.y += contactLines.length * LINE_HEIGHT;
+    this.renderHeaderContacts(data, center);
 
     this.doc.setTextColor(0);
     this.y += 2;
     this.doc.setDrawColor(200);
     this.doc.line(MARGIN, this.y, PAGE_WIDTH - MARGIN, this.y);
     this.y += SECTION_GAP;
+  }
+
+  private renderHeaderContacts(data: ResumeData, center: number): void {
+    const items: { text: string; url?: string }[] = [{ text: data.location }];
+
+    if (data.email) {
+      items.push({ text: data.email, url: `mailto:${data.email}` });
+    }
+    if (data.phone) {
+      items.push({ text: data.phone, url: `tel:${data.phone}` });
+    }
+    data.links.forEach((link) => {
+      items.push({ text: link.label, url: link.url });
+    });
+
+    const separator = "  |  ";
+    const fullText = items.map((i) => i.text).join(separator);
+    const fullWidth = this.doc.getTextWidth(fullText);
+    let x = center - fullWidth / 2;
+
+    items.forEach((item, idx) => {
+      const textWidth = this.doc.getTextWidth(item.text);
+
+      if (item.url) {
+        this.doc.setTextColor(0, 0, 180);
+        this.doc.textWithLink(item.text, x, this.y, { url: item.url });
+      } else {
+        this.doc.setTextColor(100);
+        this.doc.text(item.text, x, this.y);
+      }
+
+      x += textWidth;
+
+      if (idx < items.length - 1) {
+        this.doc.setTextColor(100);
+        this.doc.text(separator, x, this.y);
+        x += this.doc.getTextWidth(separator);
+      }
+    });
+
+    this.doc.setTextColor(100);
+    this.y += LINE_HEIGHT;
   }
 
   private renderSection(title: string, content: () => void): void {
