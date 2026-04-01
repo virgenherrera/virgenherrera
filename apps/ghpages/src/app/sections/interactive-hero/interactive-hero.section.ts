@@ -366,8 +366,6 @@ export class InteractiveHeroSection implements OnDestroy {
       }
     }
 
-    this.animationFrameId = requestAnimationFrame(() =>
-      this.animate(canvas),
-    );
+    this.animationFrameId = requestAnimationFrame(() => this.animate(canvas));
   }
 }
