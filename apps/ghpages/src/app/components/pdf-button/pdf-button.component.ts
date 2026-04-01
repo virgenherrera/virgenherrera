@@ -11,8 +11,8 @@ export class PdfButtonComponent {
   private readonly store = inject(ProfileStore);
   private readonly pdf = inject(PdfGeneratorService);
 
-  download(): void {
-    this.pdf.download({
+  async download(): Promise<void> {
+    await this.pdf.download({
       name: this.store.name(),
       headline: this.store.headline(),
       location: this.store.location(),
