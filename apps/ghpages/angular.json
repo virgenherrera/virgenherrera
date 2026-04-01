@@ -58,6 +58,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/virgenherrera/",
               "budgets": [
                 {
                   "type": "initial",

@@ -95,7 +95,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build:ghpages -- --base-href /virgenherrera/
+      - run: pnpm build:ghpages
 
       - uses: actions/configure-pages@v5
 
