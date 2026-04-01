@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import type {
   ExperienceData,
   LanguageData,
@@ -37,7 +37,8 @@ export class PdfGeneratorService {
   private doc!: jsPDF;
   private y = 0;
 
-  download(data: ResumeData): void {
+  async download(data: ResumeData): Promise<void> {
+    const { jsPDF } = await import("jspdf");
     this.doc = new jsPDF({ unit: "mm", format: "a4" });
     this.y = MARGIN;
 

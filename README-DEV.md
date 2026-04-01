@@ -149,9 +149,12 @@ diagrams (timeline + pie chart), y escribe `README.md`.
 
 **Stack**: NestJS, @nestjs/axios, RxJS, Zod
 
+Ver detalles en el [README del proyecto](apps/readme/README.md).
+
 ### apps/ghpages
 
 Angular 21 portfolio prerenderizado para GitHub Pages.
+Ver detalles en el [README de ghpages](apps/ghpages/README.md).
 
 **Stack**: Angular 21, @ngrx/signals, Tailwind CSS v4, jsPDF, Playwright
 
@@ -198,12 +201,30 @@ valida con Zod, y revela los datos. Hash invalido → snackbar + vista publica.
 
 ```text
 e2e/
+├── scenarios.ts              # Const enums: SeoScenario, HeroScenario, PrivateScenario
 ├── pages/
-│   └── portfolio.page.ts     # POM con getter-based locators
+│   ├── hero.page.ts          # POM del hero interactivo (canvas, scroll helpers)
+│   └── portfolio.page.ts     # POM del portfolio (secciones, contacto, navegacion)
 └── specs/
-    ├── public-view.spec.ts   # Tests de vista publica
-    └── private-view.spec.ts  # Tests de vista privada + payload invalido
+    ├── seo-prerender.spec.ts # SEO: HTML crudo sin JS (como un crawler)
+    ├── interactive-hero.spec.ts # Hero: lifecycle client-only (mount/unmount/canvas)
+    └── private-view.spec.ts  # Privacidad: payload base64, email, phone, snackbar
 ```
+
+Los e2e estan divididos en **3 suites alineadas a la arquitectura**:
+
+| Suite | Archivo | Que valida |
+| ----- | ------- | ---------- |
+| SEO / Prerender | `seo-prerender.spec.ts` | HTML prerenderizado es SEO-ready. Usa `request` API (HTTP GET crudo, sin JS) para simular un crawler. Valida meta tags, titulo, secciones, y que NO haya contenido client-only ni datos privados |
+| Interactive Hero | `interactive-hero.spec.ts` | Lifecycle del hero interactivo (solo existe en browser). Mount post-bootstrap, canvas, scroll indicator, unmount via IntersectionObserver, remount al volver |
+| Private View | `private-view.spec.ts` | Sistema de privacidad via hash base64. Email/phone revelados, boton PDF habilitado, snackbar en hash invalido, auto-dismiss del snackbar |
+
+**Patrones**:
+
+- **POM (Page Object Model)**: `PortfolioPage` y `HeroPage` con getter-based locators
+- **AAA (Arrange, Act, Assert)**: Todos los tests siguen este patron con comentarios explicitos
+- **Const enum scenarios**: Centralizados en `e2e/scenarios.ts` — los tests se leen como `test(Scenario.Name, ...)`
+- **Scroll helpers**: `scrollToPortfolio()`, `scrollToContact()` en PortfolioPage; `scrollPastHero()`, `scrollToTop()` en HeroPage — scroll basado en elementos, no pixeles arbitrarios
 
 Reportes: HTML (`playwright-report/`) + JUnit XML (`test-results/junit.xml`).
 
@@ -222,12 +243,16 @@ Source of truth del perfil profesional.
 **Importante**: `getProfile()` usa `readFileSync` — solo funciona en Node.js.
 Para Angular (browser), importar `profile.json` directo con `resolveJsonModule`.
 
+Ver detalles en el [README de profile](libs/profile/README.md).
+
 ### libs/secrets
 
 Lee `.env`, valida con Zod, exporta tipado.
 
 - `PROFILE_EMAIL` + `PROFILE_PHONE`
 - `getSecrets(envPath?)` — valida y retorna o tira error descriptivo
+
+Ver detalles en el [README de secrets](libs/secrets/README.md).
 
 ---
 

@@ -67,4 +67,16 @@ export class PortfolioPage {
   async getTitle(): Promise<string> {
     return this.page.title();
   }
+
+  // --- Scroll helpers ---
+
+  async scrollToPortfolio(): Promise<void> {
+    await this.heroSection.scrollIntoViewIfNeeded();
+    await this.heroSection.waitFor({ state: "visible", timeout: 5000 });
+  }
+
+  async scrollToContact(): Promise<void> {
+    await this.contactSection.scrollIntoViewIfNeeded();
+    await this.contactSection.waitFor({ state: "visible", timeout: 5000 });
+  }
 }
