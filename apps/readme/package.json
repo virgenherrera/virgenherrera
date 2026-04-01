@@ -7,7 +7,8 @@
     "start": "tsx src/main.ts",
     "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
     "test:types": "tsc --noEmit",
-    "test": "pnpm run test:static && pnpm run test:types"
+    "test": "pnpm run test:static && pnpm run test:types",
+    "bumpDependencies": "pnpm dlx npm-check-updates"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
