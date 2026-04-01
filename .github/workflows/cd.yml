@@ -103,3 +103,9 @@ jobs:
 
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Tag deployment
+        run: |
+          TAG="deploy-$(date -u +%Y-%m-%d-%H%M)"
+          git tag "$TAG"
+          git push origin "$TAG"
