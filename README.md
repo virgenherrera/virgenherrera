@@ -2,19 +2,21 @@
 
 **Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations** | Mexico
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?style=flat&logo=angular&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonwebservices&logoColor=white) ![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat&logo=microsoftazure&logoColor=white) ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white) ![.NET](https://img.shields.io/badge/.NET-512BD4?style=flat&logo=dotnet&logoColor=white)
+
 ## About
 
-Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture.
+Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems. Proven experience with Node.js orchestration and Azure-based serverless architectures, including Azure Functions and CI/CD pipelines. Skilled in microservices architectures, integrating Node.js and .NET services to handle data-intensive workloads, optimize performance, and maintain conversational context across distributed systems.
 
 ```mermaid
 timeline
     title Career Journey
     section 2015-2016
         Fullstack Software Engineer : Ramsal Software
-    section 2016-2018
-        Full-stack Software Engineer : 3Pillar Global (formerly Tiempo Development)
     section 2016
         Frontend Software Engineer : Hitss México
+    section 2016-2018
+        Full-stack Software Engineer : 3Pillar Global (formerly Tiempo Development)
     section 2018-2020
         Full Stack JavaScript Engineer : EPAM Systems
     section 2019-2020
@@ -27,6 +29,19 @@ timeline
         Senior Software Developer : PwC
 ```
 
+## Skills
+
+| Category | Technologies |
+| --- | --- |
+| **Languages** | JavaScript, TypeScript, C#, PHP |
+| **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework |
+| **Frontend Frameworks** | Angular, React, Vue |
+| **Databases** | PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis |
+| **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket |
+| **Cloud & DevOps** | AWS, Azure, Docker, CI/CD |
+| **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
+| **AI & Integrations** | LangChain, OpenAI API, LLM-based orchestration |
+
 ```mermaid
 pie title Languages by Repository Count
     "TypeScript" : 59
@@ -37,11 +52,9 @@ pie title Languages by Repository Count
 
 ## Featured Projects
 
-- [**typescript-base**](https://github.com/virgenherrera/typescript-base) — No description `TypeScript` ⭐ 2
-- [**nest-base**](https://github.com/virgenherrera/nest-base) — No description `TypeScript` ⭐ 1
-- [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) — No description `TypeScript` ⭐ 1
-- [**enhanced-loan-challenge**](https://github.com/virgenherrera/enhanced-loan-challenge) — No description `TypeScript` ⭐ 1
-- [**omnimodel_CI3**](https://github.com/virgenherrera/omnimodel_CI3) — Este modelo es útel si deseas hacer consultas tipo array usando la clase Active Record de codeigniter3 `PHP` ⭐ 1
+| Project | Description |
+| --- | --- |
+| [**omnimodel_CI3**](https://github.com/virgenherrera/omnimodel_CI3) | Este modelo es útel si deseas hacer consultas tipo array usando la clase Active Record de codeigniter3 `PHP` ⭐ 1 |
 
 ## Let's Connect
 

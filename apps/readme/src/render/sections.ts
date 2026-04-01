@@ -1,15 +1,39 @@
-import type { ProfileData, LinkData } from "@virgenherrera/profile";
+import type {
+  ProfileData,
+  LinkData,
+  SkillCategoryData,
+} from "@virgenherrera/profile";
 import type { GitHubRepo } from "../github/github.schemas.ts";
 
 export function renderHeader(profile: ProfileData): string {
-  return `# ${profile.name}\n\n**${profile.headline}** | ${profile.location}`;
+  const badges = [
+    `![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)`,
+    `![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)`,
+    `![Angular](https://img.shields.io/badge/Angular-DD0031?style=flat&logo=angular&logoColor=white)`,
+    `![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)`,
+    `![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonwebservices&logoColor=white)`,
+    `![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat&logo=microsoftazure&logoColor=white)`,
+    `![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)`,
+    `![.NET](https://img.shields.io/badge/.NET-512BD4?style=flat&logo=dotnet&logoColor=white)`,
+  ].join(" ");
+
+  return `# ${profile.name}\n\n**${profile.headline}** | ${profile.location}\n\n${badges}`;
 }
 
 export function renderSummary(profile: ProfileData): string {
-  const sentences = profile.summary.split(/(?<=\.)\s+/);
-  const preview = sentences.slice(0, 2).join(" ");
+  return `## About\n\n${profile.summary}`;
+}
 
-  return `## About\n\n${preview}`;
+export function renderSkills(skills: readonly SkillCategoryData[]): string {
+  if (skills.length === 0) {
+    return "";
+  }
+
+  const rows = skills
+    .map((cat) => `| **${cat.category}** | ${cat.skills.join(", ")} |`)
+    .join("\n");
+
+  return `## Skills\n\n| Category | Technologies |\n| --- | --- |\n${rows}`;
 }
 
 export function renderFeaturedProjects(repos: readonly GitHubRepo[]): string {
@@ -18,17 +42,20 @@ export function renderFeaturedProjects(repos: readonly GitHubRepo[]): string {
   }
 
   const cards = repos
+    .filter((repo) => repo.description)
     .map((repo) => {
       const lang = repo.language ? ` \`${repo.language}\`` : "";
       const stars =
-        repo.stargazers_count > 0 ? ` ⭐ ${repo.stargazers_count}` : "";
-      const desc = repo.description ?? "No description";
+        repo.stargazers_count > 0 ? ` ⭐ ${String(repo.stargazers_count)}` : "";
 
-      return `- [**${repo.name}**](${repo.html_url}) — ${desc}${lang}${stars}`;
-    })
-    .join("\n");
+      return `| [**${repo.name}**](${repo.html_url}) | ${repo.description}${lang}${stars} |`;
+    });
 
-  return `## Featured Projects\n\n${cards}`;
+  if (cards.length === 0) {
+    return "";
+  }
+
+  return `## Featured Projects\n\n| Project | Description |\n| --- | --- |\n${cards.join("\n")}`;
 }
 
 export function renderCTA(links: readonly LinkData[]): string {

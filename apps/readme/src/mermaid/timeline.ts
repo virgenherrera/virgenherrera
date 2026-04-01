@@ -1,26 +1,17 @@
 import type { ExperienceData } from "@virgenherrera/profile";
 
-/**
- * Escapes special characters that break Mermaid syntax.
- * Colons and semicolons in text content must be removed or replaced.
- */
 function escapeMermaid(text: string): string {
   return text.replace(/:/g, " -").replace(/;/g, ",");
 }
 
-/**
- * Extracts the year from a date string like "2024-08" or "2018".
- */
 function extractYear(dateStr: string): number {
   return parseInt(dateStr.split("-")[0]!, 10);
 }
 
-/**
- * Builds a Mermaid timeline diagram from profile experience data.
- * Sorts by startDate ascending and formats each as a timeline entry.
- *
- * Pure function: data in, string out.
- */
+function toSortableDate(dateStr: string): string {
+  return dateStr.length === 4 ? `${dateStr}-01` : dateStr;
+}
+
 export function buildTimelineDiagram(
   experiences: readonly ExperienceData[],
 ): string {
@@ -28,8 +19,8 @@ export function buildTimelineDiagram(
     return "";
   }
 
-  const sorted = [...experiences].sort(
-    (a, b) => extractYear(a.startDate) - extractYear(b.startDate),
+  const sorted = [...experiences].sort((a, b) =>
+    toSortableDate(a.startDate).localeCompare(toSortableDate(b.startDate)),
   );
 
   const lines: string[] = ["timeline", "    title Career Journey"];
@@ -40,7 +31,9 @@ export function buildTimelineDiagram(
       ? extractYear(exp.endDate)
       : new Date().getFullYear();
     const yearRange =
-      startYear === endYear ? `${startYear}` : `${startYear}-${endYear}`;
+      startYear === endYear
+        ? `${String(startYear)}`
+        : `${String(startYear)}-${String(endYear)}`;
     const company = escapeMermaid(exp.company);
     const role = escapeMermaid(exp.role);
 

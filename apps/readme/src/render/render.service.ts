@@ -8,6 +8,7 @@ import {
 import {
   renderHeader,
   renderSummary,
+  renderSkills,
   renderFeaturedProjects,
   renderCTA,
   renderFooter,
@@ -24,6 +25,7 @@ export class RenderService {
       renderHeader(profile),
       renderSummary(profile),
       buildTimelineDiagram(profile.experience),
+      renderSkills(profile.skills),
       buildLanguagePieChart(languages),
       renderFeaturedProjects(repos),
       renderCTA(profile.links),
