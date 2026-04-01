@@ -8,7 +8,7 @@ import {
   withState,
 } from "@ngrx/signals";
 import profileJson from "@profile-data";
-import type { ProfileData } from "../types/profile.types";
+import type { ExperienceData, ProfileData } from "../types/profile.types";
 import {
   secretsPayloadSchema,
   type SecretsPayload,
@@ -30,6 +30,27 @@ const initialState: ProfileState = {
   snackbarMessage: null,
 };
 
+const SUMMARY_SENTENCES = 2;
+const DESCRIPTION_MAX_LENGTH = 150;
+const MAX_TECHNOLOGIES = 6;
+
+function trimSummary(summary: string): string {
+  const sentences = summary.split(/(?<=\.)\s+/);
+
+  return sentences.slice(0, SUMMARY_SENTENCES).join(" ");
+}
+
+function trimExperience(experiences: ExperienceData[]): ExperienceData[] {
+  return experiences.map((exp) => ({
+    ...exp,
+    description:
+      exp.description.length > DESCRIPTION_MAX_LENGTH
+        ? `${exp.description.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
+        : exp.description,
+    technologies: exp.technologies.slice(0, MAX_TECHNOLOGIES),
+  }));
+}
+
 function decodeHashPayload(hash: string): SecretsPayload | null {
   if (!hash || hash === "#") return null;
   try {
@@ -49,10 +70,18 @@ export const ProfileStore = signalStore(
   withComputed((store) => ({
     name: computed(() => store.profile().name),
     headline: computed(() => store.profile().headline),
-    summary: computed(() => store.profile().summary),
+    summary: computed(() =>
+      store.isPrivateView()
+        ? store.profile().summary
+        : trimSummary(store.profile().summary),
+    ),
     location: computed(() => store.profile().location),
     links: computed(() => store.profile().links),
-    experience: computed(() => store.profile().experience),
+    experience: computed(() =>
+      store.isPrivateView()
+        ? store.profile().experience
+        : trimExperience(store.profile().experience),
+    ),
     skills: computed(() => store.profile().skills),
     languages: computed(() => store.profile().languages),
     showPdfButton: computed(() => store.isPrivateView()),

@@ -8,4 +8,5 @@ import type { ExperienceData } from "../../types/profile.types";
 })
 export class ExperienceSection {
   readonly experiences = input.required<ExperienceData[]>();
+  readonly isPrivate = input(false);
 }

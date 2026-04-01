@@ -1,5 +1,8 @@
 <section data-testid="about-section" class="space-y-6">
-  <p class="text-sm/relaxed text-gray-700 dark:text-gray-300">
+  <p
+    [class.animate-fade-in]="isPrivate()"
+    class="text-justify text-sm/relaxed text-gray-700 dark:text-gray-300"
+  >
     {{ summary() }}
   </p>
 

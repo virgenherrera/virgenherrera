@@ -13,4 +13,5 @@ export class AboutSection {
   readonly summary = input.required<string>();
   readonly skills = input.required<SkillCategoryData[]>();
   readonly languages = input.required<LanguageData[]>();
+  readonly isPrivate = input(false);
 }
