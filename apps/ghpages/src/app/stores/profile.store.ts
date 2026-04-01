@@ -41,14 +41,22 @@ function trimSummary(summary: string): string {
 }
 
 function trimExperience(experiences: ExperienceData[]): ExperienceData[] {
-  return experiences.map((exp) => ({
-    ...exp,
-    description:
-      exp.description.length > DESCRIPTION_MAX_LENGTH
-        ? `${exp.description.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
-        : exp.description,
-    technologies: exp.technologies.slice(0, MAX_TECHNOLOGIES),
-  }));
+  return experiences.map((exp) => {
+    const firstParagraph = exp.description.find(
+      (item) => !item.startsWith("*"),
+    );
+    const trimmed = firstParagraph
+      ? firstParagraph.length > DESCRIPTION_MAX_LENGTH
+        ? `${firstParagraph.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
+        : firstParagraph
+      : exp.description[0]!;
+
+    return {
+      ...exp,
+      description: [trimmed],
+      technologies: exp.technologies.slice(0, MAX_TECHNOLOGIES),
+    };
+  });
 }
 
 function decodeHashPayload(hash: string): SecretsPayload | null {

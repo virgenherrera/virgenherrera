@@ -158,11 +158,28 @@ Angular 21 portfolio prerenderizado para GitHub Pages.
 **Caracteristicas**:
 
 - **Zoneless** — `provideZonelessChangeDetection()` (sin zone.js)
-- **Prerender** — Solo `/` se prerenderiza (HTML estático)
+- **Prerender** — Solo `/` se prerenderiza (HTML estatico)
 - **Privacy gate** — URL con hash base64 revela email + telefono
 - **Dark/Light toggle** — Class-based con Tailwind `@custom-variant dark`
-- **PDF resume** — jsPDF genera PDF ATS-friendly con texto real
+- **PDF resume** — jsPDF genera PDF ATS-friendly con texto real justificado
 - **Tailwind v4** — Requiere `.postcssrc.json` (Angular no lo detecta automaticamente)
+- **Scroll reveal** — `ScrollRevealDirective` con IntersectionObserver (cada item individualmente)
+- **Lazy hydration** — `@defer (on viewport)` para experience y projects
+- **Public/Private views** — public trimmed (2 oraciones, 150 chars), private completo con fade-in
+- **FAB CTA** — boton flotante LinkedIn en vista publica (aparece tras scroll)
+
+**Formato de descriptions** (`profile.json`):
+
+```json
+"description": [
+  "Parrafo introductorio del rol.",
+  "*Logro 1 con metricas cuantificables.",
+  "*Logro 2 con impacto tecnico.",
+  "Parrafo de cierre opcional."
+]
+```
+
+Items con `*` se renderizan como bullets, sin `*` como parrafos.
 
 **Privacidad via URL**:
 

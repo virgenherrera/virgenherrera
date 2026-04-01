@@ -1,7 +1,7 @@
 {
   "name": "Hugo Enrique Virgen Herrera",
   "headline": "Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations",
-  "summary": "Energetic Fullstack Engineer with hands-on experience in JavaScript and TypeScript since 2015, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems.",
+  "summary": "Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems. Proven experience with Node.js orchestration and Azure-based serverless architectures, including Azure Functions and CI/CD pipelines. Skilled in microservices architectures, integrating Node.js and .NET services to handle data-intensive workloads, optimize performance, and maintain conversational context across distributed systems.",
   "location": "Mexico",
   "links": [
     {
@@ -13,14 +13,24 @@
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/in/virgenherrera",
       "icon": "linkedin"
+    },
+    {
+      "label": "Portfolio",
+      "url": "https://virgenherrera.github.io/virgenherrera",
+      "icon": "globe"
     }
   ],
   "experience": [
     {
       "company": "PwC",
-      "role": "Software Developer",
+      "role": "Senior Software Developer",
       "startDate": "2024-08",
-      "description": "Contributed to the design, implementation, and production release of AI-powered integration services that connect isolated enterprise systems into a unified conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.",
+      "description": [
+        "Contributed to the design, implementation, and production release of AI-powered integration services that unified 5+ isolated enterprise systems into a single conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.",
+        "*Developed AI-driven microservices using JavaScript, TypeScript, Node.js, NestJS, and LangChain, integrating OpenAI APIs to deliver conversational capabilities in production environments.",
+        "*Implemented a .NET 8 microservice on Azure to support data-intensive processing and conversation context management, while maintaining Node.js as the primary orchestration and integration layer.",
+        "*Designed microservices integration flows that consolidated multiple API endpoints into a single unified endpoint, combining Node.js-based AI orchestration with .NET-based high-performance data processing, and contributing to CI/CD automation, performance optimization, and scalable event-driven architectures."
+      ],
       "technologies": [
         "JavaScript",
         "TypeScript",
@@ -39,7 +49,14 @@
       "role": "Senior Fullstack Node.js Developer",
       "startDate": "2021-04",
       "endDate": "2024-08",
-      "description": "Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, focusing on the design, development, and scaling of backend services within AWS-based cloud environments, with an emphasis on robustness, performance, and scalability.",
+      "description": [
+        "Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, leading a team of 4-6 engineers in the design, development, and scaling of backend services supporting 50K+ daily API requests within AWS-based cloud environments.",
+        "*Designed and maintained backend services and SDKs using Node.js, TypeScript, and NestJS, enabling consistent integration patterns for internal teams and optimizing the use of AWS services such as Lambda, SNS, SQS, and Cognito.",
+        "*Implemented GraphQL APIs within a NestJS architecture, improving API flexibility, data aggregation, and developer experience for both internal and external consumers.",
+        "*Developed and distributed frontend SDKs compatible with Angular, React, and Vue, adopted by 10+ third-party clients to integrate efficiently with backend services deployed on AWS.",
+        "*Contributed to service orchestration and workflow automation using AWS Step Functions, improving reliability and coordination across distributed services.",
+        "*Built and maintained CI/CD pipelines using AWS CodeBuild, CodeDeploy, and CodePipeline, supporting continuous delivery, automated deployments, and scalable cloud-native systems."
+      ],
       "technologies": [
         "Node.js",
         "TypeScript",
@@ -63,7 +80,13 @@
       "role": "Lead Full Stack JavaScript Engineer",
       "startDate": "2020-03",
       "endDate": "2021-05",
-      "description": "Led a cross-functional team of engineers in the migration of a banking web application to Angular 11, improving maintainability, performance, and compliance with accessibility standards. Designed backend services using C# and .NET, implemented CI/CD pipelines using Azure DevOps, and contributed to cloud-native architectures on Azure including AKS and Azure Functions.",
+      "description": [
+        "Led a cross-functional team of 5+ engineers in the migration of a banking web application serving 20K+ active users to Angular 11, improving maintainability, performance, and compliance with US accessibility standards.",
+        "*Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with Angular-based frontends and enterprise data sources.",
+        "*Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity.",
+        "*Contributed to cloud-native architectures on Azure, including Azure Kubernetes Service and Azure Functions, supporting scalable and resilient microservices.",
+        "*Developed lightweight microservices using Golang and Fiber, optimizing performance and service scalability within distributed systems."
+      ],
       "technologies": [
         "Angular 11",
         "C#",
@@ -81,7 +104,13 @@
       "role": "Full Stack JavaScript Engineer",
       "startDate": "2018-10",
       "endDate": "2020-02",
-      "description": "Contributed to the development of a platform focused on streamlining core business operations such as user registration and email subscription workflows. Supported the adoption of a microservices architecture utilizing Node.js, serverless React components, and Apollo GraphQL.",
+      "description": [
+        "Contributed to the development of a platform handling 100K+ monthly user registrations, focused on streamlining core business operations such as user registration and email subscription workflows, with an emphasis on scalability, reliability, and clean architecture.",
+        "*Enhanced core platform features using JavaScript, TypeScript, Node.js, and React as part of a full-stack development team.",
+        "*Supported the adoption of a microservices architecture, utilizing Node.js, serverless React components, and Apollo GraphQL to build scalable and maintainable services.",
+        "*Developed and maintained backend services on AWS, leveraging Lambda, SNS, and DynamoDB to ensure high availability and performance.",
+        "*Participated in testing and quality assurance using Mocha, Chai, and Istanbul, ensuring reliable and well-tested code delivery."
+      ],
       "technologies": [
         "JavaScript",
         "TypeScript",
@@ -102,7 +131,13 @@
       "role": "Resources Manager (Leadership Development)",
       "startDate": "2019-05",
       "endDate": "2020-02",
-      "description": "Additional leadership development role alongside primary engineering responsibilities. Acted as point of contact for engineers supporting career growth, conducted technical interviews, produced evaluation reports and hiring recommendations, and delivered technical talks and knowledge-sharing sessions.",
+      "description": [
+        "Additional leadership development role alongside primary engineering responsibilities.",
+        "*Acted as point of contact for engineers, supporting career growth, performance assessments, structured feedback, and one-on-one meetings.",
+        "*Conducted technical interviews to evaluate candidates on engineering fundamentals, problem-solving skills, and system design.",
+        "*Produced technical evaluation reports and hiring recommendations for HR and engineering leadership.",
+        "*Delivered technical talks and knowledge-sharing sessions for colleagues and engineering students, contributing to internal training initiatives."
+      ],
       "technologies": []
     },
     {
@@ -110,7 +145,14 @@
       "role": "Full-stack Software Engineer",
       "startDate": "2016-10",
       "endDate": "2018-10",
-      "description": "Contributed to the design and development of microservices-based systems following Agile/Scrum and Lean methodologies. Developed backend services using Node.js, Express.js, and MongoDB on AWS. Implemented GraphQL APIs within an API Gateway and built CI/CD pipelines using Jenkins.",
+      "description": [
+        "Contributed to the design and development of microservices-based systems following Agile/Scrum and Lean methodologies, with a strong emphasis on scalability, reliability, and delivery quality.",
+        "*Developed and maintained backend services and microservices using JavaScript, Node.js, Express.js, and MongoDB, deployed on AWS cloud infrastructure.",
+        "*Contributed to legacy and supporting components using .NET Framework and PHP, integrating them with Node.js-based services within a heterogeneous backend environment.",
+        "*Implemented GraphQL APIs within an API Gateway, reducing client-side API requests by 60% for frontend and mobile views, improving performance and user experience.",
+        "*Applied automated testing practices using Mocha, Chai, and Istanbul, ensuring consistent code quality and test coverage.",
+        "*Built and maintained CI/CD pipelines using Jenkins, enabling automated integrations, deployments, and reliable releases across multiple environments."
+      ],
       "technologies": [
         "JavaScript",
         "Node.js",
@@ -131,15 +173,19 @@
       "role": "Frontend Software Engineer",
       "startDate": "2016-07",
       "endDate": "2016-10",
-      "description": "Developed components using React ES6 syntax transpiled to ES5 using Webpack and Gulp. Worked as part of a distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities in Scrum meetings.",
+      "description": [
+        "Contributed to frontend development for an insurance platform, building React components with ES6 syntax transpiled to ES5 using Webpack and Gulp for cross-browser compatibility.",
+        "*Worked as part of a geographically distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities through Scrum ceremonies.",
+        "*Collaborated with backend engineers to integrate RESTful APIs into React-based user interfaces."
+      ],
       "technologies": [
         "React",
+        "JavaScript",
         "ES6",
         "Webpack",
         "Gulp",
-        "Git",
-        "JIRA",
-        "Bitbucket"
+        "REST APIs",
+        "Git"
       ]
     },
     {
@@ -147,8 +193,21 @@
       "role": "Fullstack Software Engineer",
       "startDate": "2015-08",
       "endDate": "2016-06",
-      "description": "First software engineering role. Created and maintained customer web pages, collaborated in developing an integrated Web System combining multiple web tools into a cohesive application. Acquired proficiency in Node.js, Angular, and Git.",
-      "technologies": ["JavaScript", "jQuery", "Node.js", "Angular", "Git"]
+      "description": [
+        "First professional software engineering role, contributing to the development of Ramsal, a SaaS payroll management platform serving multiple enterprise clients.",
+        "*Built and maintained client-facing web modules using JavaScript and jQuery, delivering responsive interfaces for payroll processing and employee management workflows.",
+        "*Collaborated in developing an integrated Web System that consolidated multiple business tools into a cohesive enterprise application.",
+        "*Acquired foundational proficiency in Node.js, Angular, and Git, establishing a strong base for full-stack development."
+      ],
+      "technologies": [
+        "JavaScript",
+        "jQuery",
+        "Node.js",
+        "Angular",
+        "Git",
+        "HTML",
+        "CSS"
+      ]
     }
   ],
   "education": [

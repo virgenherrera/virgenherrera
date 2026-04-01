@@ -6,6 +6,7 @@
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
     @for (link of links(); track link.url) {
       <a
+        appScrollReveal
         [href]="link.url"
         target="_blank"
         rel="noopener noreferrer"

@@ -162,12 +162,19 @@ export class PdfGeneratorService {
       this.y += LINE_HEIGHT;
 
       this.doc.setTextColor(60);
-      const descLines = this.doc.splitTextToSize(
-        exp.description,
-        CONTENT_WIDTH,
-      ) as string[];
-      this.doc.text(descLines, MARGIN, this.y);
-      this.y += descLines.length * (LINE_HEIGHT - 1);
+      for (const item of exp.description) {
+        if (item.startsWith("*")) {
+          const bulletIndent = 4;
+          this.doc.text("\u2022", MARGIN + 1, this.y);
+          this.textJustified(
+            item.slice(1).trim(),
+            MARGIN + bulletIndent,
+            CONTENT_WIDTH - bulletIndent,
+          );
+        } else {
+          this.textJustified(item, MARGIN, CONTENT_WIDTH);
+        }
+      }
 
       if (exp.technologies.length > 0) {
         this.y += 2;
@@ -214,10 +221,36 @@ export class PdfGeneratorService {
 
   private renderBody(text: string): void {
     this.doc.setTextColor(60);
-    const lines = this.doc.splitTextToSize(text, CONTENT_WIDTH) as string[];
-    this.doc.text(lines, MARGIN, this.y);
-    this.y += lines.length * LINE_HEIGHT;
+    this.textJustified(text, MARGIN, CONTENT_WIDTH);
     this.doc.setTextColor(0);
+  }
+
+  private textJustified(text: string, x: number, width: number): void {
+    const lines = this.doc.splitTextToSize(text, width) as string[];
+
+    lines.forEach((line, idx) => {
+      this.checkPageBreak(LINE_HEIGHT);
+      const isLast = idx === lines.length - 1;
+      const words = line.split(/\s+/).filter(Boolean);
+
+      if (isLast || words.length <= 1) {
+        this.doc.text(line, x, this.y);
+      } else {
+        const wordsWidth = words.reduce(
+          (sum, w) => sum + this.doc.getTextWidth(w),
+          0,
+        );
+        const gap = (width - wordsWidth) / (words.length - 1);
+        let cx = x;
+
+        words.forEach((word) => {
+          this.doc.text(word, cx, this.y);
+          cx += this.doc.getTextWidth(word) + gap;
+        });
+      }
+
+      this.y += LINE_HEIGHT - 1;
+    });
   }
 
   private checkPageBreak(needed: number): void {

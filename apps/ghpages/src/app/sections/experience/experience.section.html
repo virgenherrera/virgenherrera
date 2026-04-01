@@ -1,5 +1,7 @@
 <section data-testid="experience-section">
-  <h2 class="mb-8 border-b border-gray-200 pb-4 text-xl font-medium dark:border-gray-700">
+  <h2
+    class="mb-8 border-b border-gray-200 pb-4 text-xl font-medium dark:border-gray-700"
+  >
     Work Experience
   </h2>
 
@@ -8,22 +10,40 @@
     class="relative space-y-6 pl-6 before:absolute before:inset-y-0 before:left-0 before:w-1 before:rounded-lg before:bg-purple-50 dark:before:bg-purple-950"
   >
     @for (exp of experiences(); track exp.company + exp.startDate) {
-      <li class="relative before:absolute before:-left-[1.875rem] before:top-[0.375rem] before:size-4 before:rounded-full before:border-2 before:border-purple-200/75 before:bg-white dark:before:border-purple-800/75 dark:before:bg-gray-950">
-        <p class="mb-1 text-purple-600 dark:text-purple-500">{{ exp.startDate }} &mdash; {{ exp.endDate ?? "Present" }}</p>
-        <p class="mb-1 font-semibold">{{ exp.role }}</p>
-        <p class="mb-2 text-sm text-gray-500">{{ exp.company }}</p>
-        <p class="text-justify text-sm/relaxed text-gray-700 dark:text-gray-300">{{ exp.description }}</p>
-
-        @if (exp.technologies.length > 0) {
-          <div class="mt-3 flex flex-wrap gap-1.5">
-            @for (tech of exp.technologies; track tech) {
-              <span class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
-                {{ tech }}
-              </span>
-            }
-          </div>
+    <li
+      appScrollReveal
+      class="relative before:absolute before:-left-[1.875rem] before:top-[0.375rem] before:size-4 before:rounded-full before:border-2 before:border-purple-200/75 before:bg-white dark:before:border-purple-800/75 dark:before:bg-gray-950"
+    >
+      <p class="mb-1 text-purple-600 dark:text-purple-500">
+        {{ exp.startDate }} &mdash; {{ exp.endDate ?? "Present" }}
+      </p>
+      <p class="mb-1 font-semibold">{{ exp.role }}</p>
+      <p class="mb-2 text-sm text-gray-500">{{ exp.company }}</p>
+      @for (block of descriptionBlocks(exp.description); track $index) { @if
+      (block.type === 'paragraph') {
+      <p class="text-justify text-sm/relaxed text-gray-700 dark:text-gray-300">
+        {{ block.items[0] }}
+      </p>
+      } @else {
+      <ul
+        class="mt-1 list-disc space-y-1 pl-5 text-sm/relaxed text-gray-700 dark:text-gray-300"
+      >
+        @for (bullet of block.items; track $index) {
+        <li class="text-justify">{{ bullet }}</li>
         }
-      </li>
+      </ul>
+      } } @if (exp.technologies.length > 0) {
+      <div class="mt-3 flex flex-wrap gap-1.5">
+        @for (tech of exp.technologies; track tech) {
+        <span
+          class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+        >
+          {{ tech }}
+        </span>
+        }
+      </div>
+      }
+    </li>
     }
   </ul>
 </section>

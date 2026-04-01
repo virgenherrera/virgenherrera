@@ -13,7 +13,7 @@ const experienceSchema = z.object({
   role: z.string().min(1),
   startDate: z.string().min(1),
   endDate: z.string().optional(),
-  description: z.string(),
+  description: z.array(z.string().min(1)).min(1),
   technologies: z.array(z.string()),
 });
 

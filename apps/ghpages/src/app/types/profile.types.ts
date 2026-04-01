@@ -9,7 +9,7 @@ export interface ExperienceData {
   role: string;
   startDate: string;
   endDate?: string;
-  description: string;
+  description: string[];
   technologies: string[];
 }
 

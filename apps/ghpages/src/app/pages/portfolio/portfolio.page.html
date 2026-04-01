@@ -29,9 +29,17 @@
 
   <!-- MAIN CONTENT -->
   <main class="mx-auto max-w-2xl space-y-16 p-5 md:col-span-8 md:p-10">
-    <app-experience [experiences]="store.experience()" [isPrivate]="store.isPrivateView()" />
+    @defer (on viewport) {
+      <app-experience [experiences]="store.experience()" [isPrivate]="store.isPrivateView()" />
+    } @placeholder {
+      <div class="h-96"></div>
+    }
 
-    <app-projects [links]="store.links()" />
+    @defer (on viewport) {
+      <app-projects [links]="store.links()" />
+    } @placeholder {
+      <div class="h-48"></div>
+    }
   </main>
 </div>
 

@@ -4,7 +4,7 @@
 
 ## About
 
-Energetic Fullstack Engineer with hands-on experience in JavaScript and TypeScript since 2015, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture.
+Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture.
 
 ```mermaid
 timeline
@@ -24,7 +24,7 @@ timeline
     section 2021-2024
         Senior Fullstack Node.js Developer : Globant
     section 2024-2026
-        Software Developer : PwC
+        Senior Software Developer : PwC
 ```
 
 ```mermaid
@@ -45,7 +45,7 @@ pie title Languages by Repository Count
 
 ## Let's Connect
 
-[GitHub](https://github.com/virgenherrera) | [LinkedIn](https://www.linkedin.com/in/virgenherrera)
+[GitHub](https://github.com/virgenherrera) | [LinkedIn](https://www.linkedin.com/in/virgenherrera) | [Portfolio](https://virgenherrera.github.io/virgenherrera)
 
 ---
 
