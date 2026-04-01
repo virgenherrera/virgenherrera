@@ -123,7 +123,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: readme-artifact
 
@@ -149,7 +149,7 @@ jobs:
     steps:
       - uses: actions/configure-pages@v6
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: ghpages-artifact
           path: ghpages-dist
