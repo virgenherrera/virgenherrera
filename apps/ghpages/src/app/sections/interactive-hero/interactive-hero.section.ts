@@ -146,7 +146,7 @@ export class InteractiveHeroSection implements OnDestroy {
     this.textBitmapCache.clear();
   }
 
-  protected onMouseMove(_event: MouseEvent): void {
+  protected onMouseMove(): void {
     // Reserved for future eye-tracking iteration
   }
 
@@ -211,6 +211,7 @@ export class InteractiveHeroSection implements OnDestroy {
         labels.push(skill);
       }
     }
+
     return labels;
   }
 
@@ -236,6 +237,7 @@ export class InteractiveHeroSection implements OnDestroy {
     offCtx.fillText(label, 2, h / 2);
 
     this.textBitmapCache.set(label, offscreen);
+
     return offscreen;
   }
 

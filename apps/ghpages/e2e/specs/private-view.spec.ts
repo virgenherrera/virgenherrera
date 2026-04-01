@@ -43,7 +43,7 @@ test.describe("Private view (valid payload hash)", () => {
 test.describe("Invalid payload hash", () => {
   let portfolio: PortfolioPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     portfolio = new PortfolioPage(page);
   });
 
