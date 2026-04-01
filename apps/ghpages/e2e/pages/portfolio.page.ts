@@ -1,5 +1,15 @@
 import { type Locator, type Page } from "@playwright/test";
 
+interface PrivatePayload {
+  email: string;
+  phone: string;
+}
+
+const DEFAULT_PAYLOAD: PrivatePayload = {
+  email: "test@example.com",
+  phone: "+1234567890",
+};
+
 export class PortfolioPage {
   constructor(private readonly page: Page) {}
 
@@ -27,8 +37,16 @@ export class PortfolioPage {
     return this.page.locator('[data-testid="contact-email"]');
   }
 
+  get contactPhone(): Locator {
+    return this.page.locator('[data-testid="contact-phone"]');
+  }
+
   get pdfButton(): Locator {
     return this.page.locator('[data-testid="pdf-button"]');
+  }
+
+  get snackbar(): Locator {
+    return this.page.locator('[data-testid="snackbar"]');
   }
 
   get metaDescription(): Locator {
@@ -39,8 +57,11 @@ export class PortfolioPage {
     await this.page.goto("/");
   }
 
-  async navigatePrivate(): Promise<void> {
-    await this.page.goto("/#full");
+  async navigatePrivate(
+    payload: PrivatePayload = DEFAULT_PAYLOAD,
+  ): Promise<void> {
+    const hash = btoa(JSON.stringify(payload));
+    await this.page.goto(`/#${hash}`);
   }
 
   async getTitle(): Promise<string> {

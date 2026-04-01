@@ -23,6 +23,11 @@ test.describe("Public view (/)", () => {
     await expect(portfolio.contactEmail).not.toBeVisible();
   });
 
+  test("hides private phone", async () => {
+    // Assert
+    await expect(portfolio.contactPhone).not.toBeVisible();
+  });
+
   test("hides PDF download button", async () => {
     // Assert
     await expect(portfolio.pdfButton).not.toBeVisible();

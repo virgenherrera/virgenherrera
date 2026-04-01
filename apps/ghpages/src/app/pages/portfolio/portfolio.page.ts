@@ -5,7 +5,6 @@ import { AboutSection } from "../../sections/about/about.section";
 import { ExperienceSection } from "../../sections/experience/experience.section";
 import { ProjectsSection } from "../../sections/projects/projects.section";
 import { ContactSection } from "../../sections/contact/contact.section";
-
 @Component({
   selector: "app-portfolio",
   standalone: true,

@@ -59,6 +59,7 @@ export const profileSchema = z.object({
   location: z.string().min(1),
   avatarUrl: z.url().optional(),
   email: z.email().optional(),
+  phone: z.string().optional(),
   links: z.array(linkSchema),
   experience: z.array(experienceSchema),
   education: z.array(educationSchema),

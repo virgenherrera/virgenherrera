@@ -13,6 +13,7 @@
   "scripts": {
     "generate:readme": "pnpm --filter @virgenherrera/app-readme start",
     "generate:all": "pnpm -r --filter './apps/*' start",
+    "generate:recruiter-link": "pnpm --filter @virgenherrera/app-ghpages run generate:link",
     "build:ghpages": "pnpm --filter @virgenherrera/app-ghpages build",
     "preview:ghpages": "pnpm dlx http-server apps/ghpages/dist/browser -o",
     "test": "pnpm run cleanup && pnpm run test:static && pnpm -r run test && pnpm run test:types",

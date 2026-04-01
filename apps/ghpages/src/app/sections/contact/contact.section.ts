@@ -11,5 +11,6 @@ import type { LinkData } from "../../types/profile.types";
 export class ContactSection {
   readonly links = input.required<LinkData[]>();
   readonly email = input.required<string | null>();
+  readonly phone = input.required<string | null>();
   readonly showPdfButton = input.required<boolean>();
 }
