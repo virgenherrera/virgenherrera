@@ -21,7 +21,7 @@
     "test:types": "pnpm -r run test:types",
     "test:watch": "vitest",
     "cleanup": "rimraf coverage/",
-    "bumpDependencies": "pnpm dlx npm-check-updates",
+    "bumpDependencies": "pnpm dlx npm-check-updates && pnpm -r run bumpDependencies",
     "updatePnpm": "pnpm self-update",
     "prepare": "husky",
     "lintStaged": "lint-staged"

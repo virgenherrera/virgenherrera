@@ -12,7 +12,8 @@
     "test:e2e": "ng build --configuration development && playwright test",
     "test": "pnpm run test:static && pnpm run test:e2e",
     "generate:link": "tsx scripts/generate-link.ts",
-    "serve:ssr": "http-server dist/app-ghpages/browser -p 8080 --no-dotfiles"
+    "serve:ssr": "http-server dist/app-ghpages/browser -p 8080 --no-dotfiles",
+    "bumpDependencies": "pnpm dlx npm-check-updates"
   },
   "packageManager": "pnpm@10.33.0",
   "dependencies": {
@@ -36,7 +37,7 @@
     "@angular/compiler-cli": "^21.2.0",
     "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4.2.2",
-    "@types/node": "^20.17.19",
+    "@types/node": "^25.5.0",
     "http-server": "^14.1.1",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.2",
