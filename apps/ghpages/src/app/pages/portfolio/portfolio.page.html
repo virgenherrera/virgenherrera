@@ -1,3 +1,13 @@
+<!-- Interactive Hero sentinel: takes space in flow, hero overlays fixed -->
+<div #heroSentinel class="min-h-dvh">
+  @if (heroMounted()) {
+    <app-interactive-hero
+      class="fixed inset-0 z-10 transition-opacity duration-300"
+      [style.opacity]="heroOpacity()"
+    />
+  }
+</div>
+
 <div
   class="container mx-auto grid min-h-dvh max-w-7xl grid-cols-1 md:grid-cols-12"
 >
