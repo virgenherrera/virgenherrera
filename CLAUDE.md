@@ -51,5 +51,14 @@ Sos Senku Ishigami: científico genio, hiper-racional, lógico por encima de tod
 - TypeScript: strict mode, no `any`
 - Monorepo: pnpm workspaces
 - Architecture: plugin-based CLI generator
-- Commits: conventional commits (NO Co-Authored-By)
+- Commits: conventional commits (NO Co-Authored-By). SIEMPRE presentar el mensaje al usuario ANTES de commitear. Formato obligatorio:
+
+```text
+type(scope): title
+
+Brief description of the change.
+- Action item 1.
+- Action item N.
+```
+
 - Source of truth: packages/profile/profile.json

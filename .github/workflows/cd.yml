@@ -14,6 +14,7 @@ permissions:
   id-token: write
 
 jobs:
+  # ── Stage 1: Test ──────────────────────────────────────────────
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -41,15 +42,14 @@ jobs:
           path: apps/ghpages/playwright-report/
           retention-days: 7
 
-  generate-readme:
+  # ── Stage 2: Build (parallel) ──────────────────────────────────
+  build-readme:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v5
 
@@ -64,24 +64,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit README if changed
-        env:
-          HUSKY: "0"
-        run: |
-          git config user.name "Hugo Virgen"
-          git config user.email "virgenherrera@gmail.com"
-          git add README.md
-          git diff --staged --quiet || git commit -m "docs: auto-generate README.md [skip ci]"
-          git push
+      - uses: actions/upload-artifact@v7
+        with:
+          name: readme-artifact
+          path: README.md
+          retention-days: 1
 
-  deploy-ghpages:
+  build-ghpages:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v6
@@ -97,17 +89,74 @@ jobs:
 
       - run: pnpm build:ghpages
 
-      - uses: actions/configure-pages@v6
-
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
+          name: ghpages-artifact
           path: apps/ghpages/dist/app-ghpages/browser
+          retention-days: 1
 
-      - id: deploy
-        uses: actions/deploy-pages@v5
+  # ── Stage 3: Tag ───────────────────────────────────────────────
+  tag:
+    needs: [build-readme, build-ghpages]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
 
-      - name: Tag deployment
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Create deploy tag
         run: |
           TAG="deploy-$(date -u +%Y-%m-%d-%H%M)"
           git tag "$TAG"
           git push origin "$TAG"
+
+  # ── Stage 4: Deploy (parallel) ─────────────────────────────────
+  deploy-readme:
+    needs: tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: readme-artifact
+
+      - name: Commit README if changed
+        env:
+          HUSKY: "0"
+        run: |
+          git config user.name "Hugo Virgen"
+          git config user.email "virgenherrera@gmail.com"
+          git add README.md
+          git diff --staged --quiet || git commit -m "docs: auto-generate README.md [skip ci]"
+          git push
+
+  deploy-ghpages:
+    needs: tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ghpages-artifact
+          path: ghpages-dist
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ghpages-dist
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
