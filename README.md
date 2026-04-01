@@ -44,8 +44,8 @@ timeline
 
 ```mermaid
 pie title Languages by Repository Count
-    "TypeScript" : 59
-    "JavaScript" : 18
+    "TypeScript" : 60
+    "JavaScript" : 17
     "HTML" : 12
     "PHP" : 12
 ```
