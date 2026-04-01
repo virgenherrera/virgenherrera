@@ -1,4 +1,4 @@
-import { getSecrets } from "@virgenherrera/secrets";
+import { getSecrets } from "../../../libs/secrets/src/index.ts";
 
 const secrets = getSecrets();
 const payload = JSON.stringify({
