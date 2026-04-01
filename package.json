@@ -1,0 +1,45 @@
+{
+  "name": "virgenherrera",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virgenherrera/virgenherrera.git"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "generate:readme": "pnpm --filter @virgenherrera/app-readme start",
+    "generate:all": "pnpm -r --filter './apps/*' start",
+    "generate:recruiter-link": "pnpm --filter @virgenherrera/app-ghpages run generate:link",
+    "build:ghpages": "pnpm --filter @virgenherrera/app-ghpages build",
+    "preview:ghpages": "pnpm dlx http-server apps/ghpages/dist/browser -o",
+    "test": "pnpm run cleanup && pnpm run test:static && pnpm -r run test && pnpm run test:types",
+    "test:static": "eslint '{libs,apps}/**/*.ts' && prettier --check '{libs,apps}/**/*.ts'",
+    "test:types": "pnpm -r run test:types",
+    "test:watch": "vitest",
+    "cleanup": "rimraf coverage/",
+    "bumpDependencies": "pnpm dlx npm-check-updates",
+    "updatePnpm": "pnpm self-update",
+    "prepare": "husky",
+    "lintStaged": "lint-staged"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "globals": "^16.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^6.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^3.1.0",
+    "zod": "^4.3.0"
+  }
+}

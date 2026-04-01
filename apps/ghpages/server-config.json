@@ -1,0 +1,5 @@
+{
+  "root": "dist/app-ghpages/browser",
+  "port": 8080,
+  "dotfiles": false
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": ["node"],
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "paths": {
+      "@profile-data": ["../../libs/profile/src/profile.json"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}

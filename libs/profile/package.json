@@ -1,0 +1,25 @@
+{
+  "name": "@virgenherrera/profile",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
+    "test:types": "tsc --noEmit",
+    "test": "pnpm run test:static && pnpm run test:types"
+  },
+  "dependencies": {
+    "zod": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
+  }
+}

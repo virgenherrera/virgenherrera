@@ -1,0 +1,18 @@
+<section data-testid="hero-section">
+  <h1 class="text-4xl font-extrabold text-black dark:text-white">
+    {{ name() }}
+  </h1>
+  <p class="mt-2 font-medium text-purple-600 dark:text-purple-500">
+    {{ headline() }}
+  </p>
+  <img
+    src="avatar.jpg"
+    [alt]="name()"
+    class="-mx-8 my-8 w-[calc(100%+4rem)] max-w-none lg:-mx-20 lg:w-[calc(100%+10rem)]"
+  />
+  <p
+    class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
+  >
+    <span aria-hidden="true">&#x1f4cd;</span> {{ location() }}
+  </p>
+</section>

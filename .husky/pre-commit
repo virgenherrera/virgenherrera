@@ -1,0 +1,6 @@
+pnpm run lintStaged && \
+pnpm run test || \
+{
+  echo "ERROR: Checks failed. Fix issues before committing."
+  exit 1
+}
