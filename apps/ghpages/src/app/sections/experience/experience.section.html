@@ -15,7 +15,7 @@
       class="relative before:absolute before:-left-[1.875rem] before:top-[0.375rem] before:size-4 before:rounded-full before:border-2 before:border-purple-200/75 before:bg-white dark:before:border-purple-800/75 dark:before:bg-gray-950"
     >
       <p class="mb-1 text-purple-600 dark:text-purple-500">
-        {{ exp.startDate }} &mdash; {{ exp.endDate ?? "Present" }}
+        {{ exp.startDate | formatDate }} &mdash; {{ exp.endDate | formatDate }}
       </p>
       <p class="mb-1 font-semibold">{{ exp.role }}</p>
       <p class="mb-2 text-sm text-gray-500">{{ exp.company }}</p>

@@ -157,7 +157,7 @@ export class PdfGeneratorService {
       this.doc.setFontSize(FONT_SIZES.body);
       this.doc.text(exp.role, MARGIN, this.y);
 
-      const dateRange = `${exp.startDate} — ${exp.endDate ?? "Present"}`;
+      const dateRange = `${this.fmtDate(exp.startDate)} — ${this.fmtDate(exp.endDate)}`;
       this.doc.setFont("helvetica", "normal");
       this.doc.setTextColor(100);
       const dateWidth = this.doc.getTextWidth(dateRange);
@@ -210,9 +210,7 @@ export class PdfGeneratorService {
 
       this.doc.setFont("helvetica", "normal");
       this.doc.setTextColor(100);
-      const fmt = (d: string): string =>
-        format(parse(d, "yyyy-MM", new Date()), "MMM yyyy");
-      const dateRange = `${fmt(edu.startDate)} – ${fmt(edu.graduationDate)}`;
+      const dateRange = `${this.fmtDate(edu.startDate)} – ${this.fmtDate(edu.graduationDate)}`;
       const yearWidth = this.doc.getTextWidth(dateRange);
       this.doc.text(dateRange, PAGE_WIDTH - MARGIN - yearWidth, this.y);
       this.y += LINE_HEIGHT;
@@ -290,6 +288,14 @@ export class PdfGeneratorService {
 
       this.y += LINE_HEIGHT - 1;
     });
+  }
+
+  private fmtDate(value: string | undefined): string {
+    if (!value || !/^\d{4}-\d{2}$/.test(value)) {
+      return value ?? "Present";
+    }
+
+    return format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
   }
 
   private checkPageBreak(needed: number): void {
