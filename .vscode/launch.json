@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ghpages: dev server",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "ghpages: serve",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/ghpages"
+    },
+    {
+      "name": "ghpages: production preview",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "ghpages: build + serve",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}/apps/ghpages/dist/app-ghpages/browser"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ghpages: serve",
+      "type": "shell",
+      "command": "pnpm --filter @virgenherrera/app-ghpages start",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*angular.*",
+          "endsPattern": ".*Local.*http.*"
+        }
+      }
+    },
+    {
+      "label": "ghpages: build + serve",
+      "type": "shell",
+      "command": "pnpm --filter @virgenherrera/app-ghpages exec ng build --configuration development && pnpm --filter @virgenherrera/app-ghpages run serve:ssr -- -s",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Building.*",
+          "endsPattern": ".*Available on.*"
+        }
+      }
+    }
+  ]
+}

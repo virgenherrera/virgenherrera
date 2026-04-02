@@ -21,6 +21,7 @@ export class PdfButtonComponent {
       phone: this.store.phone(),
       links: this.store.links(),
       experience: this.store.experience(),
+      education: this.store.education(),
       skills: this.store.skills(),
       languages: this.store.languages(),
     });

@@ -92,6 +92,7 @@ export const ProfileStore = signalStore(
     ),
     skills: computed(() => store.profile().skills),
     languages: computed(() => store.profile().languages),
+    education: computed(() => store.profile().education),
     showPdfButton: computed(() => store.isPrivateView()),
   })),
   withHooks({

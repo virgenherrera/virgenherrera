@@ -61,4 +61,5 @@ Brief description of the change.
 - Action item N.
 ```
 
+- Pre-push validation: SIEMPRE correr `pnpm run test` antes de pushear. Excepciones (no requieren test): archivos `.md`, `.github/`, `.vscode/`, `.claude/`, `.husky/`.
 - Source of truth: packages/profile/profile.json

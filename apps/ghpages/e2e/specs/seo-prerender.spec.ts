@@ -41,6 +41,12 @@ test.describe("SEO / Prerender validation", () => {
     expect(html).not.toContain("<canvas");
   });
 
+  test(SeoScenario.ContainsEducation, () => {
+    // Assert
+    expect(html).toContain('data-testid="education-section"');
+    expect(html).toContain("Universidad");
+  });
+
   test(SeoScenario.ExcludesPrivateData, () => {
     // Assert — no real email/phone should leak into prerender
     expect(html).not.toContain("virgenherrera@gmail.com");

@@ -83,6 +83,9 @@ importers:
       '@ngrx/signals':
         specifier: ^21.1.0
         version: 21.1.0(@angular/core@21.2.6(@angular/compiler@21.2.6)(rxjs@7.8.2))(rxjs@7.8.2)
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       jspdf:
         specifier: ^4.2.1
         version: 4.2.1
@@ -2174,6 +2177,9 @@ packages:
   css-what@7.0.0:
     resolution: {integrity: sha512-wD5oz5xibMOPHzy13CyGmogB3phdvcDaB5t0W/Nr5Z2O/agcB8YwOz6e2Lsp10pNDzBoDO9nVa3RGs/2BttpHQ==}
     engines: {node: '>= 6'}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -5604,6 +5610,8 @@ snapshots:
       nth-check: 2.1.1
 
   css-what@7.0.0: {}
+
+  date-fns@4.1.0: {}
 
   debug@4.4.3:
     dependencies:
