@@ -1,5 +1,6 @@
 import { Component, input } from "@angular/core";
 import { ScrollRevealDirective } from "../../directives/scroll-reveal.directive";
+import { FormatDatePipe } from "../../pipes/format-date.pipe";
 import type { ExperienceData } from "../../types/profile.types";
 
 interface DescriptionBlock {
@@ -30,7 +31,7 @@ function groupDescription(description: string[]): DescriptionBlock[] {
 @Component({
   selector: "app-experience",
   standalone: true,
-  imports: [ScrollRevealDirective],
+  imports: [ScrollRevealDirective, FormatDatePipe],
   templateUrl: "./experience.section.html",
 })
 export class ExperienceSection {
