@@ -16,6 +16,7 @@ import { AboutSection } from "../../sections/about/about.section";
 import { ExperienceSection } from "../../sections/experience/experience.section";
 import { ProjectsSection } from "../../sections/projects/projects.section";
 import { ContactSection } from "../../sections/contact/contact.section";
+import { EducationSection } from "../../sections/education/education.section";
 import { InteractiveHeroSection } from "../../sections/interactive-hero/interactive-hero.section";
 
 const SCROLL_THRESHOLD = 300;
@@ -29,6 +30,7 @@ const SCROLL_THRESHOLD = 300;
     ExperienceSection,
     ProjectsSection,
     ContactSection,
+    EducationSection,
     InteractiveHeroSection,
   ],
   templateUrl: "./portfolio.page.html",

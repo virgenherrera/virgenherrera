@@ -1,0 +1,28 @@
+<section data-testid="education-section" class="space-y-3">
+  <h3
+    class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+  >
+    Education
+  </h3>
+
+  @for (edu of education(); track edu.institution) {
+    <div class="space-y-1">
+      <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">
+        {{ edu.degreeTranslation }}
+      </p>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        {{ edu.institution }}
+      </p>
+      <p class="text-xs text-gray-500 dark:text-gray-500">
+        {{ edu.location }} — {{ edu.startDate | formatDate }} – {{ edu.graduationDate | formatDate }}
+      </p>
+      @if (edu.honors) {
+        <span
+          class="inline-block rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+        >
+          {{ edu.honors }}
+        </span>
+      }
+    </div>
+  }
+</section>

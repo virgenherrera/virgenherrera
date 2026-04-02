@@ -5,6 +5,7 @@ export const enum SeoScenario {
   ExcludesInteractiveHero = "prerendered HTML excludes interactive hero content",
   ExcludesClientOnlyContent = "prerendered HTML excludes canvas and typewriter",
   ExcludesPrivateData = "prerendered HTML excludes private email and phone",
+  ContainsEducation = "prerendered HTML contains education section",
 }
 
 export const enum HeroScenario {

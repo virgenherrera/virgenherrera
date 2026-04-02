@@ -212,11 +212,13 @@
   ],
   "education": [
     {
-      "institution": "Universidad America Latina",
-      "degree": "Bachelor's degree",
-      "field": "Administrative Informatics",
-      "startDate": "2018",
-      "endDate": "2021"
+      "degree": "Licenciatura en Informática Administrativa",
+      "degreeTranslation": "Bachelor's in Information Technology",
+      "institution": "Universidad América Latina",
+      "location": "Guadalajara, Mexico",
+      "startDate": "2018-01",
+      "graduationDate": "2021-05",
+      "honors": "Graduated with Honors (GPA-based)"
     }
   ],
   "certifications": [],

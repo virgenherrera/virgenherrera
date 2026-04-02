@@ -20,11 +20,13 @@ const experienceSchema = z.object({
 export type ExperienceData = z.infer<typeof experienceSchema>;
 
 const educationSchema = z.object({
-  institution: z.string().min(1),
   degree: z.string().min(1),
-  field: z.string().min(1),
+  degreeTranslation: z.string().min(1),
+  institution: z.string().min(1),
+  location: z.string().min(1),
   startDate: z.string().min(1),
-  endDate: z.string().optional(),
+  graduationDate: z.string().min(1),
+  honors: z.string().optional(),
 });
 
 export type EducationData = z.infer<typeof educationSchema>;

@@ -14,11 +14,13 @@ export interface ExperienceData {
 }
 
 export interface EducationData {
-  institution: string;
   degree: string;
-  field: string;
+  degreeTranslation: string;
+  institution: string;
+  location: string;
   startDate: string;
-  endDate?: string;
+  graduationDate: string;
+  honors?: string;
 }
 
 export interface CertificationData {

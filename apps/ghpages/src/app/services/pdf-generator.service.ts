@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
+import { parse, format } from "date-fns";
 import type { jsPDF } from "jspdf";
 import type {
+  EducationData,
   ExperienceData,
   LanguageData,
   LinkData,
@@ -16,6 +18,7 @@ interface ResumeData {
   phone: string | null;
   links: LinkData[];
   experience: ExperienceData[];
+  education: EducationData[];
   skills: SkillCategoryData[];
   languages: LanguageData[];
 }
@@ -48,6 +51,9 @@ export class PdfGeneratorService {
     });
     this.renderSection("Work Experience", () => {
       this.renderExperience(data.experience);
+    });
+    this.renderSection("Education", () => {
+      this.renderEducation(data.education);
     });
     this.renderSection("Skills", () => {
       this.renderSkills(data.skills);
@@ -191,6 +197,38 @@ export class PdfGeneratorService {
 
       this.doc.setTextColor(0);
       this.y += 4;
+    });
+  }
+
+  private renderEducation(education: EducationData[]): void {
+    education.forEach((edu) => {
+      this.checkPageBreak(15);
+
+      this.doc.setFont("helvetica", "bold");
+      this.doc.setFontSize(FONT_SIZES.body);
+      this.doc.text(edu.degreeTranslation, MARGIN, this.y);
+
+      this.doc.setFont("helvetica", "normal");
+      this.doc.setTextColor(100);
+      const fmt = (d: string): string =>
+        format(parse(d, "yyyy-MM", new Date()), "MMM yyyy");
+      const dateRange = `${fmt(edu.startDate)} – ${fmt(edu.graduationDate)}`;
+      const yearWidth = this.doc.getTextWidth(dateRange);
+      this.doc.text(dateRange, PAGE_WIDTH - MARGIN - yearWidth, this.y);
+      this.y += LINE_HEIGHT;
+
+      this.doc.setFontSize(FONT_SIZES.small);
+      this.doc.text(`${edu.institution} — ${edu.location}`, MARGIN, this.y);
+      this.y += LINE_HEIGHT;
+
+      if (edu.honors) {
+        this.doc.setTextColor(60);
+        this.doc.text(edu.honors, MARGIN, this.y);
+        this.y += LINE_HEIGHT;
+      }
+
+      this.doc.setTextColor(0);
+      this.y += 2;
     });
   }
 
