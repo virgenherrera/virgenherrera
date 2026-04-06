@@ -17,6 +17,10 @@ export class PortfolioPage {
     return this.page.locator('[data-testid="hero-section"]');
   }
 
+  get headings(): Locator {
+    return this.page.locator("h1, h2, h3, h4, h5, h6");
+  }
+
   get aboutSection(): Locator {
     return this.page.locator('[data-testid="about-section"]');
   }

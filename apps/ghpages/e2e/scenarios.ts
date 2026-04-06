@@ -6,6 +6,8 @@ export const enum SeoScenario {
   ExcludesClientOnlyContent = "prerendered HTML excludes canvas and typewriter",
   ExcludesPrivateData = "prerendered HTML excludes private email and phone",
   ContainsEducation = "prerendered HTML contains education section",
+  HasNoSkippedHeadingLevels = "prerendered HTML has no skipped heading levels",
+  ImagesHaveWidthAndHeight = "prerendered HTML images have width and height attributes",
 }
 
 export const enum HeroScenario {
