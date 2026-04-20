@@ -154,7 +154,7 @@ jobs:
           name: ghpages-artifact
           path: ghpages-dist
 
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: ghpages-dist
 
