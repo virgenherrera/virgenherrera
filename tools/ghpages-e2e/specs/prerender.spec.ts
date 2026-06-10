@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { getProfile } from "@virgenherrera/profile";
 import { SeoScenario } from "../scenarios";
+
+const profile = getProfile();
 
 test.describe("SEO / Prerender validation", () => {
   let html: string;
@@ -13,13 +16,13 @@ test.describe("SEO / Prerender validation", () => {
   test(SeoScenario.ContainsMetaDescription, () => {
     // Assert
     expect(html).toContain('name="description"');
-    expect(html).toContain("Hugo Virgen Herrera");
+    expect(html).toContain(profile.name);
   });
 
   test(SeoScenario.ContainsPageTitle, () => {
     // Assert
     expect(html).toContain("<title>");
-    expect(html).toContain("Hugo Virgen Herrera");
+    expect(html).toContain(profile.name);
   });
 
   test(SeoScenario.ContainsSidebarSections, () => {
@@ -44,7 +47,7 @@ test.describe("SEO / Prerender validation", () => {
   test(SeoScenario.ContainsEducation, () => {
     // Assert
     expect(html).toContain('data-testid="education-section"');
-    expect(html).toContain("Universidad");
+    expect(html).toContain(profile.education[0]!.institution);
   });
 
   test(SeoScenario.ExcludesPrivateData, () => {

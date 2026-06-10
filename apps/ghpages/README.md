@@ -128,30 +128,8 @@ El boton de descarga solo se habilita en la vista privada (cuando hay payload va
 
 ## Estrategia de testing E2E
 
-Los tests E2E estan organizados en 3 suites independientes, cada una con un enfoque distinto.
-
-### Suites
-
-| Suite | Archivo | Que valida | Necesita browser |
-|---|---|---|---|
-| SEO / Prerender | `e2e/specs/seo-prerender.spec.ts` | HTML estatico prerenderizado tiene meta tags, titulo, secciones, y excluye contenido client-only y datos privados | No (usa `request` API) |
-| Interactive Hero | `e2e/specs/interactive-hero.spec.ts` | Ciclo de vida del hero interactivo: mount, canvas, scroll indicator, unmount al scrollear, remount al volver arriba | Si |
-| Private View | `e2e/specs/private-view.spec.ts` | Payload hash revela email/phone/PDF, snackbar en payload invalido, autodismiss del snackbar | Si |
-
-### Patrones
-
-- **Page Object Model (POM)** -- `HeroPage` y `PortfolioPage` en `e2e/pages/` encapsulan
-  locators y acciones
-- **AAA (Arrange-Act-Assert)** -- cada test sigue la estructura de tres fases con comentarios
-  explicitos
-- **Escenarios tipados** -- `const enum` en `e2e/scenarios.ts` define los nombres de test como
-  `SeoScenario`, `HeroScenario`, y `PrivateScenario`, garantizando consistencia y que los
-  nombres se inlineen en compile time
-
-### Suite SEO: sin browser
-
-La suite de SEO usa la `request` API de Playwright para hacer un GET al HTML prerenderizado.
-No levanta ningun browser -- valida el HTML crudo como lo veria un crawler de buscador.
+Los tests E2E viven en el paquete separado `tools/ghpages-e2e/`. Para correrlos desde la raiz
+del monorepo usar `pnpm run test:e2e`.
 
 ## Scripts
 
@@ -160,12 +138,11 @@ No levanta ningun browser -- valida el HTML crudo como lo veria un crawler de bu
 | `start` | `ng serve` | Servidor de desarrollo |
 | `build` | `ng build` | Build de produccion (prerender incluido) |
 | `watch` | `ng build --watch --configuration development` | Build en modo watch |
-| `test:static` | `eslint + prettier --check` | Lint y formato sobre `src/` y `e2e/` |
-| `test:e2e` | `ng build --configuration development && playwright test` | Build dev + tests E2E |
-| `test` | `test:static + test:e2e` | Pipeline completo de validacion |
+| `test:static` | `eslint + prettier --check` | Lint y formato sobre `src/` |
+| `test:unit` | `vitest run` | Tests unitarios |
+| `test` | `test:static + test:unit` | Pipeline completo de validacion |
 | `generate:link` | `tsx scripts/generate-link.ts` | Genera URL con payload privado codificado |
-| `serve:ssr` | `http-server dist/app-ghpages/browser -p 8080` | Sirve el build estatico localmente |
-| `cleanup` | `rimraf .angular dist test-results playwright-report` | Limpia artefactos de build y test |
+| `cleanup` | `rimraf .angular dist` | Limpia artefactos de build |
 | `bumpDependencies` | `pnpm dlx npm-check-updates` | Checkea actualizaciones de dependencias |
 
 ## Configuracion
@@ -182,9 +159,4 @@ Configurado via `.postcssrc.json` con el plugin `@tailwindcss/postcss`. Tailwind
 - **outputMode: static** -- prerender de rutas en build time
 - **baseHref: /virgenherrera/** -- para GitHub Pages (solo en produccion)
 - **Budgets** -- initial bundle max warning 500kB, max error 1.5MB
-- **Schematics** -- skipTests en todos los generadores (los tests son E2E con Playwright)
-
-### Playwright
-
-`playwright.config.ts` configura las suites E2E. Los tests corren contra el build estatico
-servido con `http-server`.
+- **Schematics** -- skipTests en todos los generadores de Angular CLI
