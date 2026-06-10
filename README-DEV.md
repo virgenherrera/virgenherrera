@@ -1,6 +1,6 @@
 # Developer Guide — virgenherrera
 
-> El [README.md](README.md) es **generado automaticamente** por `apps/readme`.
+> El [README.md](README.md) es **generado automaticamente** por `tools/readme-generator`.
 > No lo edites a mano — editá `libs/profile/src/profile.json` y corré `pnpm generate:readme`.
 
 ## Tabla de contenidos
@@ -10,8 +10,10 @@
 - [Variables de entorno](#variables-de-entorno)
 - [Scripts](#scripts)
 - [Apps](#apps)
-  - [apps/readme](#appsreadme)
   - [apps/ghpages](#appsghpages)
+- [Tools](#tools)
+  - [tools/readme-generator](#toolsreadme-generator)
+  - [tools/ghpages-e2e](#toolsghpages-e2e)
 - [Libs](#libs)
   - [libs/profile](#libsprofile)
   - [libs/secrets](#libssecrets)
@@ -33,20 +35,22 @@ virgenherrera/
 │   ├── profile/              # Source of truth (profile.json + Zod schema)
 │   └── secrets/              # Env validation (.env → Zod → tipado)
 ├── apps/
-│   ├── readme/               # NestJS standalone → genera README.md
 │   └── ghpages/              # Angular 21 → portfolio prerenderizado
+├── tools/
+│   ├── readme-generator/     # NestJS standalone → genera README.md
+│   └── ghpages-e2e/          # Playwright e2e (desacoplado de Angular)
 ├── tsconfig.base.json        # TS compartido (strict, bundler, noEmit)
 ├── eslint.config.mjs         # ESLint flat config (typescript-eslint + prettier)
 ├── .lintstagedrc.json        # Auto-fix en staged files
 ├── .husky/pre-commit         # Hook: lint-staged → pnpm test
-├── pnpm-workspace.yaml       # Workspace: libs/* + apps/*
+├── pnpm-workspace.yaml       # Workspace: libs/* + apps/* + tools/*
 └── .env                      # Secrets (gitignored)
 ```
 
 ### Flujo de datos
 
 ```text
-profile.json ──→ apps/readme ──→ README.md (GitHub profile)
+profile.json ──→ tools/readme-generator ──→ README.md (GitHub profile)
      │
      └─────────→ apps/ghpages ──→ Static HTML (GitHub Pages)
                       │
@@ -117,18 +121,16 @@ codificados en base64 dentro del hash de la URL del recruiter link.
 
 ### Scripts de apps/ghpages
 
-| Script          | Descripcion                                                        |
-| --------------- | ------------------------------------------------------------------ |
-| `start`         | `ng serve` (dev server con HMR)                                    |
-| `build`         | `ng build` (prerender estatico)                                    |
-| `test`          | lint → build → e2e (Playwright)                                    |
-| `test:static`   | ESLint + Prettier en `src/` y `e2e/`                               |
-| `test:e2e`      | Build + Playwright tests                                           |
-| `serve:ssr`     | Sirve el build estatico con http-server                            |
-| `cleanup`       | Borra `.angular/`, `dist/`, `test-results/`, `playwright-report/`  |
-| `generate:link` | Genera recruiter URL desde `.env`                                  |
+| Script          | Descripcion                                   |
+| --------------- | --------------------------------------------- |
+| `start`         | `ng serve` (dev server con HMR)               |
+| `build`         | `ng build` (prerender estatico)               |
+| `test`          | lint (ESLint + Prettier)                      |
+| `test:static`   | ESLint + Prettier en `src/`                   |
+| `cleanup`       | Borra `.angular/`, `dist/`                    |
+| `generate:link` | Genera recruiter URL desde `.env`             |
 
-### Scripts de apps/readme
+### Scripts de tools/readme-generator
 
 | Script        | Descripcion                       |
 | ------------- | --------------------------------- |
@@ -137,26 +139,25 @@ codificados en base64 dentro del hash de la URL del recruiter link.
 | `test:types`  | `tsc --noEmit`                    |
 | `test`        | lint + types                      |
 
+### Scripts de tools/ghpages-e2e
+
+| Script        | Descripcion                                  |
+| ------------- | -------------------------------------------- |
+| `test`        | Playwright tests contra el build de ghpages  |
+| `test:headed` | Playwright tests en modo headed (con UI)     |
+| `test:static` | ESLint + Prettier                            |
+| `test:types`  | `tsc --noEmit`                               |
+
 ---
 
 ## Apps
-
-### apps/readme
-
-NestJS standalone app (`NestFactory.createApplicationContext`). Lee `libs/profile`,
-consulta la GitHub API via `@nestjs/axios` + RxJS, valida con Zod, genera mermaid
-diagrams (timeline + pie chart), y escribe `README.md`.
-
-**Stack**: NestJS, @nestjs/axios, RxJS, Zod
-
-Ver detalles en el [README del proyecto](apps/readme/README.md).
 
 ### apps/ghpages
 
 Angular 21 portfolio prerenderizado para GitHub Pages.
 Ver detalles en el [README de ghpages](apps/ghpages/README.md).
 
-**Stack**: Angular 21, @ngrx/signals, Tailwind CSS v4, jsPDF, Playwright
+**Stack**: Angular 21, @ngrx/signals, Tailwind CSS v4, jsPDF
 
 **Caracteristicas**:
 
@@ -197,17 +198,36 @@ pnpm generate:recruiter-link
 El hash contiene `{ email, phone }` en base64. El `ProfileStore` decodifica,
 valida con Zod, y revela los datos. Hash invalido → snackbar + vista publica.
 
-**E2E tests** (Playwright):
+---
+
+## Tools
+
+### tools/readme-generator
+
+NestJS standalone app (`NestFactory.createApplicationContext`). Lee `libs/profile`,
+consulta la GitHub API via `@nestjs/axios` + RxJS, valida con Zod, genera mermaid
+diagrams (timeline + pie chart), y escribe `README.md`.
+
+**Stack**: NestJS, @nestjs/axios, RxJS, Zod
+
+Ver detalles en el [README del proyecto](tools/readme-generator/README.md).
+
+### tools/ghpages-e2e
+
+E2E tests desacoplados de Angular. Corren contra el build de produccion
+via `http-server`, simulando el entorno real de GitHub Pages.
+
+**Stack**: Playwright, http-server
 
 ```text
-e2e/
+tools/ghpages-e2e/
 ├── scenarios.ts              # Const enums: SeoScenario, HeroScenario, PrivateScenario
-├── pages/
+├── helpers/
 │   ├── hero.page.ts          # POM del hero interactivo (canvas, scroll helpers)
 │   └── portfolio.page.ts     # POM del portfolio (secciones, contacto, navegacion)
 └── specs/
-    ├── seo-prerender.spec.ts # SEO: HTML crudo sin JS (como un crawler)
-    ├── interactive-hero.spec.ts # Hero: lifecycle client-only (mount/unmount/canvas)
+    ├── prerender.spec.ts     # SEO: HTML crudo sin JS (como un crawler)
+    ├── interactive.spec.ts   # Hero: lifecycle client-only (mount/unmount/canvas)
     └── private-view.spec.ts  # Privacidad: payload base64, email, phone, snackbar
 ```
 
@@ -215,16 +235,19 @@ Los e2e estan divididos en **3 suites alineadas a la arquitectura**:
 
 | Suite | Archivo | Que valida |
 | ----- | ------- | ---------- |
-| SEO / Prerender | `seo-prerender.spec.ts` | HTML prerenderizado es SEO-ready. Usa `request` API (HTTP GET crudo, sin JS) para simular un crawler. Valida meta tags, titulo, secciones, y que NO haya contenido client-only ni datos privados |
-| Interactive Hero | `interactive-hero.spec.ts` | Lifecycle del hero interactivo (solo existe en browser). Mount post-bootstrap, canvas, scroll indicator, unmount via IntersectionObserver, remount al volver |
+| SEO / Prerender | `prerender.spec.ts` | HTML prerenderizado es SEO-ready. Usa `request` API (HTTP GET crudo, sin JS) para simular un crawler. Valida meta tags, titulo, secciones, y que NO haya contenido client-only ni datos privados |
+| Interactive Hero | `interactive.spec.ts` | Lifecycle del hero interactivo (solo existe en browser). Mount post-bootstrap, canvas, scroll indicator, unmount via IntersectionObserver, remount al volver |
 | Private View | `private-view.spec.ts` | Sistema de privacidad via hash base64. Email/phone revelados, boton PDF habilitado, snackbar en hash invalido, auto-dismiss del snackbar |
 
 **Patrones**:
 
 - **POM (Page Object Model)**: `PortfolioPage` y `HeroPage` con getter-based locators
 - **AAA (Arrange, Act, Assert)**: Todos los tests siguen este patron con comentarios explicitos
-- **Const enum scenarios**: Centralizados en `e2e/scenarios.ts` — los tests se leen como `test(Scenario.Name, ...)`
+- **Const enum scenarios**: Centralizados en `scenarios.ts` — los tests se leen como `test(Scenario.Name, ...)`
 - **Scroll helpers**: `scrollToPortfolio()`, `scrollToContact()` en PortfolioPage; `scrollPastHero()`, `scrollToTop()` en HeroPage — scroll basado en elementos, no pixeles arbitrarios
+
+El root script `pnpm test:e2e` primero hace build de ghpages y luego corre los tests:
+`pnpm --filter @virgenherrera/app-ghpages build && pnpm --filter @virgenherrera/tool-ghpages-e2e test`
 
 Reportes: HTML (`playwright-report/`) + JUnit XML (`test-results/junit.xml`).
 
@@ -268,11 +291,12 @@ Ejecuta en orden: cleanup → eslint + prettier → tests por package → tsc ty
 
 Cada package define su propio `test` script:
 
-| Package      | Pipeline                              |
-| ------------ | ------------------------------------- |
-| libs/*       | `test:static` → `test:types`          |
-| apps/readme  | `test:static` → `test:types`          |
-| apps/ghpages | `test:static` → `build` → `test:e2e`  |
+| Package                | Pipeline                              |
+| ---------------------- | ------------------------------------- |
+| libs/*                 | `test:static` → `test:types`          |
+| apps/ghpages           | `test:static`                         |
+| tools/readme-generator | `test:static` → `test:types`          |
+| tools/ghpages-e2e      | Playwright (via root `test:e2e`)      |
 
 ### Pre-commit hook
 
@@ -307,7 +331,7 @@ Si falla, el commit se bloquea.
 
 ## Crear una app nueva
 
-### tsx app (como apps/readme)
+### tsx tool (como tools/readme-generator)
 
 ```bash
 mkdir -p apps/mi-app/src

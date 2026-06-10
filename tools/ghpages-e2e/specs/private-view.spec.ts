@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { PortfolioPage } from "../pages/portfolio.page";
-import { HeroPage } from "../pages/hero.page";
+import { PortfolioPage } from "../helpers/portfolio.page";
+import { HeroPage } from "../helpers/hero.page";
 import { PrivateScenario } from "../scenarios";
 
 test.describe("Private view (valid payload hash)", () => {

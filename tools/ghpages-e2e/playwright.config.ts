@@ -1,10 +1,11 @@
 import { defineConfig } from "@playwright/test";
 
-const PORT = 8080;
+const PORT = 4200;
 const BASE_URL = `http://localhost:${String(PORT)}`;
+const ghpagesDist = "../../apps/ghpages/dist/app-ghpages/browser";
 
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: "./specs",
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,
@@ -21,9 +22,9 @@ export default defineConfig({
   },
   outputDir: "test-results",
   webServer: {
-    command: "pnpm run serve:ssr -- -s",
+    command: `npx http-server ${ghpagesDist} -p ${String(PORT)} --no-dotfiles -c-1 -s`,
     url: BASE_URL,
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env["CI"],
     timeout: 10_000,
   },
 });

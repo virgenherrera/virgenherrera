@@ -1,0 +1,19 @@
+{
+  "name": "@virgenherrera/tool-ghpages-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:static": "eslint '**/*.ts' && prettier --check '**/*.ts'",
+    "test:types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@virgenherrera/profile": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.5.0",
+    "http-server": "^14.1.1"
+  }
+}

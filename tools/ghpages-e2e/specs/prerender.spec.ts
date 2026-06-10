@@ -65,9 +65,11 @@ test.describe("SEO / Prerender validation", () => {
     // Assert — each heading level must not skip (e.g. h1 → h3 is invalid)
     expect(levels.length).toBeGreaterThan(0);
     for (let i = 1; i < levels.length; i++) {
+      const current = levels[i]!;
+      const previous = levels[i - 1]!;
       expect(
-        levels[i] - levels[i - 1],
-        `heading h${levels[i]} after h${levels[i - 1]} skips a level`,
+        current - previous,
+        `heading h${String(current)} after h${String(previous)} skips a level`,
       ).toBeLessThanOrEqual(1);
     }
   });

@@ -1,4 +1,4 @@
-# app-readme
+# tool-readme-generator
 
 Aplicacion standalone de NestJS que genera el `README.md` del perfil de GitHub
 a partir de `profile.json`.
@@ -16,7 +16,7 @@ y termina.
 
 ## Descripcion
 
-`@virgenherrera/app-readme` es una aplicacion NestJS standalone que genera el
+`@virgenherrera/tool-readme-generator` es una aplicacion NestJS standalone que genera el
 archivo `README.md` de la raiz del monorepo. Usa `NestFactory.createApplicationContext`
 para levantar el contenedor de inyeccion de dependencias sin iniciar un servidor
 HTTP, ejecuta el pipeline de renderizado y escribe el resultado a disco.
@@ -43,7 +43,7 @@ Mermaid y secciones de proyectos destacados.
 ### Arbol de archivos
 
 ```text
-apps/readme/src/
+tools/readme-generator/src/
   main.ts                    # Bootstrap: crea contexto NestJS y ejecuta generate()
   app.module.ts              # Modulo raiz: registra HttpModule y providers
   readme.service.ts          # Orquestador: lee profile, fetcha GitHub, escribe README

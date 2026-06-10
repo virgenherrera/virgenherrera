@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { HeroPage } from "../pages/hero.page";
+import { HeroPage } from "../helpers/hero.page";
 import { HeroScenario } from "../scenarios";
 
 test.describe("Interactive Hero (client-only)", () => {

@@ -1,6 +1,7 @@
 packages:
   - "libs/*"
   - "apps/*"
+  - "tools/*"
 
 overrides:
   vitest: "^3.1.0"

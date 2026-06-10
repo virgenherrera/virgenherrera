@@ -31,7 +31,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter @virgenherrera/app-ghpages exec playwright install --with-deps chromium
+      - run: pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium
 
       - run: pnpm -w run test
 
@@ -39,7 +39,7 @@ jobs:
         if: failure()
         with:
           name: playwright-report
-          path: apps/ghpages/playwright-report/
+          path: tools/ghpages-e2e/playwright-report/
           retention-days: 7
 
   # ── Stage 2: Build (parallel) ──────────────────────────────────

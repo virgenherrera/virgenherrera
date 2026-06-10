@@ -108,18 +108,12 @@ importers:
       '@angular/compiler-cli':
         specifier: ^21.2.0
         version: 21.2.6(@angular/compiler@21.2.6)(typescript@5.9.3)
-      '@playwright/test':
-        specifier: ^1.52.0
-        version: 1.58.2
       '@tailwindcss/postcss':
         specifier: ^4.2.2
         version: 4.2.2
       '@types/node':
         specifier: ^25.5.0
         version: 25.5.0
-      http-server:
-        specifier: ^14.1.1
-        version: 14.1.1
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -130,7 +124,46 @@ importers:
         specifier: ~5.9.2
         version: 5.9.3
 
-  apps/readme:
+  libs/profile:
+    dependencies:
+      zod:
+        specifier: ^4.3.0
+        version: 4.3.6
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.5.0
+
+  libs/secrets:
+    dependencies:
+      dotenv:
+        specifier: ^16.4.0
+        version: 16.6.1
+      zod:
+        specifier: ^4.3.0
+        version: 4.3.6
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.5.0
+
+  tools/ghpages-e2e:
+    dependencies:
+      '@virgenherrera/profile':
+        specifier: workspace:*
+        version: link:../../libs/profile
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.52.0
+        version: 1.58.2
+      '@types/node':
+        specifier: ^25.5.0
+        version: 25.5.0
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+
+  tools/readme-generator:
     dependencies:
       '@nestjs/axios':
         specifier: ^4.0.0
@@ -153,29 +186,6 @@ importers:
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
-      zod:
-        specifier: ^4.3.0
-        version: 4.3.6
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.0
-        version: 25.5.0
-
-  libs/profile:
-    dependencies:
-      zod:
-        specifier: ^4.3.0
-        version: 4.3.6
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.0
-        version: 25.5.0
-
-  libs/secrets:
-    dependencies:
-      dotenv:
-        specifier: ^16.4.0
-        version: 16.6.1
       zod:
         specifier: ^4.3.0
         version: 4.3.6
