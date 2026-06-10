@@ -18,8 +18,10 @@ import { ProjectsSection } from "../../sections/projects/projects.section";
 import { ContactSection } from "../../sections/contact/contact.section";
 import { EducationSection } from "../../sections/education/education.section";
 import { InteractiveHeroSection } from "../../sections/interactive-hero/interactive-hero.section";
-
-const SCROLL_THRESHOLD = 300;
+import {
+  FAB_SCROLL_THRESHOLD,
+  HERO_UNMOUNT_THRESHOLD,
+} from "../../constants/scroll.constants";
 
 @Component({
   selector: "app-portfolio",
@@ -73,7 +75,7 @@ export class PortfolioPage implements OnDestroy {
             this.heroMounted.set(entry.isIntersecting);
           }
         },
-        { threshold: 0.01 },
+        { threshold: HERO_UNMOUNT_THRESHOLD },
       );
       this.observer.observe(sentinel);
     });
@@ -90,6 +92,6 @@ export class PortfolioPage implements OnDestroy {
 
   @HostListener("window:scroll")
   onScroll(): void {
-    this.showFab.set(window.scrollY > SCROLL_THRESHOLD);
+    this.showFab.set(window.scrollY > FAB_SCROLL_THRESHOLD);
   }
 }

@@ -10,6 +10,23 @@ import {
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { ProfileStore } from "../../stores/profile.store";
+import {
+  CONNECTION_DISTANCE,
+  DELETE_SPEED_MS,
+  DESKTOP_DOT_COUNT,
+  DESKTOP_TEXT_COUNT,
+  MOBILE_BREAKPOINT,
+  MOBILE_DOT_COUNT,
+  MOBILE_TEXT_COUNT,
+  PARTICLE_COLORS,
+  PAUSE_AFTER_DELETE_MS,
+  PAUSE_AFTER_TYPE_MS,
+  SCROLL_DETECT_THRESHOLD,
+  TEXT_COLOR,
+  TEXT_FONT,
+  TYPE_SPEED_MS,
+  TYPEWRITER_INITIAL_DELAY_MS,
+} from "../../constants/particles.constants";
 
 interface DotParticle {
   kind: "dot";
@@ -33,23 +50,6 @@ interface TextParticle {
 }
 
 type Particle = DotParticle | TextParticle;
-
-const PARTICLE_COLORS = [
-  "rgba(139, 92, 246, 0.6)",
-  "rgba(99, 102, 241, 0.5)",
-  "rgba(168, 85, 247, 0.4)",
-  "rgba(255, 255, 255, 0.3)",
-  "rgba(139, 92, 246, 0.3)",
-];
-
-const CONNECTION_DISTANCE = 120;
-const MOBILE_BREAKPOINT = 768;
-const DESKTOP_DOT_COUNT = 60;
-const MOBILE_DOT_COUNT = 30;
-const DESKTOP_TEXT_COUNT = 18;
-const MOBILE_TEXT_COUNT = 10;
-const TEXT_FONT = "11px system-ui, sans-serif";
-const TEXT_COLOR = "rgba(139, 92, 246, 0.35)";
 
 @Component({
   selector: "app-interactive-hero",
@@ -159,10 +159,6 @@ export class InteractiveHeroSection implements OnDestroy {
     let skillIdx = 0;
     let charIdx = 0;
     let isDeleting = false;
-    const TYPE_SPEED = 80;
-    const DELETE_SPEED = 40;
-    const PAUSE_AFTER_TYPE = 2000;
-    const PAUSE_AFTER_DELETE = 400;
 
     const tick = (): void => {
       const current = skills[skillIdx % skills.length]!;
@@ -173,11 +169,11 @@ export class InteractiveHeroSection implements OnDestroy {
 
         if (charIdx === current.length) {
           isDeleting = true;
-          this.typewriterTimer = setTimeout(tick, PAUSE_AFTER_TYPE);
+          this.typewriterTimer = setTimeout(tick, PAUSE_AFTER_TYPE_MS);
 
           return;
         }
-        this.typewriterTimer = setTimeout(tick, TYPE_SPEED);
+        this.typewriterTimer = setTimeout(tick, TYPE_SPEED_MS);
       } else {
         charIdx--;
         this.displayedText.set(current.slice(0, charIdx));
@@ -185,20 +181,20 @@ export class InteractiveHeroSection implements OnDestroy {
         if (charIdx === 0) {
           isDeleting = false;
           skillIdx++;
-          this.typewriterTimer = setTimeout(tick, PAUSE_AFTER_DELETE);
+          this.typewriterTimer = setTimeout(tick, PAUSE_AFTER_DELETE_MS);
 
           return;
         }
-        this.typewriterTimer = setTimeout(tick, DELETE_SPEED);
+        this.typewriterTimer = setTimeout(tick, DELETE_SPEED_MS);
       }
     };
 
-    this.typewriterTimer = setTimeout(tick, 1000);
+    this.typewriterTimer = setTimeout(tick, TYPEWRITER_INITIAL_DELAY_MS);
   }
 
   private setupScrollListener(): void {
     this.scrollHandler = (): void => {
-      this.hasScrolled.set(window.scrollY > 50);
+      this.hasScrolled.set(window.scrollY > SCROLL_DETECT_THRESHOLD);
     };
     window.addEventListener("scroll", this.scrollHandler, { passive: true });
   }

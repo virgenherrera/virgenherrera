@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["node", "vitest/globals"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "paths": {
+      "@profile-data": ["../../libs/profile/src/profile.json"]
+    }
+  },
+  "include": ["src/**/*.spec.ts"]
+}

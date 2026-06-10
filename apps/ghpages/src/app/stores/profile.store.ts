@@ -8,11 +8,13 @@ import {
   withState,
 } from "@ngrx/signals";
 import profileJson from "@profile-data";
-import type { ExperienceData, ProfileData } from "../types/profile.types";
+import type { ProfileData } from "../types/profile.types";
+import { SNACKBAR_DISMISS_MS } from "../constants/profile.constants";
 import {
-  secretsPayloadSchema,
-  type SecretsPayload,
-} from "../schemas/secrets-payload.schema";
+  trimSummary,
+  trimExperience,
+  decodeHashPayload,
+} from "./profile.utils";
 
 interface ProfileState {
   profile: ProfileData;
@@ -29,48 +31,6 @@ const initialState: ProfileState = {
   phone: null,
   snackbarMessage: null,
 };
-
-const SUMMARY_SENTENCES = 2;
-const DESCRIPTION_MAX_LENGTH = 150;
-const MAX_TECHNOLOGIES = 6;
-
-function trimSummary(summary: string): string {
-  const sentences = summary.split(/(?<=\.)\s+/);
-
-  return sentences.slice(0, SUMMARY_SENTENCES).join(" ");
-}
-
-function trimExperience(experiences: ExperienceData[]): ExperienceData[] {
-  return experiences.map((exp) => {
-    const firstParagraph = exp.description.find(
-      (item) => !item.startsWith("*"),
-    );
-    const trimmed = firstParagraph
-      ? firstParagraph.length > DESCRIPTION_MAX_LENGTH
-        ? `${firstParagraph.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}...`
-        : firstParagraph
-      : exp.description[0]!;
-
-    return {
-      ...exp,
-      description: [trimmed],
-      technologies: exp.technologies.slice(0, MAX_TECHNOLOGIES),
-    };
-  });
-}
-
-function decodeHashPayload(hash: string): SecretsPayload | null {
-  if (!hash || hash === "#") return null;
-  try {
-    const base64 = hash.startsWith("#") ? hash.slice(1) : hash;
-    const json = atob(base64);
-    const parsed = JSON.parse(json) as unknown;
-
-    return secretsPayloadSchema.parse(parsed);
-  } catch {
-    return null;
-  }
-}
 
 export const ProfileStore = signalStore(
   { providedIn: "root" },
@@ -120,7 +80,10 @@ export const ProfileStore = signalStore(
             phone: null,
             snackbarMessage: "Invalid link — showing public version",
           });
-          setTimeout(() => patchState(store, { snackbarMessage: null }), 4000);
+          setTimeout(
+            () => patchState(store, { snackbarMessage: null }),
+            SNACKBAR_DISMISS_MS,
+          );
         } else {
           patchState(store, {
             isPrivateView: false,

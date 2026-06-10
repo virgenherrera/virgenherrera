@@ -10,3 +10,13 @@ updates:
     labels:
       - dependabot
       - github-actions dependencies
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Mexico_City
+    labels:
+      - dependabot
+      - npm dependencies

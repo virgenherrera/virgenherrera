@@ -1,0 +1,2 @@
+export const FAB_SCROLL_THRESHOLD = 300;
+export const HERO_UNMOUNT_THRESHOLD = 0.01;
