@@ -12,7 +12,6 @@ export default tseslint.config(
       "node_modules/",
       "dist/",
       "coverage/",
-      "apps/ghpages/",
     ],
   },
   eslint.configs.recommended,

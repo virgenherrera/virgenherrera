@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/main.ts",
-    "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
-    "test:types": "tsc --noEmit",
-    "test": "pnpm run test:static && pnpm run test:types",
+    "eslintCheck": "eslint 'src/**/*.ts'",
+    "prettierCheck": "prettier --check 'src/**/*.ts'",
+    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
+    "test:dynamic": "tsc --noEmit",
+    "test": "pnpm run test:static && pnpm run test:dynamic",
     "bumpDependencies": "pnpm dlx npm-check-updates"
   },
   "dependencies": {
@@ -15,8 +17,7 @@
     "@nestjs/core": "11.1.26",
     "@virgenherrera/profile": "workspace:*",
     "reflect-metadata": "0.2.2",
-    "rxjs": "7.8.2",
-    "zod": "4.4.3"
+    "rxjs": "7.8.2"
   },
   "devDependencies": {
     "@types/node": "25.9.2"

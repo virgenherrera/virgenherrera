@@ -3,10 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "playwright test",
     "test:headed": "playwright test --headed",
-    "test:static": "eslint '**/*.ts' && prettier --check '**/*.ts'",
-    "test:types": "tsc --noEmit"
+    "eslintCheck": "eslint '**/*.ts'",
+    "prettierCheck": "prettier --check '**/*.ts'",
+    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
+    "test:dynamic": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test": "pnpm run test:static && pnpm run test:dynamic"
   },
   "dependencies": {
     "@virgenherrera/profile": "workspace:*"
