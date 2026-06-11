@@ -3,16 +3,22 @@ packages:
   - "apps/*"
   - "tools/*"
 
+minimumReleaseAge: 1440
+
+allowBuilds:
+  "@nestjs/core": true
+  "@parcel/watcher": true
+  "@tailwindcss/oxide": true
+  core-js: false
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
+
 overrides:
-  vitest: "^3.1.0"
+  fast-uri: ">=3.1.2"
+  path-to-regexp: ">=8.4.0"
 
-peerDependencyRules:
-  allowedVersions:
-    vitest: ">=3"
+minimumReleaseAgeExclude: []
 
-onlyBuiltDependencies:
-  - "@nestjs/core"
-  - "@parcel/watcher"
-  - esbuild
-  - lmdb
-  - msgpackr-extract
+auditConfig:
+  ignoreCves: []

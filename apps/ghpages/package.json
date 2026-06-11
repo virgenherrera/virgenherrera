@@ -14,32 +14,29 @@
     "generate:link": "tsx scripts/generate-link.ts",
     "bumpDependencies": "pnpm dlx npm-check-updates"
   },
-  "packageManager": "pnpm@10.33.0",
   "dependencies": {
-    "@angular/common": "^21.2.0",
-    "@angular/compiler": "^21.2.0",
-    "@angular/core": "^21.2.0",
-    "@angular/forms": "^21.2.0",
-    "@angular/platform-browser": "^21.2.0",
-    "@angular/platform-server": "^21.2.0",
-    "@angular/router": "^21.2.0",
-    "@angular/ssr": "^21.2.5",
-    "@ngrx/signals": "^21.1.0",
-    "date-fns": "^4.1.0",
-    "jspdf": "^4.2.1",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zod": "^4.3.6"
+    "@angular/common": "22.0.0",
+    "@angular/compiler": "22.0.0",
+    "@angular/core": "22.0.0",
+    "@angular/forms": "22.0.0",
+    "@angular/platform-browser": "22.0.0",
+    "@angular/platform-server": "22.0.0",
+    "@angular/router": "22.0.0",
+    "@angular/ssr": "22.0.0",
+    "date-fns": "4.1.0",
+    "jspdf": "4.2.1",
+    "rxjs": "7.8.2",
+    "tslib": "2.8.1",
+    "zod": "4.4.3"
   },
   "devDependencies": {
-    "@angular/build": "^21.2.5",
-    "@angular/cli": "^21.2.5",
-    "@angular/compiler-cli": "^21.2.0",
-    "@tailwindcss/postcss": "^4.2.2",
-    "@types/node": "^25.5.0",
-    "happy-dom": "^20.10.2",
-    "prettier": "^3.8.1",
-    "tailwindcss": "^4.2.2",
-    "typescript": "~5.9.2"
+    "@angular/build": "22.0.0",
+    "@angular/cli": "22.0.0",
+    "@angular/compiler-cli": "22.0.0",
+    "@tailwindcss/postcss": "4.3.0",
+    "@types/node": "25.9.2",
+    "prettier": "3.8.3",
+    "tailwindcss": "4.3.0",
+    "typescript": "6.0.3"
   }
 }

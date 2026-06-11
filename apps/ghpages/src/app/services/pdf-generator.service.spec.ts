@@ -72,7 +72,7 @@ function createMockJsPdf(): JsPDFMock {
 let mockDocInstance: JsPDFMock;
 
 vi.mock("jspdf", () => ({
-  jsPDF: vi.fn(() => {
+  jsPDF: vi.fn(function () {
     mockDocInstance = createMockJsPdf();
 
     return mockDocInstance;

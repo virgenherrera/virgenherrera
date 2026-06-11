@@ -1,14 +1,20 @@
-import { computed, inject, PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
 import {
-  patchState,
-  signalStore,
-  withComputed,
-  withHooks,
-  withState,
-} from "@ngrx/signals";
+  computed,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  signal,
+} from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import profileJson from "@profile-data";
-import type { ProfileData } from "../types/profile.types";
+import type {
+  ExperienceData,
+  LanguageData,
+  LinkData,
+  ProfileData,
+  SkillCategoryData,
+  EducationData,
+} from "../types/profile.types";
 import { SNACKBAR_DISMISS_MS } from "../constants/profile.constants";
 import {
   trimSummary,
@@ -16,85 +22,67 @@ import {
   decodeHashPayload,
 } from "./profile.utils";
 
-interface ProfileState {
-  profile: ProfileData;
-  isPrivateView: boolean;
-  email: string | null;
-  phone: string | null;
-  snackbarMessage: string | null;
+@Injectable({ providedIn: "root" })
+export class ProfileStore {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly _profile = signal<ProfileData>(profileJson);
+  private readonly _isPrivateView = signal(false);
+  private readonly _email = signal<string | null>(null);
+  private readonly _phone = signal<string | null>(null);
+  private readonly _snackbarMessage = signal<string | null>(null);
+
+  readonly isPrivateView = this._isPrivateView.asReadonly();
+  readonly email = this._email.asReadonly();
+  readonly phone = this._phone.asReadonly();
+  readonly snackbarMessage = this._snackbarMessage.asReadonly();
+
+  readonly name = computed(() => this._profile().name);
+  readonly headline = computed(() => this._profile().headline);
+  readonly summary = computed(() =>
+    this._isPrivateView()
+      ? this._profile().summary
+      : trimSummary(this._profile().summary),
+  );
+  readonly location = computed(() => this._profile().location);
+  readonly links = computed<LinkData[]>(() => this._profile().links);
+  readonly experience = computed<ExperienceData[]>(() =>
+    this._isPrivateView()
+      ? this._profile().experience
+      : trimExperience(this._profile().experience),
+  );
+  readonly skills = computed<SkillCategoryData[]>(() => this._profile().skills);
+  readonly languages = computed<LanguageData[]>(
+    () => this._profile().languages,
+  );
+  readonly education = computed<EducationData[]>(
+    () => this._profile().education,
+  );
+  readonly showPdfButton = computed(() => this._isPrivateView());
+
+  constructor() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.applyHash();
+    window.addEventListener("hashchange", () => this.applyHash());
+  }
+
+  private applyHash(): void {
+    const hash = window.location.hash;
+    const payload = decodeHashPayload(hash);
+
+    if (payload) {
+      this._isPrivateView.set(true);
+      this._email.set(payload.email);
+      this._phone.set(payload.phone);
+    } else if (hash && hash !== "#") {
+      this._isPrivateView.set(false);
+      this._email.set(null);
+      this._phone.set(null);
+      this._snackbarMessage.set("Invalid link — showing public version");
+      setTimeout(() => this._snackbarMessage.set(null), SNACKBAR_DISMISS_MS);
+    } else {
+      this._isPrivateView.set(false);
+      this._email.set(null);
+      this._phone.set(null);
+    }
+  }
 }
-
-const initialState: ProfileState = {
-  profile: profileJson as ProfileData,
-  isPrivateView: false,
-  email: null,
-  phone: null,
-  snackbarMessage: null,
-};
-
-export const ProfileStore = signalStore(
-  { providedIn: "root" },
-  withState(initialState),
-  withComputed((store) => ({
-    name: computed(() => store.profile().name),
-    headline: computed(() => store.profile().headline),
-    summary: computed(() =>
-      store.isPrivateView()
-        ? store.profile().summary
-        : trimSummary(store.profile().summary),
-    ),
-    location: computed(() => store.profile().location),
-    links: computed(() => store.profile().links),
-    experience: computed(() =>
-      store.isPrivateView()
-        ? store.profile().experience
-        : trimExperience(store.profile().experience),
-    ),
-    skills: computed(() => store.profile().skills),
-    languages: computed(() => store.profile().languages),
-    education: computed(() => store.profile().education),
-    showPdfButton: computed(() => store.isPrivateView()),
-  })),
-  withHooks({
-    onInit(store) {
-      const platformId = inject(PLATFORM_ID);
-
-      if (!isPlatformBrowser(platformId)) {
-        return;
-      }
-
-      const applyHash = (): void => {
-        const hash = window.location.hash;
-        const payload = decodeHashPayload(hash);
-
-        if (payload) {
-          patchState(store, {
-            isPrivateView: true,
-            email: payload.email,
-            phone: payload.phone,
-          });
-        } else if (hash && hash !== "#") {
-          patchState(store, {
-            isPrivateView: false,
-            email: null,
-            phone: null,
-            snackbarMessage: "Invalid link — showing public version",
-          });
-          setTimeout(
-            () => patchState(store, { snackbarMessage: null }),
-            SNACKBAR_DISMISS_MS,
-          );
-        } else {
-          patchState(store, {
-            isPrivateView: false,
-            email: null,
-            phone: null,
-          });
-        }
-      };
-
-      applyHash();
-      window.addEventListener("hashchange", applyHash);
-    },
-  }),
-);

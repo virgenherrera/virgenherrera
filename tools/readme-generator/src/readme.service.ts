@@ -2,7 +2,6 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { firstValueFrom } from "rxjs";
 import { getProfile } from "@virgenherrera/profile";
 import { GitHubService } from "./github/github.service.ts";
 import { parseGitHubUsername } from "./github/parse-repo-url.ts";
@@ -35,9 +34,7 @@ export class ReadmeService {
       );
     }
 
-    const repos = username
-      ? await firstValueFrom(this.github.fetchRepos(username))
-      : [];
+    const repos = username ? await this.github.fetchRepos(username) : [];
 
     const languages = this.github.aggregateLanguages(repos);
     const topRepos = this.github.getTopRepos(repos);

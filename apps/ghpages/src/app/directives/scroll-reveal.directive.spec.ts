@@ -35,15 +35,11 @@ function runDirectiveInit(
 
   vi.stubGlobal(
     "IntersectionObserver",
-    vi.fn(
-      (cb: IntersectionObserverCallback, options: IntersectionObserverInit) => {
-        triggerCallback = cb;
-        // Expose options on the mock so tests can inspect threshold
-        (observer as unknown as Record<string, unknown>)["_options"] = options;
+    vi.fn(function (this: void, cb: IntersectionObserverCallback) {
+      triggerCallback = cb;
 
-        return observer;
-      },
-    ),
+      return observer;
+    }),
   );
 
   const io = new IntersectionObserver(
