@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   pull_request:
@@ -9,27 +9,53 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  ci:
+    name: CI Pipeline
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout Code
+        uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v5
+      - name: Setup environment
+        uses: ./.github/actions/setup
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
+      - name: Install Playwright
+        run: pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium
 
-      - run: pnpm install --frozen-lockfile
+      - name: securityCheck
+        run: |
+          pnpm run securityCheck
+          echo "✅ **securityCheck** — no known vulnerabilities" >> $GITHUB_STEP_SUMMARY
 
-      - run: pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium
+      - name: eslintCheck
+        run: |
+          pnpm run eslintCheck
+          echo "✅ **eslintCheck** — no lint errors" >> $GITHUB_STEP_SUMMARY
 
-      - run: pnpm -w run test
+      - name: prettierCheck
+        run: |
+          pnpm run prettierCheck
+          echo "✅ **prettierCheck** — all files formatted" >> $GITHUB_STEP_SUMMARY
 
-      - uses: actions/upload-artifact@v7
+      - name: test
+        run: |
+          pnpm -r --filter './libs/*' --filter './apps/*' run test
+          echo "✅ **test** — all unit tests passed" >> $GITHUB_STEP_SUMMARY
+
+      - name: test:e2e
+        timeout-minutes: 10
+        run: |
+          pnpm run test:e2e
+          echo "✅ **test:e2e** — all e2e tests passed" >> $GITHUB_STEP_SUMMARY
+
+      - name: build:ghpages
+        run: |
+          pnpm run build:ghpages
+          echo "✅ **build:ghpages** — compilation successful" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload playwright-report
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-report
