@@ -5,7 +5,6 @@ export const routes: Routes = [
   {
     path: "",
     component: PortfolioPage,
-    title: "Hugo Virgen Herrera \u2014 Portfolio",
   },
   { path: "**", redirectTo: "" },
 ];

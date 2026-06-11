@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { Meta, Title } from "@angular/platform-browser";
 import { isPlatformBrowser } from "@angular/common";
 import { ProfileStore } from "../../stores/profile.store";
 import { HeroSection } from "../../sections/hero/hero.section";
@@ -44,12 +45,15 @@ export class PortfolioPage implements OnDestroy {
   protected readonly heroOpacity = signal(1);
 
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
   private readonly heroSentinel =
     viewChild<ElementRef<HTMLDivElement>>("heroSentinel");
   private observer: IntersectionObserver | null = null;
   private scrollHandler: (() => void) | null = null;
 
   constructor() {
+    this.setMetaTags();
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
@@ -93,5 +97,29 @@ export class PortfolioPage implements OnDestroy {
   @HostListener("window:scroll")
   onScroll(): void {
     this.showFab.set(window.scrollY > FAB_SCROLL_THRESHOLD);
+  }
+
+  private setMetaTags(): void {
+    const headline = this.store.headline();
+    const pageTitle = `virgenherrera | ${headline}`;
+    const url = "https://virgenherrera.github.io/virgenherrera/";
+
+    this.title.setTitle(pageTitle);
+
+    this.meta.updateTag({ name: "description", content: headline });
+    this.meta.updateTag({ property: "og:title", content: pageTitle });
+    this.meta.updateTag({ property: "og:description", content: headline });
+    this.meta.updateTag({ property: "og:url", content: url });
+    this.meta.updateTag({ property: "og:type", content: "website" });
+    this.meta.updateTag({
+      property: "og:image",
+      content: `${url}avatar.jpg`,
+    });
+    this.meta.updateTag({
+      name: "twitter:card",
+      content: "summary",
+    });
+    this.meta.updateTag({ name: "twitter:title", content: pageTitle });
+    this.meta.updateTag({ name: "twitter:description", content: headline });
   }
 }
