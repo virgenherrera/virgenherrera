@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { parse, format } from "date-fns";
+import { format } from "date-fns/format";
+import { parse } from "date-fns/parse";
 import type { jsPDF } from "jspdf";
 import type {
   EducationData,

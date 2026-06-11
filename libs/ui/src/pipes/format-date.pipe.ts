@@ -1,5 +1,6 @@
 import { Pipe, type PipeTransform } from "@angular/core";
-import { parse, format } from "date-fns";
+import { format } from "date-fns/format";
+import { parse } from "date-fns/parse";
 
 const DATE_PATTERN = /^\d{4}-\d{2}$/;
 
