@@ -1,5 +1,5 @@
 name: "Setup Node.js & pnpm"
-description: "Composite action that installs pnpm, Node.js, and project dependencies."
+description: "Composite action that installs pnpm, Node.js, project dependencies, and Playwright browsers."
 
 runs:
   using: "composite"
@@ -16,3 +16,7 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
+
+    - name: Install Playwright browsers
+      shell: bash
+      run: pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium
