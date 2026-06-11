@@ -28,7 +28,7 @@
     "prettierCheck": "pnpm -r run prettierCheck",
     "cleanup": "rimraf coverage/",
     "securityFix": "pnpm update",
-    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@17 && pnpm run securityFix",
+    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@17 && pnpm -r run bumpDependencies && pnpm run securityFix",
     "updatePnpm": "corepack up",
     "prepare": "husky",
     "lintStaged": "lint-staged"
