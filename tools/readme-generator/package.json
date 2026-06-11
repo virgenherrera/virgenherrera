@@ -10,7 +10,7 @@
     "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
     "test:dynamic": "tsc --noEmit",
     "test": "pnpm run test:static && pnpm run test:dynamic",
-    "bumpDependencies": "pnpm dlx npm-check-updates"
+    "bumpDependencies": "pnpm dlx npm-check-updates@17"
   },
   "dependencies": {
     "@nestjs/common": "11.1.26",

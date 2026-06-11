@@ -14,7 +14,7 @@
     "test:dynamic": "vitest run",
     "test": "pnpm run test:static && pnpm run test:dynamic",
     "generate:link": "tsx scripts/generate-link.ts",
-    "bumpDependencies": "pnpm dlx npm-check-updates"
+    "bumpDependencies": "pnpm dlx npm-check-updates@17"
   },
   "dependencies": {
     "@angular/common": "22.0.0",

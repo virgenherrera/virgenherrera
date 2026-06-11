@@ -53,6 +53,11 @@ jobs:
           pnpm run test:e2e
           echo "✅ **test:e2e** — all e2e tests passed" >> $GITHUB_STEP_SUMMARY
 
+      - name: build:app
+        run: |
+          pnpm run build:app
+          echo "✅ **build:app** — compilation successful" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload playwright-report
         uses: actions/upload-artifact@v7
         if: failure()
