@@ -1,6 +1,5 @@
 import { Component, input } from "@angular/core";
-import { ScrollRevealDirective } from "../../directives/scroll-reveal.directive";
-import { FormatDatePipe } from "../../pipes/format-date.pipe";
+import { FormatDatePipe, ScrollRevealDirective } from "@virgenherrera/ui";
 import type { ExperienceData } from "../../types/profile.types";
 
 interface DescriptionBlock {

@@ -6,7 +6,8 @@
     "noEmit": false,
     "allowImportingTsExtensions": false,
     "paths": {
-      "@profile-data": ["../../libs/profile/src/profile.json"]
+      "@profile-data": ["../../libs/profile/src/profile.json"],
+      "@virgenherrera/ui": ["../../libs/ui/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts"],

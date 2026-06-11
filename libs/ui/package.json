@@ -1,0 +1,32 @@
+{
+  "name": "@virgenherrera/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
+    "test:types": "tsc --noEmit",
+    "test": "pnpm run test:static && pnpm run test:types",
+    "bumpDependencies": "pnpm dlx npm-check-updates@17"
+  },
+  "dependencies": {
+    "date-fns": "4.1.0",
+    "tslib": "2.8.1"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=22.0.0",
+    "@angular/core": ">=22.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "22.0.0",
+    "@angular/compiler": "22.0.0",
+    "@angular/core": "22.0.0",
+    "@angular/platform-browser": "22.0.0",
+    "@types/node": "25.9.2",
+    "typescript": "6.0.3"
+  }
+}

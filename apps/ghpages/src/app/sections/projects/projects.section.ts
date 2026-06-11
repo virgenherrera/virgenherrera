@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { ScrollRevealDirective } from "../../directives/scroll-reveal.directive";
+import { ScrollRevealDirective } from "@virgenherrera/ui";
 import type { LinkData } from "../../types/profile.types";
 
 @Component({

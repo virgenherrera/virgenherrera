@@ -145,6 +145,34 @@ importers:
         specifier: 25.9.2
         version: 25.9.2
 
+  libs/ui:
+    dependencies:
+      date-fns:
+        specifier: 4.1.0
+        version: 4.1.0
+      tslib:
+        specifier: 2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@angular/common':
+        specifier: 22.0.0
+        version: 22.0.0(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/compiler':
+        specifier: 22.0.0
+        version: 22.0.0
+      '@angular/core':
+        specifier: 22.0.0
+        version: 22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2)
+      '@angular/platform-browser':
+        specifier: 22.0.0
+        version: 22.0.0(@angular/common@22.0.0(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))
+      '@types/node':
+        specifier: 25.9.2
+        version: 25.9.2
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+
   tools/ghpages-e2e:
     dependencies:
       '@virgenherrera/profile':

@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
 import type { EducationData } from "../../types/profile.types";
-import { FormatDatePipe } from "../../pipes/format-date.pipe";
+import { FormatDatePipe } from "@virgenherrera/ui";
 
 @Component({
   selector: "app-education",
