@@ -1,26 +1,25 @@
 # Developer Guide — virgenherrera
 
 > El [README.md](README.md) es **generado automaticamente** por `tools/readme-generator`.
-> No lo edites a mano — editá `libs/profile/src/profile.json` y corré `pnpm generate:readme`.
+> No lo edites a mano — edita `libs/profile/src/profile.json` y corre `pnpm generate:readme`.
 
 ## Tabla de contenidos
 
 - [Arquitectura](#arquitectura)
+- [Echo System (OBLIGATORIO)](#echo-system-obligatorio)
 - [Setup](#setup)
 - [Variables de entorno](#variables-de-entorno)
 - [Scripts](#scripts)
+- [Supply Chain](#supply-chain)
+- [Dependency Management](#dependency-management)
 - [Apps](#apps)
-  - [apps/ghpages](#appsghpages)
 - [Tools](#tools)
-  - [tools/readme-generator](#toolsreadme-generator)
-  - [tools/ghpages-e2e](#toolsghpages-e2e)
 - [Libs](#libs)
-  - [libs/profile](#libsprofile)
-  - [libs/secrets](#libssecrets)
 - [Testing](#testing)
 - [CI/CD](#cicd)
-- [Crear una app nueva](#crear-una-app-nueva)
+- [Crear un package nuevo](#crear-un-package-nuevo)
 - [Convenciones](#convenciones)
+- [Repos de referencia](#repos-de-referencia)
 
 ---
 
@@ -28,36 +27,122 @@
 
 ```text
 virgenherrera/
-├── .github/workflows/
-│   ├── ci.yml                # Test en PRs a master
-│   └── cd.yml                # Deploy: README + GH Pages en push a master
-├── libs/
-│   ├── profile/              # Source of truth (profile.json + Zod schema)
-│   └── secrets/              # Env validation (.env → Zod → tipado)
+├── .github/
+│   ├── actions/setup/          # Composite action (pnpm + node + install)
+│   ├── workflows/ci.yml        # Test en PRs a master
+│   └── workflows/cd.yml        # Deploy: README + GH Pages en push a master
 ├── apps/
-│   └── ghpages/              # Angular 21 → portfolio prerenderizado
+│   └── ghpages/                # Angular 22 SSR → portfolio prerenderizado
+├── libs/
+│   ├── profile/                # Source of truth (profile.json + Zod schema)
+│   ├── secrets/                # .env validation con Zod
+│   └── ui/                     # Component library (directivas, pipes)
 ├── tools/
-│   ├── readme-generator/     # NestJS standalone → genera README.md
-│   └── ghpages-e2e/          # Playwright e2e (desacoplado de Angular)
-├── tsconfig.base.json        # TS compartido (strict, bundler, noEmit)
-├── eslint.config.mjs         # ESLint flat config (typescript-eslint + prettier)
-├── .lintstagedrc.json        # Auto-fix en staged files
-├── .husky/pre-commit         # Hook: lint-staged → pnpm test
-├── pnpm-workspace.yaml       # Workspace: libs/* + apps/* + tools/*
-└── .env                      # Secrets (gitignored)
+│   ├── readme-generator/       # NestJS standalone → genera README.md
+│   └── ghpages-e2e/            # Playwright e2e (desacoplado de Angular)
+├── .npmrc                      # save-exact, engine-strict, strict-peer-deps
+├── .ncurc.json                 # NCU doctor mode config
+├── tsconfig.base.json          # TS 6 strict compartido
+├── eslint.config.mjs           # ESLint 10 flat config
+├── pnpm-workspace.yaml         # Workspace + supply chain controls
+└── .env                        # Secrets (gitignored)
 ```
 
-### Flujo de datos
+**Taxonomia**: `apps/` = deployables, `libs/` = codigo compartido, `tools/` = utilidades de generacion/validacion.
+
+**Stack**: Angular 22, TypeScript 6, pnpm 11, Vitest 4, Playwright, NestJS 11 (tools), Zod 4, Tailwind 4.
+
+**Repos hermanos de referencia**: [`nest-base`](../nest-base) (autoritativo para DX/echo system), [`angular-base`](../angular-base).
+
+---
+
+## Echo System (OBLIGATORIO)
+
+> **ESTA SECCION ES LEY. Ningun agente, script o PR puede violar estos principios.**
+> El sistema de ecos viene de [nest-base](../nest-base). En caso de duda, nest-base es la referencia autoritativa.
+
+### Principio
+
+El mismo nombre de script **hace eco** en 4 niveles:
 
 ```text
-profile.json ──→ tools/readme-generator ──→ README.md (GitHub profile)
-     │
-     └─────────→ apps/ghpages ──→ Static HTML (GitHub Pages)
-                      │
-.env ──→ libs/secrets ──→ generate:recruiter-link ──→ URL con payload base64
-                                                         │
-                                                         └─→ apps/ghpages decodifica
-                                                              email + phone client-side
+NIVEL 1: Package (ejecuta)     → eslintCheck: "eslint 'src/**/*.ts'"
+NIVEL 2: Root (orquesta)       → eslintCheck: "pnpm -r run eslintCheck"
+NIVEL 3: CI steps (eco)        → - name: eslintCheck
+NIVEL 4: Pre-commit (eco)      → lintStaged && test (que llama test:static → eslintCheck)
+```
+
+### Reglas
+
+1. **Root NUNCA ejecuta herramientas directamente.** Solo orquesta via `pnpm -r run` o `pnpm --filter`.
+2. **Cada package define sus propios scripts.** El root delega, los packages ejecutan.
+3. **Deps comunes viven SOLO en root** (typescript, eslint, prettier, zod, vitest). Los packages las usan sin instalarlas.
+4. **Configs globales viven en root** (tsconfig.base.json, eslint.config.mjs, .prettierrc). Los packages extienden.
+5. **CI step names = script names.** Si el script se llama `securityCheck`, el step se llama `securityCheck`.
+6. **Versiones exact-pinned.** Sin `^`, sin `~`. Forzado por `.npmrc` con `save-exact=true`.
+
+### Scripts por nivel
+
+**Root (orquestadores):**
+
+| Script | Comando | Funcion |
+|--------|---------|---------|
+| `test` | `cleanup → test:static → test:dynamic → test:e2e → build:app` | Pipeline completo |
+| `test:static` | `securityCheck → eslintCheck → prettierCheck` | Checks estaticos |
+| `test:dynamic` | `pnpm -r run test:dynamic` | Tests reales (vitest, tsc) |
+| `test:e2e` | playwright install + ng build + playwright test | E2E contra build |
+| `test:doctor` | Igual que `test` | Gate para NCU doctor mode |
+| `build:app` | `pnpm run build:ghpages` | Build de produccion |
+| `securityCheck` | `pnpm audit --audit-level high` | Audit de seguridad (workspace) |
+| `eslintCheck` | `pnpm -r run eslintCheck` | Delega a packages |
+| `prettierCheck` | `pnpm -r run prettierCheck` | Delega a packages |
+
+**Cada package (ejecutores):**
+
+| Script | Ejemplo | Funcion |
+|--------|---------|---------|
+| `eslintCheck` | `eslint 'src/**/*.ts'` | Lint local |
+| `prettierCheck` | `prettier --check 'src/**/*.ts'` | Format check local |
+| `test:static` | `pnpm run eslintCheck && pnpm run prettierCheck` | Compone los dos anteriores |
+| `test:dynamic` | `vitest run` o `tsc --noEmit` | Test real del package |
+| `test` | `pnpm run test:static && pnpm run test:dynamic` | Pipeline local |
+| `bumpDependencies` | `pnpm dlx npm-check-updates@17` | NCU doctor (local) |
+
+**CI (ecos):**
+
+```yaml
+- name: securityCheck       # = pnpm run securityCheck
+- name: eslintCheck         # = pnpm run eslintCheck
+- name: prettierCheck       # = pnpm run prettierCheck
+- name: test:dynamic        # = pnpm run test:dynamic
+- name: test:e2e            # = pnpm run test:e2e
+- name: build:app           # = pnpm run build:app
+```
+
+### Flujo completo
+
+```text
+git commit
+  └→ pre-commit hook
+       ├→ lintStaged (prettier --write + eslint --fix en staged)
+       └→ pnpm run test
+            ├→ cleanup
+            ├→ test:static
+            │    ├→ securityCheck (pnpm audit)
+            │    ├→ eslintCheck → pnpm -r run eslintCheck
+            │    │    ├→ apps/ghpages:     eslint 'src/**/*.ts'
+            │    │    ├→ libs/profile:     eslint 'src/**/*.ts'
+            │    │    ├→ libs/secrets:     eslint 'src/**/*.ts'
+            │    │    ├→ libs/ui:          eslint 'src/**/*.ts'
+            │    │    ├→ tools/readme-gen: eslint 'src/**/*.ts'
+            │    │    └→ tools/ghpages-e2e:eslint '**/*.ts'
+            │    └→ prettierCheck → (mismo patron)
+            ├→ test:dynamic → pnpm -r run test:dynamic
+            │    ├→ apps/ghpages:     vitest run (48 tests)
+            │    ├→ libs/*:           tsc --noEmit
+            │    └→ tools/*:          tsc --noEmit
+            ├→ test:e2e → playwright install + build + 19 e2e tests
+            └→ build:app → ng build (produccion)
 ```
 
 ---
@@ -68,8 +153,10 @@ profile.json ──→ tools/readme-generator ──→ README.md (GitHub profil
 
 | Herramienta | Version |
 |-------------|---------|
-| Node.js     | >= 24   |
-| pnpm        | >= 10   |
+| Node.js     | >=24.15.0 <25 |
+| pnpm        | >=11.0.0 <12 |
+
+Ambos se validan por `.npmrc` (`engine-strict=true`) y `package.json` (`engines`).
 
 ### Instalacion
 
@@ -80,73 +167,62 @@ pnpm install
 cp .env.example .env  # editar con datos reales
 ```
 
-### Playwright (solo si vas a correr e2e)
-
-```bash
-npx playwright install chromium
-```
-
 ---
 
 ## Variables de entorno
 
-El archivo `.env` va en la raiz del repo (gitignored).
-
-| Variable         | Tipo            | Usado por                    | Descripcion                      |
-| ---------------- | --------------- | ---------------------------- | -------------------------------- |
-| `PROFILE_EMAIL`  | email valido    | `generate:recruiter-link`    | Email en el link de recruiter    |
-| `PROFILE_PHONE`  | string no vacia | `generate:recruiter-link`    | Telefono en el link de recruiter |
-| `GITHUB_TOKEN`   | string opcional | `generate:readme`            | GitHub API (mas rate limit)      |
-
-`PROFILE_EMAIL` y `PROFILE_PHONE` se validan con Zod via `libs/secrets`.
-Estos datos **nunca** se commitean ni se incluyen en el bundle — viajan
-codificados en base64 dentro del hash de la URL del recruiter link.
+| Variable | Tipo | Usado por | Descripcion |
+|----------|------|-----------|-------------|
+| `PROFILE_EMAIL` | email valido | `generate:recruiter-link` | Email en el link de recruiter |
+| `PROFILE_PHONE` | string no vacia | `generate:recruiter-link` | Telefono en el link de recruiter |
+| `GITHUB_TOKEN` | string opcional | `generate:readme` | GitHub API (mas rate limit) |
 
 ---
 
 ## Scripts
 
-### Root
+Ver [Echo System](#echo-system-obligatorio) para la tabla completa de scripts y su jerarquia.
 
-| Script                          | Descripcion                                       |
-| ------------------------------- | ------------------------------------------------- |
-| `pnpm test`                     | Pipeline completo: cleanup → lint → tests → types |
-| `pnpm test:static`              | ESLint + Prettier check                           |
-| `pnpm test:types`               | `tsc --noEmit` en todos los packages              |
-| `pnpm generate:readme`          | Genera README.md desde profile + GitHub API       |
-| `pnpm generate:all`             | Corre todas las apps                              |
-| `pnpm generate:recruiter-link`  | Genera URL con secrets encoded para recruiters    |
-| `pnpm build:ghpages`            | Build prerenderizado del portfolio                |
-| `pnpm cleanup`                  | Borra `coverage/`                                 |
+---
 
-### Scripts de apps/ghpages
+## Supply Chain
 
-| Script          | Descripcion                                   |
-| --------------- | --------------------------------------------- |
-| `start`         | `ng serve` (dev server con HMR)               |
-| `build`         | `ng build` (prerender estatico)               |
-| `test`          | lint (ESLint + Prettier)                      |
-| `test:static`   | ESLint + Prettier en `src/`                   |
-| `cleanup`       | Borra `.angular/`, `dist/`                    |
-| `generate:link` | Genera recruiter URL desde `.env`             |
+Configurado en `.npmrc` y `pnpm-workspace.yaml`:
 
-### Scripts de tools/readme-generator
+| Control | Valor | Efecto |
+|---------|-------|--------|
+| `save-exact=true` | `.npmrc` | Todas las deps se instalan sin `^` |
+| `engine-strict=true` | `.npmrc` | Aborta install si Node/pnpm no coincide con `engines` |
+| `strict-peer-dependencies=true` | `.npmrc` | Falla si peers no se satisfacen |
+| `minimumReleaseAge: 1440` | `pnpm-workspace.yaml` | Bloquea packages publicados hace menos de 24h |
+| `allowBuilds` | `pnpm-workspace.yaml` | Whitelist de packages con postinstall permitido |
+| `auditConfig.ignoreCves` | `pnpm-workspace.yaml` | CVEs ignorados (actualmente vacio) |
 
-| Script        | Descripcion                       |
-| ------------- | --------------------------------- |
-| `start`       | NestJS standalone → genera README |
-| `test:static` | ESLint + Prettier                 |
-| `test:types`  | `tsc --noEmit`                    |
-| `test`        | lint + types                      |
+---
 
-### Scripts de tools/ghpages-e2e
+## Dependency Management
 
-| Script        | Descripcion                                  |
-| ------------- | -------------------------------------------- |
-| `test`        | Playwright tests contra el build de ghpages  |
-| `test:headed` | Playwright tests en modo headed (con UI)     |
-| `test:static` | ESLint + Prettier                            |
-| `test:types`  | `tsc --noEmit`                               |
+### Bump routine
+
+```bash
+pnpm run bumpDependencies
+```
+
+Pipeline: `securityFix → ncu@17 (root, doctor mode) → ncu@17 (cada package, doctor mode) → securityFix`
+
+NCU doctor mode prueba cada dep individualmente: bump → `test:doctor` → si falla, revierte.
+
+Configurado en `.ncurc.json` (root y cada package):
+- `"doctor": true` — modo doctor activado
+- `"doctorTest": "pnpm run test:doctor"` (root) o `"pnpm run test"` (packages)
+- `"reject": ["pnpm"]` — pnpm se bumpa via `pnpm run updatePnpm` (`corepack up`)
+- `"enginesNode": true` — respeta `engines.node`
+
+### Bump pnpm
+
+```bash
+pnpm run updatePnpm   # corepack up — actualiza packageManager con sha512
+```
 
 ---
 
@@ -154,49 +230,11 @@ codificados en base64 dentro del hash de la URL del recruiter link.
 
 ### apps/ghpages
 
-Angular 21 portfolio prerenderizado para GitHub Pages.
+Angular 22 portfolio prerenderizado para GitHub Pages. Zoneless, standalone, signals nativos.
+
+**Stack**: Angular 22, native signals, Tailwind CSS 4, jsPDF
+
 Ver detalles en el [README de ghpages](apps/ghpages/README.md).
-
-**Stack**: Angular 21, @ngrx/signals, Tailwind CSS v4, jsPDF
-
-**Caracteristicas**:
-
-- **Zoneless** — `provideZonelessChangeDetection()` (sin zone.js)
-- **Prerender** — Solo `/` se prerenderiza (HTML estatico)
-- **Privacy gate** — URL con hash base64 revela email + telefono
-- **Dark/Light toggle** — Class-based con Tailwind `@custom-variant dark`
-- **PDF resume** — jsPDF genera PDF ATS-friendly con texto real justificado
-- **Tailwind v4** — Requiere `.postcssrc.json` (Angular no lo detecta automaticamente)
-- **Scroll reveal** — `ScrollRevealDirective` con IntersectionObserver (cada item individualmente)
-- **Lazy hydration** — `@defer (on viewport)` para experience y projects
-- **Public/Private views** — public trimmed (2 oraciones, 150 chars), private completo con fade-in
-- **FAB CTA** — boton flotante LinkedIn en vista publica (aparece tras scroll)
-
-**Formato de descriptions** (`profile.json`):
-
-```json
-"description": [
-  "Parrafo introductorio del rol.",
-  "*Logro 1 con metricas cuantificables.",
-  "*Logro 2 con impacto tecnico.",
-  "Parrafo de cierre opcional."
-]
-```
-
-Items con `*` se renderizan como bullets, sin `*` como parrafos.
-
-**Privacidad via URL**:
-
-```bash
-# Generar link para recruiters
-pnpm generate:recruiter-link
-
-# Resultado ejemplo:
-# https://virgenherrera.github.io/virgenherrera/#eyJlbWFp...
-```
-
-El hash contiene `{ email, phone }` en base64. El `ProfileStore` decodifica,
-valida con Zod, y revela los datos. Hash invalido → snackbar + vista publica.
 
 ---
 
@@ -204,52 +242,15 @@ valida con Zod, y revela los datos. Hash invalido → snackbar + vista publica.
 
 ### tools/readme-generator
 
-NestJS standalone app (`NestFactory.createApplicationContext`). Lee `libs/profile`,
-consulta la GitHub API via `@nestjs/axios` + RxJS, valida con Zod, genera mermaid
-diagrams (timeline + pie chart), y escribe `README.md`.
+NestJS standalone que genera README.md. Usa native `fetch` (Node 24) para la GitHub API, valida con Zod.
 
-**Stack**: NestJS, @nestjs/axios, RxJS, Zod
-
-Ver detalles en el [README del proyecto](tools/readme-generator/README.md).
+**Stack**: NestJS 11, Zod, native fetch
 
 ### tools/ghpages-e2e
 
-E2E tests desacoplados de Angular. Corren contra el build de produccion
-via `http-server`, simulando el entorno real de GitHub Pages.
+E2E tests desacoplados de Angular. Corren contra el build estatico via `http-server`.
 
 **Stack**: Playwright, http-server
-
-```text
-tools/ghpages-e2e/
-├── scenarios.ts              # Const enums: SeoScenario, HeroScenario, PrivateScenario
-├── helpers/
-│   ├── hero.page.ts          # POM del hero interactivo (canvas, scroll helpers)
-│   └── portfolio.page.ts     # POM del portfolio (secciones, contacto, navegacion)
-└── specs/
-    ├── prerender.spec.ts     # SEO: HTML crudo sin JS (como un crawler)
-    ├── interactive.spec.ts   # Hero: lifecycle client-only (mount/unmount/canvas)
-    └── private-view.spec.ts  # Privacidad: payload base64, email, phone, snackbar
-```
-
-Los e2e estan divididos en **3 suites alineadas a la arquitectura**:
-
-| Suite | Archivo | Que valida |
-| ----- | ------- | ---------- |
-| SEO / Prerender | `prerender.spec.ts` | HTML prerenderizado es SEO-ready. Usa `request` API (HTTP GET crudo, sin JS) para simular un crawler. Valida meta tags, titulo, secciones, y que NO haya contenido client-only ni datos privados |
-| Interactive Hero | `interactive.spec.ts` | Lifecycle del hero interactivo (solo existe en browser). Mount post-bootstrap, canvas, scroll indicator, unmount via IntersectionObserver, remount al volver |
-| Private View | `private-view.spec.ts` | Sistema de privacidad via hash base64. Email/phone revelados, boton PDF habilitado, snackbar en hash invalido, auto-dismiss del snackbar |
-
-**Patrones**:
-
-- **POM (Page Object Model)**: `PortfolioPage` y `HeroPage` con getter-based locators
-- **AAA (Arrange, Act, Assert)**: Todos los tests siguen este patron con comentarios explicitos
-- **Const enum scenarios**: Centralizados en `scenarios.ts` — los tests se leen como `test(Scenario.Name, ...)`
-- **Scroll helpers**: `scrollToPortfolio()`, `scrollToContact()` en PortfolioPage; `scrollPastHero()`, `scrollToTop()` en HeroPage — scroll basado en elementos, no pixeles arbitrarios
-
-El root script `pnpm test:e2e` primero hace build de ghpages y luego corre los tests:
-`pnpm --filter @virgenherrera/app-ghpages build && pnpm --filter @virgenherrera/tool-ghpages-e2e test`
-
-Reportes: HTML (`playwright-report/`) + JUnit XML (`test-results/junit.xml`).
 
 ---
 
@@ -257,55 +258,31 @@ Reportes: HTML (`playwright-report/`) + JUnit XML (`test-results/junit.xml`).
 
 ### libs/profile
 
-Source of truth del perfil profesional.
-
-- `profile.json` — datos publicos (nombre, headline, experiencia, skills)
-- `schema.ts` — Zod schema que valida e infiere tipos
-- `getProfile()` — lee + valida + retorna tipado
-
-**Importante**: `getProfile()` usa `readFileSync` — solo funciona en Node.js.
-Para Angular (browser), importar `profile.json` directo con `resolveJsonModule`.
-
-Ver detalles en el [README de profile](libs/profile/README.md).
+Source of truth del perfil profesional. `profile.json` + Zod schema + `getProfile()`.
 
 ### libs/secrets
 
-Lee `.env`, valida con Zod, exporta tipado.
+Lee `.env`, valida con Zod, exporta tipado. `PROFILE_EMAIL` + `PROFILE_PHONE`.
 
-- `PROFILE_EMAIL` + `PROFILE_PHONE`
-- `getSecrets(envPath?)` — valida y retorna o tira error descriptivo
+### libs/ui
 
-Ver detalles en el [README de secrets](libs/secrets/README.md).
+Component library compartida. `ScrollRevealDirective` + `FormatDatePipe`.
 
 ---
 
 ## Testing
 
-### Pipeline completo
-
 ```bash
-pnpm test
+pnpm test   # pipeline completo
 ```
 
-Ejecuta en orden: cleanup → eslint + prettier → tests por package → tsc types.
-
-Cada package define su propio `test` script:
-
-| Package                | Pipeline                              |
-| ---------------------- | ------------------------------------- |
-| libs/*                 | `test:static` → `test:types`          |
-| apps/ghpages           | `test:static`                         |
-| tools/readme-generator | `test:static` → `test:types`          |
-| tools/ghpages-e2e      | Playwright (via root `test:e2e`)      |
-
-### Pre-commit hook
-
-Husky intercepta cada commit:
-
-1. **lint-staged** — prettier + eslint --fix en staged files
-2. **pnpm test** — pipeline completo
-
-Si falla, el commit se bloquea.
+| Package | test:dynamic | Que corre |
+|---------|-------------|-----------|
+| apps/ghpages | `vitest run` | 48 unit tests |
+| libs/* | `tsc --noEmit` | Type checking |
+| tools/readme-generator | `tsc --noEmit` | Type checking |
+| tools/ghpages-e2e | `tsc --noEmit` | Type checking |
+| (root test:e2e) | `playwright test` | 19 e2e tests |
 
 ---
 
@@ -313,47 +290,62 @@ Si falla, el commit se bloquea.
 
 ### CI (`ci.yml`)
 
-- **Trigger**: PRs a `master`
-- **Que hace**: pnpm install → Playwright install → `pnpm test`
-- **Artifacts**: Playwright report en caso de fallo
+Trigger: PRs a `master`. Steps son ecos del echo system:
+
+`securityCheck → eslintCheck → prettierCheck → test:dynamic → test:e2e → build:app`
+
+Cada step echa resultado a `$GITHUB_STEP_SUMMARY`. Usa composite action `.github/actions/setup`.
 
 ### CD (`cd.yml`)
 
-- **Trigger**: push a `master`
-- **Jobs**:
-  1. **test** — mismo pipeline que CI
-  2. **generate-readme** — genera y auto-commitea README.md (si cambió)
-  3. **deploy-ghpages** — build + deploy via `actions/deploy-pages`
+Trigger: push a `master`. Stages:
 
-**Nota**: habilitar Pages en repo settings → Source: GitHub Actions.
+1. **test** — mismo pipeline que CI
+2. **build** (parallel) — `build-readme` + `build-ghpages`
+3. **tag** — `deploy-YYYY-MM-DD-HHMM`
+4. **deploy** (parallel) — `deploy-readme` (auto-commit) + `deploy-ghpages` (GitHub Pages)
 
 ---
 
-## Crear una app nueva
+## Crear un package nuevo
 
-### tsx tool (como tools/readme-generator)
+### Tool (como tools/readme-generator)
 
 ```bash
-mkdir -p apps/mi-app/src
+mkdir -p tools/mi-tool/src
 ```
 
-`package.json`:
+`package.json` (OBLIGATORIO seguir echo system):
 
 ```json
 {
-  "name": "@virgenherrera/app-mi-app",
+  "name": "@virgenherrera/tool-mi-tool",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "tsx src/main.ts",
-    "test:static": "eslint 'src/**/*.ts' && prettier --check 'src/**/*.ts'",
-    "test:types": "tsc --noEmit",
-    "test": "pnpm run test:static && pnpm run test:types"
-  },
-  "dependencies": {
-    "@virgenherrera/profile": "workspace:*"
+    "eslintCheck": "eslint 'src/**/*.ts'",
+    "prettierCheck": "prettier --check 'src/**/*.ts'",
+    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
+    "test:dynamic": "tsc --noEmit",
+    "test": "pnpm run test:static && pnpm run test:dynamic",
+    "bumpDependencies": "pnpm dlx npm-check-updates@17"
   }
+}
+```
+
+`.ncurc.json`:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json",
+  "doctor": true,
+  "doctorTest": "pnpm run test",
+  "enginesNode": true,
+  "format": ["group"],
+  "packageManager": "pnpm",
+  "upgrade": true
 }
 ```
 
@@ -362,25 +354,10 @@ mkdir -p apps/mi-app/src
 ```json
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": { "rootDir": "./src" },
+  "compilerOptions": { "rootDir": "./src", "types": ["node"] },
   "include": ["src/**/*.ts"]
 }
 ```
-
-### Angular app (como apps/ghpages)
-
-```bash
-pnpm dlx @angular/cli@latest new mi-app --directory apps/mi-app --package-manager pnpm --ssr --skip-git --skip-tests
-```
-
-Post-scaffold:
-
-1. Renombrar package a `@virgenherrera/app-mi-app`
-2. tsconfig.json extiende `../../tsconfig.base.json`
-3. tsconfig.app.json agrega `noEmit: false`, `allowImportingTsExtensions: false`
-4. Crear `.postcssrc.json` para Tailwind
-5. Crear `eslint.config.mjs` local (root ignora apps/ghpages/)
-6. Agregar scripts estandar: `test:static`, `test:e2e`, `test`, `cleanup`
 
 ---
 
@@ -388,14 +365,26 @@ Post-scaffold:
 
 | Regla | Detalle |
 |-------|---------|
-| TypeScript | strict, cero `any` |
-| Module resolution | `bundler` (unificado para tsx + Angular) |
-| Package manager | pnpm strict |
+| TypeScript | strict, zero `any`, TS 6 requiere `types` explicitos en tsconfig |
+| Deps | exact-pinned (`save-exact=true`), NUNCA `^` ni `~` |
+| Echo system | Scripts con mismos nombres en package → root → CI (ver seccion) |
+| Module resolution | `bundler` |
+| Package manager | pnpm 11 strict, `packageManager` con sha512 |
 | Commits | conventional commits (`tipo(scope): descripcion`) |
 | ESM | `"type": "module"` en todos los packages |
 | Validacion | Zod 4 para schemas, env vars, API responses |
-| Datos sensibles | `.env` gitignored, nunca en JSON ni en el bundle |
-| E2E | Playwright con POM (getter locators) + AAA pattern |
-| CI/CD | GitHub Actions (ci.yml para PRs, cd.yml para deploy) |
+| Supply chain | 24h quarantine, allowBuilds whitelist, pnpm audit |
+| Referencia | nest-base es autoritativo para DX patterns |
+
+---
+
+## Repos de referencia
+
+| Repo | Path | Que tomar |
+|------|------|-----------|
+| **nest-base** | `../nest-base` | **Autoritativo**: echo system, supply chain, NCU doctor, CI patterns, pre-commit |
+| angular-base | `../angular-base` | Angular patterns, Vitest config, budgets (verificar contra nest-base si hay discrepancia) |
+
+> **IMPORTANTE**: Si angular-base y nest-base difieren, nest-base gana. angular-base puede haber sido modificado incorrectamente.
 
 [Volver arriba](#developer-guide--virgenherrera)
