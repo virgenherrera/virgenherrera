@@ -21,7 +21,7 @@
     "test": "pnpm run cleanup && pnpm run test:static && pnpm run test:dynamic && pnpm run test:e2e && pnpm run build:app",
     "test:static": "pnpm run securityCheck && pnpm run eslintCheck && pnpm run prettierCheck",
     "test:dynamic": "pnpm -r run test:dynamic",
-    "test:e2e": "pnpm --filter @virgenherrera/app-ghpages exec ng build --base-href / && pnpm --filter @virgenherrera/tool-ghpages-e2e run test:e2e",
+    "test:e2e": "pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium && pnpm --filter @virgenherrera/app-ghpages exec ng build --base-href / && pnpm --filter @virgenherrera/tool-ghpages-e2e run test:e2e",
     "test:doctor": "pnpm run cleanup && pnpm run test:static && pnpm run test:dynamic && pnpm run test:e2e && pnpm run build:app",
     "securityCheck": "pnpm audit --audit-level high",
     "eslintCheck": "pnpm -r run eslintCheck",
