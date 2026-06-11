@@ -23,6 +23,11 @@ interface ResumeData {
   languages: LanguageData[];
 }
 
+interface PdfRenderContext {
+  doc: jsPDF;
+  y: number;
+}
+
 const PAGE_WIDTH = 210;
 const MARGIN = 20;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
@@ -37,59 +42,67 @@ const FONT_SIZES = {
 
 @Injectable({ providedIn: "root" })
 export class PdfGeneratorService {
-  private doc!: jsPDF;
-  private y = 0;
-
   async download(data: ResumeData): Promise<void> {
     const { jsPDF } = await import("jspdf");
-    this.doc = new jsPDF({ unit: "mm", format: "a4" });
-    this.y = MARGIN;
+    let ctx: PdfRenderContext = {
+      doc: new jsPDF({ unit: "mm", format: "a4" }),
+      y: MARGIN,
+    };
 
-    this.renderHeader(data);
-    this.renderSection("Professional Summary", () => {
-      this.renderBody(data.summary);
-    });
-    this.renderSection("Work Experience", () => {
-      this.renderExperience(data.experience);
-    });
-    this.renderSection("Education", () => {
-      this.renderEducation(data.education);
-    });
-    this.renderSection("Skills", () => {
-      this.renderSkills(data.skills);
-    });
-    this.renderSection("Languages", () => {
-      this.renderLanguages(data.languages);
-    });
+    ctx = this.renderHeader(ctx, data);
+    ctx = this.renderSection(ctx, "Professional Summary", (c) =>
+      this.renderBody(c, data.summary),
+    );
+    ctx = this.renderSection(ctx, "Work Experience", (c) =>
+      this.renderExperience(c, data.experience),
+    );
+    ctx = this.renderSection(ctx, "Education", (c) =>
+      this.renderEducation(c, data.education),
+    );
+    ctx = this.renderSection(ctx, "Skills", (c) =>
+      this.renderSkills(c, data.skills),
+    );
+    ctx = this.renderSection(ctx, "Languages", (c) =>
+      this.renderLanguages(c, data.languages),
+    );
 
-    this.doc.save("hugo-virgen-herrera-resume.pdf");
+    ctx.doc.save("hugo-virgen-herrera-resume.pdf");
   }
 
-  private renderHeader(data: ResumeData): void {
+  private renderHeader(
+    ctx: PdfRenderContext,
+    data: ResumeData,
+  ): PdfRenderContext {
     const center = PAGE_WIDTH / 2;
 
-    this.doc.setFontSize(FONT_SIZES.name);
-    this.doc.setFont("helvetica", "bold");
-    this.doc.text(data.name, center, this.y, { align: "center" });
-    this.y += 8;
+    ctx.doc.setFontSize(FONT_SIZES.name);
+    ctx.doc.setFont("helvetica", "bold");
+    ctx.doc.text(data.name, center, ctx.y, { align: "center" });
+    ctx = { ...ctx, y: ctx.y + 8 };
 
-    this.doc.setFontSize(FONT_SIZES.body);
-    this.doc.setFont("helvetica", "normal");
-    this.doc.setTextColor(100);
-    this.doc.text(data.headline, center, this.y, { align: "center" });
-    this.y += LINE_HEIGHT + 2;
+    ctx.doc.setFontSize(FONT_SIZES.body);
+    ctx.doc.setFont("helvetica", "normal");
+    ctx.doc.setTextColor(100);
+    ctx.doc.text(data.headline, center, ctx.y, { align: "center" });
+    ctx = { ...ctx, y: ctx.y + LINE_HEIGHT + 2 };
 
-    this.doc.setFontSize(FONT_SIZES.small);
-    this.renderHeaderContacts(data, center);
+    ctx.doc.setFontSize(FONT_SIZES.small);
+    ctx = this.renderHeaderContacts(ctx, data, center);
 
-    this.doc.setTextColor(0);
-    this.y += 2;
-    this.doc.setDrawColor(200);
-    this.doc.line(MARGIN, this.y, PAGE_WIDTH - MARGIN, this.y);
-    this.y += SECTION_GAP;
+    ctx.doc.setTextColor(0);
+    ctx = { ...ctx, y: ctx.y + 2 };
+    ctx.doc.setDrawColor(200);
+    ctx.doc.line(MARGIN, ctx.y, PAGE_WIDTH - MARGIN, ctx.y);
+    ctx = { ...ctx, y: ctx.y + SECTION_GAP };
+
+    return ctx;
   }
 
-  private renderHeaderContacts(data: ResumeData, center: number): void {
+  private renderHeaderContacts(
+    ctx: PdfRenderContext,
+    data: ResumeData,
+    center: number,
+  ): PdfRenderContext {
     const items: { text: string; url?: string }[] = [{ text: data.location }];
 
     if (data.email) {
@@ -104,190 +117,226 @@ export class PdfGeneratorService {
 
     const separator = "  |  ";
     const fullText = items.map((i) => i.text).join(separator);
-    const fullWidth = this.doc.getTextWidth(fullText);
+    const fullWidth = ctx.doc.getTextWidth(fullText);
     let x = center - fullWidth / 2;
 
     items.forEach((item, idx) => {
-      const textWidth = this.doc.getTextWidth(item.text);
+      const textWidth = ctx.doc.getTextWidth(item.text);
 
       if (item.url) {
-        this.doc.setTextColor(0, 0, 180);
-        this.doc.textWithLink(item.text, x, this.y, { url: item.url });
+        ctx.doc.setTextColor(0, 0, 180);
+        ctx.doc.textWithLink(item.text, x, ctx.y, { url: item.url });
       } else {
-        this.doc.setTextColor(100);
-        this.doc.text(item.text, x, this.y);
+        ctx.doc.setTextColor(100);
+        ctx.doc.text(item.text, x, ctx.y);
       }
 
       x += textWidth;
 
       if (idx < items.length - 1) {
-        this.doc.setTextColor(100);
-        this.doc.text(separator, x, this.y);
-        x += this.doc.getTextWidth(separator);
+        ctx.doc.setTextColor(100);
+        ctx.doc.text(separator, x, ctx.y);
+        x += ctx.doc.getTextWidth(separator);
       }
     });
 
-    this.doc.setTextColor(100);
-    this.y += LINE_HEIGHT;
+    ctx.doc.setTextColor(100);
+
+    return { ...ctx, y: ctx.y + LINE_HEIGHT };
   }
 
-  private renderSection(title: string, content: () => void): void {
-    this.checkPageBreak(20);
+  private renderSection(
+    ctx: PdfRenderContext,
+    title: string,
+    content: (ctx: PdfRenderContext) => PdfRenderContext,
+  ): PdfRenderContext {
+    ctx = this.checkPageBreak(ctx, 20);
 
-    this.doc.setFontSize(FONT_SIZES.sectionTitle);
-    this.doc.setFont("helvetica", "bold");
-    this.doc.setTextColor(0);
-    this.doc.text(title.toUpperCase(), MARGIN, this.y);
-    this.y += 2;
-    this.doc.setDrawColor(220);
-    this.doc.line(MARGIN, this.y, PAGE_WIDTH - MARGIN, this.y);
-    this.y += LINE_HEIGHT;
+    ctx.doc.setFontSize(FONT_SIZES.sectionTitle);
+    ctx.doc.setFont("helvetica", "bold");
+    ctx.doc.setTextColor(0);
+    ctx.doc.text(title.toUpperCase(), MARGIN, ctx.y);
+    ctx = { ...ctx, y: ctx.y + 2 };
+    ctx.doc.setDrawColor(220);
+    ctx.doc.line(MARGIN, ctx.y, PAGE_WIDTH - MARGIN, ctx.y);
+    ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
 
-    this.doc.setFont("helvetica", "normal");
-    this.doc.setFontSize(FONT_SIZES.body);
-    content();
-    this.y += SECTION_GAP;
+    ctx.doc.setFont("helvetica", "normal");
+    ctx.doc.setFontSize(FONT_SIZES.body);
+    ctx = content(ctx);
+    ctx = { ...ctx, y: ctx.y + SECTION_GAP };
+
+    return ctx;
   }
 
-  private renderExperience(experiences: ExperienceData[]): void {
-    experiences.forEach((exp) => {
-      this.checkPageBreak(25);
+  private renderExperience(
+    ctx: PdfRenderContext,
+    experiences: ExperienceData[],
+  ): PdfRenderContext {
+    for (const exp of experiences) {
+      ctx = this.checkPageBreak(ctx, 25);
 
-      this.doc.setFont("helvetica", "bold");
-      this.doc.setFontSize(FONT_SIZES.body);
-      this.doc.text(exp.role, MARGIN, this.y);
+      ctx.doc.setFont("helvetica", "bold");
+      ctx.doc.setFontSize(FONT_SIZES.body);
+      ctx.doc.text(exp.role, MARGIN, ctx.y);
 
       const dateRange = `${this.fmtDate(exp.startDate)} — ${this.fmtDate(exp.endDate)}`;
-      this.doc.setFont("helvetica", "normal");
-      this.doc.setTextColor(100);
-      const dateWidth = this.doc.getTextWidth(dateRange);
-      this.doc.text(dateRange, PAGE_WIDTH - MARGIN - dateWidth, this.y);
-      this.y += LINE_HEIGHT;
+      ctx.doc.setFont("helvetica", "normal");
+      ctx.doc.setTextColor(100);
+      const dateWidth = ctx.doc.getTextWidth(dateRange);
+      ctx.doc.text(dateRange, PAGE_WIDTH - MARGIN - dateWidth, ctx.y);
+      ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
 
-      this.doc.setFontSize(FONT_SIZES.small);
-      this.doc.text(exp.company, MARGIN, this.y);
-      this.y += LINE_HEIGHT;
+      ctx.doc.setFontSize(FONT_SIZES.small);
+      ctx.doc.text(exp.company, MARGIN, ctx.y);
+      ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
 
-      this.doc.setTextColor(60);
+      ctx.doc.setTextColor(60);
       for (const item of exp.description) {
         if (item.startsWith("*")) {
           const bulletIndent = 4;
-          this.doc.text("\u2022", MARGIN + 1, this.y);
-          this.textJustified(
+          ctx.doc.text("•", MARGIN + 1, ctx.y);
+          ctx = this.textJustified(
+            ctx,
             item.slice(1).trim(),
             MARGIN + bulletIndent,
             CONTENT_WIDTH - bulletIndent,
           );
         } else {
-          this.textJustified(item, MARGIN, CONTENT_WIDTH);
+          ctx = this.textJustified(ctx, item, MARGIN, CONTENT_WIDTH);
         }
       }
 
       if (exp.technologies.length > 0) {
-        this.y += 2;
-        this.doc.setTextColor(120);
-        this.doc.setFontSize(FONT_SIZES.small);
-        const techLines = this.doc.splitTextToSize(
+        ctx = { ...ctx, y: ctx.y + 2 };
+        ctx.doc.setTextColor(120);
+        ctx.doc.setFontSize(FONT_SIZES.small);
+        const techLines = ctx.doc.splitTextToSize(
           exp.technologies.join(" · "),
           CONTENT_WIDTH,
         ) as string[];
-        this.doc.text(techLines, MARGIN, this.y);
-        this.y += techLines.length * (LINE_HEIGHT - 1);
+        ctx.doc.text(techLines, MARGIN, ctx.y);
+        ctx = { ...ctx, y: ctx.y + techLines.length * (LINE_HEIGHT - 1) };
       }
 
-      this.doc.setTextColor(0);
-      this.y += 4;
-    });
+      ctx.doc.setTextColor(0);
+      ctx = { ...ctx, y: ctx.y + 4 };
+    }
+
+    return ctx;
   }
 
-  private renderEducation(education: EducationData[]): void {
-    education.forEach((edu) => {
-      this.checkPageBreak(15);
+  private renderEducation(
+    ctx: PdfRenderContext,
+    education: EducationData[],
+  ): PdfRenderContext {
+    for (const edu of education) {
+      ctx = this.checkPageBreak(ctx, 15);
 
-      this.doc.setFont("helvetica", "bold");
-      this.doc.setFontSize(FONT_SIZES.body);
-      this.doc.text(edu.degreeTranslation, MARGIN, this.y);
+      ctx.doc.setFont("helvetica", "bold");
+      ctx.doc.setFontSize(FONT_SIZES.body);
+      ctx.doc.text(edu.degreeTranslation, MARGIN, ctx.y);
 
-      this.doc.setFont("helvetica", "normal");
-      this.doc.setTextColor(100);
+      ctx.doc.setFont("helvetica", "normal");
+      ctx.doc.setTextColor(100);
       const dateRange = `${this.fmtDate(edu.startDate)} – ${this.fmtDate(edu.graduationDate)}`;
-      const yearWidth = this.doc.getTextWidth(dateRange);
-      this.doc.text(dateRange, PAGE_WIDTH - MARGIN - yearWidth, this.y);
-      this.y += LINE_HEIGHT;
+      const yearWidth = ctx.doc.getTextWidth(dateRange);
+      ctx.doc.text(dateRange, PAGE_WIDTH - MARGIN - yearWidth, ctx.y);
+      ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
 
-      this.doc.setFontSize(FONT_SIZES.small);
-      this.doc.text(`${edu.institution} — ${edu.location}`, MARGIN, this.y);
-      this.y += LINE_HEIGHT;
+      ctx.doc.setFontSize(FONT_SIZES.small);
+      ctx.doc.text(`${edu.institution} — ${edu.location}`, MARGIN, ctx.y);
+      ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
 
       if (edu.honors) {
-        this.doc.setTextColor(60);
-        this.doc.text(edu.honors, MARGIN, this.y);
-        this.y += LINE_HEIGHT;
+        ctx.doc.setTextColor(60);
+        ctx.doc.text(edu.honors, MARGIN, ctx.y);
+        ctx = { ...ctx, y: ctx.y + LINE_HEIGHT };
       }
 
-      this.doc.setTextColor(0);
-      this.y += 2;
-    });
+      ctx.doc.setTextColor(0);
+      ctx = { ...ctx, y: ctx.y + 2 };
+    }
+
+    return ctx;
   }
 
-  private renderSkills(skills: SkillCategoryData[]): void {
-    skills.forEach((category) => {
-      this.checkPageBreak(10);
-      this.doc.setFont("helvetica", "bold");
-      this.doc.text(`${category.category}: `, MARGIN, this.y);
-      const labelWidth = this.doc.getTextWidth(`${category.category}: `);
-      this.doc.setFont("helvetica", "normal");
-      this.doc.setTextColor(80);
-      const skillLines = this.doc.splitTextToSize(
+  private renderSkills(
+    ctx: PdfRenderContext,
+    skills: SkillCategoryData[],
+  ): PdfRenderContext {
+    for (const category of skills) {
+      ctx = this.checkPageBreak(ctx, 10);
+      ctx.doc.setFont("helvetica", "bold");
+      ctx.doc.text(`${category.category}: `, MARGIN, ctx.y);
+      const labelWidth = ctx.doc.getTextWidth(`${category.category}: `);
+      ctx.doc.setFont("helvetica", "normal");
+      ctx.doc.setTextColor(80);
+      const skillLines = ctx.doc.splitTextToSize(
         category.skills.join(", "),
         CONTENT_WIDTH - labelWidth,
       ) as string[];
-      this.doc.text(skillLines, MARGIN + labelWidth, this.y);
-      this.y += Math.max(skillLines.length, 1) * LINE_HEIGHT;
-      this.doc.setTextColor(0);
-    });
+      ctx.doc.text(skillLines, MARGIN + labelWidth, ctx.y);
+      ctx = { ...ctx, y: ctx.y + Math.max(skillLines.length, 1) * LINE_HEIGHT };
+      ctx.doc.setTextColor(0);
+    }
+
+    return ctx;
   }
 
-  private renderLanguages(languages: LanguageData[]): void {
+  private renderLanguages(
+    ctx: PdfRenderContext,
+    languages: LanguageData[],
+  ): PdfRenderContext {
     const text = languages
       .map((l) => `${l.language} — ${l.proficiency}`)
       .join("    ");
-    this.doc.text(text, MARGIN, this.y);
-    this.y += LINE_HEIGHT;
+    ctx.doc.text(text, MARGIN, ctx.y);
+
+    return { ...ctx, y: ctx.y + LINE_HEIGHT };
   }
 
-  private renderBody(text: string): void {
-    this.doc.setTextColor(60);
-    this.textJustified(text, MARGIN, CONTENT_WIDTH);
-    this.doc.setTextColor(0);
+  private renderBody(ctx: PdfRenderContext, text: string): PdfRenderContext {
+    ctx.doc.setTextColor(60);
+    ctx = this.textJustified(ctx, text, MARGIN, CONTENT_WIDTH);
+    ctx.doc.setTextColor(0);
+
+    return ctx;
   }
 
-  private textJustified(text: string, x: number, width: number): void {
-    const lines = this.doc.splitTextToSize(text, width) as string[];
+  private textJustified(
+    ctx: PdfRenderContext,
+    text: string,
+    x: number,
+    width: number,
+  ): PdfRenderContext {
+    const lines = ctx.doc.splitTextToSize(text, width) as string[];
 
-    lines.forEach((line, idx) => {
-      this.checkPageBreak(LINE_HEIGHT);
+    for (const [idx, line] of lines.entries()) {
+      ctx = this.checkPageBreak(ctx, LINE_HEIGHT);
       const isLast = idx === lines.length - 1;
       const words = line.split(/\s+/).filter(Boolean);
 
       if (isLast || words.length <= 1) {
-        this.doc.text(line, x, this.y);
+        ctx.doc.text(line, x, ctx.y);
       } else {
         const wordsWidth = words.reduce(
-          (sum, w) => sum + this.doc.getTextWidth(w),
+          (sum, w) => sum + ctx.doc.getTextWidth(w),
           0,
         );
         const gap = (width - wordsWidth) / (words.length - 1);
         let cx = x;
 
         words.forEach((word) => {
-          this.doc.text(word, cx, this.y);
-          cx += this.doc.getTextWidth(word) + gap;
+          ctx.doc.text(word, cx, ctx.y);
+          cx += ctx.doc.getTextWidth(word) + gap;
         });
       }
 
-      this.y += LINE_HEIGHT - 1;
-    });
+      ctx = { ...ctx, y: ctx.y + LINE_HEIGHT - 1 };
+    }
+
+    return ctx;
   }
 
   private fmtDate(value: string | undefined): string {
@@ -298,10 +347,16 @@ export class PdfGeneratorService {
     return format(parse(value, "yyyy-MM", new Date()), "MMM yyyy");
   }
 
-  private checkPageBreak(needed: number): void {
-    if (this.y + needed > 280) {
-      this.doc.addPage();
-      this.y = MARGIN;
+  private checkPageBreak(
+    ctx: PdfRenderContext,
+    needed: number,
+  ): PdfRenderContext {
+    if (ctx.y + needed > 280) {
+      ctx.doc.addPage();
+
+      return { ...ctx, y: MARGIN };
     }
+
+    return ctx;
   }
 }

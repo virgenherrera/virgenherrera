@@ -151,11 +151,6 @@ const minimalResumeData: ResumeData = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Access private state fields (r/w) without using `any`. */
-function privState(service: PdfGeneratorService): Record<string, unknown> {
-  return service as unknown as Record<string, unknown>;
-}
-
 /** Call a private method by name without using `any`. */
 function callPriv(
   service: PdfGeneratorService,
@@ -340,8 +335,11 @@ describe("PdfGeneratorService", () => {
   // -------------------------------------------------------------------------
 
   describe("checkPageBreak()", () => {
-    async function setupDoc(): Promise<void> {
-      // Calling download initialises this.doc and this.y = MARGIN (20)
+    function makeCtx(y: number): { doc: typeof mockDocInstance; y: number } {
+      return { doc: mockDocInstance, y };
+    }
+
+    beforeEach(async () => {
       await service.download({
         ...minimalResumeData,
         experience: [],
@@ -349,47 +347,39 @@ describe("PdfGeneratorService", () => {
         skills: [],
         languages: [],
       });
-    }
-
-    it("calls addPage and resets y to 20 when y + needed > 280", async () => {
-      await setupDoc();
-      // Force y to a high value
-      privState(service)["y"] = 270;
-
-      callPriv(service, "checkPageBreak", 15);
-
-      expect(mockDocInstance.addPage).toHaveBeenCalled();
-      expect(privState(service)["y"]).toBe(20);
     });
 
-    it("does NOT call addPage when y + needed <= 280", async () => {
-      await setupDoc();
-      const addPageCallsBefore = mockDocInstance.addPage.mock.calls.length;
+    it("calls addPage and resets y to 20 when y + needed > 280", () => {
+      const result = callPriv(service, "checkPageBreak", makeCtx(270), 15) as {
+        y: number;
+      };
 
-      privState(service)["y"] = 100;
-      callPriv(service, "checkPageBreak", 15);
+      expect(mockDocInstance.addPage).toHaveBeenCalled();
+      expect(result.y).toBe(20);
+    });
+
+    it("does NOT call addPage when y + needed <= 280", () => {
+      const addPageCallsBefore = mockDocInstance.addPage.mock.calls.length;
+      const result = callPriv(service, "checkPageBreak", makeCtx(100), 15) as {
+        y: number;
+      };
 
       expect(mockDocInstance.addPage.mock.calls.length).toBe(
         addPageCallsBefore,
       );
-      expect(privState(service)["y"]).toBe(100); // unchanged
+      expect(result.y).toBe(100);
     });
 
-    it("calls addPage exactly at the boundary (y + needed = 281)", async () => {
-      await setupDoc();
-      privState(service)["y"] = 266;
-
-      callPriv(service, "checkPageBreak", 15);
+    it("calls addPage exactly at the boundary (y + needed = 281)", () => {
+      callPriv(service, "checkPageBreak", makeCtx(266), 15);
 
       expect(mockDocInstance.addPage).toHaveBeenCalled();
     });
 
-    it("does NOT call addPage when y + needed = 280 exactly", async () => {
-      await setupDoc();
+    it("does NOT call addPage when y + needed = 280 exactly", () => {
       const addPageCallsBefore = mockDocInstance.addPage.mock.calls.length;
 
-      privState(service)["y"] = 265;
-      callPriv(service, "checkPageBreak", 15);
+      callPriv(service, "checkPageBreak", makeCtx(265), 15);
 
       expect(mockDocInstance.addPage.mock.calls.length).toBe(
         addPageCallsBefore,

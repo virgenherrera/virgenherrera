@@ -11,8 +11,8 @@
     "bumpDependencies": "pnpm dlx npm-check-updates"
   },
   "dependencies": {
-    "@nestjs/common": "11.1.17",
-    "@nestjs/core": "11.1.17",
+    "@nestjs/common": "11.1.26",
+    "@nestjs/core": "11.1.26",
     "@virgenherrera/profile": "workspace:*",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
