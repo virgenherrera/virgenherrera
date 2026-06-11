@@ -27,6 +27,9 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup
 
+      - name: Install Playwright
+        run: pnpm --filter @virgenherrera/tool-ghpages-e2e exec playwright install --with-deps chromium
+
       - name: securityCheck
         run: |
           pnpm run securityCheck
