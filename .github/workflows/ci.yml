@@ -21,6 +21,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Install Playwright
+        working-directory: tools/ghpages-e2e
         run: npx playwright install --with-deps chromium
 
       - name: test:static
