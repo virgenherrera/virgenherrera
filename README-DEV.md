@@ -14,7 +14,8 @@
   - [apps/ghpages](#appsghpages)
 - [Libs](#libs)
   - [libs/profile](#libsprofile)
-  - [libs/secrets](#libssecrets)
+- [Tools](#tools)
+  - [tools/secrets](#toolssecrets)
 - [Testing](#testing)
 - [CI/CD](#cicd)
 - [Crear una app nueva](#crear-una-app-nueva)
@@ -30,7 +31,8 @@ virgenherrera/
 │   ├── ci.yml                # Test en PRs a master
 │   └── cd.yml                # Deploy: README + GH Pages en push a master
 ├── libs/
-│   ├── profile/              # Source of truth (profile.json + Zod schema)
+│   └── profile/              # Source of truth (profile.json + Zod schema)
+├── tools/
 │   └── secrets/              # Env validation (.env → Zod → tipado)
 ├── apps/
 │   ├── readme/               # NestJS standalone → genera README.md
@@ -39,7 +41,7 @@ virgenherrera/
 ├── eslint.config.mjs         # ESLint flat config (typescript-eslint + prettier)
 ├── .lintstagedrc.json        # Auto-fix en staged files
 ├── .husky/pre-commit         # Hook: lint-staged → pnpm test
-├── pnpm-workspace.yaml       # Workspace: libs/* + apps/*
+├── pnpm-workspace.yaml       # Workspace: libs/* + apps/* + tools/*
 └── .env                      # Secrets (gitignored)
 ```
 
@@ -50,7 +52,7 @@ profile.json ──→ apps/readme ──→ README.md (GitHub profile)
      │
      └─────────→ apps/ghpages ──→ Static HTML (GitHub Pages)
                       │
-.env ──→ libs/secrets ──→ generate:recruiter-link ──→ URL con payload base64
+.env ──→ tools/secrets ──→ generate:recruiter-link ──→ URL con payload base64
                                                          │
                                                          └─→ apps/ghpages decodifica
                                                               email + phone client-side
@@ -94,7 +96,7 @@ El archivo `.env` va en la raiz del repo (gitignored).
 | `PROFILE_PHONE`  | string no vacia | `generate:recruiter-link`    | Telefono en el link de recruiter |
 | `GITHUB_TOKEN`   | string opcional | `generate:readme`            | GitHub API (mas rate limit)      |
 
-`PROFILE_EMAIL` y `PROFILE_PHONE` se validan con Zod via `libs/secrets`.
+`PROFILE_EMAIL` y `PROFILE_PHONE` se validan con Zod via `tools/secrets`.
 Estos datos **nunca** se commitean ni se incluyen en el bundle — viajan
 codificados en base64 dentro del hash de la URL del recruiter link.
 
@@ -245,14 +247,18 @@ Para Angular (browser), importar `profile.json` directo con `resolveJsonModule`.
 
 Ver detalles en el [README de profile](libs/profile/README.md).
 
-### libs/secrets
+---
 
-Lee `.env`, valida con Zod, exporta tipado.
+## Tools
+
+### tools/secrets
+
+Lee `.env`, valida con Zod, exporta tipado. Dev-time utility — no se importa en runtime.
 
 - `PROFILE_EMAIL` + `PROFILE_PHONE`
 - `getSecrets(envPath?)` — valida y retorna o tira error descriptivo
 
-Ver detalles en el [README de secrets](libs/secrets/README.md).
+Ver detalles en el [README de secrets](tools/secrets/README.md).
 
 ---
 

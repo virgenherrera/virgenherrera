@@ -1,4 +1,4 @@
-import { getSecrets } from "../../../libs/secrets/src/index.ts";
+import { getSecrets } from "../../../tools/secrets/src/index.ts";
 
 const secrets = getSecrets();
 const payload = JSON.stringify({

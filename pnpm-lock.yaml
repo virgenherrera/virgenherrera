@@ -171,7 +171,7 @@ importers:
         specifier: ^25.5.0
         version: 25.5.0
 
-  libs/secrets:
+  tools/secrets:
     dependencies:
       dotenv:
         specifier: ^16.4.0
