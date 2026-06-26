@@ -2,7 +2,7 @@ import { LAYOUT } from '../../constants/layout.constants.js';
 import { GOOGLE_VERIFICATION } from '../../constants/public-assets.constants.js';
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/resume.fixture.js';
-import { SsgPreRenderExpectations as should } from './should.js';
+import { SsgPreRenderExpectations as should } from './ssg.expectations.js';
 
 test.describe('IT: SSG Resume page (pre-rendered)', () => {
   test.beforeEach(async ({ resumePage }) => {

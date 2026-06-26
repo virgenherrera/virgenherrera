@@ -1,6 +1,6 @@
 import { expect, type Response } from '@playwright/test';
 import { test } from '../../fixtures/resume.fixture.js';
-import { SsgPreRenderExpectations as should } from './should.js';
+import { SsgPreRenderExpectations as should } from './ssg.expectations.js';
 
 const RESOURCE_EXTENSIONS =
   /\.(jpg|jpeg|png|svg|webp|gif|ico|js|css|woff|woff2|ttf|eot)(\?.*)?$/i;
