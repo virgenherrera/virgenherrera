@@ -16,17 +16,7 @@ Jest integration tests validating the README generation pipeline ([`apps/readme`
 
 ## Test Suite
 
-Single spec file: `src/readme-generation.spec.ts` — 5 integration tests.
-
-The suite bootstraps a NestJS application context, mocks `HttpService.get` to return a fixed list of `GitHubRepo` objects, and calls `ReadmeService.generate()`. File I/O (`writeFileSync`) is also mocked so no files are written to disk during tests.
-
-| Test                                                 | What it asserts                                                             |
-| ---------------------------------------------------- | --------------------------------------------------------------------------- |
-| should call writeFileSync with generated markdown    | `writeFileSync` is called exactly once with a path containing `README.md`   |
-| should generate markdown containing profile name     | Output contains the full profile name (`Hugo Enrique Virgen Herrera`)       |
-| should generate markdown with expected sections      | Output contains `## About`, `## Skills`, and `## Let's Connect` headings    |
-| should include mock repo data in featured projects   | Output mentions `nest-base` and `angular-base` from the mocked API response |
-| should include language distribution from mock repos | Output contains `TypeScript` and a `pie title` Mermaid chart block          |
+Single spec file: [`src/readme-generation.spec.ts`](src/readme-generation.spec.ts). The suite bootstraps a NestJS application context, mocks `HttpService.get` to return fixed GitHub API data, and validates that `ReadmeService.generate()` produces correct markdown output. File I/O is also mocked — no disk writes during tests.
 
 [↑ Menú](#menú)
 

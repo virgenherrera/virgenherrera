@@ -2,7 +2,7 @@
 
 # @vh/quality-resume
 
-Playwright end-to-end test suite for [`apps/resume`](../../apps/resume/README.md). Covers SSG pre-rendered HTML structure, layout, and resource loading, plus CSR client-side hydration behavior including theme toggle, private-view activation, and PDF download. 42 tests across 3 spec files, organized into 2 Playwright projects.
+Playwright end-to-end test suite for [`apps/resume`](../../apps/resume/README.md). Covers SSG pre-rendered HTML structure, layout, and resource loading, plus CSR client-side hydration behavior including theme toggle, private-view activation, and PDF download. Organized into 2 Playwright projects.
 
 ## Menú
 
@@ -16,11 +16,11 @@ Playwright end-to-end test suite for [`apps/resume`](../../apps/resume/README.md
 
 ## Test Suites
 
-| Suite | Spec File                            | Tests | What it validates                                                                                                                     |
-| ----- | ------------------------------------ | ----: | ------------------------------------------------------------------------------------------------------------------------------------- |
-| SSG   | `tests/ssg/resume-ssg.spec.ts`       |    15 | Pre-rendered HTML structure, two-column layout, viewport dimensions, sidebar content, public/private visibility                       |
-| SSG   | `tests/ssg/resource-loading.spec.ts` |     2 | All page resources load without HTTP errors; all images render with valid dimensions                                                  |
-| CSR   | `tests/csr/resume-csr.spec.ts`       |    25 | Client-side hydration, theme toggle (light/dark), private-view activation via URL hash, PDF download (click, keyboard, file validity) |
+| Suite | Spec File                            | What it validates                                                                                                                     |
+| ----- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| SSG   | `tests/ssg/resume-ssg.spec.ts`       | Pre-rendered HTML structure, two-column layout, viewport dimensions, sidebar content, public/private visibility                       |
+| SSG   | `tests/ssg/resource-loading.spec.ts` | All page resources load without HTTP errors; all images render with valid dimensions                                                  |
+| CSR   | `tests/csr/resume-csr.spec.ts`       | Client-side hydration, theme toggle (light/dark), private-view activation via URL hash, PDF download (click, keyboard, file validity) |
 
 [↑ Menú](#menú)
 
@@ -43,8 +43,8 @@ graph TD
     constants["test-data.constants.ts\n(PRIVATE_HASH, INVALID_HASH)"]
     fixture["resume.fixture.ts\nextends Playwright test\n→ resumePage fixture"]
     page["resume.page.ts\nPage Object Model\nlocators + navigation"]
-    ssg["tests/ssg/\nSSG project\n17 tests — 2 spec files"]
-    csr["tests/csr/\nCSR project\n25 tests"]
+    ssg["tests/ssg/\nSSG project\n2 spec files"]
+    csr["tests/csr/\nCSR project\n1 spec file"]
 
     fixture --> page
     page --> ssg
