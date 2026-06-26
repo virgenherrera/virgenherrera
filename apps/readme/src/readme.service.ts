@@ -34,8 +34,7 @@ export class ReadmeService {
     const repos = username ? await this.github.fetchUserRepos(username) : [];
 
     const languages = this.github.aggregateLanguages(repos);
-    const topRepos = this.github.getTopRepos(repos);
-    const markdown = this.renderer.render(profile, topRepos, languages);
+    const markdown = this.renderer.render(profile, languages, username ?? '');
 
     const outputPath = resolve(REPO_ROOT, 'README.md');
     writeFileSync(outputPath, markdown, 'utf-8');
