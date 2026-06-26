@@ -33,5 +33,5 @@ export function buildTimelineDiagram(
     );
   }
 
-  return `\`\`\`mermaid\n${lines.join('\n')}\n\`\`\``;
+  return `\`\`\`mermaid\n%%{init: {'theme': 'neutral'}}%%\n${lines.join('\n')}\n\`\`\``;
 }

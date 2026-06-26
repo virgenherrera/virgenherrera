@@ -82,12 +82,14 @@ describe('QA: README Generation', () => {
     );
   });
 
-  it('should generate markdown containing profile name', async () => {
+  it('should generate markdown containing profile name in typing SVG', async () => {
     await service.generate();
 
     const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain('Hugo Enrique Virgen Herrera');
+    expect(writtenContent).toContain(
+      encodeURIComponent('Hugo Enrique Virgen Herrera'),
+    );
   });
 
   it('should generate markdown with expected sections', async () => {
@@ -95,18 +97,22 @@ describe('QA: README Generation', () => {
 
     const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain('## About');
-    expect(writtenContent).toContain('## Skills');
-    expect(writtenContent).toContain("## Let's Connect");
+    expect(writtenContent).toContain('## 👤 About');
+    expect(writtenContent).toContain('## 🛠️ Skills');
+    expect(writtenContent).toContain("## 🤝 Let's Connect");
+    expect(writtenContent).toContain('## 📈 GitHub Stats');
+    expect(writtenContent).toContain('## 🧑‍💻 For Developers');
+    expect(writtenContent).toContain('CONTRIBUTING.md');
   });
 
-  it('should include mock repo data in featured projects', async () => {
+  it('should include profile projects in featured projects', async () => {
     await service.generate();
 
     const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
+    expect(writtenContent).toContain('## 🚀 Featured Projects');
     expect(writtenContent).toContain('nest-base');
-    expect(writtenContent).toContain('angular-base');
+    expect(writtenContent).toContain('lan-file-share');
   });
 
   it('should include language distribution from mock repos', async () => {
