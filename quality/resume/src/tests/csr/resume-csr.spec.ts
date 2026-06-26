@@ -172,6 +172,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     });
 
     test(should.collapseAboutWithShowLess, async ({ resumePage }) => {
+      await expect(resumePage.aboutToggle).toBeVisible();
       await resumePage.aboutToggle.click();
       await expect(resumePage.aboutText).toHaveClass(/--expanded/);
       await resumePage.aboutToggle.click();
