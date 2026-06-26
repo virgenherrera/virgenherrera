@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import {
   INVALID_HASH,
-  PRIVATE_VIEW,
+  PRIVATE_HASH,
 } from '../../constants/test-data.constants.js';
 import { test } from '../../fixtures/resume.fixture.js';
 import { ClientHydrationExpectations as should } from './csr.expectations.js';
@@ -32,14 +32,14 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
   });
 
   test(should.activatePrivateView, async ({ resumePage }) => {
-    await resumePage.gotoWithHash(PRIVATE_VIEW.hash);
+    await resumePage.gotoWithHash(PRIVATE_HASH);
     await resumePage.waitForPrivateView();
     await expect(resumePage.sidebarContact).toBeVisible();
     await expect(resumePage.experienceItems.first()).toBeAttached();
   });
 
   test(should.revertToPublicOnClear, async ({ resumePage }) => {
-    await resumePage.gotoWithHash(PRIVATE_VIEW.hash);
+    await resumePage.gotoWithHash(PRIVATE_HASH);
     await resumePage.waitForPrivateView();
     await resumePage.goto();
     await resumePage.waitForHydration();
@@ -132,7 +132,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
 
   test.describe('private view', () => {
     test.beforeEach(async ({ resumePage }) => {
-      await resumePage.gotoWithHash(PRIVATE_VIEW.hash);
+      await resumePage.gotoWithHash(PRIVATE_HASH);
       await resumePage.waitForPrivateView();
     });
 

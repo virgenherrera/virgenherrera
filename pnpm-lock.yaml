@@ -470,6 +470,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.2
+      '@vh/profile':
+        specifier: workspace:*
+        version: link:../../packages/profile
       http-server:
         specifier: 14.1.1
         version: 14.1.1
