@@ -48,19 +48,7 @@ This executes the NestJS bootstrap script, fetches live data from GitHub, and **
 
 ## Scripts
 
-Run from `apps/readme/` or prefix with `--filter @vh/app-readme` at the monorepo root.
-
-| Script | Description |
-| --- | --- |
-| `start` | Execute the generator via `ts-node` |
-| `test:doctor` | Run all quality gates: static analysis and types |
-| `test:static` | ESLint + Prettier checks |
-| `test:types` | TypeScript type-check without emitting (`tsc --noEmit`) |
-| `eslintCheck` | Lint source files |
-| `eslintFix` | Lint source files and auto-fix |
-| `prettierCheck` | Check formatting for `src/**/*.ts` |
-| `prettierFix` | Auto-format source files |
-| `cleanup` | No-op (no build artifacts produced) |
+See [`package.json`](package.json) for available scripts. Echo scripts follow the [quality gates convention](../../docs/quality-gates.md).
 
 [↑ Menú](#menú)
 
@@ -68,8 +56,8 @@ Run from `apps/readme/` or prefix with `--filter @vh/app-readme` at the monorepo
 
 ## Workspace Dependencies
 
-| Package | README |
-| --- | --- |
+| Package       | README                                                         |
+| ------------- | -------------------------------------------------------------- |
 | `@vh/profile` | [packages/profile/README.md](../../packages/profile/README.md) |
 
 [↑ Menú](#menú)

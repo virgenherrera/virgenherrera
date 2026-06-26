@@ -47,22 +47,7 @@ pnpm run serve:resume
 
 ## Scripts
 
-Run from `apps/resume/` or prefix with `--filter @vh/resume` at the monorepo root.
-
-| Script | Description |
-| --- | --- |
-| `start` | Serve locally with Angular CLI (`ng serve`) |
-| `watch` | Build in watch mode (development configuration) |
-| `build` | Production build (SSR + static pre-rendering) |
-| `test:doctor` | Run all quality gates: static analysis, types, and build |
-| `test:static` | ESLint + Prettier checks |
-| `test:types` | TypeScript type-check without emitting (`tsc --noEmit`) |
-| `eslintCheck` | Lint source files |
-| `eslintFix` | Lint source files and auto-fix |
-| `ng` | Direct Angular CLI passthrough |
-| `prettierCheck` | Check formatting for `src/**/*.ts` |
-| `prettierFix` | Auto-format source files |
-| `cleanup` | Delete `.angular` cache directory |
+See [`package.json`](package.json) for available scripts. Echo scripts follow the [quality gates convention](../../docs/quality-gates.md).
 
 [↑ Menú](#menú)
 
@@ -70,9 +55,9 @@ Run from `apps/resume/` or prefix with `--filter @vh/resume` at the monorepo roo
 
 ## Workspace Dependencies
 
-| Package | README |
-| --- | --- |
-| `@vh/profile` | [packages/profile/README.md](../../packages/profile/README.md) |
+| Package             | README                                                                     |
+| ------------------- | -------------------------------------------------------------------------- |
+| `@vh/profile`       | [packages/profile/README.md](../../packages/profile/README.md)             |
 | `@vh/design-system` | [packages/design-system/README.md](../../packages/design-system/README.md) |
 
 [↑ Menú](#menú)

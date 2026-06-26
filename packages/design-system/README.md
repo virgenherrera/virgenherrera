@@ -26,32 +26,32 @@ Angular component library with Storybook that provides reusable UI components fo
 
 ### UI Components
 
-| Component | Selector | Description |
-| --- | --- | --- |
-| `AvatarComponent` | `vh-avatar` | Profile photo with configurable size variants |
-| `ContactLinkComponent` | `vh-contact-link` | Styled link for contact information entries |
-| `EducationItemComponent` | `vh-education-item` | Single education record with degree, institution, and dates |
+| Component                 | Selector             | Description                                                         |
+| ------------------------- | -------------------- | ------------------------------------------------------------------- |
+| `AvatarComponent`         | `vh-avatar`          | Profile photo with configurable size variants                       |
+| `ContactLinkComponent`    | `vh-contact-link`    | Styled link for contact information entries                         |
+| `EducationItemComponent`  | `vh-education-item`  | Single education record with degree, institution, and dates         |
 | `ExperienceItemComponent` | `vh-experience-item` | Single work experience entry with compact and full display variants |
-| `ExperienceListComponent` | `vh-experience-list` | Ordered list of experience items |
-| `FileActionComponent` | `vh-file-action` | Button or link for file download/print actions |
-| `IconComponent` | `vh-icon` | SVG icon renderer using built-in icon path constants |
-| `JumbotronComponent` | `vh-jumbotron` | Full-width hero section for the top of the resume |
-| `LanguageBadgeComponent` | `vh-language-badge` | Badge displaying a language and its proficiency level |
-| `ParticleCanvasComponent` | `vh-particle-canvas` | Animated particle background canvas |
-| `ProfileSidebarComponent` | `vh-profile-sidebar` | Sidebar layout with contact links and summary |
-| `ProjectListComponent` | `vh-project-list` | Grid or list of personal project cards |
-| `SkillGroupComponent` | `vh-skill-group` | Grouped skill category with tag list |
-| `TagComponent` | `vh-tag` | Pill-shaped label with size and variant options |
-| `ThemeToggleComponent` | `vh-theme-toggle` | Dark/light mode toggle button |
-| `TypewriterComponent` | `vh-typewriter` | Animated typewriter text effect |
+| `ExperienceListComponent` | `vh-experience-list` | Ordered list of experience items                                    |
+| `FileActionComponent`     | `vh-file-action`     | Button or link for file download/print actions                      |
+| `IconComponent`           | `vh-icon`            | SVG icon renderer using built-in icon path constants                |
+| `JumbotronComponent`      | `vh-jumbotron`       | Full-width hero section for the top of the resume                   |
+| `LanguageBadgeComponent`  | `vh-language-badge`  | Badge displaying a language and its proficiency level               |
+| `ParticleCanvasComponent` | `vh-particle-canvas` | Animated particle background canvas                                 |
+| `ProfileSidebarComponent` | `vh-profile-sidebar` | Sidebar layout with contact links and summary                       |
+| `ProjectListComponent`    | `vh-project-list`    | Grid or list of personal project cards                              |
+| `SkillGroupComponent`     | `vh-skill-group`     | Grouped skill category with tag list                                |
+| `TagComponent`            | `vh-tag`             | Pill-shaped label with size and variant options                     |
+| `ThemeToggleComponent`    | `vh-theme-toggle`    | Dark/light mode toggle button                                       |
+| `TypewriterComponent`     | `vh-typewriter`      | Animated typewriter text effect                                     |
 
 ### Directives & Pipes
 
-| Export | Selector | Description |
-| --- | --- | --- |
-| `ScrollRevealDirective` | `[vhScrollReveal]` | Reveals element when it enters the viewport |
-| `StickyScrollDirective` | `[vhStickyScroll]` | Applies sticky positioning based on scroll position |
-| `FormatDatePipe` | — | Formats `YYYY-MM` strings into human-readable date labels |
+| Export                  | Selector           | Description                                               |
+| ----------------------- | ------------------ | --------------------------------------------------------- |
+| `ScrollRevealDirective` | `[vhScrollReveal]` | Reveals element when it enters the viewport               |
+| `StickyScrollDirective` | `[vhStickyScroll]` | Applies sticky positioning based on scroll position       |
+| `FormatDatePipe`        | —                  | Formats `YYYY-MM` strings into human-readable date labels |
 
 [↑ Menú](#menú)
 
@@ -87,8 +87,8 @@ Static output is written to `storybook-static/`. Run `pnpm run cleanup` to remov
 
 ## Consumers
 
-| Workspace | README |
-| --- | --- |
+| Workspace    | README                                               |
+| ------------ | ---------------------------------------------------- |
 | `@vh/resume` | [apps/resume/README.md](../../apps/resume/README.md) |
 
 [↑ Menú](#menú)
@@ -97,8 +97,8 @@ Static output is written to `storybook-static/`. Run `pnpm run cleanup` to remov
 
 ## Workspace Dependencies
 
-| Workspace | README |
-| --- | --- |
+| Workspace     | README                                             |
+| ------------- | -------------------------------------------------- |
 | `@vh/profile` | [packages/profile/README.md](../profile/README.md) |
 
 [↑ Menú](#menú)
@@ -107,18 +107,7 @@ Static output is written to `storybook-static/`. Run `pnpm run cleanup` to remov
 
 ## Scripts
 
-| Script | Command | Description |
-| --- | --- | --- |
-| `storybook` | `pnpm run storybook` | Launch Storybook dev server |
-| `build:storybook` | `pnpm run build:storybook` | Build static Storybook site |
-| `test:doctor` | `pnpm run test:doctor` | Full quality check: static + types |
-| `test:static` | `pnpm run test:static` | ESLint + Prettier format check |
-| `test:types` | `pnpm run test:types` | TypeScript type check with `tsc --noEmit` |
-| `eslintCheck` | `pnpm run eslintCheck` | Run ESLint in check mode |
-| `eslintFix` | `pnpm run eslintFix` | Run ESLint with auto-fix |
-| `prettierCheck` | `pnpm run prettierCheck` | Check formatting on `src/**/*.ts` |
-| `prettierFix` | `pnpm run prettierFix` | Apply Prettier formatting |
-| `cleanup` | `pnpm run cleanup` | Remove `artifacts/` and `storybook-static/` |
+See [`package.json`](package.json) for available scripts. Echo scripts follow the [quality gates convention](../../docs/quality-gates.md).
 
 [↑ Menú](#menú)
 

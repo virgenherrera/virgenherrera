@@ -82,29 +82,7 @@ graph TD
 
 ## Root Scripts
 
-| Script             | Description                                                                        |
-| ------------------ | ---------------------------------------------------------------------------------- |
-| `serve:resume`     | Start the `apps/resume` Angular dev server                                         |
-| `storybook`        | Start the `packages/design-system` Storybook dev server                            |
-| `build`            | Build all workspaces that expose a `build` script (recursive)                      |
-| `build:storybook`  | Build the Storybook static site for `packages/design-system`                       |
-| `generate:readme`  | Run `apps/readme` to regenerate the root `README.md`                               |
-| `test`             | Full pipeline: `cleanup` → `build` → `test:static` → `test:types` → `test:dynamic` |
-| `test:doctor`      | Dependency-bump validation gate — runs per-workspace `test:doctor` (used by NCU)   |
-| `test:static`      | Lint and formatting checks across all workspaces (recursive)                       |
-| `test:types`       | TypeScript type checks across all workspaces (recursive)                           |
-| `test:unit`        | Unit tests across all workspaces (recursive)                                       |
-| `test:e2e`         | End-to-end tests across all workspaces (recursive)                                 |
-| `test:dynamic`     | Composite: `test:unit` → `test:e2e`                                                |
-| `eslintFix`        | Fix ESLint issues (accepts file globs as trailing args)                            |
-| `prettierFix`      | Fix Prettier formatting (accepts file globs as trailing args)                      |
-| `lintStaged`       | Run lint-staged — called by the pre-commit hook                                    |
-| `prepare`          | Install Husky git hooks (runs automatically on `pnpm install`)                     |
-| `securityCheck`    | Audit dependencies for high-severity CVEs (`pnpm audit --audit-level high`)        |
-| `securityFix`      | Update dependencies to resolve CVEs (`pnpm update`)                                |
-| `updatePnpm`       | Upgrade pnpm to the latest version via `corepack up`                               |
-| `cleanup`          | Remove all build artifacts from all workspaces and `artifacts/` directory          |
-| `bumpDependencies` | Safely upgrade all dependencies: `securityFix` → NCU doctor → `securityFix`        |
+See the `scripts` field in [`package.json`](package.json) for all available commands. Each workspace exposes its own subset — see [docs/quality-gates.md](docs/quality-gates.md) for the full echo matrix.
 
 [↑ Menú](#menú)
 

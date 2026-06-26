@@ -16,11 +16,11 @@ Playwright end-to-end test suite for [`apps/resume`](../../apps/resume/README.md
 
 ## Test Suites
 
-| Suite | Spec File | Tests | What it validates |
-| ----- | --------- | ----: | ----------------- |
-| SSG | `tests/ssg/resume-ssg.spec.ts` | 15 | Pre-rendered HTML structure, two-column layout, viewport dimensions, sidebar content, public/private visibility |
-| SSG | `tests/ssg/resource-loading.spec.ts` | 2 | All page resources load without HTTP errors; all images render with valid dimensions |
-| CSR | `tests/csr/resume-csr.spec.ts` | 25 | Client-side hydration, theme toggle (light/dark), private-view activation via URL hash, PDF download (click, keyboard, file validity) |
+| Suite | Spec File                            | Tests | What it validates                                                                                                                     |
+| ----- | ------------------------------------ | ----: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| SSG   | `tests/ssg/resume-ssg.spec.ts`       |    15 | Pre-rendered HTML structure, two-column layout, viewport dimensions, sidebar content, public/private visibility                       |
+| SSG   | `tests/ssg/resource-loading.spec.ts` |     2 | All page resources load without HTTP errors; all images render with valid dimensions                                                  |
+| CSR   | `tests/csr/resume-csr.spec.ts`       |    25 | Client-side hydration, theme toggle (light/dark), private-view activation via URL hash, PDF download (click, keyboard, file validity) |
 
 [↑ Menú](#menú)
 
@@ -79,19 +79,7 @@ The config (`src/schemas/playwright-env.schema.ts`) validates at startup that bu
 
 ## Scripts
 
-| Script | Description |
-| ------ | ----------- |
-| `test:doctor` | Static checks + type check (`test:static` then `test:types`) |
-| `test:static` | ESLint and Prettier checks |
-| `test:types` | TypeScript type check (`tsc --noEmit`) |
-| `test:e2e` | Run Playwright tests |
-| `test:dynamic` | Alias for `test:e2e` |
-| `eslintCheck` | Check ESLint rules |
-| `eslintFix` | Fix ESLint issues |
-| `prettierCheck` | Check Prettier formatting on `src/**/*.ts` |
-| `prettierFix` | Fix Prettier formatting |
-| `test:report` | Open Playwright HTML report from `artifacts/quality/resume/playwright-report` |
-| `cleanup` | Remove `artifacts/quality/resume/` |
+See [`package.json`](package.json) for available scripts. Echo scripts follow the [quality gates convention](../../docs/quality-gates.md).
 
 [↑ Menú](#menú)
 
@@ -99,9 +87,9 @@ The config (`src/schemas/playwright-env.schema.ts`) validates at startup that bu
 
 ## Workspace Dependencies
 
-| Dependency | Workspace | Role |
-| ---------- | --------- | ---- |
-| `@vh/profile` | [packages/profile/README.md](../../packages/profile/README.md) | Provides `SecretsPayload` type used in test data constants |
-| Tests target | [apps/resume/README.md](../../apps/resume/README.md) | Angular SSR resume app whose build output is served during tests |
+| Dependency    | Workspace                                                      | Role                                                             |
+| ------------- | -------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `@vh/profile` | [packages/profile/README.md](../../packages/profile/README.md) | Provides `SecretsPayload` type used in test data constants       |
+| Tests target  | [apps/resume/README.md](../../apps/resume/README.md)           | Angular SSR resume app whose build output is served during tests |
 
 [↑ Menú](#menú)

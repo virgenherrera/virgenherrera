@@ -20,13 +20,13 @@ Single spec file: `src/readme-generation.spec.ts` — 5 integration tests.
 
 The suite bootstraps a NestJS application context, mocks `HttpService.get` to return a fixed list of `GitHubRepo` objects, and calls `ReadmeService.generate()`. File I/O (`writeFileSync`) is also mocked so no files are written to disk during tests.
 
-| Test | What it asserts |
-| ---- | --------------- |
-| should call writeFileSync with generated markdown | `writeFileSync` is called exactly once with a path containing `README.md` |
-| should generate markdown containing profile name | Output contains the full profile name (`Hugo Enrique Virgen Herrera`) |
-| should generate markdown with expected sections | Output contains `## About`, `## Skills`, and `## Let's Connect` headings |
-| should include mock repo data in featured projects | Output mentions `nest-base` and `angular-base` from the mocked API response |
-| should include language distribution from mock repos | Output contains `TypeScript` and a `pie title` Mermaid chart block |
+| Test                                                 | What it asserts                                                             |
+| ---------------------------------------------------- | --------------------------------------------------------------------------- |
+| should call writeFileSync with generated markdown    | `writeFileSync` is called exactly once with a path containing `README.md`   |
+| should generate markdown containing profile name     | Output contains the full profile name (`Hugo Enrique Virgen Herrera`)       |
+| should generate markdown with expected sections      | Output contains `## About`, `## Skills`, and `## Let's Connect` headings    |
+| should include mock repo data in featured projects   | Output mentions `nest-base` and `angular-base` from the mocked API response |
+| should include language distribution from mock repos | Output contains `TypeScript` and a `pie title` Mermaid chart block          |
 
 [↑ Menú](#menú)
 
@@ -69,18 +69,7 @@ pnpm run test:unit
 
 ## Scripts
 
-| Script | Description |
-| ------ | ----------- |
-| `test:doctor` | Full validation: static + types + dynamic |
-| `test:static` | ESLint and Prettier checks |
-| `test:types` | TypeScript type check (`tsc --noEmit`) |
-| `test:unit` | Run Jest tests |
-| `test:dynamic` | Alias for `test:unit` |
-| `eslintCheck` | Check ESLint rules |
-| `eslintFix` | Fix ESLint issues |
-| `prettierCheck` | Check Prettier formatting on `src/**/*.ts` |
-| `prettierFix` | Fix Prettier formatting |
-| `cleanup` | Remove `artifacts/` |
+See [`package.json`](package.json) for available scripts. Echo scripts follow the [quality gates convention](../../docs/quality-gates.md).
 
 [↑ Menú](#menú)
 
@@ -88,8 +77,8 @@ pnpm run test:unit
 
 ## Workspace Dependencies
 
-| Dependency | Workspace | Role |
-| ---------- | --------- | ---- |
+| Dependency   | Workspace                                            | Role                                    |
+| ------------ | ---------------------------------------------------- | --------------------------------------- |
 | Tests target | [apps/readme/README.md](../../apps/readme/README.md) | NestJS README generation app under test |
 
 [↑ Menú](#menú)
