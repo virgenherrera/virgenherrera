@@ -14,6 +14,7 @@ export default defineConfig(
       '**/artifacts/**',
       '**/node_modules/**',
       'README.md',
+      '**/CHANGELOG.md',
       '**/.angular/**',
       '**/.storybook/**',
     ],
