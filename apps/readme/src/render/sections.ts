@@ -137,6 +137,16 @@ export function renderFeaturedProjects(
   return `## 🚀 Featured Projects\n\n| Project | Description | Stars |\n|:---|:---|:---:|\n${rows}`;
 }
 
+export function renderTopLanguages(username: string): string {
+  if (!username) return '';
+
+  const baseUrl = 'https://github-readme-stats.vercel.app/api/top-langs/';
+  const params = `username=${username}&layout=compact&theme=transparent&hide_border=true`;
+  const imgTag = `<img src="${baseUrl}?${params}" alt="Top Languages" />`;
+
+  return `## 💻 Top Languages\n\n<div align="center">\n\n${imgTag}\n\n</div>`;
+}
+
 export function renderGitHubStats(username: string): string {
   const statsUrl =
     `https://github-readme-stats.vercel.app/api?username=${username}` +
