@@ -29,6 +29,7 @@ interface LinkBadgeConfig {
 const LINK_BADGE_CONFIG: Record<string, LinkBadgeConfig> = {
   GitHub: { logo: 'github', color: '181717' },
   LinkedIn: { logo: 'linkedin', color: '0A66C2' },
+  Resume: { logo: 'googlechrome', color: '4285F4' },
 };
 
 export function renderHeader(profile: ProfileData): string {
@@ -164,7 +165,10 @@ export function renderGitHubStats(username: string): string {
   );
 }
 
-export function renderCTA(links: readonly LinkData[]): string {
+export function renderCTA(
+  links: readonly LinkData[],
+  username: string,
+): string {
   const badges = links
     .filter((l) => l.url.startsWith('http'))
     .map((l) => {
@@ -174,6 +178,16 @@ export function renderCTA(links: readonly LinkData[]): string {
 
       return `[![${l.label}](https://img.shields.io/badge/${l.label}-${color}?logo=${logo}&style=for-the-badge&logoColor=white)](${l.url})`;
     });
+
+  if (username) {
+    const { color, logo } = LINK_BADGE_CONFIG['Resume'];
+    const resumeUrl = `https://${username}.github.io/${username}/`;
+    const badgeUrl =
+      `https://img.shields.io/badge/Resume-${color}` +
+      `?logo=${logo}&style=for-the-badge&logoColor=white`;
+
+    badges.push(`[![Resume](${badgeUrl})](${resumeUrl})`);
+  }
 
   if (badges.length === 0) return '';
 
