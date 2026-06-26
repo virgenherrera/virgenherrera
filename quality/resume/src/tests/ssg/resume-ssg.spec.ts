@@ -1,6 +1,7 @@
 import { LAYOUT } from '../../constants/layout.constants.js';
 import { GOOGLE_VERIFICATION } from '../../constants/public-assets.constants.js';
-import { test, expect } from '../../fixtures/resume.fixture.js';
+import { expect } from '@playwright/test';
+import { test } from '../../fixtures/resume.fixture.js';
 import { SsgPreRenderExpectations as should } from './should.js';
 
 test.describe('IT: SSG Resume page (pre-rendered)', () => {

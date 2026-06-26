@@ -1,5 +1,6 @@
 import { encodePrivateHash } from '../../helpers/hash-encoder.js';
-import { test, expect } from '../../fixtures/resume.fixture.js';
+import { expect } from '@playwright/test';
+import { test } from '../../fixtures/resume.fixture.js';
 import { ClientHydrationExpectations as should } from './client-hydration-expectations.js';
 
 test.describe('IT: CSR Resume page (client-side hydration)', () => {
