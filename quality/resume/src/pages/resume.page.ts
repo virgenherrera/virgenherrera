@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { BASE_PATH } from '../constants/base-path.constant.js';
 import { LAYOUT } from '../constants/layout.constants.js';
 
 export class ResumePage {
@@ -9,11 +10,11 @@ export class ResumePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('/');
+    await this.page.goto(`${BASE_PATH}/`);
   }
 
   async gotoWithHash(hash: string): Promise<void> {
-    await this.page.goto(`/#${hash}`);
+    await this.page.goto(`${BASE_PATH}/#${hash}`);
   }
 
   async waitForHydration(): Promise<void> {

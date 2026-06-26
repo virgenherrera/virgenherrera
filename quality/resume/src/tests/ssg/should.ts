@@ -26,4 +26,8 @@ export class SsgPreRenderExpectations {
     'have sticky position on sidebar for scroll tracking';
   static readonly notPreRenderDownloadButton =
     'not include download button in pre-rendered HTML';
+  static readonly loadAllResourcesWithoutErrors =
+    'load all page resources without HTTP errors';
+  static readonly renderAllImagesSuccessfully =
+    'render all images with valid dimensions';
 }

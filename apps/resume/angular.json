@@ -50,13 +50,17 @@
               }
             ],
             "styles": ["src/styles.css"],
-            "outputPath": "../../artifacts/resume",
+            "outputPath": {
+              "base": "../../artifacts/resume",
+              "browser": "virgenherrera"
+            },
             "server": "src/main.server.ts",
             "outputMode": "static",
             "externalDependencies": ["node:fs", "node:path"]
           },
           "configurations": {
             "production": {
+              "baseHref": "/virgenherrera/",
               "budgets": [
                 {
                   "type": "initial",
