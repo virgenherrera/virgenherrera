@@ -10,7 +10,7 @@ const WEB_SERVER_TIMEOUT = 10_000;
 function envSchema(configDir: string) {
   const defaultArtifactsDir = resolve(
     configDir,
-    '../../artifacts/resume/browser',
+    '../../artifacts/resume/virgenherrera',
   );
   const qualityArtifactsDir = resolve(
     configDir,
@@ -66,6 +66,7 @@ function envSchema(configDir: string) {
     })
     .transform((raw): PlaywrightConfig => {
       const baseUrl = `http://localhost:${raw.PW_PORT}`;
+      const serveDir = resolve(raw.PW_ARTIFACTS_DIR, '..');
 
       return {
         testDir: './src/tests',
@@ -87,8 +88,8 @@ function envSchema(configDir: string) {
         },
 
         webServer: {
-          command: `pnpm exec http-server ${raw.PW_ARTIFACTS_DIR} --port ${raw.PW_PORT} --silent --cors -c-1`,
-          url: baseUrl,
+          command: `pnpm exec http-server ${serveDir} --port ${raw.PW_PORT} --silent --cors -c-1`,
+          url: `${baseUrl}/virgenherrera`,
           reuseExistingServer: !raw.CI,
           timeout: WEB_SERVER_TIMEOUT,
         },

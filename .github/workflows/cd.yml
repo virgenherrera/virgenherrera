@@ -25,7 +25,7 @@ jobs:
       - name: Upload resume artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: artifacts/resume/browser
+          path: artifacts/resume/virgenherrera
 
   tag:
     name: Tag Release
