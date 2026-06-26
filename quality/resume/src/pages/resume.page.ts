@@ -101,6 +101,10 @@ export class ResumePage {
     return this.page.locator('a[href^="tel:"]');
   }
 
+  get rootElement(): Locator {
+    return this.page.locator('vh-root');
+  }
+
   get snackbar(): Locator {
     return this.page.locator('text=Invalid link');
   }
