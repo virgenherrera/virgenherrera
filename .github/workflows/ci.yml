@@ -1,37 +1,129 @@
-name: CI
+name: Continuous Integration
 
 on:
   pull_request:
-    branches: [master]
+    branches: [master, main, develop]
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
+  changes:
+    name: Detect changes
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+    outputs:
+      root-config: ${{ steps.filter.outputs.root-config }}
+      apps-resume: ${{ steps.filter.outputs.apps-resume }}
+      apps-readme: ${{ steps.filter.outputs.apps-readme }}
+      packages-design-system: ${{ steps.filter.outputs.packages-design-system }}
+      packages-profile: ${{ steps.filter.outputs.packages-profile }}
+      quality-resume: ${{ steps.filter.outputs.quality-resume }}
+      quality-readme: ${{ steps.filter.outputs.quality-readme }}
     steps:
       - uses: actions/checkout@v6
-
-      - uses: pnpm/action-setup@v5
-
-      - uses: actions/setup-node@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
         with:
-          node-version: 24
-          cache: pnpm
+          filters: |
+            root-config:
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - 'pnpm-lock.yaml'
+              - 'tsconfig.base.json'
+              - 'eslint.config.*'
+              - '.eslintrc.*'
+              - '.prettierrc*'
+            apps-resume:
+              - 'apps/resume/**'
+            apps-readme:
+              - 'apps/readme/**'
+            packages-design-system:
+              - 'packages/design-system/**'
+            packages-profile:
+              - 'packages/profile/**'
+            quality-resume:
+              - 'quality/resume/**'
+            quality-readme:
+              - 'quality/readme/**'
 
-      - run: pnpm install --frozen-lockfile
+  static-analysis:
+    name: Static Analysis & Types
+    needs: [changes]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: test:static
+        run: |
+          pnpm run test:static
+          echo "✅ **test:static** passed" >> $GITHUB_STEP_SUMMARY
+      - name: test:types
+        run: |
+          pnpm run test:types
+          echo "✅ **test:types** passed" >> $GITHUB_STEP_SUMMARY
 
-      - run: pnpm --filter @virgenherrera/app-ghpages exec playwright install --with-deps chromium
+  unit-tests:
+    name: Unit Tests
+    needs: [changes, static-analysis]
+    if: >-
+      needs.changes.outputs.root-config == 'true' ||
+      needs.changes.outputs.packages-profile == 'true' ||
+      needs.changes.outputs.quality-readme == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: test:unit
+        run: |
+          pnpm run test:unit
+          echo "✅ **test:unit** passed" >> $GITHUB_STEP_SUMMARY
 
-      - run: pnpm -w run test
-
-      - uses: actions/upload-artifact@v7
-        if: failure()
+  build:
+    name: Build
+    needs: [changes, static-analysis]
+    if: >-
+      needs.changes.outputs.root-config == 'true' ||
+      needs.changes.outputs.apps-resume == 'true' ||
+      needs.changes.outputs.packages-design-system == 'true' ||
+      needs.changes.outputs.packages-profile == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: build
+        run: |
+          pnpm run build
+          echo "✅ **build** passed" >> $GITHUB_STEP_SUMMARY
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: apps/ghpages/playwright-report/
-          retention-days: 7
+          name: resume-build
+          path: artifacts/resume/
+          retention-days: 1
+
+  e2e-tests:
+    name: E2E Tests
+    needs: [changes, build]
+    if: >-
+      needs.changes.outputs.root-config == 'true' ||
+      needs.changes.outputs.apps-resume == 'true' ||
+      needs.changes.outputs.quality-resume == 'true' ||
+      needs.changes.outputs.packages-design-system == 'true' ||
+      needs.changes.outputs.packages-profile == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: resume-build
+          path: artifacts/resume/
+      - name: Install Playwright browsers
+        run: pnpm dlx playwright install --with-deps chromium
+      - name: test:e2e
+        run: |
+          pnpm run test:e2e
+          echo "✅ **test:e2e** passed" >> $GITHUB_STEP_SUMMARY

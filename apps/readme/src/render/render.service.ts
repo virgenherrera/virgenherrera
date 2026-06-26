@@ -1,10 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import type { ProfileData } from "@virgenherrera/profile";
-import type { GitHubRepo } from "../github/github.schemas.ts";
-import {
-  buildTimelineDiagram,
-  buildLanguagePieChart,
-} from "../mermaid/index.ts";
+import { Injectable } from '@nestjs/common';
+import type { ProfileData } from '@vh/profile';
+import type { GitHubRepo } from '../github/github.schemas';
+import { buildTimelineDiagram, buildLanguagePieChart } from '../mermaid/index';
 import {
   renderHeader,
   renderSummary,
@@ -12,7 +9,7 @@ import {
   renderFeaturedProjects,
   renderCTA,
   renderFooter,
-} from "./sections.ts";
+} from './sections';
 
 @Injectable()
 export class RenderService {
@@ -21,7 +18,7 @@ export class RenderService {
     repos: readonly GitHubRepo[],
     languages: Readonly<Record<string, number>>,
   ): string {
-    const sections: string[] = [
+    const sections = [
       renderHeader(profile),
       renderSummary(profile),
       buildTimelineDiagram(profile.experience),
@@ -30,10 +27,8 @@ export class RenderService {
       renderFeaturedProjects(repos),
       renderCTA(profile.links),
       renderFooter(),
-    ];
+    ].filter(Boolean);
 
-    const content = sections.filter(Boolean).join("\n\n");
-
-    return `${content}\n`;
+    return `${sections.join('\n\n')}\n`;
   }
 }

@@ -1,7 +1,4 @@
-export { GitHubService } from "./github.service.ts";
-export {
-  gitHubRepoSchema,
-  gitHubReposResponseSchema,
-} from "./github.schemas.ts";
-export type { GitHubRepo } from "./github.schemas.ts";
-export { parseGitHubUsername } from "./parse-repo-url.ts";
+export { GitHubService } from './github.service';
+export { gitHubRepoSchema, gitHubReposResponseSchema } from './github.schemas';
+export type { GitHubRepo } from './github.schemas';
+export { parseGitHubUsername } from './parse-repo-url';

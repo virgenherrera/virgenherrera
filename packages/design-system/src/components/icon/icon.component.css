@@ -1,0 +1,9 @@
+vh-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+vh-icon svg {
+  width: 1em;
+  height: 1em;
+}

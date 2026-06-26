@@ -1,5 +1,21 @@
 {
-  "extends": "./tsconfig.base.json",
-  "include": [],
-  "exclude": ["node_modules"]
+  "compilerOptions": {
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "resolvePackageJsonExports": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2023",
+    "types": ["jest", "node"]
+  }
 }

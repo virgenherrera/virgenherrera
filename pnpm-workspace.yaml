@@ -1,17 +1,105 @@
 packages:
-  - "libs/*"
-  - "apps/*"
+  - 'apps/*'
+  - 'packages/*'
+  - 'quality/*'
 
-overrides:
-  vitest: "^3.1.0"
+savePrefix: ''
 
-peerDependencyRules:
-  allowedVersions:
-    vitest: ">=3"
+catalog:
+  # Angular 22
+  '@angular/animations': 22.0.2
+  '@angular/cli': 22.0.3
+  '@angular/common': 22.0.2
+  '@angular/compiler': 22.0.2
+  '@angular/compiler-cli': 22.0.2
+  '@angular/core': 22.0.2
+  '@angular/forms': 22.0.2
+  '@angular/platform-browser': 22.0.2
+  '@angular/platform-browser-dynamic': 22.0.2
+  '@angular/build': 22.0.3
+  '@angular-devkit/architect': 0.2200.3
+  '@angular-devkit/build-angular': 22.0.3
+  '@angular-devkit/core': 22.0.3
+  tailwindcss: 4.3.1
+  '@tailwindcss/postcss': 4.3.1
+  'zone.js': 0.16.2
+  '@angular/platform-server': 22.0.2
+  '@angular/router': 22.0.2
+  '@angular/ssr': 22.0.3
+  tslib: 2.8.1
+  express: 5.2.1
+  '@types/express': 5.0.6
+  vitest: 4.1.9
+  jsdom: 28.1.0
+  postcss: 8.5.15
+  '@compodoc/compodoc': 1.2.1
+  # Storybook 10
+  '@storybook/angular': 10.4.5
+  '@storybook/addon-a11y': 10.4.5
+  '@storybook/addon-docs': 10.4.5
+  '@storybook/addon-onboarding': 10.4.5
+  'eslint-plugin-storybook': 10.4.5
+  'storybook': 10.4.5
+  # runtime
+  '@nestjs/axios': 4.0.1
+  '@nestjs/common': 11.1.26
+  '@nestjs/core': 11.1.26
+  axios: 1.9.0
+  reflect-metadata: 0.2.2
+  rxjs: 7.8.2
+  zod: 4.4.3
+  # quality
+  '@playwright/test': 1.61.0
+  # tooling
+  '@changesets/cli': 2.31.0
+  kill-port-process: 4.0.2
+  '@eslint/js': 10.0.1
+  '@eslint/json': 2.0.0
+  '@eslint/markdown': 8.0.2
+  '@types/jest': 30.0.0
+  '@types/node': 25.9.2
+  eslint: 10.4.1
+  eslint-config-prettier: 10.1.8
+  eslint-plugin-prettier: 5.5.6
+  globals: 17.6.0
+  husky: 9.1.7
+  jest: 30.4.2
+  lint-staged: 17.0.7
+  prettier: 3.8.3
+  rimraf: 6.1.3
+  ts-jest: 29.4.11
+  ts-node: 10.9.2
+  tsconfig-paths: 4.2.0
+  typescript: 6.0.3
+  typescript-eslint: 8.61.0
 
-onlyBuiltDependencies:
-  - "@nestjs/core"
-  - "@parcel/watcher"
-  - esbuild
-  - lmdb
-  - msgpackr-extract
+# Supply chain security: blocks packages published less than 24 hours ago (1440 minutes).
+# This window is the most common attack vector for malicious package hijacking.
+minimumReleaseAge: 1440
+
+# Controls whether a package is allowed to run postinstall scripts (native build, telemetry, etc.).
+# Omitting an entry defaults to pnpm's global policy; explicit entries document the trust decision.
+allowBuilds:
+  '@compodoc/compodoc': true # Required: Angular component documentation generator for Storybook
+  '@nestjs/core': true # Required: runs nest-specific postinstall hooks
+  '@parcel/watcher': true # Required: file watcher for Storybook dev server
+  '@scarf/scarf': false # Blocked: telemetry collection — not wanted in this template
+  core-js: false # Blocked: legacy polyfill — not needed with modern targets
+  esbuild: true # Required: bundler used by Storybook build pipeline
+  lmdb: true # Required: Storybook caching layer
+  msgpackr-extract: true # Required: serialization for Storybook internals
+  unrs-resolver: true # Required: compiles native bindings needed by some lint tools
+
+# Packages exempted from minimumReleaseAge during a bump cycle.
+# Add entries here when a newly published package is blocked by the 24h window
+# but you have verified it is safe (e.g., it is a known maintainer's patch release).
+# Remove entries after the package passes the age threshold in the next cycle.
+minimumReleaseAgeExclude:
+  - '@pkgr/core@0.3.6'
+  - eslint-plugin-prettier@5.5.6
+  - synckit@0.11.13
+
+# Mirrors pnpm.auditConfig in package.json; ignoreCves lists CVEs with no available fix
+# that should not permanently block the security check step.
+auditConfig:
+  ignoreCves: []

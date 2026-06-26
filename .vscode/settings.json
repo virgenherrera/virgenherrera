@@ -1,5 +1,55 @@
 {
-  "claudeCode.allowDangerouslySkipPermissions": true,
-  "workbench.colorTheme": "Monokai",
-  "cSpell.words": ["virgenherrera"]
+  "codemetrics.basics.CodeLensHiddenUnder": 7,
+  "codemetrics.basics.EnabledForHTML": false,
+  "codemetrics.basics.MetricsForClassDeclarationsToggled": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.organizeImports": "always"
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.minimap.enabled": false,
+  "emmet.triggerExpansionOnTab": true,
+  "errorLens.delay": 3e3,
+  "errorLens.messageTemplate": "$severity: $message",
+  "eslint.format.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    { "pattern": "apps/*" },
+    { "pattern": "packages/*" },
+    { "pattern": "quality/*" }
+  ],
+  "eslint.validate": ["javascript", "json", "typescript", "mjs"],
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "git.autofetch": true,
+  "js/ts.preferences.importModuleSpecifier": "relative",
+  "js/ts.referencesCodeLens.enabled": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "files.exclude": {
+    "**/.claude": true
+  },
+  "search.exclude": {
+    "**/.claude": true
+  },
+  "npm.packageManager": "pnpm",
+  "[html]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[mjs]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
 }
