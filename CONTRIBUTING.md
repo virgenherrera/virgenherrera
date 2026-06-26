@@ -26,19 +26,14 @@ Check the `engines` field in [`package.json`](package.json) for the required Nod
 
 ## Quick Start
 
+This is a personal repo — direct contributions are not accepted. To use it as a starting point for your own GitHub profile monorepo, fork it and replace the profile data in `packages/profile/`.
+
 ```bash
-git clone https://github.com/virgenherrera/virgenherrera.git
-cd virgenherrera
+# fork via GitHub UI, then:
+git clone https://github.com/<your-username>/<your-username>.git
+cd <your-username>
 pnpm install
 pnpm run serve:resume
-```
-
-The resume app starts on `http://localhost:4200` by default.
-
-To launch the design-system component explorer instead:
-
-```bash
-pnpm run storybook
 ```
 
 [↑ Menú](#menú)
