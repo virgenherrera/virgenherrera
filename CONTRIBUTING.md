@@ -12,7 +12,6 @@ Central developer reference for the `virgenherrera` pnpm monorepo. Per-workspace
 - [Quality Gates](#quality-gates)
 - [Branching Model](#branching-model)
 - [CI/CD Pipeline](#cicd-pipeline)
-- [Commit Convention](#commit-convention)
 
 ---
 
@@ -188,32 +187,5 @@ flowchart TD
 ```
 
 `tag`, `deploy-resume`, and `deploy-readme` run in parallel after `build` succeeds. The `deploy-readme` job commits the regenerated `README.md` back to `master` with `[skip ci]` to prevent a pipeline loop.
-
-[↑ Menú](#menú)
-
----
-
-## Commit Convention
-
-Every commit follows [Conventional Commits](https://www.conventionalcommits.org/).
-
-```text
-<type>: imperative summary, lowercase, no period, max 72 chars
-
-Brief description of why.
-
-- Concrete change 1.
-- Concrete change n.
-```
-
-| Type    | When to use                       |
-| ------- | --------------------------------- |
-| `feat`  | New features or capabilities      |
-| `fix`   | Bug fixes                         |
-| `chore` | Tooling, config, dependencies, CI |
-| `task`  | Changes to existing functionality |
-| `spike` | Research or exploration           |
-
-No `Co-Authored-By` or AI attribution lines. See [AGENTS.md](AGENTS.md) for the full commit convention and agent rules.
 
 [↑ Menú](#menú)
