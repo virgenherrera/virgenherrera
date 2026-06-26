@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import type { ProfileData } from '@vh/profile';
-import { buildTimelineDiagram, buildLanguagePieChart } from '../mermaid/index';
+import { buildTimelineDiagram } from '../mermaid/index';
 import {
   renderHeader,
   renderSummary,
   renderSkills,
   renderFeaturedProjects,
+  renderTopLanguages,
   renderGitHubStats,
   renderCTA,
   renderDeveloperHub,
@@ -14,18 +15,14 @@ import {
 
 @Injectable()
 export class RenderService {
-  render(
-    profile: ProfileData,
-    languages: Readonly<Record<string, number>>,
-    username: string,
-  ): string {
+  render(profile: ProfileData, username: string): string {
     const sections = [
       renderHeader(profile),
       renderSummary(profile),
       buildTimelineDiagram(profile.experience),
       renderSkills(profile.skills),
       renderFeaturedProjects(profile.projects, username),
-      buildLanguagePieChart(languages),
+      renderTopLanguages(username),
       renderGitHubStats(username),
       renderCTA(profile.links),
       renderDeveloperHub(),
