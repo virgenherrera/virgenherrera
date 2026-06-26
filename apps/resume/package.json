@@ -1,6 +1,6 @@
 {
   "name": "@vh/resume",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "start": "ng serve",
     "watch": "ng build --watch --configuration development",
