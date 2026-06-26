@@ -51,7 +51,6 @@ catalog:
   # quality
   '@playwright/test': 1.61.0
   # tooling
-  '@changesets/cli': 2.31.0
   kill-port-process: 4.0.2
   '@eslint/js': 10.0.1
   '@eslint/json': 2.0.0
