@@ -24,7 +24,7 @@ export class RenderService {
       renderFeaturedProjects(profile.projects, username),
       renderTopLanguages(username),
       renderGitHubStats(username),
-      renderCTA(profile.links),
+      renderCTA(profile.links, username),
       renderDeveloperHub(),
       renderFooter(username),
     ].filter(Boolean);
