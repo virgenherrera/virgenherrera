@@ -1,6 +1,10 @@
+> [← Developer Hub](../CONTRIBUTING.md)
+
 # Quality Gates
 
 Script architecture, pipeline order, and execution context mapping for the echo system in a pnpm monorepo.
+
+This document defines the script architecture, pipeline order, and execution context mapping for the echo system. Every atomic script is reused under the identical name across all contexts — see [Echo Principle](#echo-principle) for the foundational concept. Use the navigation below to jump directly to any section.
 
 ## Navigation
 
@@ -194,7 +198,7 @@ The monorepo splits quality gates into two tiers to balance speed and thoroughne
 | pre-commit | `lintStaged` → `test:unit` | ~2-3s   | Fast feedback on staged changes  |
 | pre-push   | `build` → `test:e2e`       | ~30-60s | Thorough validation before share |
 
-**Rationale**: building all apps and running Playwright on every commit is too slow for monorepo. Unit tests (21 tests, ~1s) catch regressions instantly. E2e and build gate the push — the point where code becomes shared.
+**Rationale**: building all apps and running Playwright on every commit is too slow for monorepo. Unit tests catch regressions instantly (typically under 2s). E2e and build gate the push — the point where code becomes shared.
 
 Both hooks display an informational message and support `--no-verify` bypass.
 
