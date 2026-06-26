@@ -1,6 +1,10 @@
+> [← Developer Hub](../CONTRIBUTING.md)
+
 # Quality Gates
 
 Script architecture, pipeline order, and execution context mapping for the echo system in a pnpm monorepo.
+
+This document defines the script architecture, pipeline order, and execution context mapping for the echo system. Every atomic script is reused under the identical name across all contexts — see [Echo Principle](#echo-principle) for the foundational concept. Use the navigation below to jump directly to any section.
 
 ## Navigation
 
