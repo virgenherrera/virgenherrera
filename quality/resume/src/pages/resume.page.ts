@@ -29,6 +29,10 @@ export class ResumePage {
     });
   }
 
+  get rootElement(): Locator {
+    return this.page.locator('vh-root');
+  }
+
   get jumbotron(): Locator {
     return this.page.locator(LAYOUT.jumbotron.selector);
   }
@@ -99,10 +103,6 @@ export class ResumePage {
 
   get telLinks(): Locator {
     return this.page.locator('a[href^="tel:"]');
-  }
-
-  get rootElement(): Locator {
-    return this.page.locator('vh-root');
   }
 
   get snackbar(): Locator {
