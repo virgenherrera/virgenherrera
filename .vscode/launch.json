@@ -2,20 +2,31 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ghpages: dev server",
+      "name": "Debug Resume (Chrome)",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "ghpages: serve",
+      "preLaunchTask": "serve:resume",
+      "postDebugTask": "kill-port:4200",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/apps/ghpages"
+      "webRoot": "${workspaceFolder}/apps/resume"
     },
     {
-      "name": "ghpages: production preview",
-      "type": "chrome",
+      "name": "Debug Resume (Edge)",
+      "type": "msedge",
       "request": "launch",
-      "preLaunchTask": "ghpages: build + serve",
-      "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}/apps/ghpages/dist/app-ghpages/browser"
+      "preLaunchTask": "serve:resume",
+      "postDebugTask": "kill-port:4200",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/resume"
+    },
+    {
+      "name": "Debug Resume (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "preLaunchTask": "serve:resume",
+      "postDebugTask": "kill-port:4200",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/resume"
     }
   ]
 }

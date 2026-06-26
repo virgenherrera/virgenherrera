@@ -1,13 +1,7 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { HttpService } from "@nestjs/axios";
-import type { Observable } from "rxjs";
-import { map, catchError, of } from "rxjs";
-import {
-  gitHubReposResponseSchema,
-  type GitHubRepo,
-} from "./github.schemas.ts";
-
-const PER_PAGE = 100;
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom, catchError, map, of } from 'rxjs';
+import { gitHubReposResponseSchema, type GitHubRepo } from './github.schemas';
 
 @Injectable()
 export class GitHubService {
@@ -15,32 +9,37 @@ export class GitHubService {
 
   constructor(@Inject(HttpService) private readonly http: HttpService) {}
 
-  fetchRepos(username: string, page = 1): Observable<GitHubRepo[]> {
-    const token = process.env["GITHUB_TOKEN"];
+  async fetchUserRepos(username: string): Promise<readonly GitHubRepo[]> {
+    const token = process.env['GITHUB_TOKEN'];
     const headers: Record<string, string> = {};
 
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
-    return this.http
-      .get<unknown[]>(`https://api.github.com/users/${username}/repos`, {
-        params: { per_page: PER_PAGE, page, type: "owner", sort: "updated" },
-        headers,
-      })
-      .pipe(
-        map((response) => gitHubReposResponseSchema.parse(response.data)),
-        map((repos) => repos.filter((repo) => !repo.fork && !repo.archived)),
-        catchError((error: unknown) => {
-          const message =
-            error instanceof Error ? error.message : "Unknown error";
-          this.logger.warn(
-            `GitHub API request failed: ${message} — skipping repo data.`,
-          );
+    const repos = await firstValueFrom(
+      this.http
+        .get<unknown[]>(
+          `https://api.github.com/users/${encodeURIComponent(username)}/repos`,
+          {
+            params: { per_page: 100, type: 'owner', sort: 'updated' },
+            headers,
+          },
+        )
+        .pipe(
+          map((res) => gitHubReposResponseSchema.parse(res.data)),
+          map((all) => all.filter((r) => !r.fork && !r.archived)),
+          catchError((error: unknown) => {
+            const msg =
+              error instanceof Error ? error.message : 'Unknown error';
+            this.logger.warn(`GitHub API failed: ${msg} — using empty list.`);
 
-          return of([]);
-        }),
-      );
+            return of([] as GitHubRepo[]);
+          }),
+        ),
+    );
+
+    return repos;
   }
 
   aggregateLanguages(repos: readonly GitHubRepo[]): Record<string, number> {
@@ -52,16 +51,17 @@ export class GitHubService {
       }
     }
 
-    const sorted = Object.entries(counts).sort(([, a], [, b]) => b - a);
-
-    return Object.fromEntries(sorted);
+    return Object.fromEntries(
+      Object.entries(counts).sort(([, a], [, b]) => b - a),
+    );
   }
 
-  getTopRepos(repos: readonly GitHubRepo[], limit = 5): GitHubRepo[] {
+  getTopRepos(repos: readonly GitHubRepo[], limit = 5): readonly GitHubRepo[] {
     return [...repos]
       .sort((a, b) => {
-        const starDiff = b.stargazers_count - a.stargazers_count;
-        if (starDiff !== 0) return starDiff;
+        if (b.stargazers_count !== a.stargazers_count) {
+          return b.stargazers_count - a.stargazers_count;
+        }
 
         return (
           new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()

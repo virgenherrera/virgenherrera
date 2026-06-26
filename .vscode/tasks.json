@@ -2,31 +2,28 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "ghpages: serve",
+      "label": "serve:resume",
       "type": "shell",
-      "command": "pnpm --filter @virgenherrera/app-ghpages start",
+      "command": "pnpm run serve:resume",
       "isBackground": true,
       "problemMatcher": {
-        "pattern": { "regexp": "^$" },
+        "owner": "angular",
+        "pattern": {
+          "regexp": "^$"
+        },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*angular.*",
-          "endsPattern": ".*Local.*http.*"
+          "beginsPattern": ".*Angular is running in development mode.*|.*Re-optimizing dependencies.*|.*Watch mode enabled.*",
+          "endsPattern": ".*Application bundle generation complete.*|.*compiled successfully.*"
         }
       }
     },
     {
-      "label": "ghpages: build + serve",
+      "label": "kill-port:4200",
       "type": "shell",
-      "command": "pnpm --filter @virgenherrera/app-ghpages exec ng build --configuration development && pnpm --filter @virgenherrera/app-ghpages run serve:ssr -- -s",
-      "isBackground": true,
-      "problemMatcher": {
-        "pattern": { "regexp": "^$" },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": ".*Building.*",
-          "endsPattern": ".*Available on.*"
-        }
+      "command": "pnpm exec kill-port 4200",
+      "presentation": {
+        "reveal": "silent"
       }
     }
   ]

@@ -1,47 +1,37 @@
-import type { ExperienceData } from "@virgenherrera/profile";
+import type { ExperienceData } from '@vh/profile';
 
 function escapeMermaid(text: string): string {
-  return text.replace(/:/g, " -").replace(/;/g, ",");
+  return text.replace(/:/g, ' -').replace(/;/g, ',');
 }
 
-function extractYear(dateStr: string): number {
-  return parseInt(dateStr.split("-")[0]!, 10);
-}
-
-function toSortableDate(dateStr: string): string {
-  return dateStr.length === 4 ? `${dateStr}-01` : dateStr;
+function extractYear(yearMonth: string): number {
+  return parseInt(yearMonth.split('-')[0], 10);
 }
 
 export function buildTimelineDiagram(
   experiences: readonly ExperienceData[],
 ): string {
-  if (experiences.length === 0) {
-    return "";
-  }
+  if (experiences.length === 0) return '';
 
   const sorted = [...experiences].sort((a, b) =>
-    toSortableDate(a.startDate).localeCompare(toSortableDate(b.startDate)),
+    a.startDate.localeCompare(b.startDate),
   );
 
-  const lines: string[] = ["timeline", "    title Career Journey"];
+  const lines = ['timeline', '    title Career Journey'];
 
   for (const exp of sorted) {
-    const startYear = extractYear(exp.startDate);
-    const endYear = exp.endDate
+    const start = extractYear(exp.startDate);
+    const end = exp.endDate
       ? extractYear(exp.endDate)
       : new Date().getFullYear();
-    const yearRange =
-      startYear === endYear
-        ? `${String(startYear)}`
-        : `${String(startYear)}-${String(endYear)}`;
-    const company = escapeMermaid(exp.company);
-    const role = escapeMermaid(exp.role);
+    const range =
+      start === end ? String(start) : `${String(start)}-${String(end)}`;
 
-    lines.push(`    section ${yearRange}`);
-    lines.push(`        ${role} : ${company}`);
+    lines.push(`    section ${range}`);
+    lines.push(
+      `        ${escapeMermaid(exp.role)} : ${escapeMermaid(exp.company)}`,
+    );
   }
 
-  const diagram = lines.join("\n");
-
-  return `\`\`\`mermaid\n${diagram}\n\`\`\``;
+  return `\`\`\`mermaid\n${lines.join('\n')}\n\`\`\``;
 }

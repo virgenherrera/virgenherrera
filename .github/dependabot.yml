@@ -1,12 +1,14 @@
-version: 2
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
+version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: /
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
-      day: monday
-      timezone: America/Mexico_City
+      interval: "weekly"
+      day: "monday"
+      time: "00:00"
+      timezone: "America/Mexico_City"
     labels:
-      - dependabot
-      - github-actions dependencies
+      - "dependabot"
+      - "github-actions dependencies"

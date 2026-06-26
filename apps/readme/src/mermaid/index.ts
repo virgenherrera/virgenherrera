@@ -1,2 +1,2 @@
-export { buildTimelineDiagram } from "./timeline.ts";
-export { buildLanguagePieChart } from "./languages.ts";
+export { buildTimelineDiagram } from './timeline';
+export { buildLanguagePieChart } from './languages';
