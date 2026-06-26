@@ -18,12 +18,7 @@ Central developer reference for the `virgenherrera` pnpm monorepo. Per-workspace
 
 ## Prerequisites
 
-| Tool    | Required version | Source of truth             |
-| ------- | ---------------- | --------------------------- |
-| Node.js | `>=24.13.0 <25`  | `engines` in `package.json` |
-| pnpm    | `>=11.0.0 <12`   | `engines` in `package.json` |
-
-The `engines` field in `package.json` is the sole authority. Any version outside those ranges is unsupported.
+Check the `engines` field in [`package.json`](package.json) for the required Node.js and pnpm versions.
 
 [↑ Menú](#menú)
 
