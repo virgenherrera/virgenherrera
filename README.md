@@ -110,7 +110,8 @@ journey
 <div align="center">
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&style=for-the-badge&logoColor=white)](https://github.com/virgenherrera)&nbsp;
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/virgenherrera)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/virgenherrera)&nbsp;
+[![Resume](https://img.shields.io/badge/Resume-4285F4?logo=googlechrome&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/)
 
 </div>
 
