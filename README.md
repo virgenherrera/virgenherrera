@@ -36,25 +36,24 @@
 ---
 
 ```mermaid
-%%{init: {'theme': 'neutral'}}%%
-timeline
+journey
     title Career Journey
     section 2015-2016
-        Fullstack Software Engineer : Ramsal Software
+      Fullstack Software Engineer: 3: Ramsal Software
     section 2016
-        Frontend Software Engineer : Hitss México
+      Frontend Software Engineer: 3: Hitss México
     section 2016-2018
-        Full-stack Software Engineer : 3Pillar Global (formerly Tiempo Development)
+      Full-stack Software Engineer: 5: 3Pillar Global -formerly Tiempo Development
     section 2018-2020
-        Full Stack JavaScript Engineer : EPAM Systems
+      Full Stack JavaScript Engineer: 5: EPAM Systems
     section 2019-2020
-        Resources Manager (Leadership Development) : EPAM Systems
+      Resources Manager -Leadership Development: 3: EPAM Systems
     section 2020-2021
-        Lead Full Stack JavaScript Engineer : Unosquare
+      Lead Full Stack JavaScript Engineer: 3: Unosquare
     section 2021-2024
-        Senior Fullstack Node.js Developer : Globant
+      Senior Fullstack Node.js Developer: 5: Globant
     section 2024-2026
-        Senior Software Developer : PwC
+      Senior Software Developer: 5: PwC
 ```
 
 ---
@@ -85,15 +84,13 @@ timeline
 
 ---
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-pie title Languages by Repository Count
-    "TypeScript" : 63
-    "JavaScript" : 14
-    "HTML" : 12
-    "PHP" : 10
-    "Rust" : 2
-```
+## 💻 Top Languages
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=virgenherrera&layout=compact&theme=transparent&hide_border=true" alt="Top Languages" />
+
+</div>
 
 ---
 
