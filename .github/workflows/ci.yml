@@ -21,7 +21,7 @@ jobs:
       quality-resume: ${{ steps.filter.outputs.quality-resume }}
       quality-readme: ${{ steps.filter.outputs.quality-readme }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -52,7 +52,7 @@ jobs:
     needs: [changes]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: test:static
         run: |
@@ -72,7 +72,7 @@ jobs:
       needs.changes.outputs.quality-readme == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: test:unit
         run: |
@@ -89,7 +89,7 @@ jobs:
       needs.changes.outputs.packages-profile == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: build
         run: |
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Download build artifacts
         uses: actions/download-artifact@v4
