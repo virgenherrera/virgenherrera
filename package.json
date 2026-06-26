@@ -42,11 +42,9 @@
     "securityFix": "pnpm update",
     "updatePnpm": "corepack up",
     "cleanup": "pnpm -r run --if-present cleanup && rimraf artifacts/",
-    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix",
-    "changeset": "changeset"
+    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix"
   },
   "devDependencies": {
-    "@changesets/cli": "catalog:",
     "@eslint/js": "catalog:",
     "kill-port-process": "catalog:",
     "@eslint/json": "catalog:",
