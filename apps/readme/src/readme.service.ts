@@ -16,7 +16,7 @@ export class ReadmeService {
     @Inject(Logger) private readonly logger: Logger,
   ) {}
 
-  async generate(): Promise<void> {
+  generate(): void {
     const profile = getProfile();
 
     const rootPkgPath = resolve(REPO_ROOT, 'package.json');
@@ -31,10 +31,7 @@ export class ReadmeService {
       );
     }
 
-    const repos = username ? await this.github.fetchUserRepos(username) : [];
-
-    const languages = this.github.aggregateLanguages(repos);
-    const markdown = this.renderer.render(profile, languages, username ?? '');
+    const markdown = this.renderer.render(profile, username ?? '');
 
     const outputPath = resolve(REPO_ROOT, 'README.md');
     writeFileSync(outputPath, markdown, 'utf-8');
