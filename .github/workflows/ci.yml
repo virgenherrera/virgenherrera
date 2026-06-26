@@ -122,7 +122,9 @@ jobs:
           name: resume-build
           path: artifacts/resume/
       - name: Install Playwright browsers
-        run: pnpm dlx playwright install --with-deps chromium
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list
+          pnpm dlx playwright install --with-deps chromium
       - name: test:e2e
         run: |
           pnpm run test:e2e
