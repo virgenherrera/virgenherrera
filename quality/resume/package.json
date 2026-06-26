@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
+    "@vh/profile": "workspace:*",
     "@types/node": "catalog:",
     "http-server": "14.1.1",
     "rimraf": "catalog:",

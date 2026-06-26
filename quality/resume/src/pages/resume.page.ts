@@ -29,6 +29,10 @@ export class ResumePage {
     });
   }
 
+  get rootElement(): Locator {
+    return this.page.locator('vh-root');
+  }
+
   get jumbotron(): Locator {
     return this.page.locator(LAYOUT.jumbotron.selector);
   }
