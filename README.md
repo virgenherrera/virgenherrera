@@ -86,22 +86,24 @@ journey
 
 ## 💻 Top Languages
 
-<div align="center">
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=virgenherrera&layout=compact&theme=transparent&hide_border=true" alt="Top Languages" />
-
-</div>
+```mermaid
+pie title Top Languages
+  "TypeScript" : 33
+  "JavaScript" : 7
+  "HTML" : 6
+  "PHP" : 5
+  "Rust" : 1
+```
 
 ---
 
 ## 📈 GitHub Stats
 
-<div align="center">
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=virgenherrera&show_icons=true&theme=default&hide_border=true&rank_icon=github&include_all_commits=true&count_private=true)&nbsp;&nbsp;
-![GitHub Streak](https://streak-stats.demolab.com/?user=virgenherrera&theme=default&hide_border=true)
-
-</div>
+| Metric | Value |
+|:---|:---:|
+| Public Repos | 62 |
+| Total Stars | ⭐ 5 |
+| Total Forks | 🍴 5 |
 
 ---
 
