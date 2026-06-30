@@ -1,12 +1,12 @@
-# Agents
+# Agentes
 
-Instructions for AI agents working in this repository.
+Instrucciones para agentes de IA que trabajan en este repositorio.
 
-## Commit Convention
+## Convención de Commits
 
-Every commit message follows [Conventional Commits](https://www.conventionalcommits.org/).
+Cada mensaje de commit sigue [Conventional Commits](https://www.conventionalcommits.org/).
 
-### Format
+### Formato
 
 ```text
 <type>: Title
@@ -17,9 +17,9 @@ Brief description.
 - Action item n.
 ```
 
-### Types
+### Tipos
 
-| Type    | When to use                       |
+| Tipo    | Cuándo usar                       |
 | ------- | --------------------------------- |
 | `feat`  | New features or capabilities      |
 | `fix`   | Bug fixes                         |
@@ -27,82 +27,100 @@ Brief description.
 | `task`  | Changes to existing functionality |
 | `spike` | Research or exploration           |
 
-### Rules
+### Reglas
 
-- Subject line: imperative mood, lowercase, no period, max 72 characters
-- Body: brief description followed by bullet points listing each concrete change
-- No `Co-Authored-By` or AI attribution lines
+- Línea de asunto: modo imperativo, minúsculas, sin punto final, máximo 72 caracteres
+- Cuerpo: descripción breve seguida de viñetas listando cada cambio concreto
+- Sin líneas de `Co-Authored-By` ni atribución a IA
 
-## Tooling Contract
+## Contrato de Herramientas
 
-The `engines` field in `package.json` is the **only** source of truth for allowed runtimes and package managers. Any tool not declared there is forbidden. This applies to every agent, sub-agent, and orchestrator. No exceptions.
+El campo `engines` en `package.json` es la **única** fuente de verdad para runtimes y gestores de paquetes permitidos. Cualquier herramienta no declarada ahí está prohibida. Esto aplica a cada agente, sub-agente y orquestador. Sin excepciones.
 
-## Agent Prohibitions
+## Prohibiciones para Agentes
 
-### Compact Rules for Sub-Agent Injection
+### Reglas Compactas para Inyección en Sub-Agentes
 
-Orchestrators MUST inject these rules verbatim into every sub-agent prompt.
+Los orquestadores DEBEN inyectar estas reglas de forma literal en cada prompt de sub-agente.
 
 **PROHIB-TOOLS:**
 
-- FORBIDDEN: `gh` (GitHub CLI) — no `gh auth`, `gh pr`, `gh api`. Use `curl`, `WebFetch`, or Playwright.
-- FORBIDDEN: `npm`, `npx`, `yarn` — only `pnpm` (declared in `engines`).
-- FORBIDDEN: `brew install`, `apt install` — no system-level installations.
-- FORBIDDEN: `cat`, `grep`, `find`, `sed`, `ls` — use `bat`, `rg`, `fd`, `sd`, `eza`.
-- FORBIDDEN: manual file creation when official CLI exists — use `pnpm dlx` + scaffolding.
+- PROHIBIDO: `gh` (GitHub CLI) — no `gh auth`, `gh pr`, `gh api`. Usar `curl`, `WebFetch` o Playwright.
+- PROHIBIDO: `npm`, `npx`, `yarn` — solo `pnpm` (declarado en `engines`).
+- PROHIBIDO: `brew install`, `apt install` — no instalaciones a nivel de sistema.
+- PROHIBIDO: `cat`, `grep`, `find`, `sed`, `ls` — usar `bat`, `rg`, `fd`, `sd`, `eza`.
+- PROHIBIDO: creación manual de archivos cuando existe un CLI oficial — usar `pnpm dlx` + scaffolding.
 
 **PROHIB-PATTERNS:**
 
-- FORBIDDEN: hardcoded CSS values — always `var(--vh-*)`.
-- FORBIDDEN: static imports of lazy-loaded libraries.
+- PROHIBIDO: valores CSS hardcodeados — siempre `var(--vh-*)`.
+- PROHIBIDO: imports estáticos de bibliotecas con carga diferida.
 
-Violation → immediate kill. No second attempt on the same violation.
+Violación → kill inmediato. No se otorga segundo intento sobre la misma violación.
 
-## Anti-Rationalization Protocol
+## Protocolo Anti-Racionalización
 
-Rules in this document are MECHANICAL, not ADVISORY. An agent does not have authority to:
+Las reglas en este documento son MECÁNICAS, no CONSULTIVAS. Un agente no tiene autoridad para:
 
-- Judge whether a rule "applies" based on task size, complexity, or urgency
-- Invent exceptions not explicitly written ("too small for a branch", "just a config change", "fix directa")
-- Reinterpret a rule's intent to justify skipping it ("the spirit of the rule doesn't require this here")
-- Defer compliance ("I'll create the handoff after this quick fix")
+- Juzgar si una regla "aplica" basándose en tamaño, complejidad o urgencia de la tarea
+- Inventar excepciones no escritas explícitamente ("demasiado pequeño para una rama", "solo es un cambio de config", "fix directa")
+- Reinterpretar la intención de una regla para justificar omitirla ("el espíritu de la regla no requiere esto aquí")
+- Diferir el cumplimiento ("creo el handoff después de este arreglo rápido")
 
-### The Rationalization Test
+### La Prueba de Racionalización
 
-Before bypassing, reducing, or "scaling down" ANY protocol in this document:
+Antes de omitir, reducir o "escalar hacia abajo" CUALQUIER protocolo en este documento:
 
-1. **Quote the exact text** that authorizes the bypass. Not a paraphrase — the exact sentence.
-2. If no exact sentence authorizes it → the bypass is unauthorized. Full stop.
-3. If the agent finds itself writing phrases like "this doesn't warrant," "this is just," "given the simplicity," "an exception for," or "in this case we can skip" → rationalization signal. Stop and comply as written.
+1. **Citar el texto exacto** que autoriza la omisión. No una paráfrasis — la oración exacta.
+2. Si ninguna oración exacta lo autoriza → la omisión no está autorizada. Punto final.
+3. Si el agente se encuentra escribiendo frases como "esto no amerita", "esto es solo", "dada la simplicidad", "una excepción para" o "en este caso podemos omitir" → señal de racionalización. Detenerse y cumplir tal como está escrito.
 
-### Interpretation Rules
+### Reglas de Interpretación
 
-- Ambiguity resolves in favor of MORE compliance, not less
-- "Scale to the work" means reduce content volume, never skip structural requirements
-- Silence on a topic means the default protocol applies, not that the agent has discretion
-- The agent cannot grant itself exceptions. Only an explicit user directive overrides a rule, and the agent MUST echo the override back for confirmation before acting
+- La ambigüedad se resuelve a favor de MÁS cumplimiento, no menos
+- "Escalar al trabajo" significa reducir volumen de contenido, nunca omitir requisitos estructurales
+- El silencio sobre un tema significa que aplica el protocolo por defecto, no que el agente tiene discreción
+- El agente no puede otorgarse excepciones a sí mismo. Solo una directiva explícita del usuario anula una regla, y el agente DEBE repetir la anulación al usuario para confirmación antes de actuar
 
-### Burden of Proof
+### Carga de la Prueba
 
-The burden of proof for non-compliance lies with the agent, not with the document. "The document doesn't explicitly say I must" is not valid justification for skipping. If a reasonable reading implies the obligation, the obligation exists.
+La carga de la prueba por incumplimiento recae en el agente, no en el documento. "El documento no dice explícitamente que debo" no es justificación válida para omitir. Si una lectura razonable implica la obligación, la obligación existe.
 
-## Model Assignment Policy
+## Política de Asignación de Modelos
 
-Before launching a sub-agent, ask: does it need to REASON, IMPLEMENT, or SEARCH?
+Antes de lanzar un sub-agente, preguntar: ¿necesita RAZONAR, IMPLEMENTAR o BUSCAR?
 
-| Tier        | Model  | Use when                                                      |
-| ----------- | ------ | ------------------------------------------------------------- |
-| Search/Read | haiku  | Grep, read docs, lint checks, format, exploratory reads       |
-| Implement   | sonnet | Write code, tests, reviews, verify quality gates              |
-| Architect   | opus   | Design decisions, conflict resolution, multi-source synthesis |
+| Nivel       | Modelo | Usar cuando                                                          |
+| ----------- | ------ | -------------------------------------------------------------------- |
+| Búsqueda    | haiku  | Grep, leer docs, lint checks, formato, lecturas exploratorias        |
+| Implementar | sonnet | Escribir código, tests, revisiones, verificar quality gates          |
+| Arquitecto  | opus   | Decisiones de diseño, resolución de conflictos, síntesis multifuente |
 
-With 6+ agents, tier discipline multiplies savings. Never burn opus on a grep.
+Con 6+ agentes, la disciplina de niveles multiplica los ahorros. Nunca quemar opus en un grep.
 
-## Orchestration Protocol
+## Protocolo de Orquestación
 
-### Status Updates
+### Principio de Orquestador Puro
 
-Agents MUST include in every response:
+El agente principal opera exclusivamente como coordinador. No ejecuta tareas directamente.
+
+| Acción                                                                                           | Inline (orquestador) | Delegar (sub-agente)      |
+| ------------------------------------------------------------------------------------------------ | -------------------- | ------------------------- |
+| Leer para decidir/verificar (1-3 archivos)                                                       | ✅                   | —                         |
+| Leer para explorar/entender (4+ archivos)                                                        | —                    | ✅                        |
+| Leer como preparación para escribir                                                              | —                    | ✅ junto con la escritura |
+| Escribir (cualquier archivo)                                                                     | —                    | ✅                        |
+| Actualizar el Progress Tracker del handoff activo (.tmp-\*)                                      | ✅                   | —                         |
+| Bash de solo lectura (git status, eza)                                                           | ✅                   | —                         |
+| Bash de ejecución (test, build, install)                                                         | —                    | ✅                        |
+| Decisiones arquitectónicas (elegir dirección, sin producir artefactos ni leer más de 3 archivos) | ✅                   | —                         |
+| Presentar resultados al usuario (MIM)                                                            | ✅                   | —                         |
+
+**Auto-detección**: si el orquestador se encuentra editando archivos, escribiendo código o ejecutando builds, está en violación. Debe detenerse, delegar la tarea a un sub-agente, y continuar como coordinador.
+
+### Actualizaciones de Estado
+
+Los agentes DEBEN incluir en cada respuesta:
 
 ```text
 Status: [IN_PROGRESS | BLOCKED | DONE | FAILED]
@@ -110,191 +128,254 @@ Progress: X/Y items
 Blocker: (if applicable)
 ```
 
-- No status → STALLED → kill + relaunch
-- BLOCKED > 1 iteration → kill + reassign with blocker context
-- FAILED → diagnose root cause before relaunch
+- Sin estado → STALLED → kill + relanzamiento
+- BLOCKED > 1 iteración → kill + reasignar con contexto del bloqueante
+- FAILED → diagnosticar causa raíz antes de relanzar
 
-### Rejection Escalation
+### Circuit Breaker de Supervisión
 
-1. Gate fails → specific feedback with evidence → agent corrects
-2. Same gate fails again → kill + relaunch fresh with error context
-3. Third failure → orchestrator implements directly
+La supervisión de sub-agentes es reactiva, no proactiva. No se verifican checklists en cada delegación.
 
-### MIM Checkpoints (Man-in-the-Middle)
+**Pre-lanzamiento** — el orquestador incluye en cada prompt de delegación:
 
-Orchestrator MUST NOT advance phases without explicit user approval.
+- **Scope hint**: una línea que delimita el alcance. Ejemplo: `scope: "2 archivos en packages/design-system/, solo modificar"`
+- **Objetivo verificable**: una oración que el orquestador puede evaluar binariamente contra el resultado.
 
-| Rule         | Detail                                                                         |
-| ------------ | ------------------------------------------------------------------------------ |
-| Default      | MIM is mandatory at every phase boundary                                       |
-| Override     | Handoff doc can declare `Mode: autonomous` for non-visual phases               |
-| Visual gates | Always MIM regardless of mode (UX/layout/a11y require human eyes)              |
-| Protocol     | Present result → user approves/requests changes/rejects → no LGTM = no advance |
+**Post-resultado** — el orquestador evalúa un solo invariante:
 
-### Evidence-Only Progress
+> ¿El resultado del sub-agente es coherente con el objetivo declarado y el scope hint?
 
-A checkbox is a lie until confirmed by evidence. Mark ONLY after: diff verified, command output checked, or MIM approval received. Self-reported status from the executing agent is NOT evidence.
+- **Coherente** → aceptar. Cero tokens de supervisión adicional.
+- **Incoherente** → activar circuit breaker: verificar con `git diff --name-only`, revisar archivos tocados, decidir retry o abort.
 
-## Branching Model
+**Estados del circuit breaker:**
+
+| Estado                      | Condición                                                                                                         | Overhead                                   |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Cerrado (normal)            | Resultados coherentes                                                                                             | Cero — delegar y esperar                   |
+| Abierto (anomalía)          | Invariante falló                                                                                                  | Alto — verificación exhaustiva justificada |
+| Semi-abierto (recuperación) | Siguiente sub-agente con el mismo scope de archivos objetivo recibe prompt reforzado con la restricción que falló | Medio — si pasa, volver a cerrado          |
+
+### Checkpoint Post-Delegación (PDC)
+
+Después de recibir CADA resultado de un sub-agente, el orquestador ejecuta estos 4 pasos EN ORDEN antes de cualquier otra acción. No se permite delegar la siguiente tarea, responder al usuario, ni invocar otra herramienta hasta completar los 4 pasos. Cada paso DEBE producir output visible en la conversación.
+
+1. **ECHO** — Imprimir los gates de aceptación de esta tarea desde el Progress Tracker del handoff. Si no puedes imprimirlos de memoria, releer el archivo de handoff. Formato: `GATES: [gate1] | [gate2] | [gate3]`
+2. **VERIFY** — Para cada gate, declarar PASS o FAIL con UNA línea de evidencia. La evidencia debe referenciar un archivo, línea o salida de comando específica. "Se ve correcto" NO es evidencia. Formato: `GATE [nombre]: PASS|FAIL — [evidencia]`
+3. **MARK** — Actualizar el Progress Tracker del handoff AHORA. Marcar el checkbox correspondiente con evidencia inline. Este paso produce una escritura al archivo `.tmp-*`.
+4. **DECIDE** — Si algún gate es FAIL → no avanzar, re-delegar o corregir. Si todos los gates son PASS → imprimir `CHECKPOINT CLEAR` y proceder.
+
+**Regla de cierre**: si el paso 3 no se completó, el orquestador NO tiene permiso de lanzar otro sub-agente ni de responder al usuario.
+
+**Guardia pre-delegación**: antes de cada nueva delegación, verificar que el PDC de la delegación anterior fue completado (el checkbox más reciente del tracker está marcado). Si no → ejecutar el PDC retroactivamente antes de delegar.
+
+**Incident tag**: orquestador completó 5 ediciones sin verificar ni marcar progreso; usuario lo detectó como quality gate sorpresa (2026-06-29).
+
+### Escalamiento por Rechazo
+
+1. Gate falla → feedback específico con evidencia → el agente corrige
+2. El mismo gate falla otra vez → kill + relanzar limpio con contexto del error
+3. Tercer fallo → el orquestador diagnostica la causa raíz y relanza con alcance reducido o escala al usuario
+
+### Checkpoints MIM (Man-in-the-Middle)
+
+El orquestador NO DEBE avanzar de fase sin aprobación explícita del usuario.
+
+| Regla          | Detalle                                                                            |
+| -------------- | ---------------------------------------------------------------------------------- |
+| Por defecto    | MIM es obligatorio en cada límite de fase                                          |
+| Anulación      | El documento de handoff puede declarar `Mode: autonomous` para fases no visuales   |
+| Gates visuales | Siempre MIM sin importar el modo (UX/layout/a11y requieren ojos humanos)           |
+| Protocolo      | Presentar resultado → usuario aprueba/pide cambios/rechaza → sin LGTM = no avanzar |
+
+### Progreso Solo con Evidencia
+
+Un checkbox es una mentira hasta que se confirma con evidencia. Marcar SOLO después de: diff verificado, salida de comando verificada o aprobación MIM recibida. El estado auto-reportado por el agente ejecutor NO es evidencia.
+
+## Modelo de Ramas
 
 ```text
 task/{name} → feature/{epic} → {integration-branch} → PR to master
 ```
 
-- Task branches: `task/{descriptive-name}` — one per agent/work unit
-- Epic branches: `feature/{epic-name}` — collects all task merges
-- Integration branch: squash-merge from epic branch
-- No direct commits to master or integration branch
-- Independent tasks in same phase → `isolation: 'worktree'` for parallel execution
+- Ramas de tarea: `task/{descriptive-name}` — una por agente/unidad de trabajo
+- Ramas de épica: `feature/{epic-name}` — recopila todos los merges de tareas
+- Rama de integración: squash-merge desde la rama de épica
+- Sin commits directos a master ni a la rama de integración
+- Tareas independientes en la misma fase → `isolation: 'worktree'` para ejecución paralela
 
-### No Exceptions
+### Sin Excepciones
 
-There is no "too small" exemption. A one-line typo fix follows the same branching model as a 50-file epic. The model exists for auditability and rollback safety, not complexity management.
+No existe exención por "demasiado pequeño". Un fix de un typo de una línea sigue el mismo modelo de ramas que una épica de 50 archivos. El modelo existe para auditabilidad y seguridad de rollback, no para gestión de complejidad.
 
-If an agent writes "no requiere feature branch", "fix directa", "commit directo", or any variation that bypasses branching → protocol violation. Kill and restart with the branching model enforced.
+Si un agente escribe "no requiere feature branch", "fix directa", "commit directo" o cualquier variación que omita el modelo de ramas → violación de protocolo. Kill y reinicio con el modelo de ramas aplicado.
 
-Only an explicit user directive (e.g., "commit directly, skip branching") suspends this rule. The agent MUST echo the override back to the user for confirmation before acting on it.
+Solo una directiva explícita del usuario (ej., "haz commit directo, omite el branching") suspende esta regla. El agente DEBE repetir la anulación al usuario para confirmación antes de actuar.
 
-### Handoff Coupling
+### Acoplamiento con Handoff
 
-The `{name}` in `task/{name}` MUST match an existing `.tmp-{name}-handoff.md` file (or a `.tmp-*-handoff.md` that declares that task). Before creating any branch, verify: `eza .tmp-*-handoff.md`. If no matching handoff file exists, the branch cannot be created. This is a hard prerequisite, not a recommendation.
+El `{name}` en `task/{name}` DEBE coincidir con un archivo `.tmp-{name}-handoff.md` existente (o un `.tmp-*-handoff.md` que declare esa tarea). Antes de crear cualquier rama, verificar: `eza .tmp-*-handoff.md`. Si no existe archivo de handoff coincidente, la rama no puede crearse. Este es un prerrequisito duro, no una recomendación.
 
-## Quality Gate Framework
+## Marco de Quality Gates
 
-Every task in a handoff document MUST define its acceptance criteria as a gate table.
+Cada tarea en un documento de handoff DEBE definir sus criterios de aceptación como una tabla de gates.
 
 ```markdown
-| Gate | Verification | Command/Check | Type |
+| Gate | Verificación | Comando/Check | Tipo |
 | ---- | ------------ | ------------- | ---- |
 ```
 
-Type values:
+Valores de tipo:
 
-- `EXE` — deterministic command, auto-verifiable by orchestrator
-- `MAN` — requires human judgment or visual inspection (always MIM)
+- `EXE` — comando determinista, auto-verificable por el orquestador
+- `MAN` — requiere juicio humano o inspección visual (siempre MIM)
 
-Minimum gates required for any task:
+Gates mínimos requeridos para cualquier tarea:
 
-| Gate            | Command                                 | Type |
-| --------------- | --------------------------------------- | ---- |
-| Handoff exists  | `eza .tmp-*-handoff.md` (exit 0)        | EXE  |
-| Lint clean      | `pnpm test:static`                      | EXE  |
-| Types clean     | `pnpm test:types`                       | EXE  |
-| No side effects | `git diff --stat` (only expected files) | EXE  |
+| Gate                  | Comando                                     | Tipo |
+| --------------------- | ------------------------------------------- | ---- |
+| Handoff existe        | `eza .tmp-*-handoff.md` (exit 0)            | EXE  |
+| Lint limpio           | `pnpm test:static`                          | EXE  |
+| Tipos limpios         | `pnpm test:types`                           | EXE  |
+| Sin efectos laterales | `git diff --stat` (solo archivos esperados) | EXE  |
+
+### Incident Tags
+
+Toda regla nueva agregada a este archivo requiere un incident tag — el fallo específico que la motivó. Si no puedes citar un incidente real, la regla es especulativa y no pertenece aquí.
+
+Filtro antes de agregar una regla:
+
+| Pregunta                                                        | Si la respuesta es... | Entonces...                           |
+| --------------------------------------------------------------- | --------------------- | ------------------------------------- |
+| ¿Qué fallo específico previene esta regla?                      | No puedo citar uno    | No agregar — es especulativa          |
+| ¿Ese fallo ya ocurrió?                                          | No, es hipotético     | Diferir — promover solo cuando ocurra |
+| ¿Se puede lograr con una assertion en el prompt de lanzamiento? | Sí                    | No globalizar — resolver en el prompt |
+
+Las reglas existentes en este archivo están exentas (legacy). Las reglas nuevas deben cumplir este filtro sin excepción.
+
+**Incident tags de las reglas agregadas el 2026-06-29:**
+
+- Principio de Orquestador Puro — Incident: orquestador completó 5 ediciones directamente sin delegar; detectado por usuario como quality gate sorpresa.
+- Circuit Breaker de Supervisión — Incident: propuesta original con supervisión proactiva (5 anti-patrones, umbrales) generaba ~500 tokens/delegación de overhead; reducida tras revisión de 3 expertos.
+- Incident Tags — Incident: reglas especulativas agregadas sin justificación empírica; los expertos (Kim) identificaron "Process Debt by Anticipation" como anti-patrón.
+- Diseño Cognitivo — Incident: handoffs densos y difíciles de escanear; principios de cognitive-doc-design del ecosistema gentle-ai seleccionados para mejorar legibilidad.
+- Fix Escalamiento paso 3 — Incident: la instrucción "implementa directamente" contradecía el Principio de Orquestador Puro recién agregado.
 
 ## Handoff
 
-**MANDATORY PRE-EXECUTION GATE — ORCHESTRATOR CANNOT PROCEED WITHOUT THIS.**
+**GATE PRE-EJECUCIÓN OBLIGATORIO — EL ORQUESTADOR NO PUEDE PROCEDER SIN ESTO.**
 
-Structured work requires a handoff document generated via the `handoff` skill (`/handoff {name}`). Applies to any scale: features, bugs, spikes, epics, or investigations. The document lives at `.tmp-{name}-handoff.md` (repo root, not committed). It is the single source of truth for the work unit: agent assignments, quality gates, execution phases, and canonical contracts.
+El trabajo estructurado requiere un documento de handoff generado mediante la skill `handoff` (`/handoff {name}`). Aplica a cualquier escala: features, bugs, spikes, épicas o investigaciones. El documento vive en `.tmp-{name}-handoff.md` (raíz del repo, no se commitea). Es la única fuente de verdad para la unidad de trabajo: asignaciones de agentes, quality gates, fases de ejecución y contratos canónicos.
 
-STOP. If no `.tmp-*-handoff.md` exists for the current work → you are in violation. Create it now before proceeding.
+ALTO. Si no existe `.tmp-*-handoff.md` para el trabajo actual → estás en violación. Créalo ahora antes de proceder.
 
-Auto-cleanup: when ALL checkboxes in the progress tracker are marked AND the user authorizes, the `.tmp-` file is deleted.
+Auto-limpieza: cuando TODOS los checkboxes en el progress tracker estén marcados Y el usuario autorice, el archivo `.tmp-` se elimina.
 
-### Authorization Model (inverted default)
+### Modelo de Autorización (default invertido)
 
-The orchestrator operates in TWO modes. There is no third option.
+El orquestador opera en DOS modos. No existe una tercera opción.
 
-**READ-ONLY MODE** (default — no `.tmp-*-handoff.md` exists for the current work):
+**MODO SOLO-LECTURA** (por defecto — no existe `.tmp-*-handoff.md` para el trabajo actual):
 
-The orchestrator may read files, search code, run read-only commands, and respond to the user. It CANNOT call Edit, Write, Agent-with-write-permissions, or branch-creating commands. These capabilities are not available in this mode.
+El orquestador puede leer archivos, buscar código, ejecutar comandos de solo lectura y responder al usuario. NO PUEDE llamar a Edit, Write, Agent-con-permisos-de-escritura ni comandos que crean ramas. Estas capacidades no están disponibles en este modo.
 
-**EXECUTION MODE** (`.tmp-{name}-handoff.md` exists on disk):
+**MODO EJECUCIÓN** (`.tmp-{name}-handoff.md` existe en disco):
 
-The orchestrator may perform actions scoped to the work defined in the handoff. The handoff's Task Branches define which files and branches are in scope.
+El orquestador puede ejecutar acciones dentro del alcance del trabajo definido en el handoff. Las Task Branches del handoff definen qué archivos y ramas están dentro del alcance.
 
-To transition from READ-ONLY to EXECUTION: run `/handoff {name}`. This is not a check to remember — it is the mechanism by which write permissions are granted.
+Para transicionar de SOLO-LECTURA a EJECUCIÓN: ejecutar `/handoff {name}`. Esto no es un recordatorio — es el mecanismo por el cual se otorgan permisos de escritura.
 
-### Trigger Rule (mandatory — no exceptions)
+### Regla de Activación (obligatoria — sin excepciones)
 
-Every user request starts ONE of two tracks:
+Cada solicitud del usuario inicia UNA de dos vías:
 
-**Track A — Answer (no handoff needed):** The orchestrator's ENTIRE response is a message back to the user: an explanation, diagnosis, code review, or answer. No tool calls that create, edit, delete, or delegate. No branches. No file writes. No agent launches. If the response includes EVEN ONE action beyond answering → it is Track B.
+**Vía A — Responder (no necesita handoff):** La respuesta COMPLETA del orquestador es un mensaje de vuelta al usuario: una explicación, diagnóstico, revisión de código o respuesta. Sin llamadas a herramientas que creen, editen, eliminen o deleguen. Sin ramas. Sin escritura de archivos. Sin lanzamiento de agentes. Si la respuesta incluye AUNQUE SEA UNA acción más allá de responder → es Vía B.
 
-**Track B — Act (handoff required FIRST):** The orchestrator will change repo state in any way — creating branches, editing files, launching sub-agents, running fix-and-verify cycles, generating plans to files.
+**Vía B — Actuar (handoff requerido PRIMERO):** El orquestador cambiará el estado del repo de cualquier forma — crear ramas, editar archivos, lanzar sub-agentes, ejecutar ciclos de fix-y-verificación, generar planes a archivos.
 
-Track B procedure (sequential, no skipping):
+Procedimiento de Vía B (secuencial, sin omitir):
 
-1. `eza .tmp-*-handoff.md` — does a handoff for this work already exist?
-2. YES → proceed to execution under that handoff.
-3. NO → run `/handoff {name}` NOW. Do not compose any Edit, Write, Agent, or Bash-that-mutates call until the `.tmp-{name}-handoff.md` file exists on disk.
+1. `eza .tmp-*-handoff.md` — ¿ya existe un handoff para este trabajo?
+2. SÍ → proceder a ejecución bajo ese handoff.
+3. NO → ejecutar `/handoff {name}` AHORA. No componer ninguna llamada a Edit, Write, Agent o Bash-que-muta hasta que el archivo `.tmp-{name}-handoff.md` exista en disco.
 
-**Enforcement by structural dependency, not self-monitoring:**
+**Cumplimiento por dependencia estructural, no por auto-monitoreo:**
 
-- The Branching Model requires `task/{name}` where `{name}` matches a handoff (see § Handoff Coupling).
-- The Quality Gate Framework requires handoff existence as its FIRST gate (see minimum gates table).
-- Sub-agent prompts MUST include the handoff file path. A sub-agent launched without a handoff reference is a protocol violation.
+- El Modelo de Ramas requiere `task/{name}` donde `{name}` coincide con un handoff (ver § Acoplamiento con Handoff).
+- El Marco de Quality Gates requiere la existencia del handoff como su PRIMER gate (ver tabla de gates mínimos).
+- Los prompts de sub-agentes DEBEN incluir la ruta del archivo de handoff. Un sub-agente lanzado sin referencia al handoff es una violación de protocolo.
 
-### Minimum Viable Handoff (mandatory structure — no exceptions)
+### Handoff Mínimo Viable (estructura obligatoria — sin excepciones)
 
-"Scale to the work" means scale section DEPTH, not section PRESENCE. A bug fix Progress Tracker has 4 checkboxes; an epic has 60. Both have a Progress Tracker.
+"Escalar al trabajo" significa escalar la PROFUNDIDAD de las secciones, no su PRESENCIA. Un Progress Tracker de bug fix tiene 4 checkboxes; una épica tiene 60. Ambos tienen Progress Tracker.
 
-Every handoff, regardless of scale, MUST contain at minimum:
+Cada handoff, sin importar la escala, DEBE contener como mínimo:
 
-1. **Header block** — Status, Branch, Artifact declaration, Auto-cleanup rule
-2. **Menu** — Anchor links to every section present in the document
-3. **Back-links** — `[↑ Menu](#menu)` (or localized equivalent) after every section
-4. **Orchestration** — At minimum: agent assignment table, agent prohibitions (verbatim from this file), and quality gates with gate type (EXE/MAN)
-5. **Progress Tracker** — One checkbox per quality gate per task, plus MIM and MERGED checkboxes. Tracker MUST mirror gate tables 1:1.
-6. **Branching model** — Branch name(s) following the model defined in this file. Even a single-task fix gets a task branch.
-7. **Out of Scope** — At least one explicit exclusion to prevent scope creep
+1. **Bloque de encabezado** — Status, Branch, declaración de Artifact, regla de Auto-cleanup
+2. **Menú** — Enlaces ancla a cada sección presente en el documento
+3. **Back-links** — `[↑ Menú](#menú)` después de cada sección
+4. **Orquestación** — Como mínimo: tabla de asignación de agentes, prohibiciones de agentes (literal de este archivo) y quality gates con tipo (EXE/MAN)
+5. **Progress Tracker** — Un checkbox por quality gate por tarea, más checkboxes de MIM y MERGED. El tracker DEBE reflejar las tablas de gates 1:1.
+6. **Modelo de ramas** — Nombre(s) de rama siguiendo el modelo definido en este archivo. Incluso un fix de una sola tarea recibe una rama de tarea.
+7. **Fuera de Alcance** — Al menos una exclusión explícita para prevenir scope creep
+8. **Diseño Cognitivo** — El contenido del handoff debe seguir estos principios: abrir con la decisión o acción (lead with the answer), progresión de happy path a detalles y edge cases (progressive disclosure), bloques semánticos cortos (chunking), y preferir tablas, checklists y templates sobre prosa narrativa (recognition over recall)
 
-Sections that MAY be omitted for small work (bug fix, config change): Architecture, Canonical Interface Contracts, Data Mapping, Dependencies. Sections listed above are never optional. An empty table with correct headers is better than a missing section.
+Secciones que PUEDEN omitirse para trabajo pequeño (bug fix, cambio de config): Arquitectura, Contratos de Interfaz Canónicos, Mapeo de Datos, Dependencias. Las secciones listadas arriba nunca son opcionales. Una tabla vacía con encabezados correctos es mejor que una sección faltante.
 
-### Progress Tracking Obligation (mandatory during execution)
+### Obligación de Seguimiento de Progreso (obligatorio durante ejecución)
 
-The handoff's Progress Tracker is a LIVE document, not a static plan. The orchestrator MUST update the `.tmp-` file as execution proceeds:
+El Progress Tracker del handoff es un documento VIVO, no un plan estático. El orquestador DEBE actualizar el archivo `.tmp-` conforme avanza la ejecución:
 
-1. **After each gate passes**: mark the checkbox with `[x]` and append evidence inline (e.g., `- [x] Lint clean — pnpm test:static exit 0`)
-2. **After each MIM approval**: mark the MIM checkbox with user's response
-3. **After each merge**: mark the MERGED checkbox with the merge commit SHA
-4. **On failure**: mark the checkbox with `[!]` and append failure reason. Differentiate "not yet attempted" from "attempted and failed."
+1. **Después de que cada gate pase**: marcar el checkbox con `[x]` y agregar evidencia en línea (ej., `- [x] Lint limpio — pnpm test:static exit 0`)
+2. **Después de cada aprobación MIM**: marcar el checkbox de MIM con la respuesta del usuario
+3. **Después de cada merge**: marcar el checkbox de MERGED con el SHA del merge commit
+4. **En caso de fallo**: marcar el checkbox con `[!]` y agregar la razón del fallo. Diferenciar "no intentado aún" de "intentado y fallido".
 
-**Staleness check**: if the orchestrator has completed 2+ tasks without updating the Progress Tracker → STOP. Update the tracker for ALL completed items before proceeding with new work. Zero checked boxes after substantive work = stalled tracking = protocol violation.
+**Verificación de obsolescencia**: si el orquestador ha completado 2+ tareas sin actualizar el Progress Tracker → DETENERSE. Actualizar el tracker para TODOS los ítems completados antes de proceder con nuevo trabajo. Cero checkboxes marcados después de trabajo sustantivo = tracking estancado = violación de protocolo.
 
-### Handoff Quality Gate (self-check before proceeding)
+### Quality Gate del Handoff (auto-verificación antes de proceder)
 
-After generating the handoff, the orchestrator MUST verify against this checklist before any execution begins:
+Después de generar el handoff, el orquestador DEBE verificar contra este checklist antes de que comience cualquier ejecución:
 
-| Check              | Criteria                                       | Fail action           |
-| ------------------ | ---------------------------------------------- | --------------------- |
-| Header block       | Status, Branch, Artifact, Auto-cleanup present | Regenerate            |
-| Menu               | Anchor links to all sections in the document   | Add menu              |
-| Back-links         | Every section ends with `[↑ Menu](#menu)`      | Add links             |
-| Agent Assignment   | Table with model tier per agent                | Add table             |
-| Agent Prohibitions | Copied verbatim from this file, not summarized | Replace with verbatim |
-| Quality Gates      | Full table per task with EXE/MAN type column   | Add gates             |
-| Progress Tracker   | Checkboxes mirror Quality Gates 1:1            | Reconcile             |
-| Branching model    | Branch names and merge target declared         | Add diagram           |
-| Out of Scope       | At least one exclusion present                 | Add section           |
+| Verificación          | Criterio                                                                                                   | Acción si falla        |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------- |
+| Bloque de encabezado  | Status, Branch, Artifact, Auto-cleanup presentes                                                           | Regenerar              |
+| Menú                  | Enlaces ancla a todas las secciones del documento                                                          | Agregar menú           |
+| Back-links            | Cada sección termina con `[↑ Menú](#menú)`                                                                 | Agregar enlaces        |
+| Asignación de Agentes | Tabla con nivel de modelo por agente                                                                       | Agregar tabla          |
+| Prohibiciones         | Copiadas literal de este archivo, no resumidas                                                             | Reemplazar con literal |
+| Quality Gates         | Tabla completa por tarea con columna de tipo EXE/MAN                                                       | Agregar gates          |
+| Progress Tracker      | Checkboxes reflejan Quality Gates 1:1                                                                      | Reconciliar            |
+| Modelo de ramas       | Nombres de rama y target de merge declarados                                                               | Agregar diagrama       |
+| Fuera de Alcance      | Al menos una exclusión presente                                                                            | Agregar sección        |
+| Diseño Cognitivo      | Cada sección abre con decisión/acción, no con párrafos narrativos; bloques de prosa no exceden 4 oraciones | Reestructurar          |
 
-If any check fails, fix the handoff before proceeding. A malformed handoff is not "good enough for now."
+Si alguna verificación falla, corregir el handoff antes de proceder. Un handoff malformado no es "suficiente por ahora".
 
-### Reference Example
+### Ejemplo de Referencia
 
-The handoff for the `download-resume-pdf` epic (git ref: `bdd2221^1:.tmp-download-resume-handoff.md`, 689 lines) is the canonical example of a well-formed handoff. Key patterns to replicate:
+El handoff de la épica `download-resume-pdf` (git ref: `bdd2221^1:.tmp-download-resume-handoff.md`, 689 líneas) es el ejemplo canónico de un handoff bien formado. Patrones clave a replicar:
 
-- **Back-links** — every section ends with `[↑ Menú](#menú)`
-- **Per-agent gate tables** — specific, non-generic gates with exact verification commands
-- **1:1 tracker mirroring** — every gate in Quality Gates has a matching checkbox in Progress Tracker
-- **Explicit orchestrator instruction** — "mark checkboxes as evidence confirms" stated inside the document
-- **Risk cross-references** — HIGH risks tagged as `CRITICAL (RN)` in relevant task branches
+- **Back-links** — cada sección termina con `[↑ Menú](#menú)`
+- **Tablas de gates por agente** — gates específicos, no genéricos, con comandos exactos de verificación
+- **Reflejo 1:1 del tracker** — cada gate en Quality Gates tiene un checkbox correspondiente en Progress Tracker
+- **Instrucción explícita al orquestador** — "marcar checkboxes conforme la evidencia confirme" declarado dentro del documento
+- **Referencias cruzadas de riesgos** — riesgos HIGH etiquetados como `CRITICAL (RN)` en las task branches relevantes
 
-When in doubt about handoff quality or structure, consult this reference.
+Ante duda sobre calidad o estructura del handoff, consultar esta referencia.
 
-### Portable Handoffs
+### Handoffs Portables
 
-When a handoff document must travel cross-repo or cross-session (another agent, another day), the `.tmp-` prefix prevents committing because `.tmp` is in `.gitignore`. For these cases, use the `.handoff-` prefix instead.
+Cuando un documento de handoff debe viajar entre repos o entre sesiones (otro agente, otro día), el prefijo `.tmp-` impide commitear porque `.tmp` está en `.gitignore`. Para estos casos, usar el prefijo `.handoff-` en su lugar.
 
-| Type              | Prefix                   | Gitignored | Committed                                   | Lifecycle                                 |
-| ----------------- | ------------------------ | ---------- | ------------------------------------------- | ----------------------------------------- |
-| Ephemeral handoff | `.tmp-{name}-handoff.md` | Yes        | Never                                       | Born and dies within the same task        |
-| Portable handoff  | `.handoff-{name}.md`     | No         | Yes, when cross-boundary transfer is needed | Travels with code, deleted at destination |
+| Tipo             | Prefijo                  | Gitignored | Commiteado                                   | Ciclo de vida                              |
+| ---------------- | ------------------------ | ---------- | -------------------------------------------- | ------------------------------------------ |
+| Handoff efímero  | `.tmp-{name}-handoff.md` | Sí         | Nunca                                        | Nace y muere dentro de la misma tarea      |
+| Handoff portable | `.handoff-{name}.md`     | No         | Sí, cuando se necesita transferencia cruzada | Viaja con el código, se elimina en destino |
 
-Rules for `.handoff-` documents:
+Reglas para documentos `.handoff-`:
 
-1. Used ONLY when work crosses boundaries (another repo, mandatory cross-session transfer)
-2. The destination agent reads it, uses it as handoff, and deletes it upon completion
-3. Default is always `.tmp-` — portable handoffs require explicit user authorization
-4. Auto-cleanup: the destination agent deletes the `.handoff-` file when work concludes
+1. Usar SOLO cuando el trabajo cruza límites (otro repo, transferencia cross-session obligatoria)
+2. El agente destino lo lee, lo usa como handoff y lo elimina al completar
+3. El default es siempre `.tmp-` — handoffs portables requieren autorización explícita del usuario
+4. Auto-limpieza: el agente destino elimina el archivo `.handoff-` cuando el trabajo concluye
