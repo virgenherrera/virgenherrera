@@ -100,6 +100,24 @@ Con 6+ agentes, la disciplina de niveles multiplica los ahorros. Nunca quemar op
 
 ## Protocolo de Orquestación
 
+### Principio de Orquestador Puro
+
+El agente principal opera exclusivamente como coordinador. No ejecuta tareas directamente.
+
+| Acción                                                                                           | Inline (orquestador) | Delegar (sub-agente)      |
+| ------------------------------------------------------------------------------------------------ | -------------------- | ------------------------- |
+| Leer para decidir/verificar (1-3 archivos)                                                       | ✅                   | —                         |
+| Leer para explorar/entender (4+ archivos)                                                        | —                    | ✅                        |
+| Leer como preparación para escribir                                                              | —                    | ✅ junto con la escritura |
+| Escribir (cualquier archivo)                                                                     | —                    | ✅                        |
+| Actualizar el Progress Tracker del handoff activo (.tmp-\*)                                      | ✅                   | —                         |
+| Bash de solo lectura (git status, eza)                                                           | ✅                   | —                         |
+| Bash de ejecución (test, build, install)                                                         | —                    | ✅                        |
+| Decisiones arquitectónicas (elegir dirección, sin producir artefactos ni leer más de 3 archivos) | ✅                   | —                         |
+| Presentar resultados al usuario (MIM)                                                            | ✅                   | —                         |
+
+**Auto-detección**: si el orquestador se encuentra editando archivos, escribiendo código o ejecutando builds, está en violación. Debe detenerse, delegar la tarea a un sub-agente, y continuar como coordinador.
+
 ### Actualizaciones de Estado
 
 Los agentes DEBEN incluir en cada respuesta:
@@ -114,11 +132,50 @@ Blocker: (if applicable)
 - BLOCKED > 1 iteración → kill + reasignar con contexto del bloqueante
 - FAILED → diagnosticar causa raíz antes de relanzar
 
+### Circuit Breaker de Supervisión
+
+La supervisión de sub-agentes es reactiva, no proactiva. No se verifican checklists en cada delegación.
+
+**Pre-lanzamiento** — el orquestador incluye en cada prompt de delegación:
+
+- **Scope hint**: una línea que delimita el alcance. Ejemplo: `scope: "2 archivos en packages/design-system/, solo modificar"`
+- **Objetivo verificable**: una oración que el orquestador puede evaluar binariamente contra el resultado.
+
+**Post-resultado** — el orquestador evalúa un solo invariante:
+
+> ¿El resultado del sub-agente es coherente con el objetivo declarado y el scope hint?
+
+- **Coherente** → aceptar. Cero tokens de supervisión adicional.
+- **Incoherente** → activar circuit breaker: verificar con `git diff --name-only`, revisar archivos tocados, decidir retry o abort.
+
+**Estados del circuit breaker:**
+
+| Estado                      | Condición                                                                                                         | Overhead                                   |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Cerrado (normal)            | Resultados coherentes                                                                                             | Cero — delegar y esperar                   |
+| Abierto (anomalía)          | Invariante falló                                                                                                  | Alto — verificación exhaustiva justificada |
+| Semi-abierto (recuperación) | Siguiente sub-agente con el mismo scope de archivos objetivo recibe prompt reforzado con la restricción que falló | Medio — si pasa, volver a cerrado          |
+
+### Checkpoint Post-Delegación (PDC)
+
+Después de recibir CADA resultado de un sub-agente, el orquestador ejecuta estos 4 pasos EN ORDEN antes de cualquier otra acción. No se permite delegar la siguiente tarea, responder al usuario, ni invocar otra herramienta hasta completar los 4 pasos. Cada paso DEBE producir output visible en la conversación.
+
+1. **ECHO** — Imprimir los gates de aceptación de esta tarea desde el Progress Tracker del handoff. Si no puedes imprimirlos de memoria, releer el archivo de handoff. Formato: `GATES: [gate1] | [gate2] | [gate3]`
+2. **VERIFY** — Para cada gate, declarar PASS o FAIL con UNA línea de evidencia. La evidencia debe referenciar un archivo, línea o salida de comando específica. "Se ve correcto" NO es evidencia. Formato: `GATE [nombre]: PASS|FAIL — [evidencia]`
+3. **MARK** — Actualizar el Progress Tracker del handoff AHORA. Marcar el checkbox correspondiente con evidencia inline. Este paso produce una escritura al archivo `.tmp-*`.
+4. **DECIDE** — Si algún gate es FAIL → no avanzar, re-delegar o corregir. Si todos los gates son PASS → imprimir `CHECKPOINT CLEAR` y proceder.
+
+**Regla de cierre**: si el paso 3 no se completó, el orquestador NO tiene permiso de lanzar otro sub-agente ni de responder al usuario.
+
+**Guardia pre-delegación**: antes de cada nueva delegación, verificar que el PDC de la delegación anterior fue completado (el checkbox más reciente del tracker está marcado). Si no → ejecutar el PDC retroactivamente antes de delegar.
+
+**Incident tag**: orquestador completó 5 ediciones sin verificar ni marcar progreso; usuario lo detectó como quality gate sorpresa (2026-06-29).
+
 ### Escalamiento por Rechazo
 
 1. Gate falla → feedback específico con evidencia → el agente corrige
 2. El mismo gate falla otra vez → kill + relanzar limpio con contexto del error
-3. Tercer fallo → el orquestador implementa directamente
+3. Tercer fallo → el orquestador diagnostica la causa raíz y relanza con alcance reducido o escala al usuario
 
 ### Checkpoints MIM (Man-in-the-Middle)
 
@@ -182,6 +239,28 @@ Gates mínimos requeridos para cualquier tarea:
 | Tipos limpios         | `pnpm test:types`                           | EXE  |
 | Sin efectos laterales | `git diff --stat` (solo archivos esperados) | EXE  |
 
+### Incident Tags
+
+Toda regla nueva agregada a este archivo requiere un incident tag — el fallo específico que la motivó. Si no puedes citar un incidente real, la regla es especulativa y no pertenece aquí.
+
+Filtro antes de agregar una regla:
+
+| Pregunta                                                        | Si la respuesta es... | Entonces...                           |
+| --------------------------------------------------------------- | --------------------- | ------------------------------------- |
+| ¿Qué fallo específico previene esta regla?                      | No puedo citar uno    | No agregar — es especulativa          |
+| ¿Ese fallo ya ocurrió?                                          | No, es hipotético     | Diferir — promover solo cuando ocurra |
+| ¿Se puede lograr con una assertion en el prompt de lanzamiento? | Sí                    | No globalizar — resolver en el prompt |
+
+Las reglas existentes en este archivo están exentas (legacy). Las reglas nuevas deben cumplir este filtro sin excepción.
+
+**Incident tags de las reglas agregadas el 2026-06-29:**
+
+- Principio de Orquestador Puro — Incident: orquestador completó 5 ediciones directamente sin delegar; detectado por usuario como quality gate sorpresa.
+- Circuit Breaker de Supervisión — Incident: propuesta original con supervisión proactiva (5 anti-patrones, umbrales) generaba ~500 tokens/delegación de overhead; reducida tras revisión de 3 expertos.
+- Incident Tags — Incident: reglas especulativas agregadas sin justificación empírica; los expertos (Kim) identificaron "Process Debt by Anticipation" como anti-patrón.
+- Diseño Cognitivo — Incident: handoffs densos y difíciles de escanear; principios de cognitive-doc-design del ecosistema gentle-ai seleccionados para mejorar legibilidad.
+- Fix Escalamiento paso 3 — Incident: la instrucción "implementa directamente" contradecía el Principio de Orquestador Puro recién agregado.
+
 ## Handoff
 
 **GATE PRE-EJECUCIÓN OBLIGATORIO — EL ORQUESTADOR NO PUEDE PROCEDER SIN ESTO.**
@@ -239,6 +318,7 @@ Cada handoff, sin importar la escala, DEBE contener como mínimo:
 5. **Progress Tracker** — Un checkbox por quality gate por tarea, más checkboxes de MIM y MERGED. El tracker DEBE reflejar las tablas de gates 1:1.
 6. **Modelo de ramas** — Nombre(s) de rama siguiendo el modelo definido en este archivo. Incluso un fix de una sola tarea recibe una rama de tarea.
 7. **Fuera de Alcance** — Al menos una exclusión explícita para prevenir scope creep
+8. **Diseño Cognitivo** — El contenido del handoff debe seguir estos principios: abrir con la decisión o acción (lead with the answer), progresión de happy path a detalles y edge cases (progressive disclosure), bloques semánticos cortos (chunking), y preferir tablas, checklists y templates sobre prosa narrativa (recognition over recall)
 
 Secciones que PUEDEN omitirse para trabajo pequeño (bug fix, cambio de config): Arquitectura, Contratos de Interfaz Canónicos, Mapeo de Datos, Dependencias. Las secciones listadas arriba nunca son opcionales. Una tabla vacía con encabezados correctos es mejor que una sección faltante.
 
@@ -257,17 +337,18 @@ El Progress Tracker del handoff es un documento VIVO, no un plan estático. El o
 
 Después de generar el handoff, el orquestador DEBE verificar contra este checklist antes de que comience cualquier ejecución:
 
-| Verificación          | Criterio                                             | Acción si falla        |
-| --------------------- | ---------------------------------------------------- | ---------------------- |
-| Bloque de encabezado  | Status, Branch, Artifact, Auto-cleanup presentes     | Regenerar              |
-| Menú                  | Enlaces ancla a todas las secciones del documento    | Agregar menú           |
-| Back-links            | Cada sección termina con `[↑ Menú](#menú)`           | Agregar enlaces        |
-| Asignación de Agentes | Tabla con nivel de modelo por agente                 | Agregar tabla          |
-| Prohibiciones         | Copiadas literal de este archivo, no resumidas       | Reemplazar con literal |
-| Quality Gates         | Tabla completa por tarea con columna de tipo EXE/MAN | Agregar gates          |
-| Progress Tracker      | Checkboxes reflejan Quality Gates 1:1                | Reconciliar            |
-| Modelo de ramas       | Nombres de rama y target de merge declarados         | Agregar diagrama       |
-| Fuera de Alcance      | Al menos una exclusión presente                      | Agregar sección        |
+| Verificación          | Criterio                                                                                                   | Acción si falla        |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------- |
+| Bloque de encabezado  | Status, Branch, Artifact, Auto-cleanup presentes                                                           | Regenerar              |
+| Menú                  | Enlaces ancla a todas las secciones del documento                                                          | Agregar menú           |
+| Back-links            | Cada sección termina con `[↑ Menú](#menú)`                                                                 | Agregar enlaces        |
+| Asignación de Agentes | Tabla con nivel de modelo por agente                                                                       | Agregar tabla          |
+| Prohibiciones         | Copiadas literal de este archivo, no resumidas                                                             | Reemplazar con literal |
+| Quality Gates         | Tabla completa por tarea con columna de tipo EXE/MAN                                                       | Agregar gates          |
+| Progress Tracker      | Checkboxes reflejan Quality Gates 1:1                                                                      | Reconciliar            |
+| Modelo de ramas       | Nombres de rama y target de merge declarados                                                               | Agregar diagrama       |
+| Fuera de Alcance      | Al menos una exclusión presente                                                                            | Agregar sección        |
+| Diseño Cognitivo      | Cada sección abre con decisión/acción, no con párrafos narrativos; bloques de prosa no exceden 4 oraciones | Reestructurar          |
 
 Si alguna verificación falla, corregir el handoff antes de proceder. Un handoff malformado no es "suficiente por ahora".
 
