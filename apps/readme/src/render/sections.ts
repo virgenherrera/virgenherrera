@@ -138,31 +138,31 @@ export function renderFeaturedProjects(
   return `## 🚀 Featured Projects\n\n| Project | Description | Stars |\n|:---|:---|:---:|\n${rows}`;
 }
 
-export function renderTopLanguages(username: string): string {
-  if (!username) return '';
-
-  const baseUrl = 'https://github-readme-stats.vercel.app/api/top-langs/';
-  const params = `username=${username}&layout=compact&theme=transparent&hide_border=true`;
-  const imgTag = `<img src="${baseUrl}?${params}" alt="Top Languages" />`;
-
-  return `## 💻 Top Languages\n\n<div align="center">\n\n${imgTag}\n\n</div>`;
+interface RepoStats {
+  publicRepos: number;
+  totalStars: number;
+  totalForks: number;
 }
 
-export function renderGitHubStats(username: string): string {
-  const statsUrl =
-    `https://github-readme-stats.vercel.app/api?username=${username}` +
-    `&show_icons=true&theme=default&hide_border=true` +
-    `&rank_icon=github&include_all_commits=true&count_private=true`;
-  const streakUrl =
-    `https://streak-stats.demolab.com/?user=${username}` +
-    `&theme=default&hide_border=true`;
-  const statsCard = `![GitHub Stats](${statsUrl})`;
-  const streakCard = `![GitHub Streak](${streakUrl})`;
+export function renderTopLanguages(languages: Record<string, number>): string {
+  const entries = Object.entries(languages);
 
-  return (
-    `## 📈 GitHub Stats\n\n<div align="center">\n\n` +
-    `${statsCard}&nbsp;&nbsp;\n${streakCard}\n\n</div>`
-  );
+  if (entries.length === 0) return '';
+
+  const lines = entries.map(([lang, count]) => `  "${lang}" : ${count}`);
+  const diagram = `\`\`\`mermaid\npie title Top Languages\n${lines.join('\n')}\n\`\`\``;
+
+  return `## 💻 Top Languages\n\n${diagram}`;
+}
+
+export function renderGitHubStats(stats: RepoStats): string {
+  const rows = [
+    `| Public Repos | ${stats.publicRepos} |`,
+    `| Total Stars | ⭐ ${stats.totalStars} |`,
+    `| Total Forks | 🍴 ${stats.totalForks} |`,
+  ].join('\n');
+
+  return `## 📈 GitHub Stats\n\n| Metric | Value |\n|:---|:---:|\n${rows}`;
 }
 
 export function renderCTA(
