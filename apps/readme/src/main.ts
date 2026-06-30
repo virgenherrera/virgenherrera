@@ -9,7 +9,7 @@ async function bootstrap(): Promise<void> {
   });
 
   const service = app.get(ReadmeService);
-  service.generate();
+  await service.generate();
 
   await app.close();
 }
