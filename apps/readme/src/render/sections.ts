@@ -4,6 +4,7 @@ import type {
   SkillCategoryData,
   ProjectData,
 } from '@vh/profile';
+import type { RepoStats } from '../github/github.schemas';
 
 const CATEGORY_EMOJI: Record<string, string> = {
   Languages: '💬',
@@ -136,12 +137,6 @@ export function renderFeaturedProjects(
     .join('\n');
 
   return `## 🚀 Featured Projects\n\n| Project | Description | Stars |\n|:---|:---|:---:|\n${rows}`;
-}
-
-interface RepoStats {
-  publicRepos: number;
-  totalStars: number;
-  totalForks: number;
 }
 
 export function renderTopLanguages(languages: Record<string, number>): string {

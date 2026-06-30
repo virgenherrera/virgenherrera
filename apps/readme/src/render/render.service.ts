@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { ProfileData } from '@vh/profile';
+import type { RepoData } from '../github/github.schemas';
 import { buildTimelineDiagram } from '../mermaid/index';
 import {
   renderHeader,
@@ -12,11 +13,6 @@ import {
   renderDeveloperHub,
   renderFooter,
 } from './sections';
-
-interface RepoData {
-  languages: Record<string, number>;
-  stats: { publicRepos: number; totalStars: number; totalForks: number };
-}
 
 @Injectable()
 export class RenderService {
