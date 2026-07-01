@@ -195,13 +195,13 @@ Un checkbox es una mentira hasta que se confirma con evidencia. Marcar SOLO desp
 ## Modelo de Ramas
 
 ```text
-task/{name} → feature/{epic} → {integration-branch} → PR to master
+task/{name} → feature/{epic} → {integration-branch} → PR to main
 ```
 
 - Ramas de tarea: `task/{descriptive-name}` — una por agente/unidad de trabajo
 - Ramas de épica: `feature/{epic-name}` — recopila todos los merges de tareas
 - Rama de integración: squash-merge desde la rama de épica
-- Sin commits directos a master ni a la rama de integración
+- Sin commits directos a main ni a la rama de integración
 - Tareas independientes en la misma fase → `isolation: 'worktree'` para ejecución paralela
 
 ### Sin Excepciones
