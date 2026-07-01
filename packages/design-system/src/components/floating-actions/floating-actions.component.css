@@ -84,6 +84,7 @@
 
 /* Action items */
 .vh-floating-actions__item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,6 +117,80 @@
 .vh-floating-actions__item:focus-visible {
   outline: 2px solid var(--vh-text-accent);
   outline-offset: 2px;
+}
+
+/* Tooltip arrow — right-pointing triangle, sits between tooltip and button */
+.vh-floating-actions__item::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 0.125rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid var(--_fab-border);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: calc(var(--vh-z-overlay) + 1);
+}
+
+/* Tooltip bubble — reads label directly from aria-label */
+.vh-floating-actions__item::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: calc(100% + 0.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--_fab-bg);
+  border: 1px solid var(--_fab-border);
+  color: var(--_fab-icon);
+  border-radius: var(--vh-radius-sm);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 8px var(--_fab-glow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: var(--vh-z-overlay);
+}
+
+/* Appear on hover with 300ms delay; disappear immediately on mouse-out (no base transition) */
+.vh-floating-actions__item:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--vh-duration-fast) ease 300ms,
+    visibility 0s linear 300ms;
+}
+
+.vh-floating-actions__item:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--vh-duration-fast) ease 300ms,
+    visibility 0s linear 300ms;
+}
+
+/* Reduced motion: instant appearance, no transition delay */
+@media (prefers-reduced-motion: reduce) {
+  .vh-floating-actions__item:hover::after,
+  .vh-floating-actions__item:hover::before {
+    transition: none;
+  }
+}
+
+/* Touch devices: no real hover event, hide tooltips entirely */
+@media (hover: none) {
+  .vh-floating-actions__item::after,
+  .vh-floating-actions__item::before {
+    display: none;
+  }
 }
 
 /* Icons */
