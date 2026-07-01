@@ -80,20 +80,62 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
   });
 
   test(should.hideDownloadInPublicView, async ({ resumePage }) => {
+    await resumePage.expandHub();
+    await expect(resumePage.linkedInCta).toBeVisible();
     await expect(resumePage.downloadButton).not.toBeAttached();
+  });
+
+  test.describe('action hub', () => {
+    test(should.expandActionHub, async ({ resumePage }) => {
+      await resumePage.actionHubTrigger.click();
+      await expect(resumePage.actionHubPanel).toBeVisible();
+      await expect(resumePage.actionHubPanel).toHaveAttribute(
+        'role',
+        'toolbar',
+      );
+    });
+
+    test(should.collapseActionHub, async ({ resumePage }) => {
+      await resumePage.expandHub();
+      await expect(resumePage.actionHubPanel).toBeVisible();
+      await resumePage.page.keyboard.press('Escape');
+      await expect(resumePage.actionHubPanel).toBeHidden();
+      await expect(resumePage.actionHubTrigger).toBeFocused();
+    });
+
+    test(should.showLinkedInCtaInPublicView, async ({ resumePage }) => {
+      await resumePage.expandHub();
+      await expect(resumePage.linkedInCta).toBeVisible();
+    });
+
+    test(should.showTooltipOnHover, async ({ resumePage }) => {
+      await resumePage.expandHub();
+      const firstAction = resumePage.actionItems.first();
+      await firstAction.hover();
+      // CSS transition: 300ms delay + 200ms (--vh-duration-fast) = 500ms total
+      await resumePage.page.waitForTimeout(600);
+      const opacity = await resumePage.page.evaluate(() => {
+        const el = document.querySelector('.vh-floating-actions__item');
+
+        return el ? getComputedStyle(el, '::after').opacity : '0';
+      });
+      expect(parseFloat(opacity)).toBeGreaterThan(0);
+    });
   });
 
   test.describe('theme', () => {
     test(should.toggleToDarkTheme, async ({ resumePage }) => {
-      await resumePage.themeToggle.click();
-      await expect(resumePage.rootElement).toHaveClass(/dark/);
+      await resumePage.expandHub();
+      await resumePage.themeToggleAction.click();
+      await expect(resumePage.htmlRoot).toHaveClass(/dark/);
     });
 
     test(should.toggleBackToLightTheme, async ({ resumePage }) => {
-      await resumePage.themeToggle.click();
-      await expect(resumePage.rootElement).toHaveClass(/dark/);
-      await resumePage.themeToggle.click();
-      await expect(resumePage.rootElement).not.toHaveClass(/dark/);
+      await resumePage.expandHub();
+      await resumePage.themeToggleAction.click();
+      await expect(resumePage.htmlRoot).toHaveClass(/dark/);
+      await resumePage.themeToggleAction.click();
+      await expect(resumePage.htmlRoot).not.toHaveClass(/dark/);
     });
 
     test(should.keepThemeToggleVisibleOnScroll, async ({ resumePage }) => {
@@ -101,12 +143,16 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
         window.scrollTo(0, window.innerHeight),
       );
       await expect(resumePage.themeToggle).toBeVisible();
-      await expect(resumePage.themeToggle).toHaveCSS('position', 'fixed');
+      await expect(resumePage.page.locator('.vh-floating-actions')).toHaveCSS(
+        'position',
+        'fixed',
+      );
     });
 
     test(should.applyDarkBackgroundToBody, async ({ resumePage }) => {
-      await resumePage.themeToggle.click();
-      await expect(resumePage.rootElement).toHaveClass(/dark/);
+      await resumePage.expandHub();
+      await resumePage.themeToggleAction.click();
+      await expect(resumePage.htmlRoot).toHaveClass(/dark/);
       const bodyBg = await resumePage.page.evaluate(
         () => getComputedStyle(document.body).backgroundColor,
       );
@@ -115,8 +161,9 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     });
 
     test(should.differentiateSidebarFromPage, async ({ resumePage }) => {
-      await resumePage.themeToggle.click();
-      await expect(resumePage.rootElement).toHaveClass(/dark/);
+      await resumePage.expandHub();
+      await resumePage.themeToggleAction.click();
+      await expect(resumePage.htmlRoot).toHaveClass(/dark/);
       const [sidebarBg, rootBg] = await resumePage.page.evaluate(() => {
         const sidebar = document.querySelector('.vh-profile-sidebar');
         const root = document.querySelector('vh-root');
@@ -181,11 +228,16 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     });
 
     test(should.showDownloadInPrivateView, async ({ resumePage }) => {
+      await resumePage.expandHub();
       await expect(resumePage.downloadButton).toBeVisible();
-      await expect(resumePage.downloadButton).toHaveText(/Download PDF/);
+      await expect(resumePage.downloadButton).toHaveAttribute(
+        'aria-label',
+        'Download resume',
+      );
     });
 
     test(should.downloadPdfOnClick, async ({ resumePage }) => {
+      await resumePage.expandHub();
       const downloadPromise = resumePage.page.waitForEvent('download');
       await resumePage.downloadButton.click();
       const download = await downloadPromise;
@@ -194,6 +246,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     });
 
     test(should.downloadValidPdf, async ({ resumePage }) => {
+      await resumePage.expandHub();
       const downloadPromise = resumePage.page.waitForEvent('download');
       await resumePage.downloadButton.click();
       const download = await downloadPromise;
@@ -211,6 +264,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     });
 
     test(should.navigateToDownloadWithKeyboard, async ({ resumePage }) => {
+      await resumePage.expandHub();
       await resumePage.downloadButton.focus();
       await expect(resumePage.downloadButton).toBeFocused();
 

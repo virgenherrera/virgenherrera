@@ -36,7 +36,7 @@ export class ClientHydrationExpectations {
   static readonly applyStickyPositionOnSidebar =
     'apply sticky position on sidebar';
   static readonly hideDownloadInPublicView =
-    'hide download button in public view';
+    'show LinkedIn CTA instead of download button in public view';
   static readonly showDownloadInPrivateView =
     'show download button in private view';
   static readonly downloadPdfOnClick = 'download PDF file on click';
@@ -44,4 +44,9 @@ export class ClientHydrationExpectations {
     'download a valid PDF with correct content';
   static readonly navigateToDownloadWithKeyboard =
     'navigate to download button and trigger with keyboard';
+  static readonly expandActionHub = 'expand action hub on trigger click';
+  static readonly collapseActionHub = 'collapse action hub on Escape key';
+  static readonly showLinkedInCtaInPublicView =
+    'show LinkedIn CTA in public view';
+  static readonly showTooltipOnHover = 'show tooltip on action item hover';
 }
