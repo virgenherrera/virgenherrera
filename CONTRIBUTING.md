@@ -14,7 +14,7 @@ below explains exactly what to change and where to change it.
 GitHub displays the `README.md` of a repository whose name matches the owner's GitHub username
 directly on the user's profile page. This makes the repository function as a living profile card.
 
-This monorepo goes further than a static README file. On every push to `master`, it auto-generates
+This monorepo goes further than a static README file. On every push to `main`, it auto-generates
 `README.md` from live GitHub API data, deploys a full resume application to GitHub Pages, and
 maintains a shared Angular component library used by both outputs. The entire system is driven by a
 single source of truth: the profile data in `packages/profile/`.
@@ -147,7 +147,7 @@ application should render your profile data — your name, headline, and profess
 confirm that you saved the changes to `profile.json` and that `pnpm install` completed without
 errors.
 
-Once the local preview matches your expectations, push to `master`. The CD pipeline will build the
+Once the local preview matches your expectations, push to `main`. The CD pipeline will build the
 resume, deploy it to GitHub Pages, and regenerate `README.md` automatically.
 
 ---
@@ -214,7 +214,7 @@ matrix, pipeline order contract, tier split rationale, and pipeline diagrams.
 
 ```mermaid
 gitGraph
-    commit id: "master"
+    commit id: "main"
     branch feature/epic
     checkout feature/epic
     branch task/name
@@ -222,7 +222,7 @@ gitGraph
     commit id: "work"
     checkout feature/epic
     merge task/name id: "merge task"
-    checkout master
+    checkout main
     merge feature/epic id: "PR merged"
 ```
 
@@ -230,7 +230,7 @@ gitGraph
 | ---------------- | --------------------- | ------------------------------------------ |
 | Task branch      | `task/{name}`         | One per agent or work unit — smallest unit |
 | Epic branch      | `feature/{epic-name}` | Collects all task merges for a feature     |
-| Integration → PR | feature → master      | Squash-merge via pull request              |
+| Integration → PR | feature → main        | Squash-merge via pull request              |
 
 There is no "too small" exemption. A one-line fix follows the same branching model as a 50-file
 epic. The model exists for auditability and rollback safety.
@@ -242,7 +242,7 @@ anti-rationalization rules.
 
 #### Continuous Integration (pull requests)
 
-Triggered on every pull request targeting `master`. Path filters detect which workspaces changed
+Triggered on every pull request targeting `main`. Path filters detect which workspaces changed
 and skip unnecessary jobs.
 
 ```mermaid
@@ -261,18 +261,18 @@ flowchart TD
 
 `test:static` and `test:types` always run regardless of path filters.
 
-#### Continuous Deployment (push to master)
+#### Continuous Deployment (push to main)
 
-Triggered on every push to `master`. All jobs run after the build completes.
+Triggered on every push to `main`. All jobs run after the build completes.
 
 ```mermaid
 flowchart TD
-    push([Push to master]) --> build[Build — pnpm run build]
+    push([Push to main]) --> build[Build — pnpm run build]
     build --> tag[Tag Release<br/>deploy-YYYY-MM-DD-HHMM]
     build --> deploy-resume[Deploy Resume<br/>to GitHub Pages]
     build --> deploy-readme[Generate and commit<br/>README.md]
 ```
 
 `tag`, `deploy-resume`, and `deploy-readme` run in parallel after `build` succeeds. The
-`deploy-readme` job commits the regenerated `README.md` back to `master` with `[skip ci]` to
+`deploy-readme` job commits the regenerated `README.md` back to `main` with `[skip ci]` to
 prevent a pipeline loop.
