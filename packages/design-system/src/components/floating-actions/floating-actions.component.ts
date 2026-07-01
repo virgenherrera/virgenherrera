@@ -9,13 +9,15 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { HubAction, HUB_ACTIONS } from '../../types/hub-action';
+import { HubAction, HubContext, HUB_ACTIONS } from '../../types/hub-action';
+import { IconComponent } from '../icon/icon.component';
 
 type HubPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 
 @Component({
   selector: 'vh-floating-actions',
   standalone: true,
+  imports: [IconComponent],
   templateUrl: './floating-actions.component.html',
   styleUrl: './floating-actions.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -26,11 +28,16 @@ export class FloatingActionsComponent {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
   readonly position = input<HubPosition>('top-right');
+  readonly context = input<HubContext>({ isDark: false, isPrivateView: false });
   protected readonly isExpanded = signal(false);
 
-  protected readonly availableActions = computed(() =>
-    [...this.actions].sort((a, b) => a.order - b.order),
-  );
+  protected readonly availableActions = computed(() => {
+    const ctx = this.context();
+
+    return [...this.actions]
+      .filter((action) => action.isAvailable(ctx))
+      .sort((a, b) => a.order - b.order);
+  });
 
   private readonly actionButtons =
     viewChildren<ElementRef<HTMLElement>>('actionBtn');

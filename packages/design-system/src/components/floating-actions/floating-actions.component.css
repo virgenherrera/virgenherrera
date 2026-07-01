@@ -119,12 +119,14 @@
 }
 
 /* Icons */
-.vh-floating-actions__icon {
+.vh-floating-actions__icon,
+.vh-floating-actions__icon svg {
   width: 1.25rem;
   height: 1.25rem;
 }
 
-.vh-floating-actions__item-icon {
+.vh-floating-actions__item-icon,
+.vh-floating-actions__item-icon svg {
   width: 1rem;
   height: 1rem;
 }
