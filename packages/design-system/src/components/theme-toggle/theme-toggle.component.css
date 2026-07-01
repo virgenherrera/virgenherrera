@@ -4,10 +4,6 @@
   --_toggle-bg: rgba(254, 243, 199, 0.85);
   --_toggle-icon: #92400e;
 
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: var(--vh-z-overlay);
   display: flex;
   align-items: center;
   justify-content: center;

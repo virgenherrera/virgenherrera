@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeToggleComponent } from '@vh/design-system';
+import { FloatingActionsComponent } from '@vh/design-system';
 
 @Component({
   selector: 'vh-root',
-  imports: [RouterOutlet, ThemeToggleComponent],
+  imports: [RouterOutlet, FloatingActionsComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
