@@ -2,7 +2,7 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=30&pause=1000&color=3178C6&center=true&vCenter=true&width=650&height=70&lines=Hugo%20Enrique%20Virgen%20Herrera)](https://git.io/typing-svg)
 
-**Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations**
+**Senior Fullstack Engineer | Design Systems | AI Integrations | Cloud | Node.js | TypeScript | C# | Angular | .NET**
 
 ![Location](https://img.shields.io/badge/📍_Mexico-555555?style=for-the-badge)
 
@@ -70,6 +70,8 @@ journey
 | ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, CI/CD |
 | 🗂️ | **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
 | 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM-based orchestration |
+| 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha |
+| 🏗️ | **Architecture & Patterns** | Monorepo (pnpm workspaces), Design Systems, Angular Signals, DI Multi-Provider, SSR/SSG, Clean Architecture |
 
 ---
 
@@ -77,6 +79,7 @@ journey
 
 | Project | Description | Stars |
 |:---|:---|:---:|
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
 | [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
 | [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
 | [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
