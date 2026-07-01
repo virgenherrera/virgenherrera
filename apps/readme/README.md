@@ -66,11 +66,11 @@ See [`package.json`](package.json) for available scripts. Echo scripts follow th
 
 ## Pipeline Integration
 
-On every push to `master`, the CD pipeline regenerates the root `README.md` and commits the result with `[skip ci]` to prevent an infinite build loop.
+On every push to `main`, the CD pipeline regenerates the root `README.md` and commits the result with `[skip ci]` to prevent an infinite build loop.
 
 ```mermaid
 graph LR
-    A["push to master"] --> B["CD build"]
+    A["push to main"] --> B["CD build"]
     B --> C["generate:readme\n(@vh/app-readme)"]
     C --> D["@vh/profile\n(data source)"]
     C --> E["GitHub REST API\n(repos, languages)"]
