@@ -34,3 +34,10 @@ export { ContactLinkComponent } from './components/contact-link/contact-link.com
 export { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 export { FileActionComponent } from './components/file-action/file-action.component';
 export { ProjectListComponent } from './components/project-list/project-list.component';
+export {
+  type ThemePreference,
+  type HubContext,
+  type HubAction,
+  HUB_ACTIONS,
+  ThemeStoreBase,
+} from './types/hub-action';
