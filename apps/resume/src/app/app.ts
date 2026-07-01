@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeToggleComponent } from '@vh/design-system';
+import { FloatingActionsComponent } from '@vh/design-system';
+import { ActionHubStore } from './stores/action-hub.store';
 
 @Component({
   selector: 'vh-root',
-  imports: [RouterOutlet, ThemeToggleComponent],
+  imports: [RouterOutlet, FloatingActionsComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {}
+export class App {
+  protected readonly actionHub = inject(ActionHubStore);
+}

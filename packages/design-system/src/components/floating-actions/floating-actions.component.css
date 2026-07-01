@@ -1,0 +1,276 @@
+.vh-floating-actions {
+  --_fab-glow: rgba(139, 92, 246, 0.35);
+  --_fab-border: rgba(139, 92, 246, 0.3);
+  --_fab-bg: var(--vh-surface-secondary, rgba(255, 255, 255, 0.9));
+  --_fab-icon: var(--vh-text-primary, #0f172a);
+  --_duration-expand: 0.3s;
+  --_duration-collapse: 0.25s;
+  --_stagger-expand: 50ms;
+  --_stagger-collapse: 30ms;
+  --_ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --_ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --_size-item: 2.25rem;
+  --_size-gap: 0.5rem;
+
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: var(--vh-z-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--_size-gap);
+}
+
+.dark .vh-floating-actions {
+  --_fab-bg: var(--vh-surface-secondary, rgba(3, 7, 18, 0.9));
+  --_fab-icon: var(--vh-text-primary, #f8fafc);
+}
+
+/* Trigger button — matches existing theme-toggle visual */
+.vh-floating-actions__trigger {
+  --_toggle-glow: rgba(245, 158, 11, 0.5);
+  --_toggle-border: rgba(217, 119, 6, 0.5);
+  --_toggle-bg: rgba(254, 243, 199, 0.85);
+  --_toggle-icon: #92400e;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--_toggle-border);
+  border-radius: var(--vh-radius-circle);
+  background: var(--_toggle-bg);
+  color: var(--_toggle-icon);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 14px var(--_toggle-glow);
+  transition:
+    background var(--vh-duration-fast) ease,
+    color var(--vh-duration-fast) ease,
+    border-color var(--vh-duration-fast) ease,
+    box-shadow var(--vh-duration-fast) ease;
+}
+
+.dark .vh-floating-actions__trigger {
+  --_toggle-glow: rgba(139, 92, 246, 0.35);
+  --_toggle-border: rgba(139, 92, 246, 0.3);
+  --_toggle-bg: rgba(139, 92, 246, 0.1);
+  --_toggle-icon: var(--vh-text-accent-subtle);
+}
+
+.vh-floating-actions__trigger:hover {
+  box-shadow: 0 0 22px var(--_toggle-glow);
+}
+
+.vh-floating-actions__trigger:focus-visible {
+  outline: 2px solid var(--vh-text-accent);
+  outline-offset: 2px;
+}
+
+/* Panel */
+.vh-floating-actions__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--_size-gap);
+  animation: vh-panel-expand var(--_duration-expand) var(--_ease-overshoot) forwards;
+}
+
+.vh-floating-actions__panel[hidden] {
+  display: none;
+}
+
+/* Action items */
+.vh-floating-actions__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_size-item);
+  height: var(--_size-item);
+  border: 1px solid var(--_fab-border);
+  border-radius: var(--vh-radius-circle);
+  background: var(--_fab-bg);
+  color: var(--_fab-icon);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 8px var(--_fab-glow);
+  animation: vh-item-pop var(--_duration-expand) var(--_ease-pop) backwards;
+  transition:
+    background var(--vh-duration-fast) ease,
+    box-shadow var(--vh-duration-fast) ease;
+}
+
+.vh-floating-actions__item:nth-child(1) { animation-delay: calc(var(--_stagger-expand) * 0); }
+.vh-floating-actions__item:nth-child(2) { animation-delay: calc(var(--_stagger-expand) * 1); }
+.vh-floating-actions__item:nth-child(3) { animation-delay: calc(var(--_stagger-expand) * 2); }
+.vh-floating-actions__item:nth-child(4) { animation-delay: calc(var(--_stagger-expand) * 3); }
+.vh-floating-actions__item:nth-child(5) { animation-delay: calc(var(--_stagger-expand) * 4); }
+.vh-floating-actions__item:nth-child(6) { animation-delay: calc(var(--_stagger-expand) * 5); }
+
+.vh-floating-actions__item:hover {
+  box-shadow: 0 0 16px var(--_fab-glow);
+}
+
+.vh-floating-actions__item:focus-visible {
+  outline: 2px solid var(--vh-text-accent);
+  outline-offset: 2px;
+}
+
+/* Tooltip arrow — right-pointing triangle, sits between tooltip and button */
+.vh-floating-actions__item::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 0.125rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid var(--_fab-border);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: calc(var(--vh-z-overlay) + 1);
+}
+
+/* Tooltip bubble — reads label directly from aria-label */
+.vh-floating-actions__item::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: calc(100% + 0.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--_fab-bg);
+  border: 1px solid var(--_fab-border);
+  color: var(--_fab-icon);
+  border-radius: var(--vh-radius-sm);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 8px var(--_fab-glow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: var(--vh-z-overlay);
+}
+
+/* Appear on hover with 300ms delay; disappear immediately on mouse-out (no base transition) */
+.vh-floating-actions__item:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--vh-duration-fast) ease 300ms,
+    visibility 0s linear 300ms;
+}
+
+.vh-floating-actions__item:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--vh-duration-fast) ease 300ms,
+    visibility 0s linear 300ms;
+}
+
+/* Reduced motion: instant appearance, no transition delay */
+@media (prefers-reduced-motion: reduce) {
+  .vh-floating-actions__item:hover::after,
+  .vh-floating-actions__item:hover::before {
+    transition: none;
+  }
+}
+
+/* Touch devices: no real hover event, hide tooltips entirely */
+@media (hover: none) {
+  .vh-floating-actions__item::after,
+  .vh-floating-actions__item::before {
+    display: none;
+  }
+}
+
+/* Icons */
+.vh-floating-actions__icon,
+.vh-floating-actions__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.vh-floating-actions__item-icon,
+.vh-floating-actions__item-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Animations */
+@keyframes vh-panel-expand {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+    transform-origin: top center;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes vh-item-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .vh-floating-actions__panel {
+    animation: none;
+  }
+
+  .vh-floating-actions__item {
+    animation: none;
+  }
+}
+
+/* Screen-reader only utility */
+.vh-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Responsive — mobile switches to bottom-right, expands upward */
+@media (max-width: 767px) {
+  .vh-floating-actions {
+    top: auto;
+    bottom: 1.5rem;
+    flex-direction: column-reverse;
+  }
+
+  @keyframes vh-panel-expand {
+    from {
+      opacity: 0;
+      transform: scaleY(0.8);
+      transform-origin: bottom center;
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+}

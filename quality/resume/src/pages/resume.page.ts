@@ -24,13 +24,27 @@ export class ResumePage {
 
   async waitForPrivateView(): Promise<void> {
     await this.waitForHydration();
-    await this.page.waitForSelector('vh-file-action[vhContactAction]', {
-      state: 'visible',
+    await this.page.waitForSelector('a[href^="mailto:"]', {
+      state: 'attached',
     });
+  }
+
+  async expandHub(): Promise<void> {
+    const trigger = this.actionHubTrigger;
+    const expanded = await trigger.getAttribute('aria-expanded');
+    if (expanded !== 'true') {
+      await trigger.click();
+      await this.actionHubPanel.waitFor({ state: 'visible' });
+    }
   }
 
   get rootElement(): Locator {
     return this.page.locator('vh-root');
+  }
+
+  /** The `<html>` element — used to verify dark theme class applied by ThemeStore. */
+  get htmlRoot(): Locator {
+    return this.page.locator('html');
   }
 
   get jumbotron(): Locator {
@@ -73,8 +87,40 @@ export class ResumePage {
     return this.page.locator('vh-experience-item');
   }
 
+  /**
+   * The floating action hub trigger button — fixed element visible at all scroll positions.
+   * Used for scroll-visibility tests and as the entry point to the hub panel.
+   */
   get themeToggle(): Locator {
-    return this.page.locator('.vh-theme-toggle');
+    return this.page.locator('.vh-floating-actions__trigger');
+  }
+
+  get actionHubTrigger(): Locator {
+    return this.page.locator('.vh-floating-actions__trigger');
+  }
+
+  get actionHubPanel(): Locator {
+    return this.page.locator('#vh-action-hub-panel');
+  }
+
+  get themeToggleAction(): Locator {
+    return this.page.locator('.vh-floating-actions__item[aria-label*="mode"]');
+  }
+
+  get downloadButton(): Locator {
+    return this.page.locator(
+      '.vh-floating-actions__item[aria-label="Download resume"]',
+    );
+  }
+
+  get linkedInCta(): Locator {
+    return this.page.locator(
+      '.vh-floating-actions__item[aria-label="Request full access"]',
+    );
+  }
+
+  get actionItems(): Locator {
+    return this.page.locator('.vh-floating-actions__item');
   }
 
   get aboutSection(): Locator {
@@ -107,9 +153,5 @@ export class ResumePage {
 
   get snackbar(): Locator {
     return this.page.locator('text=Invalid link');
-  }
-
-  get downloadButton(): Locator {
-    return this.page.locator('vh-file-action[vhContactAction] button');
   }
 }

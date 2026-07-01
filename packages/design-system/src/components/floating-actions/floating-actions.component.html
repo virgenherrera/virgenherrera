@@ -1,0 +1,51 @@
+<div class="vh-floating-actions">
+<button
+  type="button"
+  class="vh-floating-actions__trigger"
+  [attr.aria-expanded]="isPassThrough ? null : isExpanded()"
+  [attr.aria-controls]="isPassThrough ? null : 'vh-action-hub-panel'"
+  [attr.aria-label]="isPassThrough ? availableActions()[0]?.label() : 'Quick actions'"
+  (click)="handleTriggerClick()"
+>
+  @if (isPassThrough && availableActions()[0]; as action) {
+    <vh-icon class="vh-floating-actions__icon" [name]="$any(action.icon())" />
+  } @else {
+    @if (isExpanded()) {
+      <vh-icon class="vh-floating-actions__icon" name="close" />
+    } @else {
+      <vh-icon class="vh-floating-actions__icon" name="kebab" />
+    }
+  }
+</button>
+
+@if (!isPassThrough) {
+  <div
+    id="vh-action-hub-panel"
+    role="toolbar"
+    aria-label="Quick actions"
+    [hidden]="!isExpanded()"
+    class="vh-floating-actions__panel"
+  >
+    @for (action of availableActions(); track action.id; let i = $index) {
+      <button
+        #actionBtn
+        type="button"
+        class="vh-floating-actions__item"
+        [attr.aria-label]="action.label()"
+        [attr.tabindex]="focusIndex() === i ? 0 : -1"
+        (click)="executeAction(action)"
+        (keydown)="onActionKeydown($event, i)"
+      >
+        <vh-icon class="vh-floating-actions__item-icon" [name]="$any(action.icon())" />
+      </button>
+    }
+  </div>
+}
+
+<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+  {{ themeAnnouncement() }}
+</div>
+<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+  {{ contextAnnouncement() }}
+</div>
+</div>
