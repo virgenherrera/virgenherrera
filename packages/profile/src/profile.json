@@ -1,7 +1,7 @@
 {
   "name": "Hugo Enrique Virgen Herrera",
-  "headline": "Senior Fullstack Engineer | Node.js | JavaScript | TypeScript | C# | .NET | Cloud | AI Integrations",
-  "summary": "Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems. Proven experience with Node.js orchestration and Azure-based serverless architectures, including Azure Functions and CI/CD pipelines. Skilled in microservices architectures, integrating Node.js and .NET services to handle data-intensive workloads, optimize performance, and maintain conversational context across distributed systems.",
+  "headline": "Senior Fullstack Engineer | Design Systems | AI Integrations | Cloud | Node.js | TypeScript | C# | Angular | .NET",
+  "summary": "Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems. Proven experience with Node.js orchestration and Azure-based serverless architectures, including Azure Functions and CI/CD pipelines. Skilled in microservices architectures, integrating Node.js and .NET services to handle data-intensive workloads, optimize performance, and maintain conversational context across distributed systems. Brings deep expertise in frontend architecture and component-driven design systems, building Angular applications with strict ARIA/WCAG accessibility patterns. Proficient in end-to-end testing automation with Playwright, ensuring quality and reliability across web platforms.",
   "location": "Mexico",
   "links": [
     {
@@ -219,6 +219,21 @@
   "certifications": [],
   "projects": [
     {
+      "name": "virgenherrera",
+      "description": "GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven.",
+      "url": "https://github.com/virgenherrera/virgenherrera",
+      "technologies": [
+        "TypeScript",
+        "Angular",
+        "NestJS",
+        "Playwright",
+        "Zod",
+        "GitHub Actions",
+        "GitHub Pages",
+        "pnpm"
+      ]
+    },
+    {
       "name": "nest-base",
       "description": "Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows.",
       "url": "https://github.com/virgenherrera/nest-base",
@@ -288,6 +303,21 @@
     {
       "category": "AI & Integrations",
       "skills": ["LangChain", "OpenAI API", "LLM-based orchestration"]
+    },
+    {
+      "category": "Testing & QA",
+      "skills": ["Playwright", "Jest", "Vitest", "Mocha"]
+    },
+    {
+      "category": "Architecture & Patterns",
+      "skills": [
+        "Monorepo (pnpm workspaces)",
+        "Design Systems",
+        "Angular Signals",
+        "DI Multi-Provider",
+        "SSR/SSG",
+        "Clean Architecture"
+      ]
     }
   ],
   "languages": [
