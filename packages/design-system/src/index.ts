@@ -41,3 +41,4 @@ export {
   HUB_ACTIONS,
   ThemeStoreBase,
 } from './types/hub-action';
+export { FloatingActionsComponent } from './components/floating-actions/floating-actions.component';

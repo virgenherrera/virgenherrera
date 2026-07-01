@@ -1,0 +1,70 @@
+<button
+  type="button"
+  class="vh-floating-actions__trigger"
+  [attr.aria-expanded]="isPassThrough ? null : isExpanded()"
+  [attr.aria-controls]="isPassThrough ? null : 'vh-action-hub-panel'"
+  [attr.aria-label]="isPassThrough ? availableActions()[0]?.label() : 'Quick actions'"
+  (click)="handleTriggerClick()"
+>
+  @if (isPassThrough && availableActions()[0]; as action) {
+    <svg class="vh-floating-actions__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+      @if (action.icon() === 'sun') {
+        <circle cx="12" cy="12" r="5" stroke-width="2" />
+        <path stroke-linecap="round" stroke-width="2" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      } @else {
+        <circle cx="12" cy="12" r="3" stroke-width="2" />
+        <path stroke-linecap="round" stroke-width="2" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      }
+    </svg>
+  } @else {
+    <svg class="vh-floating-actions__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+      @if (isExpanded()) {
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      } @else {
+        <circle cx="12" cy="12" r="1" fill="currentColor" />
+        <circle cx="12" cy="6" r="1" fill="currentColor" />
+        <circle cx="12" cy="18" r="1" fill="currentColor" />
+      }
+    </svg>
+  }
+</button>
+
+@if (!isPassThrough) {
+  <div
+    id="vh-action-hub-panel"
+    role="toolbar"
+    aria-label="Quick actions"
+    [hidden]="!isExpanded()"
+    class="vh-floating-actions__panel"
+  >
+    @for (action of availableActions(); track action.id; let i = $index) {
+      <button
+        #actionBtn
+        type="button"
+        class="vh-floating-actions__item"
+        [attr.aria-label]="action.label()"
+        [attr.tabindex]="focusIndex() === i ? 0 : -1"
+        (click)="executeAction(action)"
+        (keydown)="onActionKeydown($event, i)"
+      >
+        <svg class="vh-floating-actions__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          @if (action.icon() === 'sun') {
+            <circle cx="12" cy="12" r="5" stroke-width="2" />
+            <path stroke-linecap="round" stroke-width="2" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          } @else if (action.icon() === 'moon') {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          } @else if (action.icon() === 'download') {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+          }
+        </svg>
+      </button>
+    }
+  </div>
+}
+
+<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+  {{ themeAnnouncement() }}
+</div>
+<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+  {{ contextAnnouncement() }}
+</div>
