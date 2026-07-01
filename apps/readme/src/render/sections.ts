@@ -15,6 +15,8 @@ const CATEGORY_EMOJI: Record<string, string> = {
   'Cloud & DevOps': '☁️',
   'ORMs & ODMs': '🗂️',
   'AI & Integrations': '🤖',
+  'Testing & QA': '🧪',
+  'Architecture & Patterns': '🏗️',
 };
 
 const LANGUAGE_COLORS: Record<string, string> = {

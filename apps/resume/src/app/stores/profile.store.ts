@@ -1,8 +1,14 @@
-import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { z } from 'zod';
-import { profileSchema, secretsPayloadSchema } from '@vh/profile';
+import {
+  Injectable,
+  PLATFORM_ID,
+  VERSION,
+  inject,
+  signal,
+} from '@angular/core';
 import profileJson from '@profile-data';
+import { profileSchema, secretsPayloadSchema } from '@vh/profile';
+import { z } from 'zod';
 
 const hashPayloadSchema = z
   .string()
@@ -20,7 +26,14 @@ const hashPayloadSchema = z
 export class ProfileStore {
   private readonly platformId = inject(PLATFORM_ID);
 
-  readonly profile = profileSchema.parse(profileJson);
+  readonly profile = (() => {
+    const interpolated = JSON.stringify(profileJson).replaceAll(
+      '{{angularVersion}}',
+      VERSION.major,
+    );
+
+    return profileSchema.parse(JSON.parse(interpolated));
+  })();
   readonly isPrivateView = signal(false);
   readonly email = signal<string | null>(null);
   readonly phone = signal<string | null>(null);
