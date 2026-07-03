@@ -9,6 +9,7 @@ import {
 import { Subscription } from 'rxjs';
 import { AnimationScheduler } from './animation-scheduler.service';
 import { ObserverManager } from './observer-manager.service';
+import { SpatialIndex } from './spatial-index.service';
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
@@ -18,7 +19,7 @@ import { ObserverManager } from './observer-manager.service';
 // Performance levels:
 //   1: distSq comparison in renderConnections ✅ (PR #46)
 //   2: Float32Array for positions (stride 7) ✅ (PR #46)
-//   3: Spatial hash grid for connections (O(n²) → ~O(n))
+//   3: Spatial hash grid for connections (O(n²) → ~O(n)) ✅
 //   4: OffscreenCanvas in Web Worker (render off main thread)
 //   5: Object pooling + Path2D batching
 //
@@ -116,6 +117,7 @@ export class ParticleEngine {
   private readonly destroyRef = inject(DestroyRef);
   private readonly observerManager = inject(ObserverManager);
   private readonly animationScheduler = inject(AnimationScheduler);
+  private readonly spatialIndex = inject(SpatialIndex);
 
   // ─── State ────────────────────────────────────────────────────────────────
 
@@ -318,28 +320,19 @@ export class ParticleEngine {
 
   private renderConnections(): void {
     const dist = this.config.connectionDistance;
-    const distSq = dist * dist;
-    for (let i = 0; i < this.dotCount; i++) {
+    this.spatialIndex.build(this.dotData, this.dotCount, FLOATS_PER_DOT, dist);
+    this.spatialIndex.forEachNeighborPair(dist, (i, j, dSq) => {
       const iBase = i * FLOATS_PER_DOT;
-      const ix = this.dotData[iBase + 0];
-      const iy = this.dotData[iBase + 1];
-      for (let j = i + 1; j < this.dotCount; j++) {
-        const jBase = j * FLOATS_PER_DOT;
-        const dx = ix - this.dotData[jBase + 0];
-        const dy = iy - this.dotData[jBase + 1];
-        const dSq = dx * dx + dy * dy;
-        if (dSq < distSq) {
-          const d = Math.sqrt(dSq);
-          const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
-          this.ctx.beginPath();
-          this.ctx.moveTo(ix, iy);
-          this.ctx.lineTo(this.dotData[jBase + 0], this.dotData[jBase + 1]);
-          this.ctx.strokeStyle = `rgba(${this.connectionColorRgb}, ${opacity.toFixed(2)})`;
-          this.ctx.lineWidth = CONNECTION_LINE_WIDTH;
-          this.ctx.stroke();
-        }
-      }
-    }
+      const jBase = j * FLOATS_PER_DOT;
+      const d = Math.sqrt(dSq);
+      const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.dotData[iBase], this.dotData[iBase + 1]);
+      this.ctx.lineTo(this.dotData[jBase], this.dotData[jBase + 1]);
+      this.ctx.strokeStyle = `rgba(${this.connectionColorRgb}, ${opacity.toFixed(2)})`;
+      this.ctx.lineWidth = CONNECTION_LINE_WIDTH;
+      this.ctx.stroke();
+    });
   }
 
   private renderDots(): void {
