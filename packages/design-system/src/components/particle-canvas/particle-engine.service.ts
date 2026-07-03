@@ -11,6 +11,7 @@ import { AnimationScheduler } from './animation-scheduler.service';
 import { ObserverManager } from './observer-manager.service';
 import { SpatialIndex } from './spatial-index.service';
 import { CanvasRenderer } from './canvas-renderer.service';
+import { ParticleFactory } from './particle-factory.service';
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
@@ -27,7 +28,7 @@ import { CanvasRenderer } from './canvas-renderer.service';
 // Architecture refactor (do alongside levels 3-5):
 //   Decompose into focused injectable services. ParticleEngine
 //   remains the public facade (black box consumed from outside):
-//     - ParticleFactory: creation, pooling, recycling of dots/labels
+//     - ParticleFactory: creation, pooling, recycling of dots/labels ✅
 //     - SpatialIndex: grid/hash for neighbor queries (connections)
 //     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache ✅
 //     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
@@ -41,20 +42,10 @@ import { CanvasRenderer } from './canvas-renderer.service';
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Dot animation ───────────────────────────────────────────────────────────
-const DOT_MAX_SPEED = 0.4;
-
 // ─── Float32Array layout: [x, y, vx, vy, intrinsicRadius, colorIndex, z] ────
 export const FLOATS_PER_DOT = 7;
 
-// ─── Depth & parallax ────────────────────────────────────────────────────────
-const DOT_MIN_INTRINSIC = 1;
-const DOT_MAX_INTRINSIC = 8;
-const DOT_LARGE_PROBABILITY = 0.15;
-const DOT_MEDIUM_PROBABILITY = 0.25;
-
 // ─── Label animation ─────────────────────────────────────────────────────────
-const LABEL_MAX_SPEED = 0.25;
 const LABEL_OFFSCREEN_BUFFER_X = 100;
 const LABEL_OFFSCREEN_BUFFER_Y = 30;
 const LABEL_REENTRY_OFFSET_X = 50;
@@ -111,6 +102,7 @@ export class ParticleEngine {
   private readonly animationScheduler = inject(AnimationScheduler);
   private readonly spatialIndex = inject(SpatialIndex);
   private readonly renderer = inject(CanvasRenderer);
+  private readonly factory = inject(ParticleFactory);
 
   // ─── State ────────────────────────────────────────────────────────────────
 
@@ -204,7 +196,18 @@ export class ParticleEngine {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     this.renderer.applyDprScaling(canvas);
-    this.createParticles();
+
+    const result = this.factory.createParticles(
+      this.config,
+      this.renderer.canvasWidth,
+      this.renderer.canvasHeight,
+      this.textColor,
+    );
+    this.dotData = result.dotData;
+    this.dotCount = result.dotCount;
+    this.dotColors = result.dotColors;
+    this.labels = result.labels;
+
     this.observeResize();
 
     if (this.reducedMotion) {
@@ -256,7 +259,10 @@ export class ParticleEngine {
         tokens.palette.length > 0
           ? tokens.palette[Math.floor(Math.random() * tokens.palette.length)]
           : label.color;
-      const bitmapInfo = this.createLabelBitmap(label.label);
+      const bitmapInfo = this.factory.createLabelBitmap(
+        label.label,
+        this.textColor,
+      );
       label.bitmap = bitmapInfo.canvas;
       label.bitmapWidth = bitmapInfo.width;
       label.bitmapHeight = bitmapInfo.height;
@@ -316,102 +322,6 @@ export class ParticleEngine {
     this.renderer.renderLabels(this.labels, this.textColor);
   }
 
-  // ─── Particle creation ────────────────────────────────────────────────────
-
-  private createParticles(): void {
-    const isMobile = window.innerWidth < this.config.mobileBreakpoint;
-    const dotCount = isMobile
-      ? this.config.mobileDotCount
-      : this.config.dotCount;
-    const labelCount = isMobile
-      ? this.config.mobileTextCount
-      : this.config.textCount;
-
-    this.dotCount = dotCount;
-    this.dotData = new Float32Array(dotCount * FLOATS_PER_DOT);
-    this.dotColors = [...this.config.palette];
-
-    for (let i = 0; i < dotCount; i++) {
-      const base = i * FLOATS_PER_DOT;
-      const roll = Math.random();
-      let intrinsicRadius: number;
-      if (roll < DOT_LARGE_PROBABILITY) {
-        // ~15% giants (5-8)
-        intrinsicRadius = 5 + Math.random() * (DOT_MAX_INTRINSIC - 5);
-      } else if (roll < DOT_LARGE_PROBABILITY + DOT_MEDIUM_PROBABILITY) {
-        // ~25% medium (3-4)
-        intrinsicRadius = 3 + Math.random() * 2;
-      } else {
-        // ~60% dust (1-2)
-        intrinsicRadius = DOT_MIN_INTRINSIC + Math.random();
-      }
-
-      this.dotData[base + 0] = Math.random() * this.renderer.canvasWidth; // x
-      this.dotData[base + 1] = Math.random() * this.renderer.canvasHeight; // y
-      this.dotData[base + 2] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vx
-      this.dotData[base + 3] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vy
-      this.dotData[base + 4] = intrinsicRadius;
-      this.dotData[base + 5] = Math.floor(
-        Math.random() * this.dotColors.length,
-      ); // colorIndex
-      this.dotData[base + 6] = Math.random(); // z
-    }
-
-    const configLabels = this.config.labels;
-    if (configLabels.length === 0) return;
-
-    this.labels = Array.from({ length: labelCount }, (_, i) => {
-      const text = configLabels[i % configLabels.length];
-      const bitmapInfo = this.createLabelBitmap(text);
-
-      return {
-        x: Math.random() * this.renderer.canvasWidth,
-        y: Math.random() * this.renderer.canvasHeight,
-        vx: (Math.random() - 0.5) * LABEL_MAX_SPEED,
-        vy: (Math.random() - 0.5) * LABEL_MAX_SPEED,
-        label: text,
-        color:
-          this.config.palette[
-            Math.floor(Math.random() * this.config.palette.length)
-          ],
-        bitmap: bitmapInfo.canvas,
-        bitmapWidth: bitmapInfo.width,
-        bitmapHeight: bitmapInfo.height,
-      };
-    });
-  }
-
-  private createLabelBitmap(label: string): {
-    canvas: OffscreenCanvas | null;
-    width: number;
-    height: number;
-  } {
-    const dpr = window.devicePixelRatio || 1;
-    const h = LABEL_BITMAP_HEIGHT;
-
-    if (typeof OffscreenCanvas === 'undefined') {
-      return { canvas: null, width: 0, height: h };
-    }
-
-    const measure = new OffscreenCanvas(1, 1);
-    const mctx = measure.getContext('2d')!;
-    mctx.font = LABEL_FONT;
-    const metrics = mctx.measureText(label);
-    const w = Math.ceil(metrics.width) + LABEL_BITMAP_PADDING;
-
-    const canvas = new OffscreenCanvas(w * dpr, h * dpr);
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return { canvas: null, width: w, height: h };
-
-    ctx.scale(dpr, dpr);
-    ctx.font = LABEL_FONT;
-    ctx.fillStyle = this.textColor;
-    ctx.textBaseline = 'middle';
-    ctx.fillText(label, 2, h / 2);
-
-    return { canvas, width: w, height: h };
-  }
-
   // ─── Canvas management ────────────────────────────────────────────────────
 
   private observeResize(): void {
@@ -429,33 +339,21 @@ export class ParticleEngine {
         prevH = rect.height;
 
         this.renderer.applyDprScaling(this.canvas);
-        this.rescalePositions(oldW, oldH, rect.width, rect.height);
+        this.factory.rescalePositions(
+          this.dotData,
+          this.dotCount,
+          this.labels,
+          oldW,
+          oldH,
+          rect.width,
+          rect.height,
+        );
 
         if (!this.running) {
           this.render();
         }
       }),
     );
-  }
-
-  private rescalePositions(
-    oldW: number,
-    oldH: number,
-    newW: number,
-    newH: number,
-  ): void {
-    const sx = newW / oldW;
-    const sy = newH / oldH;
-
-    for (let i = 0; i < this.dotCount; i++) {
-      const base = i * FLOATS_PER_DOT;
-      this.dotData[base + 0] *= sx; // x
-      this.dotData[base + 1] *= sy; // y
-    }
-    for (const label of this.labels) {
-      label.x *= sx;
-      label.y *= sy;
-    }
   }
 
   // ─── Theme ────────────────────────────────────────────────────────────────
