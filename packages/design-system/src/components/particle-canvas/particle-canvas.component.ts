@@ -5,6 +5,7 @@ import {
 } from './particle-engine.service';
 import { AnimationScheduler } from './animation-scheduler.service';
 import { ObserverManager } from './observer-manager.service';
+import { SpatialIndex } from './spatial-index.service';
 
 @Component({
   selector: 'vh-particle-canvas',
@@ -12,7 +13,12 @@ import { ObserverManager } from './observer-manager.service';
   templateUrl: './particle-canvas.component.html',
   styleUrl: './particle-canvas.component.css',
   encapsulation: ViewEncapsulation.None,
-  providers: [ParticleEngine, ObserverManager, AnimationScheduler],
+  providers: [
+    ParticleEngine,
+    ObserverManager,
+    AnimationScheduler,
+    SpatialIndex,
+  ],
 })
 export class ParticleCanvasComponent {
   readonly labels = input<string[]>([]);
