@@ -6,6 +6,7 @@ import {
 import { AnimationScheduler } from './animation-scheduler.service';
 import { ObserverManager } from './observer-manager.service';
 import { SpatialIndex } from './spatial-index.service';
+import { CanvasRenderer } from './canvas-renderer.service';
 
 @Component({
   selector: 'vh-particle-canvas',
@@ -18,6 +19,7 @@ import { SpatialIndex } from './spatial-index.service';
     ObserverManager,
     AnimationScheduler,
     SpatialIndex,
+    CanvasRenderer,
   ],
 })
 export class ParticleCanvasComponent {

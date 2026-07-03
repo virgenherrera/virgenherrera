@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { AnimationScheduler } from './animation-scheduler.service';
 import { ObserverManager } from './observer-manager.service';
 import { SpatialIndex } from './spatial-index.service';
+import { CanvasRenderer } from './canvas-renderer.service';
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
@@ -28,7 +29,7 @@ import { SpatialIndex } from './spatial-index.service';
 //   remains the public facade (black box consumed from outside):
 //     - ParticleFactory: creation, pooling, recycling of dots/labels
 //     - SpatialIndex: grid/hash for neighbor queries (connections)
-//     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache
+//     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache ✅
 //     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
 //     - ObserverManager: Resize/Intersection/Mutation as Observable factories ✅
 //   Each service is independently testable; engine composes them.
@@ -44,18 +45,13 @@ import { SpatialIndex } from './spatial-index.service';
 const DOT_MAX_SPEED = 0.4;
 
 // ─── Float32Array layout: [x, y, vx, vy, intrinsicRadius, colorIndex, z] ────
-const FLOATS_PER_DOT = 7;
+export const FLOATS_PER_DOT = 7;
 
 // ─── Depth & parallax ────────────────────────────────────────────────────────
 const DOT_MIN_INTRINSIC = 1;
 const DOT_MAX_INTRINSIC = 8;
 const DOT_LARGE_PROBABILITY = 0.15;
 const DOT_MEDIUM_PROBABILITY = 0.25;
-const PERSPECTIVE_MIN_SCALE = 0.3;
-const PERSPECTIVE_MAX_SCALE = 1.0;
-const DEPTH_MIN_OPACITY = 0.2;
-const DEPTH_MAX_OPACITY = 0.85;
-const DEPTH_SHADOW_MAX = 4;
 
 // ─── Label animation ─────────────────────────────────────────────────────────
 const LABEL_MAX_SPEED = 0.25;
@@ -64,14 +60,10 @@ const LABEL_OFFSCREEN_BUFFER_Y = 30;
 const LABEL_REENTRY_OFFSET_X = 50;
 const LABEL_REENTRY_OFFSET_Y = 20;
 
-// ─── Connections ─────────────────────────────────────────────────────────────
-const CONNECTION_MAX_OPACITY = 0.15;
-const CONNECTION_LINE_WIDTH = 0.5;
-
 // ─── Text bitmap ─────────────────────────────────────────────────────────────
-const LABEL_FONT = '11px system-ui, sans-serif';
-const LABEL_BITMAP_HEIGHT = 16;
-const LABEL_BITMAP_PADDING = 4;
+export const LABEL_FONT = '11px system-ui, sans-serif';
+export const LABEL_BITMAP_HEIGHT = 16;
+export const LABEL_BITMAP_PADDING = 4;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -97,7 +89,7 @@ export const PARTICLE_CANVAS_DEFAULTS: ParticleCanvasConfig = {
   mobileBreakpoint: 768,
 };
 
-interface LabelParticle {
+export interface LabelParticle {
   x: number;
   y: number;
   vx: number;
@@ -118,11 +110,11 @@ export class ParticleEngine {
   private readonly observerManager = inject(ObserverManager);
   private readonly animationScheduler = inject(AnimationScheduler);
   private readonly spatialIndex = inject(SpatialIndex);
+  private readonly renderer = inject(CanvasRenderer);
 
   // ─── State ────────────────────────────────────────────────────────────────
 
   private canvas!: HTMLCanvasElement;
-  private ctx!: CanvasRenderingContext2D;
   private config!: ParticleCanvasConfig;
   private dotData!: Float32Array; // [x, y, vx, vy, intrinsicRadius, colorIndex, z] × dotCount
   private dotColors: string[] = []; // color strings indexed by colorIndex
@@ -130,8 +122,6 @@ export class ParticleEngine {
   private labels: LabelParticle[] = [];
   private reducedMotion = false;
   private readonly subscriptions = new Subscription();
-  private width = 0;
-  private height = 0;
   private connectionColorRgb = '139, 92, 246';
   private textColor = 'rgba(100, 116, 139, 0.5)';
   private shadowColor = 'rgba(0, 0, 0, 0.12)';
@@ -192,9 +182,7 @@ export class ParticleEngine {
     config: Partial<ParticleCanvasConfig> = {},
   ): void {
     this.canvas = canvas;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    this.ctx = ctx;
+    if (!this.renderer.init(canvas)) return;
     this.config = { ...PARTICLE_CANVAS_DEFAULTS, ...config };
 
     const tokens = this.readCSSTokens();
@@ -215,7 +203,7 @@ export class ParticleEngine {
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    this.applyDprScaling();
+    this.renderer.applyDprScaling(canvas);
     this.createParticles();
     this.observeResize();
 
@@ -282,8 +270,8 @@ export class ParticleEngine {
   // ─── Animation loop ───────────────────────────────────────────────────────
 
   private updatePositions(): void {
-    const w = this.width;
-    const h = this.height;
+    const w = this.renderer.canvasWidth;
+    const h = this.renderer.canvasHeight;
 
     for (let i = 0; i < this.dotCount; i++) {
       const base = i * FLOATS_PER_DOT;
@@ -310,118 +298,22 @@ export class ParticleEngine {
   }
 
   private render(): void {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.renderConnections();
-    this.renderDots();
-    this.renderLabels();
-  }
-
-  // ─── Rendering ────────────────────────────────────────────────────────────
-
-  private renderConnections(): void {
+    this.renderer.clear();
     const dist = this.config.connectionDistance;
     this.spatialIndex.build(this.dotData, this.dotCount, FLOATS_PER_DOT, dist);
-    this.spatialIndex.forEachNeighborPair(dist, (i, j, dSq) => {
-      const iBase = i * FLOATS_PER_DOT;
-      const jBase = j * FLOATS_PER_DOT;
-      const d = Math.sqrt(dSq);
-      const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
-      this.ctx.beginPath();
-      this.ctx.moveTo(this.dotData[iBase], this.dotData[iBase + 1]);
-      this.ctx.lineTo(this.dotData[jBase], this.dotData[jBase + 1]);
-      this.ctx.strokeStyle = `rgba(${this.connectionColorRgb}, ${opacity.toFixed(2)})`;
-      this.ctx.lineWidth = CONNECTION_LINE_WIDTH;
-      this.ctx.stroke();
-    });
-  }
-
-  private renderDots(): void {
-    // z-sort: paint far particles first (z=0), close ones last (z=1)
-    const indices = Array.from({ length: this.dotCount }, (_, i) => i);
-    indices.sort(
-      (a, b) =>
-        this.dotData[a * FLOATS_PER_DOT + 6] -
-        this.dotData[b * FLOATS_PER_DOT + 6],
+    this.renderer.renderConnections(
+      this.dotData,
+      this.spatialIndex,
+      dist,
+      this.connectionColorRgb,
     );
-
-    const shadowColor = this.shadowColor;
-
-    for (const idx of indices) {
-      const base = idx * FLOATS_PER_DOT;
-      const x = this.dotData[base + 0];
-      const y = this.dotData[base + 1];
-      const intrinsicRadius = this.dotData[base + 4];
-      const colorIndex = this.dotData[base + 5];
-      const z = this.dotData[base + 6];
-
-      const scale =
-        PERSPECTIVE_MIN_SCALE +
-        z * (PERSPECTIVE_MAX_SCALE - PERSPECTIVE_MIN_SCALE);
-      const apparentRadius = intrinsicRadius * scale;
-      const opacity =
-        DEPTH_MIN_OPACITY + z * (DEPTH_MAX_OPACITY - DEPTH_MIN_OPACITY);
-
-      // Radial gradient for 3D shading effect
-      const gradient = this.ctx.createRadialGradient(
-        x - apparentRadius * 0.3,
-        y - apparentRadius * 0.3,
-        apparentRadius * 0.1,
-        x,
-        y,
-        apparentRadius,
-      );
-
-      // Parse the dot color to inject opacity
-      const dotColor = this.dotColors[colorIndex];
-      const baseColor = dotColor.replace(/[\d.]+\)$/, `${opacity.toFixed(2)})`);
-      const highlightColor = dotColor.replace(
-        /[\d.]+\)$/,
-        `${Math.min(opacity * 1.4, 1).toFixed(2)})`,
-      );
-
-      gradient.addColorStop(0, highlightColor);
-      gradient.addColorStop(1, baseColor);
-
-      // Shadow for close particles
-      if (z > 0.5) {
-        const shadowIntensity = (z - 0.5) * 2; // 0 to 1 for z 0.5-1.0
-        this.ctx.shadowColor = shadowColor;
-        this.ctx.shadowBlur = shadowIntensity * DEPTH_SHADOW_MAX;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = shadowIntensity * 1;
-      }
-
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, apparentRadius, 0, Math.PI * 2);
-      this.ctx.fillStyle = gradient;
-      this.ctx.fill();
-
-      // Reset shadow
-      if (z > 0.5) {
-        this.ctx.shadowColor = 'transparent';
-        this.ctx.shadowBlur = 0;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 0;
-      }
-    }
-  }
-
-  private renderLabels(): void {
-    for (const label of this.labels) {
-      if (label.bitmap) {
-        this.ctx.drawImage(
-          label.bitmap,
-          label.x,
-          label.y,
-          label.bitmapWidth,
-          label.bitmapHeight,
-        );
-      } else {
-        this.ctx.font = LABEL_FONT;
-        this.ctx.fillStyle = this.textColor;
-        this.ctx.fillText(label.label, label.x, label.y);
-      }
-    }
+    this.renderer.renderDots(
+      this.dotData,
+      this.dotCount,
+      this.dotColors,
+      this.shadowColor,
+    );
+    this.renderer.renderLabels(this.labels, this.textColor);
   }
 
   // ─── Particle creation ────────────────────────────────────────────────────
@@ -454,8 +346,8 @@ export class ParticleEngine {
         intrinsicRadius = DOT_MIN_INTRINSIC + Math.random();
       }
 
-      this.dotData[base + 0] = Math.random() * this.width; // x
-      this.dotData[base + 1] = Math.random() * this.height; // y
+      this.dotData[base + 0] = Math.random() * this.renderer.canvasWidth; // x
+      this.dotData[base + 1] = Math.random() * this.renderer.canvasHeight; // y
       this.dotData[base + 2] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vx
       this.dotData[base + 3] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vy
       this.dotData[base + 4] = intrinsicRadius;
@@ -473,8 +365,8 @@ export class ParticleEngine {
       const bitmapInfo = this.createLabelBitmap(text);
 
       return {
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
+        x: Math.random() * this.renderer.canvasWidth,
+        y: Math.random() * this.renderer.canvasHeight,
         vx: (Math.random() - 0.5) * LABEL_MAX_SPEED,
         vy: (Math.random() - 0.5) * LABEL_MAX_SPEED,
         label: text,
@@ -522,19 +414,9 @@ export class ParticleEngine {
 
   // ─── Canvas management ────────────────────────────────────────────────────
 
-  private applyDprScaling(): void {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = this.canvas.getBoundingClientRect();
-    this.width = rect.width;
-    this.height = rect.height;
-    this.canvas.width = rect.width * dpr;
-    this.canvas.height = rect.height * dpr;
-    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
   private observeResize(): void {
-    let prevW = this.canvas.getBoundingClientRect().width;
-    let prevH = this.canvas.getBoundingClientRect().height;
+    let prevW = this.renderer.canvasWidth;
+    let prevH = this.renderer.canvasHeight;
 
     this.subscriptions.add(
       this.observerManager.observeResize(this.canvas).subscribe(() => {
@@ -546,7 +428,7 @@ export class ParticleEngine {
         prevW = rect.width;
         prevH = rect.height;
 
-        this.applyDprScaling();
+        this.renderer.applyDprScaling(this.canvas);
         this.rescalePositions(oldW, oldH, rect.width, rect.height);
 
         if (!this.running) {
