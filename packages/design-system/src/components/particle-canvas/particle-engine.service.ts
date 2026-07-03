@@ -9,26 +9,24 @@ import {
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
-// Current: Level 0 — single monolithic service, brute-force loops,
-// ~0.2ms/frame at 60 dots (1.2% of 16.67ms budget).
+// Origin: adversarial review (69 agents, 5 expert panels) on nest-base.
+// Confirmed 3/32 findings: DI-003, CONN-002, RESIZE-001.
 //
 // Performance levels:
-//   1: distSq comparison in renderConnections (skip Math.sqrt for filtering)
-//   2: Float32Array for positions (cache locality)
+//   1: distSq comparison in renderConnections ✅ (PR #46)
+//   2: Float32Array for positions (stride 7) ✅ (PR #46)
 //   3: Spatial hash grid for connections (O(n²) → ~O(n))
 //   4: OffscreenCanvas in Web Worker (render off main thread)
 //   5: Object pooling + Path2D batching
 //
 // Architecture refactor (do alongside levels 3-5):
-//   Decompose this 504-line service into focused units. ParticleEngine
-//   remains the public facade (black box consumed from outside). Internals
-//   become separate injectable services — candidates:
+//   Decompose into focused injectable services. ParticleEngine
+//   remains the public facade (black box consumed from outside):
 //     - ParticleFactory: creation, pooling, recycling of dots/labels
 //     - SpatialIndex: grid/hash for neighbor queries (connections)
 //     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache
 //     - AnimationScheduler: RAF via animationFrames(), visibility control
 //     - ObserverManager: Resize/Intersection/Mutation as Observable factories
-//   Wire via an Angular module or component-level providers array.
 //   Each service is independently testable; engine composes them.
 //
 // Also pending:
@@ -40,8 +38,20 @@ import {
 
 // ─── Dot animation ───────────────────────────────────────────────────────────
 const DOT_MAX_SPEED = 0.4;
-const DOT_MIN_RADIUS = 1;
-const DOT_RADIUS_RANGE = 2;
+
+// ─── Float32Array layout: [x, y, vx, vy, intrinsicRadius, colorIndex, z] ────
+const FLOATS_PER_DOT = 7;
+
+// ─── Depth & parallax ────────────────────────────────────────────────────────
+const DOT_MIN_INTRINSIC = 1;
+const DOT_MAX_INTRINSIC = 8;
+const DOT_LARGE_PROBABILITY = 0.15;
+const DOT_MEDIUM_PROBABILITY = 0.25;
+const PERSPECTIVE_MIN_SCALE = 0.3;
+const PERSPECTIVE_MAX_SCALE = 1.0;
+const DEPTH_MIN_OPACITY = 0.2;
+const DEPTH_MAX_OPACITY = 0.85;
+const DEPTH_SHADOW_MAX = 4;
 
 // ─── Label animation ─────────────────────────────────────────────────────────
 const LABEL_MAX_SPEED = 0.25;
@@ -83,15 +93,6 @@ export const PARTICLE_CANVAS_DEFAULTS: ParticleCanvasConfig = {
   mobileBreakpoint: 768,
 };
 
-interface DotParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  color: string;
-}
-
 interface LabelParticle {
   x: number;
   y: number;
@@ -116,7 +117,9 @@ export class ParticleEngine {
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
   private config!: ParticleCanvasConfig;
-  private dots: DotParticle[] = [];
+  private dotData!: Float32Array; // [x, y, vx, vy, intrinsicRadius, colorIndex, z] × dotCount
+  private dotColors: string[] = []; // color strings indexed by colorIndex
+  private dotCount = 0;
   private labels: LabelParticle[] = [];
   private animationId: number | null = null;
   private running = false;
@@ -128,6 +131,7 @@ export class ParticleEngine {
   private height = 0;
   private connectionColorRgb = '139, 92, 246';
   private textColor = 'rgba(100, 116, 139, 0.5)';
+  private shadowColor = 'rgba(0, 0, 0, 0.12)';
 
   private static readonly FALLBACK_PALETTE = [
     'rgba(139, 92, 246, 0.6)',
@@ -202,6 +206,7 @@ export class ParticleEngine {
     }
     this.connectionColorRgb = tokens.lineRgb;
     this.textColor = tokens.textColor;
+    this.shadowColor = tokens.shadowColor;
 
     this.reducedMotion =
       typeof window !== 'undefined' &&
@@ -238,7 +243,8 @@ export class ParticleEngine {
     this.intersectionObserver = null;
     this.mutationObserver?.disconnect();
     this.mutationObserver = null;
-    this.dots = [];
+    this.dotData = new Float32Array(0);
+    this.dotColors = [];
     this.labels = [];
   }
 
@@ -249,14 +255,17 @@ export class ParticleEngine {
 
     if (tokens.palette.length > 0) {
       this.config = { ...this.config, palette: tokens.palette };
-      for (const dot of this.dots) {
-        dot.color =
-          tokens.palette[Math.floor(Math.random() * tokens.palette.length)];
+      this.dotColors = [...tokens.palette];
+      for (let i = 0; i < this.dotCount; i++) {
+        this.dotData[i * FLOATS_PER_DOT + 5] = Math.floor(
+          Math.random() * tokens.palette.length,
+        );
       }
     }
 
     this.connectionColorRgb = tokens.lineRgb;
     this.textColor = tokens.textColor;
+    this.shadowColor = tokens.shadowColor;
 
     for (const label of this.labels) {
       label.color =
@@ -287,13 +296,14 @@ export class ParticleEngine {
     const w = this.width;
     const h = this.height;
 
-    for (const dot of this.dots) {
-      dot.x += dot.vx;
-      dot.y += dot.vy;
-      if (dot.x < 0) dot.x = w;
-      if (dot.x > w) dot.x = 0;
-      if (dot.y < 0) dot.y = h;
-      if (dot.y > h) dot.y = 0;
+    for (let i = 0; i < this.dotCount; i++) {
+      const base = i * FLOATS_PER_DOT;
+      this.dotData[base + 0] += this.dotData[base + 2]; // x += vx
+      this.dotData[base + 1] += this.dotData[base + 3]; // y += vy
+      if (this.dotData[base + 0] < 0) this.dotData[base + 0] = w;
+      if (this.dotData[base + 0] > w) this.dotData[base + 0] = 0;
+      if (this.dotData[base + 1] < 0) this.dotData[base + 1] = h;
+      if (this.dotData[base + 1] > h) this.dotData[base + 1] = 0;
     }
 
     for (const label of this.labels) {
@@ -321,16 +331,22 @@ export class ParticleEngine {
 
   private renderConnections(): void {
     const dist = this.config.connectionDistance;
-    for (let i = 0; i < this.dots.length; i++) {
-      for (let j = i + 1; j < this.dots.length; j++) {
-        const dx = this.dots[i].x - this.dots[j].x;
-        const dy = this.dots[i].y - this.dots[j].y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < dist) {
+    const distSq = dist * dist;
+    for (let i = 0; i < this.dotCount; i++) {
+      const iBase = i * FLOATS_PER_DOT;
+      const ix = this.dotData[iBase + 0];
+      const iy = this.dotData[iBase + 1];
+      for (let j = i + 1; j < this.dotCount; j++) {
+        const jBase = j * FLOATS_PER_DOT;
+        const dx = ix - this.dotData[jBase + 0];
+        const dy = iy - this.dotData[jBase + 1];
+        const dSq = dx * dx + dy * dy;
+        if (dSq < distSq) {
+          const d = Math.sqrt(dSq);
           const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
           this.ctx.beginPath();
-          this.ctx.moveTo(this.dots[i].x, this.dots[i].y);
-          this.ctx.lineTo(this.dots[j].x, this.dots[j].y);
+          this.ctx.moveTo(ix, iy);
+          this.ctx.lineTo(this.dotData[jBase + 0], this.dotData[jBase + 1]);
           this.ctx.strokeStyle = `rgba(${this.connectionColorRgb}, ${opacity.toFixed(2)})`;
           this.ctx.lineWidth = CONNECTION_LINE_WIDTH;
           this.ctx.stroke();
@@ -340,11 +356,73 @@ export class ParticleEngine {
   }
 
   private renderDots(): void {
-    for (const dot of this.dots) {
+    // z-sort: paint far particles first (z=0), close ones last (z=1)
+    const indices = Array.from({ length: this.dotCount }, (_, i) => i);
+    indices.sort(
+      (a, b) =>
+        this.dotData[a * FLOATS_PER_DOT + 6] -
+        this.dotData[b * FLOATS_PER_DOT + 6],
+    );
+
+    const shadowColor = this.shadowColor;
+
+    for (const idx of indices) {
+      const base = idx * FLOATS_PER_DOT;
+      const x = this.dotData[base + 0];
+      const y = this.dotData[base + 1];
+      const intrinsicRadius = this.dotData[base + 4];
+      const colorIndex = this.dotData[base + 5];
+      const z = this.dotData[base + 6];
+
+      const scale =
+        PERSPECTIVE_MIN_SCALE +
+        z * (PERSPECTIVE_MAX_SCALE - PERSPECTIVE_MIN_SCALE);
+      const apparentRadius = intrinsicRadius * scale;
+      const opacity =
+        DEPTH_MIN_OPACITY + z * (DEPTH_MAX_OPACITY - DEPTH_MIN_OPACITY);
+
+      // Radial gradient for 3D shading effect
+      const gradient = this.ctx.createRadialGradient(
+        x - apparentRadius * 0.3,
+        y - apparentRadius * 0.3,
+        apparentRadius * 0.1,
+        x,
+        y,
+        apparentRadius,
+      );
+
+      // Parse the dot color to inject opacity
+      const dotColor = this.dotColors[colorIndex];
+      const baseColor = dotColor.replace(/[\d.]+\)$/, `${opacity.toFixed(2)})`);
+      const highlightColor = dotColor.replace(
+        /[\d.]+\)$/,
+        `${Math.min(opacity * 1.4, 1).toFixed(2)})`,
+      );
+
+      gradient.addColorStop(0, highlightColor);
+      gradient.addColorStop(1, baseColor);
+
+      // Shadow for close particles
+      if (z > 0.5) {
+        const shadowIntensity = (z - 0.5) * 2; // 0 to 1 for z 0.5-1.0
+        this.ctx.shadowColor = shadowColor;
+        this.ctx.shadowBlur = shadowIntensity * DEPTH_SHADOW_MAX;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = shadowIntensity * 1;
+      }
+
       this.ctx.beginPath();
-      this.ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-      this.ctx.fillStyle = dot.color;
+      this.ctx.arc(x, y, apparentRadius, 0, Math.PI * 2);
+      this.ctx.fillStyle = gradient;
       this.ctx.fill();
+
+      // Reset shadow
+      if (z > 0.5) {
+        this.ctx.shadowColor = 'transparent';
+        this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
+      }
     }
   }
 
@@ -377,17 +455,35 @@ export class ParticleEngine {
       ? this.config.mobileTextCount
       : this.config.textCount;
 
-    this.dots = Array.from({ length: dotCount }, () => ({
-      x: Math.random() * this.width,
-      y: Math.random() * this.height,
-      vx: (Math.random() - 0.5) * DOT_MAX_SPEED,
-      vy: (Math.random() - 0.5) * DOT_MAX_SPEED,
-      radius: Math.random() * DOT_RADIUS_RANGE + DOT_MIN_RADIUS,
-      color:
-        this.config.palette[
-          Math.floor(Math.random() * this.config.palette.length)
-        ],
-    }));
+    this.dotCount = dotCount;
+    this.dotData = new Float32Array(dotCount * FLOATS_PER_DOT);
+    this.dotColors = [...this.config.palette];
+
+    for (let i = 0; i < dotCount; i++) {
+      const base = i * FLOATS_PER_DOT;
+      const roll = Math.random();
+      let intrinsicRadius: number;
+      if (roll < DOT_LARGE_PROBABILITY) {
+        // ~15% giants (5-8)
+        intrinsicRadius = 5 + Math.random() * (DOT_MAX_INTRINSIC - 5);
+      } else if (roll < DOT_LARGE_PROBABILITY + DOT_MEDIUM_PROBABILITY) {
+        // ~25% medium (3-4)
+        intrinsicRadius = 3 + Math.random() * 2;
+      } else {
+        // ~60% dust (1-2)
+        intrinsicRadius = DOT_MIN_INTRINSIC + Math.random();
+      }
+
+      this.dotData[base + 0] = Math.random() * this.width; // x
+      this.dotData[base + 1] = Math.random() * this.height; // y
+      this.dotData[base + 2] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vx
+      this.dotData[base + 3] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vy
+      this.dotData[base + 4] = intrinsicRadius;
+      this.dotData[base + 5] = Math.floor(
+        Math.random() * this.dotColors.length,
+      ); // colorIndex
+      this.dotData[base + 6] = Math.random(); // z
+    }
 
     const configLabels = this.config.labels;
     if (configLabels.length === 0) return;
@@ -488,9 +584,10 @@ export class ParticleEngine {
     const sx = newW / oldW;
     const sy = newH / oldH;
 
-    for (const dot of this.dots) {
-      dot.x *= sx;
-      dot.y *= sy;
+    for (let i = 0; i < this.dotCount; i++) {
+      const base = i * FLOATS_PER_DOT;
+      this.dotData[base + 0] *= sx; // x
+      this.dotData[base + 1] *= sy; // y
     }
     for (const label of this.labels) {
       label.x *= sx;
@@ -504,6 +601,7 @@ export class ParticleEngine {
     palette: string[];
     lineRgb: string;
     textColor: string;
+    shadowColor: string;
   } {
     const style = getComputedStyle(this.canvas);
     const read = (prop: string) => style.getPropertyValue(prop).trim();
@@ -530,6 +628,12 @@ export class ParticleEngine {
       textColor = textToken;
     }
 
-    return { palette, lineRgb, textColor };
+    let shadowColor = this.shadowColor;
+    const shadowToken = read('--vh-particle-shadow');
+    if (shadowToken) {
+      shadowColor = shadowToken;
+    }
+
+    return { palette, lineRgb, textColor, shadowColor };
   }
 }
