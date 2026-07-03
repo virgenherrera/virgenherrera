@@ -6,6 +6,9 @@ import {
   afterNextRender,
   type InputSignal,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AnimationScheduler } from './animation-scheduler.service';
+import { ObserverManager } from './observer-manager.service';
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
@@ -25,14 +28,14 @@ import {
 //     - ParticleFactory: creation, pooling, recycling of dots/labels
 //     - SpatialIndex: grid/hash for neighbor queries (connections)
 //     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache
-//     - AnimationScheduler: RAF via animationFrames(), visibility control
-//     - ObserverManager: Resize/Intersection/Mutation as Observable factories
+//     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
+//     - ObserverManager: Resize/Intersection/Mutation as Observable factories ✅
 //   Each service is independently testable; engine composes them.
 //
 // Also pending:
-//   - Observable factories for browser observers (co-located teardown)
-//   - animationFrames() replacing manual RAF loop
-//   - Document or fix one-shot InputSignal reads (DI-003)
+//   - Observable factories for browser observers (co-located teardown) ✅
+//   - animationFrames() replacing manual RAF loop ✅
+//   - Document or fix one-shot InputSignal reads (DI-003) ✅
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -111,6 +114,8 @@ export class ParticleEngine {
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly observerManager = inject(ObserverManager);
+  private readonly animationScheduler = inject(AnimationScheduler);
 
   // ─── State ────────────────────────────────────────────────────────────────
 
@@ -121,12 +126,8 @@ export class ParticleEngine {
   private dotColors: string[] = []; // color strings indexed by colorIndex
   private dotCount = 0;
   private labels: LabelParticle[] = [];
-  private animationId: number | null = null;
-  private running = false;
   private reducedMotion = false;
-  private resizeObserver: ResizeObserver | null = null;
-  private intersectionObserver: IntersectionObserver | null = null;
-  private mutationObserver: MutationObserver | null = null;
+  private readonly subscriptions = new Subscription();
   private width = 0;
   private height = 0;
   private connectionColorRgb = '139, 92, 246';
@@ -140,8 +141,9 @@ export class ParticleEngine {
     'rgba(255, 255, 255, 0.3)',
   ];
 
-  // ─── Pre-bound RAF callback so we allocate the closure once, not per frame ─
-  private readonly tick = this.loop.bind(this);
+  private get running(): boolean {
+    return this.animationScheduler.running;
+  }
 
   // ─── Public API ───────────────────────────────────────────────────────────
 
@@ -153,30 +155,29 @@ export class ParticleEngine {
       const canvas = this.elementRef.nativeElement.querySelector('canvas');
       if (!canvas) return;
 
+      // DI-003: One-shot read — config is immutable after boot
       this.initCanvas(canvas, {
         ...config(),
         labels: labels(),
       });
 
-      this.intersectionObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            this.start();
-          } else {
-            this.stop();
-          }
-        },
-        { threshold: 0.1 },
+      this.subscriptions.add(
+        this.observerManager
+          .observeIntersection(canvas, { threshold: 0.1 })
+          .subscribe((entry) => {
+            if (entry.isIntersecting) {
+              this.start();
+            } else {
+              this.stop();
+            }
+          }),
       );
-      this.intersectionObserver.observe(canvas);
 
-      this.mutationObserver = new MutationObserver(() => {
-        this.refreshColors();
-      });
-      this.mutationObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class'],
-      });
+      this.subscriptions.add(
+        this.observerManager
+          .observeClassChanges(document.documentElement)
+          .subscribe(() => this.refreshColors()),
+      );
     });
 
     this.destroyRef.onDestroy(() => this.teardown());
@@ -223,26 +224,19 @@ export class ParticleEngine {
 
   private start(): void {
     if (this.running || this.reducedMotion) return;
-    this.running = true;
-    this.loop();
+    this.animationScheduler.start(() => {
+      this.updatePositions();
+      this.render();
+    });
   }
 
   private stop(): void {
-    this.running = false;
-    if (this.animationId !== null) {
-      cancelAnimationFrame(this.animationId);
-      this.animationId = null;
-    }
+    this.animationScheduler.stop();
   }
 
   private teardown(): void {
-    this.stop();
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = null;
-    this.intersectionObserver?.disconnect();
-    this.intersectionObserver = null;
-    this.mutationObserver?.disconnect();
-    this.mutationObserver = null;
+    this.animationScheduler.stop();
+    this.subscriptions.unsubscribe();
     this.dotData = new Float32Array(0);
     this.dotColors = [];
     this.labels = [];
@@ -284,13 +278,6 @@ export class ParticleEngine {
   }
 
   // ─── Animation loop ───────────────────────────────────────────────────────
-
-  private loop(): void {
-    if (!this.running) return;
-    this.updatePositions();
-    this.render();
-    this.animationId = requestAnimationFrame(this.tick);
-  }
 
   private updatePositions(): void {
     const w = this.width;
@@ -556,23 +543,24 @@ export class ParticleEngine {
     let prevW = this.canvas.getBoundingClientRect().width;
     let prevH = this.canvas.getBoundingClientRect().height;
 
-    this.resizeObserver = new ResizeObserver(() => {
-      const rect = this.canvas.getBoundingClientRect();
-      if (rect.width === prevW && rect.height === prevH) return;
+    this.subscriptions.add(
+      this.observerManager.observeResize(this.canvas).subscribe(() => {
+        const rect = this.canvas.getBoundingClientRect();
+        if (rect.width === prevW && rect.height === prevH) return;
 
-      const oldW = prevW;
-      const oldH = prevH;
-      prevW = rect.width;
-      prevH = rect.height;
+        const oldW = prevW;
+        const oldH = prevH;
+        prevW = rect.width;
+        prevH = rect.height;
 
-      this.applyDprScaling();
-      this.rescalePositions(oldW, oldH, rect.width, rect.height);
+        this.applyDprScaling();
+        this.rescalePositions(oldW, oldH, rect.width, rect.height);
 
-      if (!this.running) {
-        this.render();
-      }
-    });
-    this.resizeObserver.observe(this.canvas);
+        if (!this.running) {
+          this.render();
+        }
+      }),
+    );
   }
 
   private rescalePositions(
