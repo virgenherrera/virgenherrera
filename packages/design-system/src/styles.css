@@ -21,6 +21,7 @@
   --vh-particle-dot-4: rgba(0, 0, 0, 0.15);
   --vh-particle-line: rgba(139, 92, 246, 0.15);
   --vh-particle-text: rgba(100, 116, 139, 0.5);
+  --vh-particle-shadow: rgba(0, 0, 0, 0.12);
   --vh-timeline-line: #faf5ff;
   --vh-timeline-dot-border: rgba(233, 213, 255, 0.75);
   --vh-chip-bg: rgba(139, 92, 246, 0.1);
@@ -84,6 +85,7 @@
   --vh-particle-dot-4: rgba(255, 255, 255, 0.3);
   --vh-particle-line: rgba(167, 139, 250, 0.25);
   --vh-particle-text: rgba(148, 163, 184, 0.5);
+  --vh-particle-shadow: rgba(0, 0, 0, 0.25);
   --vh-timeline-line: #3b0764;
   --vh-timeline-dot-border: rgba(107, 33, 168, 0.75);
   --vh-chip-bg: rgba(167, 139, 250, 0.15);
