@@ -53,3 +53,20 @@ export const FewParticles: Story = {
     },
   },
 };
+
+export const WithDepth: Story = {
+  args: {
+    labels: TECH_LABELS,
+    config: {},
+  },
+};
+
+export const DepthCloseUp: Story = {
+  args: {
+    labels: ['Angular', 'TypeScript', 'NestJS'],
+    config: {
+      dotCount: 12,
+      textCount: 3,
+    },
+  },
+};

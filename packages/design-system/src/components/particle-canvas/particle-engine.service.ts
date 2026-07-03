@@ -9,26 +9,24 @@ import {
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
-// Current: Level 0 — single monolithic service, brute-force loops,
-// ~0.2ms/frame at 60 dots (1.2% of 16.67ms budget).
+// Origin: adversarial review (69 agents, 5 expert panels) on nest-base.
+// Confirmed 3/32 findings: DI-003, CONN-002, RESIZE-001.
 //
 // Performance levels:
-//   1: distSq comparison in renderConnections (skip Math.sqrt for filtering)
-//   2: Float32Array for positions (cache locality)
+//   1: distSq comparison in renderConnections ✅ (PR #46)
+//   2: Float32Array for positions (stride 7) ✅ (PR #46)
 //   3: Spatial hash grid for connections (O(n²) → ~O(n))
 //   4: OffscreenCanvas in Web Worker (render off main thread)
 //   5: Object pooling + Path2D batching
 //
 // Architecture refactor (do alongside levels 3-5):
-//   Decompose this 504-line service into focused units. ParticleEngine
-//   remains the public facade (black box consumed from outside). Internals
-//   become separate injectable services — candidates:
+//   Decompose into focused injectable services. ParticleEngine
+//   remains the public facade (black box consumed from outside):
 //     - ParticleFactory: creation, pooling, recycling of dots/labels
 //     - SpatialIndex: grid/hash for neighbor queries (connections)
 //     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache
 //     - AnimationScheduler: RAF via animationFrames(), visibility control
 //     - ObserverManager: Resize/Intersection/Mutation as Observable factories
-//   Wire via an Angular module or component-level providers array.
 //   Each service is independently testable; engine composes them.
 //
 // Also pending:
