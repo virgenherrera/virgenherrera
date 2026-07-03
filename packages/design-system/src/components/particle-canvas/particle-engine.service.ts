@@ -321,12 +321,14 @@ export class ParticleEngine {
 
   private renderConnections(): void {
     const dist = this.config.connectionDistance;
+    const distSq = dist * dist;
     for (let i = 0; i < this.dots.length; i++) {
       for (let j = i + 1; j < this.dots.length; j++) {
         const dx = this.dots[i].x - this.dots[j].x;
         const dy = this.dots[i].y - this.dots[j].y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < dist) {
+        const dSq = dx * dx + dy * dy;
+        if (dSq < distSq) {
+          const d = Math.sqrt(dSq);
           const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
           this.ctx.beginPath();
           this.ctx.moveTo(this.dots[i].x, this.dots[i].y);
