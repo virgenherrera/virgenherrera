@@ -51,6 +51,10 @@ export class ResumePage {
     return this.page.locator(LAYOUT.jumbotron.selector);
   }
 
+  get particleCanvas(): Locator {
+    return this.page.locator('vh-particle-canvas canvas');
+  }
+
   get sidebar(): Locator {
     return this.page.locator(LAYOUT.sidebar.selector);
   }
