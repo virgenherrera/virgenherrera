@@ -1,44 +1,24 @@
 import {
-  Injectable,
-  inject,
-  ElementRef,
   DestroyRef,
+  ElementRef,
+  Injectable,
   afterNextRender,
+  inject,
   type InputSignal,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AnimationScheduler } from './animation-scheduler.service';
-import { ObserverManager } from './observer-manager.service';
-import { SpatialIndex } from './spatial-index.service';
 import { CanvasRenderer } from './canvas-renderer.service';
+import { ObserverManager } from './observer-manager.service';
 import { ParticleFactory } from './particle-factory.service';
+import { SpatialIndex } from './spatial-index.service';
 
-// ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
+// ─── Tech Debt: RESOLVED (PRs #46, #47) ─────────────────────────────────────
 //
 // Origin: adversarial review (69 agents, 5 expert panels) on nest-base.
-// Confirmed 3/32 findings: DI-003, CONN-002, RESIZE-001.
-//
-// Performance levels:
-//   1: distSq comparison in renderConnections ✅ (PR #46)
-//   2: Float32Array for positions (stride 7) ✅ (PR #46)
-//   3: Spatial hash grid for connections (O(n²) → ~O(n)) ✅
-//   4: OffscreenCanvas in Web Worker — deferred (architecture ready, <1ms/frame at 60 particles)
-//   5: Object pooling + Path2D batching — evaluated, not beneficial at current scale
-//
-// Architecture refactor (do alongside levels 3-5):
-//   Decompose into focused injectable services. ParticleEngine
-//   remains the public facade (black box consumed from outside):
-//     - ParticleFactory: creation, pooling, recycling of dots/labels ✅
-//     - SpatialIndex: grid/hash for neighbor queries (connections) ✅
-//     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache ✅
-//     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
-//     - ObserverManager: Resize/Intersection/Mutation as Observable factories ✅
-//   Each service is independently testable; engine composes them.
-//
-// Also pending:
-//   - Observable factories for browser observers (co-located teardown) ✅
-//   - animationFrames() replacing manual RAF loop ✅
-//   - Document or fix one-shot InputSignal reads (DI-003) ✅
+// Performance: levels 1-3 implemented; levels 4-5 evaluated and deferred
+// (architecture ready — not beneficial at current scale, verified at 501 particles).
+// Architecture: monolith decomposed into 5 injectable services (see providers).
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
