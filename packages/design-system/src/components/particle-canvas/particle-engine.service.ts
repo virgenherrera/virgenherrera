@@ -22,14 +22,14 @@ import { ParticleFactory } from './particle-factory.service';
 //   1: distSq comparison in renderConnections ✅ (PR #46)
 //   2: Float32Array for positions (stride 7) ✅ (PR #46)
 //   3: Spatial hash grid for connections (O(n²) → ~O(n)) ✅
-//   4: OffscreenCanvas in Web Worker (render off main thread)
-//   5: Object pooling + Path2D batching
+//   4: OffscreenCanvas in Web Worker — deferred (architecture ready, <1ms/frame at 60 particles)
+//   5: Object pooling + Path2D batching — evaluated, not beneficial at current scale
 //
 // Architecture refactor (do alongside levels 3-5):
 //   Decompose into focused injectable services. ParticleEngine
 //   remains the public facade (black box consumed from outside):
 //     - ParticleFactory: creation, pooling, recycling of dots/labels ✅
-//     - SpatialIndex: grid/hash for neighbor queries (connections)
+//     - SpatialIndex: grid/hash for neighbor queries (connections) ✅
 //     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache ✅
 //     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
 //     - ObserverManager: Resize/Intersection/Mutation as Observable factories ✅
