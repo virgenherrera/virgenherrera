@@ -62,6 +62,7 @@
   /* ── Scale: Motion ── */
   --vh-duration-fast: 0.2s;
   --vh-duration-base: 0.7s;
+  --vh-cta-glow-duration: 2.5s;
 
   /* ── Scale: Avatar Sizing ── */
   --vh-size-avatar-sm: 7rem;

@@ -46,6 +46,10 @@ export class FloatingActionsComponent {
   protected readonly themeAnnouncement = signal('');
   protected readonly contextAnnouncement = signal('');
 
+  protected readonly showCtaGlow = computed(
+    () => !this.context().isPrivateView,
+  );
+
   protected get isPassThrough(): boolean {
     return this.availableActions().length <= 1;
   }
