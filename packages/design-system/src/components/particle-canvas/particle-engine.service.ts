@@ -6,6 +6,12 @@ import {
   afterNextRender,
   type InputSignal,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AnimationScheduler } from './animation-scheduler.service';
+import { ObserverManager } from './observer-manager.service';
+import { SpatialIndex } from './spatial-index.service';
+import { CanvasRenderer } from './canvas-renderer.service';
+import { ParticleFactory } from './particle-factory.service';
 
 // ─── Tech Debt: Performance & Architecture Roadmap ──────────────────────────
 //
@@ -15,59 +21,40 @@ import {
 // Performance levels:
 //   1: distSq comparison in renderConnections ✅ (PR #46)
 //   2: Float32Array for positions (stride 7) ✅ (PR #46)
-//   3: Spatial hash grid for connections (O(n²) → ~O(n))
-//   4: OffscreenCanvas in Web Worker (render off main thread)
-//   5: Object pooling + Path2D batching
+//   3: Spatial hash grid for connections (O(n²) → ~O(n)) ✅
+//   4: OffscreenCanvas in Web Worker — deferred (architecture ready, <1ms/frame at 60 particles)
+//   5: Object pooling + Path2D batching — evaluated, not beneficial at current scale
 //
 // Architecture refactor (do alongside levels 3-5):
 //   Decompose into focused injectable services. ParticleEngine
 //   remains the public facade (black box consumed from outside):
-//     - ParticleFactory: creation, pooling, recycling of dots/labels
-//     - SpatialIndex: grid/hash for neighbor queries (connections)
-//     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache
-//     - AnimationScheduler: RAF via animationFrames(), visibility control
-//     - ObserverManager: Resize/Intersection/Mutation as Observable factories
+//     - ParticleFactory: creation, pooling, recycling of dots/labels ✅
+//     - SpatialIndex: grid/hash for neighbor queries (connections) ✅
+//     - CanvasRenderer: ctx operations, DPR scaling, bitmap cache ✅
+//     - AnimationScheduler: RAF via animationFrames(), visibility control ✅
+//     - ObserverManager: Resize/Intersection/Mutation as Observable factories ✅
 //   Each service is independently testable; engine composes them.
 //
 // Also pending:
-//   - Observable factories for browser observers (co-located teardown)
-//   - animationFrames() replacing manual RAF loop
-//   - Document or fix one-shot InputSignal reads (DI-003)
+//   - Observable factories for browser observers (co-located teardown) ✅
+//   - animationFrames() replacing manual RAF loop ✅
+//   - Document or fix one-shot InputSignal reads (DI-003) ✅
 //
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Dot animation ───────────────────────────────────────────────────────────
-const DOT_MAX_SPEED = 0.4;
-
 // ─── Float32Array layout: [x, y, vx, vy, intrinsicRadius, colorIndex, z] ────
-const FLOATS_PER_DOT = 7;
-
-// ─── Depth & parallax ────────────────────────────────────────────────────────
-const DOT_MIN_INTRINSIC = 1;
-const DOT_MAX_INTRINSIC = 8;
-const DOT_LARGE_PROBABILITY = 0.15;
-const DOT_MEDIUM_PROBABILITY = 0.25;
-const PERSPECTIVE_MIN_SCALE = 0.3;
-const PERSPECTIVE_MAX_SCALE = 1.0;
-const DEPTH_MIN_OPACITY = 0.2;
-const DEPTH_MAX_OPACITY = 0.85;
-const DEPTH_SHADOW_MAX = 4;
+export const FLOATS_PER_DOT = 7;
 
 // ─── Label animation ─────────────────────────────────────────────────────────
-const LABEL_MAX_SPEED = 0.25;
 const LABEL_OFFSCREEN_BUFFER_X = 100;
 const LABEL_OFFSCREEN_BUFFER_Y = 30;
 const LABEL_REENTRY_OFFSET_X = 50;
 const LABEL_REENTRY_OFFSET_Y = 20;
 
-// ─── Connections ─────────────────────────────────────────────────────────────
-const CONNECTION_MAX_OPACITY = 0.15;
-const CONNECTION_LINE_WIDTH = 0.5;
-
 // ─── Text bitmap ─────────────────────────────────────────────────────────────
-const LABEL_FONT = '11px system-ui, sans-serif';
-const LABEL_BITMAP_HEIGHT = 16;
-const LABEL_BITMAP_PADDING = 4;
+export const LABEL_FONT = '11px system-ui, sans-serif';
+export const LABEL_BITMAP_HEIGHT = 16;
+export const LABEL_BITMAP_PADDING = 4;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -93,7 +80,7 @@ export const PARTICLE_CANVAS_DEFAULTS: ParticleCanvasConfig = {
   mobileBreakpoint: 768,
 };
 
-interface LabelParticle {
+export interface LabelParticle {
   x: number;
   y: number;
   vx: number;
@@ -111,24 +98,22 @@ export class ParticleEngine {
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly observerManager = inject(ObserverManager);
+  private readonly animationScheduler = inject(AnimationScheduler);
+  private readonly spatialIndex = inject(SpatialIndex);
+  private readonly renderer = inject(CanvasRenderer);
+  private readonly factory = inject(ParticleFactory);
 
   // ─── State ────────────────────────────────────────────────────────────────
 
   private canvas!: HTMLCanvasElement;
-  private ctx!: CanvasRenderingContext2D;
   private config!: ParticleCanvasConfig;
   private dotData!: Float32Array; // [x, y, vx, vy, intrinsicRadius, colorIndex, z] × dotCount
   private dotColors: string[] = []; // color strings indexed by colorIndex
   private dotCount = 0;
   private labels: LabelParticle[] = [];
-  private animationId: number | null = null;
-  private running = false;
   private reducedMotion = false;
-  private resizeObserver: ResizeObserver | null = null;
-  private intersectionObserver: IntersectionObserver | null = null;
-  private mutationObserver: MutationObserver | null = null;
-  private width = 0;
-  private height = 0;
+  private readonly subscriptions = new Subscription();
   private connectionColorRgb = '139, 92, 246';
   private textColor = 'rgba(100, 116, 139, 0.5)';
   private shadowColor = 'rgba(0, 0, 0, 0.12)';
@@ -140,8 +125,9 @@ export class ParticleEngine {
     'rgba(255, 255, 255, 0.3)',
   ];
 
-  // ─── Pre-bound RAF callback so we allocate the closure once, not per frame ─
-  private readonly tick = this.loop.bind(this);
+  private get running(): boolean {
+    return this.animationScheduler.running;
+  }
 
   // ─── Public API ───────────────────────────────────────────────────────────
 
@@ -153,30 +139,29 @@ export class ParticleEngine {
       const canvas = this.elementRef.nativeElement.querySelector('canvas');
       if (!canvas) return;
 
+      // DI-003: One-shot read — config is immutable after boot
       this.initCanvas(canvas, {
         ...config(),
         labels: labels(),
       });
 
-      this.intersectionObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            this.start();
-          } else {
-            this.stop();
-          }
-        },
-        { threshold: 0.1 },
+      this.subscriptions.add(
+        this.observerManager
+          .observeIntersection(canvas, { threshold: 0.1 })
+          .subscribe((entry) => {
+            if (entry.isIntersecting) {
+              this.start();
+            } else {
+              this.stop();
+            }
+          }),
       );
-      this.intersectionObserver.observe(canvas);
 
-      this.mutationObserver = new MutationObserver(() => {
-        this.refreshColors();
-      });
-      this.mutationObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class'],
-      });
+      this.subscriptions.add(
+        this.observerManager
+          .observeClassChanges(document.documentElement)
+          .subscribe(() => this.refreshColors()),
+      );
     });
 
     this.destroyRef.onDestroy(() => this.teardown());
@@ -189,9 +174,7 @@ export class ParticleEngine {
     config: Partial<ParticleCanvasConfig> = {},
   ): void {
     this.canvas = canvas;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    this.ctx = ctx;
+    if (!this.renderer.init(canvas)) return;
     this.config = { ...PARTICLE_CANVAS_DEFAULTS, ...config };
 
     const tokens = this.readCSSTokens();
@@ -212,8 +195,19 @@ export class ParticleEngine {
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    this.applyDprScaling();
-    this.createParticles();
+    this.renderer.applyDprScaling(canvas);
+
+    const result = this.factory.createParticles(
+      this.config,
+      this.renderer.canvasWidth,
+      this.renderer.canvasHeight,
+      this.textColor,
+    );
+    this.dotData = result.dotData;
+    this.dotCount = result.dotCount;
+    this.dotColors = result.dotColors;
+    this.labels = result.labels;
+
     this.observeResize();
 
     if (this.reducedMotion) {
@@ -223,26 +217,19 @@ export class ParticleEngine {
 
   private start(): void {
     if (this.running || this.reducedMotion) return;
-    this.running = true;
-    this.loop();
+    this.animationScheduler.start(() => {
+      this.updatePositions();
+      this.render();
+    });
   }
 
   private stop(): void {
-    this.running = false;
-    if (this.animationId !== null) {
-      cancelAnimationFrame(this.animationId);
-      this.animationId = null;
-    }
+    this.animationScheduler.stop();
   }
 
   private teardown(): void {
-    this.stop();
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = null;
-    this.intersectionObserver?.disconnect();
-    this.intersectionObserver = null;
-    this.mutationObserver?.disconnect();
-    this.mutationObserver = null;
+    this.animationScheduler.stop();
+    this.subscriptions.unsubscribe();
     this.dotData = new Float32Array(0);
     this.dotColors = [];
     this.labels = [];
@@ -272,7 +259,10 @@ export class ParticleEngine {
         tokens.palette.length > 0
           ? tokens.palette[Math.floor(Math.random() * tokens.palette.length)]
           : label.color;
-      const bitmapInfo = this.createLabelBitmap(label.label);
+      const bitmapInfo = this.factory.createLabelBitmap(
+        label.label,
+        this.textColor,
+      );
       label.bitmap = bitmapInfo.canvas;
       label.bitmapWidth = bitmapInfo.width;
       label.bitmapHeight = bitmapInfo.height;
@@ -285,16 +275,9 @@ export class ParticleEngine {
 
   // ─── Animation loop ───────────────────────────────────────────────────────
 
-  private loop(): void {
-    if (!this.running) return;
-    this.updatePositions();
-    this.render();
-    this.animationId = requestAnimationFrame(this.tick);
-  }
-
   private updatePositions(): void {
-    const w = this.width;
-    const h = this.height;
+    const w = this.renderer.canvasWidth;
+    const h = this.renderer.canvasHeight;
 
     for (let i = 0; i < this.dotCount; i++) {
       const base = i * FLOATS_PER_DOT;
@@ -321,278 +304,56 @@ export class ParticleEngine {
   }
 
   private render(): void {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.renderConnections();
-    this.renderDots();
-    this.renderLabels();
-  }
-
-  // ─── Rendering ────────────────────────────────────────────────────────────
-
-  private renderConnections(): void {
+    this.renderer.clear();
     const dist = this.config.connectionDistance;
-    const distSq = dist * dist;
-    for (let i = 0; i < this.dotCount; i++) {
-      const iBase = i * FLOATS_PER_DOT;
-      const ix = this.dotData[iBase + 0];
-      const iy = this.dotData[iBase + 1];
-      for (let j = i + 1; j < this.dotCount; j++) {
-        const jBase = j * FLOATS_PER_DOT;
-        const dx = ix - this.dotData[jBase + 0];
-        const dy = iy - this.dotData[jBase + 1];
-        const dSq = dx * dx + dy * dy;
-        if (dSq < distSq) {
-          const d = Math.sqrt(dSq);
-          const opacity = (1 - d / dist) * CONNECTION_MAX_OPACITY;
-          this.ctx.beginPath();
-          this.ctx.moveTo(ix, iy);
-          this.ctx.lineTo(this.dotData[jBase + 0], this.dotData[jBase + 1]);
-          this.ctx.strokeStyle = `rgba(${this.connectionColorRgb}, ${opacity.toFixed(2)})`;
-          this.ctx.lineWidth = CONNECTION_LINE_WIDTH;
-          this.ctx.stroke();
-        }
-      }
-    }
-  }
-
-  private renderDots(): void {
-    // z-sort: paint far particles first (z=0), close ones last (z=1)
-    const indices = Array.from({ length: this.dotCount }, (_, i) => i);
-    indices.sort(
-      (a, b) =>
-        this.dotData[a * FLOATS_PER_DOT + 6] -
-        this.dotData[b * FLOATS_PER_DOT + 6],
+    this.spatialIndex.build(this.dotData, this.dotCount, FLOATS_PER_DOT, dist);
+    this.renderer.renderConnections(
+      this.dotData,
+      this.spatialIndex,
+      dist,
+      this.connectionColorRgb,
     );
-
-    const shadowColor = this.shadowColor;
-
-    for (const idx of indices) {
-      const base = idx * FLOATS_PER_DOT;
-      const x = this.dotData[base + 0];
-      const y = this.dotData[base + 1];
-      const intrinsicRadius = this.dotData[base + 4];
-      const colorIndex = this.dotData[base + 5];
-      const z = this.dotData[base + 6];
-
-      const scale =
-        PERSPECTIVE_MIN_SCALE +
-        z * (PERSPECTIVE_MAX_SCALE - PERSPECTIVE_MIN_SCALE);
-      const apparentRadius = intrinsicRadius * scale;
-      const opacity =
-        DEPTH_MIN_OPACITY + z * (DEPTH_MAX_OPACITY - DEPTH_MIN_OPACITY);
-
-      // Radial gradient for 3D shading effect
-      const gradient = this.ctx.createRadialGradient(
-        x - apparentRadius * 0.3,
-        y - apparentRadius * 0.3,
-        apparentRadius * 0.1,
-        x,
-        y,
-        apparentRadius,
-      );
-
-      // Parse the dot color to inject opacity
-      const dotColor = this.dotColors[colorIndex];
-      const baseColor = dotColor.replace(/[\d.]+\)$/, `${opacity.toFixed(2)})`);
-      const highlightColor = dotColor.replace(
-        /[\d.]+\)$/,
-        `${Math.min(opacity * 1.4, 1).toFixed(2)})`,
-      );
-
-      gradient.addColorStop(0, highlightColor);
-      gradient.addColorStop(1, baseColor);
-
-      // Shadow for close particles
-      if (z > 0.5) {
-        const shadowIntensity = (z - 0.5) * 2; // 0 to 1 for z 0.5-1.0
-        this.ctx.shadowColor = shadowColor;
-        this.ctx.shadowBlur = shadowIntensity * DEPTH_SHADOW_MAX;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = shadowIntensity * 1;
-      }
-
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, apparentRadius, 0, Math.PI * 2);
-      this.ctx.fillStyle = gradient;
-      this.ctx.fill();
-
-      // Reset shadow
-      if (z > 0.5) {
-        this.ctx.shadowColor = 'transparent';
-        this.ctx.shadowBlur = 0;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 0;
-      }
-    }
-  }
-
-  private renderLabels(): void {
-    for (const label of this.labels) {
-      if (label.bitmap) {
-        this.ctx.drawImage(
-          label.bitmap,
-          label.x,
-          label.y,
-          label.bitmapWidth,
-          label.bitmapHeight,
-        );
-      } else {
-        this.ctx.font = LABEL_FONT;
-        this.ctx.fillStyle = this.textColor;
-        this.ctx.fillText(label.label, label.x, label.y);
-      }
-    }
-  }
-
-  // ─── Particle creation ────────────────────────────────────────────────────
-
-  private createParticles(): void {
-    const isMobile = window.innerWidth < this.config.mobileBreakpoint;
-    const dotCount = isMobile
-      ? this.config.mobileDotCount
-      : this.config.dotCount;
-    const labelCount = isMobile
-      ? this.config.mobileTextCount
-      : this.config.textCount;
-
-    this.dotCount = dotCount;
-    this.dotData = new Float32Array(dotCount * FLOATS_PER_DOT);
-    this.dotColors = [...this.config.palette];
-
-    for (let i = 0; i < dotCount; i++) {
-      const base = i * FLOATS_PER_DOT;
-      const roll = Math.random();
-      let intrinsicRadius: number;
-      if (roll < DOT_LARGE_PROBABILITY) {
-        // ~15% giants (5-8)
-        intrinsicRadius = 5 + Math.random() * (DOT_MAX_INTRINSIC - 5);
-      } else if (roll < DOT_LARGE_PROBABILITY + DOT_MEDIUM_PROBABILITY) {
-        // ~25% medium (3-4)
-        intrinsicRadius = 3 + Math.random() * 2;
-      } else {
-        // ~60% dust (1-2)
-        intrinsicRadius = DOT_MIN_INTRINSIC + Math.random();
-      }
-
-      this.dotData[base + 0] = Math.random() * this.width; // x
-      this.dotData[base + 1] = Math.random() * this.height; // y
-      this.dotData[base + 2] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vx
-      this.dotData[base + 3] = (Math.random() - 0.5) * DOT_MAX_SPEED; // vy
-      this.dotData[base + 4] = intrinsicRadius;
-      this.dotData[base + 5] = Math.floor(
-        Math.random() * this.dotColors.length,
-      ); // colorIndex
-      this.dotData[base + 6] = Math.random(); // z
-    }
-
-    const configLabels = this.config.labels;
-    if (configLabels.length === 0) return;
-
-    this.labels = Array.from({ length: labelCount }, (_, i) => {
-      const text = configLabels[i % configLabels.length];
-      const bitmapInfo = this.createLabelBitmap(text);
-
-      return {
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
-        vx: (Math.random() - 0.5) * LABEL_MAX_SPEED,
-        vy: (Math.random() - 0.5) * LABEL_MAX_SPEED,
-        label: text,
-        color:
-          this.config.palette[
-            Math.floor(Math.random() * this.config.palette.length)
-          ],
-        bitmap: bitmapInfo.canvas,
-        bitmapWidth: bitmapInfo.width,
-        bitmapHeight: bitmapInfo.height,
-      };
-    });
-  }
-
-  private createLabelBitmap(label: string): {
-    canvas: OffscreenCanvas | null;
-    width: number;
-    height: number;
-  } {
-    const dpr = window.devicePixelRatio || 1;
-    const h = LABEL_BITMAP_HEIGHT;
-
-    if (typeof OffscreenCanvas === 'undefined') {
-      return { canvas: null, width: 0, height: h };
-    }
-
-    const measure = new OffscreenCanvas(1, 1);
-    const mctx = measure.getContext('2d')!;
-    mctx.font = LABEL_FONT;
-    const metrics = mctx.measureText(label);
-    const w = Math.ceil(metrics.width) + LABEL_BITMAP_PADDING;
-
-    const canvas = new OffscreenCanvas(w * dpr, h * dpr);
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return { canvas: null, width: w, height: h };
-
-    ctx.scale(dpr, dpr);
-    ctx.font = LABEL_FONT;
-    ctx.fillStyle = this.textColor;
-    ctx.textBaseline = 'middle';
-    ctx.fillText(label, 2, h / 2);
-
-    return { canvas, width: w, height: h };
+    this.renderer.renderDots(
+      this.dotData,
+      this.dotCount,
+      this.dotColors,
+      this.shadowColor,
+    );
+    this.renderer.renderLabels(this.labels, this.textColor);
   }
 
   // ─── Canvas management ────────────────────────────────────────────────────
 
-  private applyDprScaling(): void {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = this.canvas.getBoundingClientRect();
-    this.width = rect.width;
-    this.height = rect.height;
-    this.canvas.width = rect.width * dpr;
-    this.canvas.height = rect.height * dpr;
-    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
   private observeResize(): void {
-    let prevW = this.canvas.getBoundingClientRect().width;
-    let prevH = this.canvas.getBoundingClientRect().height;
+    let prevW = this.renderer.canvasWidth;
+    let prevH = this.renderer.canvasHeight;
 
-    this.resizeObserver = new ResizeObserver(() => {
-      const rect = this.canvas.getBoundingClientRect();
-      if (rect.width === prevW && rect.height === prevH) return;
+    this.subscriptions.add(
+      this.observerManager.observeResize(this.canvas).subscribe(() => {
+        const rect = this.canvas.getBoundingClientRect();
+        if (rect.width === prevW && rect.height === prevH) return;
 
-      const oldW = prevW;
-      const oldH = prevH;
-      prevW = rect.width;
-      prevH = rect.height;
+        const oldW = prevW;
+        const oldH = prevH;
+        prevW = rect.width;
+        prevH = rect.height;
 
-      this.applyDprScaling();
-      this.rescalePositions(oldW, oldH, rect.width, rect.height);
+        this.renderer.applyDprScaling(this.canvas);
+        this.factory.rescalePositions(
+          this.dotData,
+          this.dotCount,
+          this.labels,
+          oldW,
+          oldH,
+          rect.width,
+          rect.height,
+        );
 
-      if (!this.running) {
-        this.render();
-      }
-    });
-    this.resizeObserver.observe(this.canvas);
-  }
-
-  private rescalePositions(
-    oldW: number,
-    oldH: number,
-    newW: number,
-    newH: number,
-  ): void {
-    const sx = newW / oldW;
-    const sy = newH / oldH;
-
-    for (let i = 0; i < this.dotCount; i++) {
-      const base = i * FLOATS_PER_DOT;
-      this.dotData[base + 0] *= sx; // x
-      this.dotData[base + 1] *= sy; // y
-    }
-    for (const label of this.labels) {
-      label.x *= sx;
-      label.y *= sy;
-    }
+        if (!this.running) {
+          this.render();
+        }
+      }),
+    );
   }
 
   // ─── Theme ────────────────────────────────────────────────────────────────
