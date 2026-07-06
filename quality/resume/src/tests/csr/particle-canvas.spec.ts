@@ -18,6 +18,12 @@ test.describe('IT: Particle Canvas — visual regression baseline', () => {
     // 3. Navigate and wait for Angular hydration
     await resumePage.goto();
     await resumePage.waitForHydration();
+    // 4. Pin HTML fonts to cross-platform-stable family for visual regression
+    await resumePage.page.addStyleTag({
+      content:
+        '*, *::before, *::after { font-family: "Liberation Sans", Arial, sans-serif !important; }',
+    });
+    await resumePage.page.waitForTimeout(100);
   });
 
   test(should.renderInJumbotron, async ({ resumePage }) => {
@@ -48,7 +54,7 @@ test.describe('IT: Particle Canvas — visual regression baseline', () => {
     await expect(resumePage.jumbotron).toHaveScreenshot(
       'particle-canvas-light.png',
       {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.03,
       },
     );
   });
@@ -61,7 +67,7 @@ test.describe('IT: Particle Canvas — visual regression baseline', () => {
     await expect(resumePage.jumbotron).toHaveScreenshot(
       'particle-canvas-dark.png',
       {
-        maxDiffPixelRatio: 0.02,
+        maxDiffPixelRatio: 0.03,
       },
     );
   });

@@ -87,6 +87,9 @@ function envSchema(configDir: string) {
           acceptDownloads: true,
         },
 
+        snapshotPathTemplate:
+          '{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{ext}',
+
         webServer: {
           command: `pnpm exec http-server ${serveDir} --port ${raw.PW_PORT} --silent --cors -c-1`,
           url: `${baseUrl}/virgenherrera`,

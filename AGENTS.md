@@ -261,6 +261,22 @@ Las reglas existentes en este archivo están exentas (legacy). Las reglas nuevas
 - Diseño Cognitivo — Incident: handoffs densos y difíciles de escanear; principios de cognitive-doc-design del ecosistema gentle-ai seleccionados para mejorar legibilidad.
 - Fix Escalamiento paso 3 — Incident: la instrucción "implementa directamente" contradecía el Principio de Orquestador Puro recién agregado.
 
+### Quality Gates para PR
+
+**Incident tag (2026-07-06):** PR #47 mergeado con CI e2e fallando. Los quality gates del handoff eran exclusivamente locales (lint, tipos, e2e local). No existia gate de verificacion de CI green. Resultado: PR mergeado con tests rotos en CI por baselines de screenshot solo para macOS.
+
+Los hooks de pre-commit y pre-push pueden deshabilitarse durante iteracion local (`--no-verify`). Pero para que un PR sea mergeable, TODOS los quality gates deben pasar — sin excepciones:
+
+| Gate              | Verificacion                                                           | Obligatoriedad      |
+| ----------------- | ---------------------------------------------------------------------- | ------------------- |
+| Lint limpio       | `pnpm test:static`                                                     | Obligatorio para PR |
+| Tipos limpios     | `pnpm test:types`                                                      | Obligatorio para PR |
+| E2E local green   | `pnpm test:e2e` (suite completa)                                       | Obligatorio para PR |
+| CI green          | Todos los checks de GitHub Actions en estado `success`                 | Obligatorio para PR |
+| Visual regression | Baselines de screenshot sin sufijo de plataforma, tolerancia calibrada | Obligatorio para PR |
+
+**Diferencia clave:** Entre commits, los hooks pueden omitirse para velocidad de iteracion. Para PR, cada gate es un hard stop. Un PR con CI rojo no se mergea — punto.
+
 ## Handoff
 
 **GATE PRE-EJECUCIÓN OBLIGATORIO — EL ORQUESTADOR NO PUEDE PROCEDER SIN ESTO.**

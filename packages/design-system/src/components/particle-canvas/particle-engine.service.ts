@@ -32,7 +32,7 @@ const LABEL_REENTRY_OFFSET_X = 50;
 const LABEL_REENTRY_OFFSET_Y = 20;
 
 // ─── Text bitmap ─────────────────────────────────────────────────────────────
-export const LABEL_FONT = '11px system-ui, sans-serif';
+export const LABEL_FONT = '11px "Liberation Sans", Arial, sans-serif';
 export const LABEL_BITMAP_HEIGHT = 16;
 export const LABEL_BITMAP_PADDING = 4;
 
