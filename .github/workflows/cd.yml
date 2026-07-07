@@ -48,7 +48,8 @@ jobs:
             git push origin "v${VERSION}"
             echo "🏷️ Tagged: **v${VERSION}** (${SHORT_SHA})" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "ℹ️ Tag **v${VERSION}** already exists, skipping creation." >> "$GITHUB_STEP_SUMMARY"
+            echo "❌ Tag **v${VERSION}** already exists — version was not bumped!" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
           echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
           echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
@@ -99,6 +100,7 @@ jobs:
         env:
           PAGE_URL: ${{ needs.deploy-resume.outputs.url }}
           EXPECTED_SHA: ${{ needs.tag.outputs.sha }}
+          EXPECTED_TAG: ${{ needs.tag.outputs.tag }}
         run: |
           MAX_ATTEMPTS=5
           DELAY=15
@@ -114,7 +116,13 @@ jobs:
                 FOUND="$META"
                 SHORT_SHA="${EXPECTED_SHA:0:7}"
                 if echo "$META" | grep -q "$SHORT_SHA"; then
-                  echo "✅ Smoke test passed: deployed version \`${META}\` matches expected SHA" >> "$GITHUB_STEP_SUMMARY"
+                  DEPLOYED_VERSION=$(echo "$META" | cut -d'+' -f1)
+                  EXPECTED_VERSION="${EXPECTED_TAG#v}"
+                  if [ "$DEPLOYED_VERSION" != "$EXPECTED_VERSION" ]; then
+                    echo "❌ Version mismatch: deployed '${DEPLOYED_VERSION}' vs expected '${EXPECTED_VERSION}'" >> "$GITHUB_STEP_SUMMARY"
+                    exit 1
+                  fi
+                  echo "✅ Smoke test passed: version \`${META}\` matches expected SHA and semver" >> "$GITHUB_STEP_SUMMARY"
                   echo "Match found on attempt ${i}: ${META}"
                   exit 0
                 else
