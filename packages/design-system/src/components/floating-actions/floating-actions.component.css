@@ -11,6 +11,8 @@
   --_ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --_size-item: 2.25rem;
   --_size-gap: 0.5rem;
+  --_cta-glow-low: rgba(124, 58, 237, 0.30);
+  --_cta-glow-high: rgba(124, 58, 237, 0.70);
 
   position: fixed;
   top: 1.5rem;
@@ -25,6 +27,8 @@
 .dark .vh-floating-actions {
   --_fab-bg: var(--vh-surface-secondary, rgba(3, 7, 18, 0.9));
   --_fab-icon: var(--vh-text-primary, #f8fafc);
+  --_cta-glow-low: rgba(139, 92, 246, 0.40);
+  --_cta-glow-high: rgba(139, 92, 246, 0.85);
 }
 
 /* Trigger button — matches existing theme-toggle visual */
@@ -230,6 +234,22 @@
   }
 }
 
+@keyframes vh-cta-breathe {
+  0%, 100% {
+    box-shadow: 0 0 12px var(--_cta-glow-low);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--_cta-glow-high);
+  }
+}
+
+/* CTA glow — public view only, applied via [class.vh-floating-actions__item--cta-glow] */
+.vh-floating-actions__item--cta-glow {
+  animation:
+    vh-item-pop var(--_duration-expand) var(--_ease-pop) backwards,
+    vh-cta-breathe var(--vh-cta-glow-duration) ease-in-out infinite;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .vh-floating-actions__panel {
@@ -237,6 +257,10 @@
   }
 
   .vh-floating-actions__item {
+    animation: none;
+  }
+
+  .vh-floating-actions__item--cta-glow {
     animation: none;
   }
 }

@@ -31,6 +31,7 @@
         #actionBtn
         type="button"
         class="vh-floating-actions__item"
+        [class.vh-floating-actions__item--cta-glow]="action.highlight()"
         [attr.aria-label]="action.label()"
         [attr.tabindex]="focusIndex() === i ? 0 : -1"
         (click)="executeAction(action)"
