@@ -60,6 +60,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
+    outputs:
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/configure-pages@v6
       - id: deploy
@@ -87,3 +89,51 @@ jobs:
           git add README.md
           git diff --staged --quiet || git commit -m "docs: auto-generate README.md [skip ci]"
           git push origin HEAD:main
+
+  smoke-test:
+    name: Smoke Test
+    needs: [deploy-resume, tag]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify deployed version
+        env:
+          PAGE_URL: ${{ needs.deploy-resume.outputs.url }}
+          EXPECTED_SHA: ${{ needs.tag.outputs.sha }}
+        run: |
+          MAX_ATTEMPTS=5
+          DELAY=15
+          FOUND=""
+
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "Attempt ${i}/${MAX_ATTEMPTS}: fetching ${PAGE_URL}/index.html"
+            HTML=$(curl -s --max-time 30 "${PAGE_URL}/index.html" || true)
+
+            if [ -n "$HTML" ]; then
+              META=$(echo "$HTML" | grep -oP '<meta name="app-version" content="\K[^"]+' || true)
+              if [ -n "$META" ]; then
+                FOUND="$META"
+                SHORT_SHA="${EXPECTED_SHA:0:7}"
+                if echo "$META" | grep -q "$SHORT_SHA"; then
+                  echo "✅ Smoke test passed: deployed version \`${META}\` matches expected SHA" >> "$GITHUB_STEP_SUMMARY"
+                  echo "Match found on attempt ${i}: ${META}"
+                  exit 0
+                else
+                  echo "Attempt ${i}: version mismatch — found '${META}', expected SHA '${SHORT_SHA}'"
+                fi
+              else
+                echo "Attempt ${i}: <meta name=\"app-version\"> not found in HTML"
+              fi
+            else
+              echo "Attempt ${i}: empty or failed response from ${PAGE_URL}/index.html"
+            fi
+
+            if [ "$i" -lt "$MAX_ATTEMPTS" ]; then
+              echo "Waiting ${DELAY}s before next attempt..."
+              sleep $DELAY
+            fi
+          done
+
+          SHORT_SHA="${EXPECTED_SHA:0:7}"
+          echo "❌ Smoke test failed: expected SHA \`${SHORT_SHA}\` but found \`${FOUND:-not found}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "All ${MAX_ATTEMPTS} attempts exhausted without a matching version."
+          exit 1
