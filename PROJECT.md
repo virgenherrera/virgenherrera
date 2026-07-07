@@ -118,6 +118,9 @@ to the offending key.
 | `pnpm run test`             | Full pipeline: cleanup → build → static → types → unit → e2e         |
 | `pnpm run test:doctor`      | Per-workspace validation gate used by the dependency bumper          |
 | `pnpm run bumpDependencies` | Upgrade dependencies with NCU doctor mode (auto-rollback on failure) |
+| `pnpm run release:patch`    | Bump patch version (1.0.0 → 1.0.1) and commit                        |
+| `pnpm run release:minor`    | Bump minor version (1.0.0 → 1.1.0) and commit                        |
+| `pnpm run release:major`    | Bump major version (1.0.0 → 2.0.0) and commit                        |
 
 Script names are identical across all contexts (local, hooks, CI, NCU). See `docs/quality-gates.md`.
 
@@ -161,7 +164,12 @@ See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ### Continuous Deployment (Push to `main`)
 
-Every push to `main` is a release — CD tags automatically from root `package.json → version`. Three parallel post-build jobs handle tagging, GitHub Pages deploy, and README regeneration. See [`.github/workflows/cd.yml`](.github/workflows/cd.yml).
+Every push to `main` is a release. Before merging a PR, the author bumps the version with
+`pnpm run release:{patch|minor|major}` (maps to conventional commits: `fix:` → patch,
+`feat:` → minor, `BREAKING CHANGE` → major). CD reads the version from `package.json`,
+creates the `v{version}` tag, and deploys. If the version was not bumped, the tag job
+fails with exit 1 — no silent skips. The smoke test verifies both SHA and semver in the
+deployed `<meta app-version>` tag. See [`.github/workflows/cd.yml`](.github/workflows/cd.yml).
 
 ---
 

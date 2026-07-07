@@ -1,6 +1,6 @@
 {
   "name": "virgenherrera",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Personal monorepo",
   "author": "Hugo Virgen (https://github.com/virgenherrera)",
   "private": true,
@@ -42,11 +42,13 @@
     "securityFix": "pnpm update",
     "updatePnpm": "corepack up",
     "cleanup": "pnpm -r run --if-present cleanup && rimraf artifacts/",
-    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix && pnpm run test"
+    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix && pnpm run test",
+    "release:patch": "node scripts/release.js patch",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "kill-port-process": "catalog:",
     "@eslint/json": "catalog:",
     "@eslint/markdown": "catalog:",
     "@types/jest": "catalog:",
@@ -57,6 +59,7 @@
     "globals": "catalog:",
     "husky": "catalog:",
     "jest": "catalog:",
+    "kill-port-process": "catalog:",
     "lint-staged": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
