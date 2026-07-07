@@ -11,8 +11,8 @@
   --_ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --_size-item: 2.25rem;
   --_size-gap: 0.5rem;
-  --_cta-glow-low: rgba(124, 58, 237, 0.18);
-  --_cta-glow-high: rgba(124, 58, 237, 0.45);
+  --_cta-glow-low: rgba(124, 58, 237, 0.30);
+  --_cta-glow-high: rgba(124, 58, 237, 0.70);
 
   position: fixed;
   top: 1.5rem;
@@ -27,8 +27,8 @@
 .dark .vh-floating-actions {
   --_fab-bg: var(--vh-surface-secondary, rgba(3, 7, 18, 0.9));
   --_fab-icon: var(--vh-text-primary, #f8fafc);
-  --_cta-glow-low: rgba(139, 92, 246, 0.2);
-  --_cta-glow-high: rgba(139, 92, 246, 0.5);
+  --_cta-glow-low: rgba(139, 92, 246, 0.40);
+  --_cta-glow-high: rgba(139, 92, 246, 0.85);
 }
 
 /* Trigger button — matches existing theme-toggle visual */
@@ -236,10 +236,10 @@
 
 @keyframes vh-cta-breathe {
   0%, 100% {
-    box-shadow: 0 0 8px var(--_cta-glow-low);
+    box-shadow: 0 0 12px var(--_cta-glow-low);
   }
   50% {
-    box-shadow: 0 0 20px var(--_cta-glow-high);
+    box-shadow: 0 0 30px var(--_cta-glow-high);
   }
 }
 
