@@ -33,16 +33,25 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
+      sha: ${{ steps.tag.outputs.sha }}
     steps:
       - uses: actions/checkout@v7
       - name: Create tag
         id: tag
         run: |
-          TAG="deploy-$(date -u +'%Y-%m-%d-%H%M')"
-          git tag "$TAG"
-          git push origin "$TAG"
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "🏷️ Tagged: **$TAG**" >> $GITHUB_STEP_SUMMARY
+          VERSION=$(node -p "require('./package.json').version")
+          SHA=$(git rev-parse HEAD)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          git fetch --tags --quiet
+          if [ -z "$(git tag -l "v${VERSION}")" ]; then
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+            echo "🏷️ Tagged: **v${VERSION}** (${SHORT_SHA})" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ℹ️ Tag **v${VERSION}** already exists, skipping creation." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
 
   deploy-resume:
     name: Deploy Resume
