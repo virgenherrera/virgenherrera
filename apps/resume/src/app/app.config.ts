@@ -34,6 +34,10 @@ export const appConfig: ApplicationConfig = {
     { provide: ThemeStoreBase, useExisting: ThemeStore },
     { provide: HUB_ACTIONS, useClass: ThemeToggleAction, multi: true },
     { provide: HUB_ACTIONS, useClass: DownloadPdfAction, multi: true },
-    { provide: APP_INITIALIZER, useFactory: versionMetaInitializer, multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: versionMetaInitializer,
+      multi: true,
+    },
   ],
 };

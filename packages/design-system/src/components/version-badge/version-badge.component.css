@@ -1,0 +1,7 @@
+.vh-version-badge {
+  text-align: center;
+  padding: var(--vh-text-xs, 0.75rem) 0;
+  font-size: var(--vh-text-xs, 0.75rem);
+  color: var(--vh-text-muted, #475569);
+  opacity: 0.6;
+}
