@@ -42,7 +42,7 @@
     "securityFix": "pnpm update",
     "updatePnpm": "corepack up",
     "cleanup": "pnpm -r run --if-present cleanup && rimraf artifacts/",
-    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix"
+    "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix && pnpm run test"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
