@@ -66,6 +66,8 @@ export class ProfileSidebarComponent {
         icon: 'mail',
         target: 'blank',
         visibility: 'private',
+        type: 'social',
+        cta: false,
       });
     }
     if (phoneValue) {
@@ -75,6 +77,8 @@ export class ProfileSidebarComponent {
         icon: 'phone',
         target: 'self',
         visibility: 'private',
+        type: 'social',
+        cta: false,
       });
     }
 

@@ -13,6 +13,7 @@ import { routes } from './app.routes';
 import { ThemeStore } from './stores/theme.store';
 import { ThemeToggleAction } from './actions/theme-toggle.action';
 import { DownloadPdfAction } from './actions/download-pdf.action';
+import { provideCtaActions } from './actions/cta-actions.provider';
 import { APP_VERSION, APP_COMMIT_SHA } from './version.token';
 
 function versionMetaInitializer(): () => void {
@@ -34,6 +35,11 @@ export const appConfig: ApplicationConfig = {
     { provide: ThemeStoreBase, useExisting: ThemeStore },
     { provide: HUB_ACTIONS, useClass: ThemeToggleAction, multi: true },
     { provide: HUB_ACTIONS, useClass: DownloadPdfAction, multi: true },
-    { provide: APP_INITIALIZER, useFactory: versionMetaInitializer, multi: true },
+    ...provideCtaActions(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: versionMetaInitializer,
+      multi: true,
+    },
   ],
 };
