@@ -139,6 +139,7 @@ vh-resume-page,
 vh-jumbotron,
 vh-profile-sidebar,
 vh-experience-list,
-vh-theme-toggle {
+vh-theme-toggle,
+vh-version-badge {
   display: block;
 }

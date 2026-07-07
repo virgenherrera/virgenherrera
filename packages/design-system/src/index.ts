@@ -42,3 +42,4 @@ export {
   ThemeStoreBase,
 } from './types/hub-action';
 export { FloatingActionsComponent } from './components/floating-actions/floating-actions.component';
+export { VersionBadgeComponent } from './components/version-badge/version-badge.component';
