@@ -1,6 +1,6 @@
 import { PUBLIC_PROFILE, PRIVATE_PROFILE } from './data';
 import { getProfile } from './get-profile';
-import { projectSchema } from './schema';
+import { linkSchema, projectSchema } from './schema';
 
 describe('IT: @vh/profile', () => {
   class should {
@@ -196,6 +196,67 @@ describe('IT: @vh/profile', () => {
           technologies: expect.any(Array),
         });
       }
+    });
+  });
+
+  describe('linkSchema', () => {
+    const baseLink = {
+      label: 'GitHub',
+      url: 'https://github.com/virgenherrera',
+      icon: 'gitHub',
+    };
+
+    it('parses a link with explicit type and cta fields', () => {
+      const result = linkSchema.parse({
+        ...baseLink,
+        type: 'social',
+        cta: false,
+      });
+
+      expect(result.type).toBe('social');
+      expect(result.cta).toBe(false);
+    });
+
+    it('parses a link without type or cta (backward compatibility via defaults)', () => {
+      const result = linkSchema.parse(baseLink);
+
+      expect(result.type).toBe('social');
+      expect(result.cta).toBe(false);
+    });
+
+    it('defaults cta to false when omitted', () => {
+      const result = linkSchema.parse({ ...baseLink, type: 'professional' });
+
+      expect(result.cta).toBe(false);
+    });
+
+    it('rejects an invalid type value', () => {
+      expect(() =>
+        linkSchema.parse({ ...baseLink, type: 'invalid-type' }),
+      ).toThrow();
+    });
+
+    it('parses all valid type values', () => {
+      const types = [
+        'social',
+        'professional',
+        'job-board',
+        'portfolio',
+      ] as const;
+
+      for (const type of types) {
+        expect(() => linkSchema.parse({ ...baseLink, type })).not.toThrow();
+      }
+    });
+
+    it('parses a link with cta set to true', () => {
+      const result = linkSchema.parse({
+        ...baseLink,
+        type: 'professional',
+        cta: true,
+      });
+
+      expect(result.cta).toBe(true);
     });
   });
 

@@ -13,6 +13,10 @@ export const linkSchema = z
     icon: z.string().optional(),
     target: z.enum(['blank', 'self']).default('blank'),
     visibility: z.enum(['public', 'private']).default('public'),
+    type: z
+      .enum(['social', 'professional', 'job-board', 'portfolio'])
+      .default('social'),
+    cta: z.boolean().default(false),
   })
   .readonly();
 
