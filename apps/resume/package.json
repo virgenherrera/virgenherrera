@@ -4,9 +4,13 @@
   "scripts": {
     "start": "ng serve",
     "watch": "ng build --watch --configuration development",
+    "stamp": "node scripts/stamp-version.js",
+    "prebuild": "pnpm run stamp",
     "build": "ng build",
+    "pretest:static": "pnpm run stamp",
     "test:doctor": "pnpm run test:static && pnpm run test:types && pnpm run build",
     "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
+    "pretest:types": "pnpm run stamp",
     "test:types": "tsc --noEmit",
     "eslintCheck": "eslint .",
     "eslintFix": "eslint --fix .",

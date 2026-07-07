@@ -119,7 +119,7 @@ export class ResumePage {
 
   get linkedInCta(): Locator {
     return this.page.locator(
-      '.vh-floating-actions__item[aria-label="Request full access"]',
+      '.vh-floating-actions__item[aria-label="Connect on LinkedIn"]',
     );
   }
 

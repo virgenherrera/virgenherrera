@@ -6,9 +6,11 @@ import {
   ProfileSidebarComponent,
   ProjectListComponent,
   StickyScrollDirective,
+  VersionBadgeComponent,
 } from '@vh/design-system';
 import { PdfGeneratorService } from '../../services/pdf-generator.service';
 import { ProfileStore } from '../../stores/profile.store';
+import { APP_VERSION } from '../../version.token';
 
 @Component({
   selector: 'vh-resume-page',
@@ -19,12 +21,16 @@ import { ProfileStore } from '../../stores/profile.store';
     ProjectListComponent,
     StickyScrollDirective,
     FileActionComponent,
+    VersionBadgeComponent,
   ],
   templateUrl: './resume-page.html',
   styleUrl: './resume-page.css',
 })
 export class ResumePage {
   protected readonly store = inject(ProfileStore);
+
+  private readonly version = inject(APP_VERSION);
+  protected readonly appVersion = `v${this.version}`;
 
   protected readonly subtitleItems = this.store.profile.headline.split(' | ');
   protected readonly particleLabels = this.store.profile.skills.flatMap(
