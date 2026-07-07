@@ -1,6 +1,6 @@
 {
   "name": "virgenherrera",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Personal monorepo",
   "author": "Hugo Virgen (https://github.com/virgenherrera)",
   "private": true,
@@ -49,7 +49,6 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "kill-port-process": "catalog:",
     "@eslint/json": "catalog:",
     "@eslint/markdown": "catalog:",
     "@types/jest": "catalog:",
@@ -60,6 +59,7 @@
     "globals": "catalog:",
     "husky": "catalog:",
     "jest": "catalog:",
+    "kill-port-process": "catalog:",
     "lint-staged": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
