@@ -62,6 +62,9 @@ This eliminates drift: if a script's command changes in any workspace, every con
 | `updatePnpm`       | atomic    | maintenance   |  yes  |     no      |     no     |    no    | no  |    no    |
 | `cleanup`          | delegator | housekeeping  |  yes  |     no      |     no     |    no    | no  |   yes    |
 | `bumpDependencies` | composite | maintenance   |  yes  |     no      |     no     |    no    | no  |    no    |
+| `release:patch`    | atomic    | release       |  yes  |     no      |     no     |    no    | no  |    no    |
+| `release:minor`    | atomic    | release       |  yes  |     no      |     no     |    no    | no  |    no    |
+| `release:major`    | atomic    | release       |  yes  |     no      |     no     |    no    | no  |    no    |
 
 > ¹ CI does not call the `test` meta-composite — it calls `test:static`, `test:types`, `test:unit`, `test:e2e`, and `build` as individual workflow steps.
 >
