@@ -46,7 +46,7 @@ This eliminates drift: if a script's command changes in any workspace, every con
 | `build`            | delegator | build         |  yes  |     no      |     no     |   yes    | yes |    no    |
 | `build:storybook`  | atomic    | build         |  yes  |     no      |     no     |    no    | no  |    no    |
 | `generate:readme`  | atomic    | build         |  yes  |     no      |     no     |    no    | no  |    no    |
-| `test`             | composite | pipeline      |  yes  |     no      |     no     |    no    |  ¹  |    no    |
+| `test`             | composite | pipeline      |  yes  |     no      |     no     |    no    |  ¹  |  yes ²   |
 | `test:doctor`      | composite | pipeline      |  yes  |     no      |     no     |    no    | no  |   yes    |
 | `test:static`      | delegator | check         |  yes  |     no      |     no     |    no    | yes |    no    |
 | `test:types`       | delegator | check         |  yes  |     no      |     no     |    no    | yes |    no    |
@@ -64,6 +64,8 @@ This eliminates drift: if a script's command changes in any workspace, every con
 | `bumpDependencies` | composite | maintenance   |  yes  |     no      |     no     |    no    | no  |    no    |
 
 > ¹ CI does not call the `test` meta-composite — it calls `test:static`, `test:types`, `test:unit`, `test:e2e`, and `build` as individual workflow steps.
+>
+> ² In bumpDependencies, `test` runs once after all NCU upgrades complete as an integrated pipeline validation: `cleanup → build → test:static → test:types → test:dynamic`. This is the post-NCU gate, distinct from `test:doctor` which validates each dependency in isolation during the NCU loop.
 >
 > **delegator** type: the root script delegates to workspaces via `pnpm -r run --if-present <name>`. Each workspace defines its own implementation.
 
@@ -122,7 +124,7 @@ Which echo scripts each workspace exposes. A dash means the workspace does not d
 | `test:doctor`      | `cleanup` → `pnpm -r run --if-present test:doctor`                                       |
 | `build`            | `pnpm -r run --if-present build`                                                         |
 | `cleanup`          | `pnpm -r run --if-present cleanup` → `rimraf artifacts/`                                 |
-| `bumpDependencies` | `securityFix` → `pnpm dlx npm-check-updates@22.2.7` → `securityFix`                      |
+| `bumpDependencies` | `securityFix` → `pnpm dlx npm-check-updates@22.2.7` → `securityFix` → `test`             |
 
 ### Per-Workspace test:doctor Expansion
 
@@ -166,22 +168,27 @@ Scripts are organized into stages. **No script in stage N may depend on a script
 
 Cross-check this matrix against `.lintstagedrc.json`, `.husky/pre-commit`, `.husky/pre-push`, `.github/workflows/ci.yml`, and `.ncurc.json` to verify consistency.
 
-| Script        | local | lint-staged |     pre-commit      |   pre-push   |        CI         |        bumpDeps         |
-| ------------- | :---: | :---------: | :-----------------: | :----------: | :---------------: | :---------------------: |
-| `securityFix` |  opt  |     no      |         no          |      no      |        no         |     yes (pre+post)      |
-| `lintStaged`  |  opt  |     no      |     yes (first)     |      no      |        no         |           no            |
-| `prettierFix` |  opt  |     yes     | no (via lintStaged) |      no      |        no         |           no            |
-| `eslintFix`   |  opt  |     yes     | no (via lintStaged) |      no      |        no         |           no            |
-| `cleanup`     |  opt  |     no      |         no          |      no      |        no         |  yes (via test:doctor)  |
-| `test:static` |  opt  |     no      |         no          |      no      |   yes (always)    |  yes (via test:doctor)  |
-| `test:types`  |  opt  |     no      |         no          |      no      |   yes (always)    |  yes (via test:doctor)  |
-| `test:unit`   |  opt  |     no      |    yes (second)     |      no      | yes (conditional) |  yes (via test:doctor)  |
-| `build`       |  opt  |     no      |         no          | yes (first)  | yes (conditional) | yes (via test:doctor) ³ |
-| `test:e2e`    |  opt  |     no      |         no          | yes (second) | yes (conditional) |          no ²           |
+| Script        | local | lint-staged |     pre-commit      |   pre-push   |        CI         |              bumpDeps              |
+| ------------- | :---: | :---------: | :-----------------: | :----------: | :---------------: | :--------------------------------: |
+| `securityFix` |  opt  |     no      |         no          |      no      |        no         |           yes (pre+post)           |
+| `lintStaged`  |  opt  |     no      |     yes (first)     |      no      |        no         |                 no                 |
+| `prettierFix` |  opt  |     yes     | no (via lintStaged) |      no      |        no         |                 no                 |
+| `eslintFix`   |  opt  |     yes     | no (via lintStaged) |      no      |        no         |                 no                 |
+| `test`        |  opt  |     no      |         no          |      no      |         ¹         |          yes (post-NCU) ²          |
+| `cleanup`     |  opt  |     no      |         no          |      no      |        no         | yes (via test:doctor + post-NCU) ² |
+| `test:static` |  opt  |     no      |         no          |      no      |   yes (always)    | yes (via test:doctor + post-NCU) ² |
+| `test:types`  |  opt  |     no      |         no          |      no      |   yes (always)    | yes (via test:doctor + post-NCU) ² |
+| `test:unit`   |  opt  |     no      |    yes (second)     |      no      | yes (conditional) | yes (via test:doctor + post-NCU) ² |
+| `build`       |  opt  |     no      |         no          | yes (first)  | yes (conditional) | yes (via test:doctor + post-NCU) ³ |
+| `test:e2e`    |  opt  |     no      |         no          | yes (second) | yes (conditional) |          yes (post-NCU) ⁴          |
 
-> ² test:e2e is excluded from test:doctor to avoid cross-workspace dependency on build artifacts during NCU doctor mode.
+> ¹ CI does not call the `test` meta-composite — it calls individual steps as separate workflow jobs.
 >
-> ³ Only apps/resume includes `build` in its workspace-level test:doctor.
+> ² Runs in two phases: once per dependency (via `test:doctor` inside the NCU loop) and once after all bumps complete (via `pnpm run test` as the post-NCU integrated gate).
+>
+> ³ Only apps/resume includes `build` in its workspace-level test:doctor; all workspaces receive `build` in the post-NCU `test` pass.
+>
+> ⁴ `test:e2e` is excluded from `test:doctor` to avoid cross-workspace dependency on build artifacts during the NCU loop. It runs in the post-NCU `pnpm run test` pass, where `build` has already completed.
 >
 > CI "conditional" means the job runs only when path filters detect changes in relevant workspaces. `test:static` and `test:types` always run regardless of path filters.
 
@@ -306,7 +313,17 @@ flowchart TD
     K --> D
 
     D -- all done --> L[pnpm run securityFix]
-    L --> M([Done])
+
+    L --> N[pnpm run test]
+    N --> N1[cleanup]
+    N1 --> N2[build]
+    N2 --> N3[test:static]
+    N3 --> N4[test:types]
+    N4 --> N5[test:dynamic]
+
+    N5 --> O{All passed?}
+    O -- yes --> M([Done])
+    O -- no --> P([Exit 1 — integration failed])
 ```
 
 [(back to menu)](#navigation)
@@ -324,6 +341,8 @@ Each workspace defines its own `test:doctor` based on what it can validate in is
 - **Minimal validation** (static + types): apps/readme, packages/design-system, quality/resume — either no tests, tests need external artifacts, or build is not applicable.
 
 > `securityCheck` (`pnpm audit`) is intentionally excluded from test:doctor. NCU is supposed to FIX CVEs by bumping dependencies — running audit inside the doctor test creates a chicken-and-egg failure where current vulnerabilities block the very upgrades that would resolve them.
+
+> **test:doctor vs post-NCU test**: `test:doctor` validates each dependency in isolation during the NCU loop — it is a fast, per-dependency gate that catches immediate breakage. After all dependencies have been bumped, `pnpm run test` runs once as the integrated pipeline validation (`cleanup → build → test:static → test:types → test:dynamic`), catching cross-dependency regressions that only surface when the full dependency graph is settled.
 
 [(back to menu)](#navigation)
 
