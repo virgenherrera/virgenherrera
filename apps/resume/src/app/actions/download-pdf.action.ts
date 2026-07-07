@@ -24,6 +24,10 @@ export class DownloadPdfAction implements HubAction {
     this.profileStore.isPrivateView() ? 'download' : 'linkedIn',
   );
 
+  readonly highlight: Signal<boolean> = computed(
+    () => !this.profileStore.isPrivateView(),
+  );
+
   isAvailable(_ctx: HubContext): boolean {
     return true;
   }

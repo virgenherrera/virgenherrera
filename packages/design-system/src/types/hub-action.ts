@@ -13,6 +13,7 @@ export interface HubAction {
   readonly icon: Signal<string>;
   readonly zone: 'permanent' | 'contextual';
   readonly order: number;
+  readonly highlight: Signal<boolean>;
   isAvailable(ctx: HubContext): boolean;
   execute(): void | Promise<void>;
 }

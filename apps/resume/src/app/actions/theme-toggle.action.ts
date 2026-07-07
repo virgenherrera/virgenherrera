@@ -1,4 +1,4 @@
-import { Injectable, Signal, computed, inject } from '@angular/core';
+import { Injectable, Signal, computed, inject, signal } from '@angular/core';
 import { HubAction, HubContext } from '@vh/design-system';
 import { ThemeStore } from '../stores/theme.store';
 
@@ -15,6 +15,7 @@ export class ThemeToggleAction implements HubAction {
   );
   readonly zone = 'permanent' as const;
   readonly order = 0;
+  readonly highlight = signal(false);
 
   isAvailable(_ctx: HubContext): boolean {
     return true;
