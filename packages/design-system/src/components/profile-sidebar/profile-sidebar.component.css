@@ -59,16 +59,18 @@
   line-height: var(--vh-lh-relaxed);
   text-align: justify;
   margin: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
   overflow: hidden;
   max-height: 7.5rem;
   transition: max-height var(--vh-duration-base) ease-out;
 }
 
+.vh-profile-sidebar__about-text--clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
 .vh-profile-sidebar__about-text--expanded {
-  -webkit-line-clamp: unset;
   max-height: 60rem;
 }
 

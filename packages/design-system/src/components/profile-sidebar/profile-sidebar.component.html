@@ -15,13 +15,15 @@
       <p
         class="vh-profile-sidebar__about-text"
         [class.vh-profile-sidebar__about-text--expanded]="summaryExpanded()"
+        [class.vh-profile-sidebar__about-text--clamped]="summaryClamped()"
+        (transitionend)="onAboutTransitionEnd($event)"
       >
         {{ displaySummary() }}
       </p>
       @if (showSummaryToggle()) {
         <button
           class="vh-profile-sidebar__about-toggle"
-          (click)="summaryExpanded.set(!summaryExpanded())"
+          (click)="toggleSummary()"
         >
           {{ summaryExpanded() ? 'Show less' : 'Show more' }}
         </button>

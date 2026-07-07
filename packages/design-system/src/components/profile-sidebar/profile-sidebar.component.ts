@@ -86,6 +86,22 @@ export class ProfileSidebarComponent {
   });
 
   protected readonly summaryExpanded = signal(false);
+  protected readonly summaryClamped = signal(true);
+
+  protected toggleSummary(): void {
+    const expanding = !this.summaryExpanded();
+    this.summaryExpanded.set(expanding);
+
+    if (expanding) {
+      this.summaryClamped.set(false);
+    }
+  }
+
+  protected onAboutTransitionEnd(event: TransitionEvent): void {
+    if (event.propertyName === 'max-height' && !this.summaryExpanded()) {
+      this.summaryClamped.set(true);
+    }
+  }
 
   protected readonly showSummaryToggle = computed(
     () => this.isPrivate() && this.summary().length > 300,
