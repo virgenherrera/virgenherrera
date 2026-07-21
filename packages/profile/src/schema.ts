@@ -114,3 +114,33 @@ export const publicProfileSchema = profileObject
   .readonly();
 
 export type PublicProfileData = z.infer<typeof publicProfileSchema>;
+
+// `profile-snapshot.json` (and PUBLIC_PROFILE/PRIVATE_PROFILE in data.ts) are
+// already validated + transformed by `profileSchema.parse()` inside
+// `parseContent()` — the `experience[].description` field has already gone
+// through the raw-strings -> DescriptionBlock[] transform. Browser consumers
+// that read the pre-built snapshot must validate against THIS shape (blocks,
+// not raw strings), otherwise re-running `profileSchema` on already-parsed
+// data throws (it expects raw strings for `description`).
+const descriptionBlockSchema = z.object({
+  type: z.enum(['paragraph', 'bullets']),
+  lines: z.array(z.string().min(1)).min(1),
+});
+
+const parsedExperienceSchema = z
+  .object({
+    company: z.string().min(1),
+    role: z.string().min(1),
+    startDate: yearMonth,
+    endDate: yearMonth.optional(),
+    description: z.array(descriptionBlockSchema).min(1),
+    technologies: z.array(z.string().min(1)),
+  })
+  .readonly();
+
+export const profileSnapshotSchema = profileObject
+  .omit({ email: true, phone: true, experience: true })
+  .extend({ experience: z.array(parsedExperienceSchema).min(1) })
+  .readonly();
+
+export type ProfileSnapshotData = z.infer<typeof profileSnapshotSchema>;
