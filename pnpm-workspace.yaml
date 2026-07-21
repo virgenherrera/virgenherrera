@@ -41,6 +41,7 @@ catalog:
   'eslint-plugin-storybook': 10.4.6
   'storybook': 10.4.6
   # runtime
+  '@huggingface/transformers': 3.8.1 # v4.x has breaking API changes; v3.x is the last verified-stable series for Node.js
   '@nestjs/axios': 4.0.1
   '@nestjs/common': 11.1.27
   '@nestjs/core': 11.1.27
@@ -88,6 +89,9 @@ allowBuilds:
   esbuild: true # Required: bundler used by Storybook build pipeline
   lmdb: true # Required: Storybook caching layer
   msgpackr-extract: true # Required: serialization for Storybook internals
+  onnxruntime-node: true # Required: native ONNX inference backend used by @huggingface/transformers pipeline()
+  protobufjs: false # Blocked: postinstall only emits a version-scheme warning, no native build
+  sharp: true # Required: image codec used internally by @huggingface/transformers's processor pipeline
   unrs-resolver: true # Required: compiles native bindings needed by some lint tools
 
 # Packages exempted from minimumReleaseAge during a bump cycle.
