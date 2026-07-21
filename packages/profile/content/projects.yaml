@@ -1,6 +1,6 @@
 projects:
   - name: virgenherrera
-    description: "GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven."
+    description: "GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven."
     url: https://github.com/virgenherrera/virgenherrera
     technologies: [typescript, angular, nestjs, playwright, zod, github-actions, github-pages, pnpm]
   - name: nest-base
