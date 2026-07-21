@@ -1,17 +1,18 @@
-- name: virgenherrera
-  description: "GitHub special profile repo: Angular resume app (SSR/SSG), NestJS-powered README generator, shared design system."
-  url: https://github.com/virgenherrera/virgenherrera
-  technologies:
-    - typescript
-    - angular
-    - nestjs
-    - playwright
-    - zod
-- name: nest-base
-  description: Starter template for building NestJS 11 HTTP services with typed environment configuration.
-  url: https://github.com/virgenherrera/nest-base
-  technologies:
-    - typescript
-    - nodejs
-    - nestjs
-    - zod
+projects:
+  - name: virgenherrera
+    description: "GitHub special profile repo: Angular resume app (SSR/SSG), NestJS-powered README generator, shared design system."
+    url: https://github.com/virgenherrera/virgenherrera
+    technologies:
+      - typescript
+      - angular
+      - nestjs
+      - playwright
+      - zod
+  - name: nest-base
+    description: Starter template for building NestJS 11 HTTP services with typed environment configuration.
+    url: https://github.com/virgenherrera/nest-base
+    technologies:
+      - typescript
+      - nodejs
+      - nestjs
+      - zod
