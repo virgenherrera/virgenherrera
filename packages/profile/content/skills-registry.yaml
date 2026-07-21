@@ -1,0 +1,263 @@
+skills:
+  # --- Languages ---
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+    aliases: [ts]
+  - slug: javascript
+    display: JavaScript
+    category: Languages
+    aliases: [ES6]
+  - slug: csharp
+    display: "C#"
+    category: Languages
+  - slug: php
+    display: PHP
+    category: Languages
+  - slug: golang
+    display: Golang
+    category: Languages
+  - slug: html
+    display: HTML
+    category: Languages
+  - slug: css
+    display: CSS
+    category: Languages
+
+  # --- Backend Frameworks ---
+  - slug: nodejs
+    display: Node.js
+    category: Backend Frameworks
+  - slug: nestjs
+    display: NestJS
+    category: Backend Frameworks
+  - slug: expressjs
+    display: Express.js
+    category: Backend Frameworks
+  - slug: dotnet
+    display: .NET
+    category: Backend Frameworks
+    aliases: [".NET Core", ".NET Framework", ".NET 8", "dotnet-core"]
+    children: [dotnet-framework, dotnet-core, dotnet-8]
+  - slug: dotnet-framework
+    display: .NET Framework
+    category: Backend Frameworks
+  - slug: dotnet-core
+    display: .NET Core
+    category: Backend Frameworks
+  - slug: dotnet-8
+    display: .NET 8
+    category: Backend Frameworks
+  - slug: fiber
+    display: Fiber
+    category: Backend Frameworks
+
+  # --- Frontend Frameworks ---
+  - slug: angular
+    display: Angular
+    category: Frontend Frameworks
+    aliases: ["Angular 11"]
+  - slug: react
+    display: React
+    category: Frontend Frameworks
+  - slug: vue
+    display: Vue
+    category: Frontend Frameworks
+  - slug: jquery
+    display: jQuery
+    category: Frontend Frameworks
+
+  # --- Databases ---
+  - slug: postgresql
+    display: PostgreSQL
+    category: Databases
+  - slug: mysql
+    display: MySQL
+    category: Databases
+  - slug: mariadb
+    display: MariaDB
+    category: Databases
+  - slug: mongodb
+    display: MongoDB
+    category: Databases
+  - slug: dynamodb
+    display: DynamoDB
+    category: Databases
+  - slug: redis
+    display: Redis
+    category: Databases
+
+  # --- APIs & Protocols ---
+  - slug: rest
+    display: REST
+    category: APIs & Protocols
+    aliases: ["REST APIs"]
+  - slug: graphql
+    display: GraphQL
+    category: APIs & Protocols
+  - slug: grpc
+    display: gRPC
+    category: APIs & Protocols
+  - slug: websocket
+    display: WebSocket
+    category: APIs & Protocols
+  - slug: apollo-graphql
+    display: Apollo GraphQL
+    category: APIs & Protocols
+
+  # --- Cloud & DevOps ---
+  - slug: aws
+    display: AWS
+    category: Cloud & DevOps
+    children:
+      [
+        aws-lambda,
+        aws-sns,
+        aws-sqs,
+        aws-cognito,
+        aws-step-functions,
+        aws-codebuild,
+        aws-codedeploy,
+        aws-codepipeline,
+      ]
+  - slug: azure
+    display: Azure
+    category: Cloud & DevOps
+    children: [azure-devops, azure-aks, azure-functions]
+  - slug: docker
+    display: Docker
+    category: Cloud & DevOps
+  - slug: ci-cd
+    display: CI/CD
+    category: Cloud & DevOps
+  - slug: jenkins
+    display: Jenkins
+    category: Cloud & DevOps
+  - slug: webpack
+    display: Webpack
+    category: Cloud & DevOps
+  - slug: gulp
+    display: Gulp
+    category: Cloud & DevOps
+  - slug: git
+    display: Git
+    category: Cloud & DevOps
+  - slug: azure-devops
+    display: Azure DevOps
+    category: Cloud & DevOps
+  - slug: azure-aks
+    display: Azure Kubernetes Service
+    category: Cloud & DevOps
+    aliases: [AKS]
+  - slug: azure-functions
+    display: Azure Functions
+    category: Cloud & DevOps
+  - slug: aws-lambda
+    display: AWS Lambda
+    category: Cloud & DevOps
+  - slug: aws-sns
+    display: AWS SNS
+    category: Cloud & DevOps
+  - slug: aws-sqs
+    display: AWS SQS
+    category: Cloud & DevOps
+  - slug: aws-cognito
+    display: AWS Cognito
+    category: Cloud & DevOps
+  - slug: aws-step-functions
+    display: AWS Step Functions
+    category: Cloud & DevOps
+  - slug: aws-codebuild
+    display: AWS CodeBuild
+    category: Cloud & DevOps
+  - slug: aws-codedeploy
+    display: AWS CodeDeploy
+    category: Cloud & DevOps
+  - slug: aws-codepipeline
+    display: AWS CodePipeline
+    category: Cloud & DevOps
+
+  # --- ORMs & ODMs ---
+  - slug: prisma
+    display: Prisma
+    category: ORMs & ODMs
+  - slug: typeorm
+    display: TypeORM
+    category: ORMs & ODMs
+  - slug: sequelize
+    display: Sequelize
+    category: ORMs & ODMs
+  - slug: mongoose
+    display: Mongoose
+    category: ORMs & ODMs
+
+  # --- AI & Integrations ---
+  - slug: langchain
+    display: LangChain
+    category: AI & Integrations
+  - slug: openai-api
+    display: OpenAI API
+    category: AI & Integrations
+  - slug: llm-orchestration
+    display: LLM-based orchestration
+    category: AI & Integrations
+
+  # --- Testing & QA ---
+  - slug: playwright
+    display: Playwright
+    category: Testing & QA
+  - slug: jest
+    display: Jest
+    category: Testing & QA
+  - slug: vitest
+    display: Vitest
+    category: Testing & QA
+  - slug: mocha
+    display: Mocha
+    category: Testing & QA
+  - slug: chai
+    display: Chai
+    category: Testing & QA
+  - slug: istanbul
+    display: Istanbul
+    category: Testing & QA
+
+  # --- Architecture & Patterns ---
+  - slug: monorepo-pnpm
+    display: Monorepo (pnpm workspaces)
+    category: Architecture & Patterns
+  - slug: design-systems
+    display: Design Systems
+    category: Architecture & Patterns
+  - slug: angular-signals
+    display: Angular Signals
+    category: Architecture & Patterns
+  - slug: di-multi-provider
+    display: DI Multi-Provider
+    category: Architecture & Patterns
+  - slug: ssr-ssg
+    display: SSR/SSG
+    category: Architecture & Patterns
+  - slug: clean-architecture
+    display: Clean Architecture
+    category: Architecture & Patterns
+
+  # --- Developer Tooling (project-only technologies not in original skills[]) ---
+  - slug: zod
+    display: Zod
+    category: Developer Tooling
+  - slug: pnpm
+    display: pnpm
+    category: Developer Tooling
+  - slug: eslint
+    display: ESLint
+    category: Developer Tooling
+  - slug: prettier
+    display: Prettier
+    category: Developer Tooling
+  - slug: github-actions
+    display: GitHub Actions
+    category: Developer Tooling
+  - slug: github-pages
+    display: GitHub Pages
+    category: Developer Tooling
