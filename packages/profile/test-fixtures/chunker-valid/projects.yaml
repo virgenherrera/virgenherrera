@@ -1,0 +1,7 @@
+projects:
+  - name: Test Project
+    description: 'A test project used to verify project chunking.'
+    url: https://example.com/test-project
+    technologies:
+      - typescript
+      - docker

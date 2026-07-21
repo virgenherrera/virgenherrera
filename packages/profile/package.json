@@ -20,10 +20,15 @@
     "eslintFix": "eslint --fix",
     "prettierCheck": "prettier --check 'src/**/*.ts'",
     "prettierFix": "prettier --write",
-    "cleanup": "echo 'no artifacts to clean'"
+    "cleanup": "echo 'no artifacts to clean'",
+    "embed": "ts-node -r tsconfig-paths/register src/rag/embedder.ts",
+    "export": "ts-node -r tsconfig-paths/register src/rag/export.ts"
   },
   "dependencies": {
     "gray-matter": "catalog:",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "catalog:"
   }
 }
