@@ -62,16 +62,17 @@ journey
 
 | | Category | Technologies |
 |:---:|:---|:---|
-| 💬 | **Languages** | JavaScript, TypeScript, C#, PHP |
-| ⚙️ | **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework |
-| 🎨 | **Frontend Frameworks** | Angular, React, Vue |
+| 💬 | **Languages** | TypeScript, JavaScript, C#, PHP, Golang, HTML, CSS |
+| ⚙️ | **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework, .NET Core, .NET 8, Fiber |
+| 🎨 | **Frontend Frameworks** | Angular, React, Vue, jQuery |
 | 🗄️ | **Databases** | PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis |
-| 🔌 | **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket |
-| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, CI/CD |
+| 🔌 | **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket, Apollo GraphQL |
+| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
 | 🗂️ | **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
 | 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM-based orchestration |
-| 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha |
+| 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha, Chai, Istanbul |
 | 🏗️ | **Architecture & Patterns** | Monorepo (pnpm workspaces), Design Systems, Angular Signals, DI Multi-Provider, SSR/SSG, Clean Architecture |
+| 📦 | **Developer Tooling** | Zod, pnpm, ESLint, Prettier, GitHub Actions, GitHub Pages |
 
 ---
 
@@ -79,7 +80,7 @@ journey
 
 | Project | Description | Stars |
 |:---|:---|:---:|
-| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
 | [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
 | [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
 | [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
@@ -106,7 +107,7 @@ pie title Top Languages
 |:---|:---:|
 | Public Repos | 62 |
 | Total Stars | ⭐ 5 |
-| Total Forks | 🍴 5 |
+| Total Forks | 🍴 6 |
 
 ---
 
