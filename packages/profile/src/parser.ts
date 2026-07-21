@@ -71,12 +71,15 @@ export function parseContent(contentDir: string): ProfileData {
   const experience = parseExperienceDir(join(contentDir, 'experience'), lookup);
   const education = parseEducationDir(join(contentDir, 'education'));
   const projects = parseProjects(join(contentDir, 'projects.yaml'), lookup);
-  const links = parseRecordArray(join(contentDir, 'links.yaml'), LINK_FIELDS, [
-    'label',
-    'url',
-  ]);
+  const links = parseRecordArray(
+    join(contentDir, 'links.yaml'),
+    'links',
+    LINK_FIELDS,
+    ['label', 'url'],
+  );
   const languages = parseRecordArray(
     join(contentDir, 'languages.yaml'),
+    'languages',
     LANGUAGE_FIELDS,
     ['language', 'proficiency'],
   );
@@ -179,16 +182,22 @@ function parseYamlFile(filePath: string): unknown {
   return safeMatter(`---\n${raw}\n---`, filePath, 'YAML').data;
 }
 
-function readYamlArray(filePath: string): unknown[] {
-  const data = parseYamlFile(filePath);
+/**
+ * Reads a standalone `.yaml` content file whose array lives under a named
+ * top-level key (e.g. `projects:`, `links:`, `languages:`) — the same
+ * wrapping convention used by `skills-registry.yaml`'s `skills:` key.
+ */
+function readYamlArray(filePath: string, field: string): unknown[] {
+  const data = asRecord(parseYamlFile(filePath), filePath, 'root');
+  const entries = data[field];
 
-  if (!Array.isArray(data)) {
+  if (!Array.isArray(entries)) {
     throw new Error(
-      `parseContent: "${filePath}" must contain a top-level YAML array.`,
+      `parseContent: "${filePath}" must define a top-level "${field}" array.`,
     );
   }
 
-  return data;
+  return entries;
 }
 
 function readMarkdownFilesSorted(dirPath: string): string[] {
@@ -432,7 +441,7 @@ function parseProjects(
   filePath: string,
   lookup: ReadonlyMap<string, SkillRegistryEntry>,
 ): Record<string, unknown>[] {
-  return readYamlArray(filePath).map((item, index) => {
+  return readYamlArray(filePath, 'projects').map((item, index) => {
     const context = `${filePath}[${index}]`;
     const record = asRecord(item, filePath, `[${index}]`);
     const slugs = requireStringArray(record, 'technologies', context);
@@ -449,10 +458,11 @@ function parseProjects(
 
 function parseRecordArray(
   filePath: string,
+  field: string,
   allowedFields: readonly string[],
   requiredFields: readonly string[],
 ): Record<string, unknown>[] {
-  return readYamlArray(filePath).map((item, index) => {
+  return readYamlArray(filePath, field).map((item, index) => {
     const context = `${filePath}[${index}]`;
     const record = asRecord(item, filePath, `[${index}]`);
 

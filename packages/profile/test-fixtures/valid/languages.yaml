@@ -1,4 +1,5 @@
-- language: Spanish
-  proficiency: Native
-- language: English
-  proficiency: C1
+languages:
+  - language: Spanish
+    proficiency: Native
+  - language: English
+    proficiency: C1

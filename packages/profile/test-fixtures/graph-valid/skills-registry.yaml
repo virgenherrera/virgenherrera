@@ -1,0 +1,13 @@
+skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+  - slug: nodejs
+    display: Node.js
+    category: Backend Frameworks
+  - slug: nestjs
+    display: NestJS
+    category: Backend Frameworks
+  - slug: docker
+    display: Docker
+    category: Cloud & DevOps
