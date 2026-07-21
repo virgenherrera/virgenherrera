@@ -23,6 +23,7 @@
     "cleanup": "echo 'no artifacts to clean'"
   },
   "dependencies": {
+    "gray-matter": "catalog:",
     "zod": "catalog:"
   }
 }

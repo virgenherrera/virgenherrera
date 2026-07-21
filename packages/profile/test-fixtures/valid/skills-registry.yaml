@@ -1,0 +1,43 @@
+skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+  - slug: javascript
+    display: JavaScript
+    category: Languages
+  - slug: nodejs
+    display: Node.js
+    category: Backend Frameworks
+  - slug: nestjs
+    display: NestJS
+    category: Backend Frameworks
+  - slug: langchain
+    display: LangChain
+    category: AI & Integrations
+  - slug: openai-api
+    display: OpenAI API
+    category: AI & Integrations
+  - slug: dotnet-8
+    display: .NET 8
+    category: Backend Frameworks
+  - slug: azure
+    display: Azure
+    category: Cloud & DevOps
+  - slug: azure-functions
+    display: Azure Functions
+    category: Cloud & DevOps
+  - slug: ci-cd
+    display: CI/CD
+    category: Cloud & DevOps
+  - slug: graphql
+    display: GraphQL
+    category: APIs & Protocols
+  - slug: angular
+    display: Angular
+    category: Frontend Frameworks
+  - slug: zod
+    display: Zod
+    category: Architecture & Patterns
+  - slug: playwright
+    display: Playwright
+    category: Testing & QA
