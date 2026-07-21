@@ -7,7 +7,7 @@
     "outDir": "./artifacts/out-tsc",
     "types": ["node"],
     "paths": {
-      "@profile-data": ["../../packages/profile/src/profile.json"],
+      "@profile-data": ["../../packages/profile/profile-snapshot.json"],
       "@vh/profile": ["../../packages/profile/src/index.ts"],
       "@vh/design-system": ["../../packages/design-system/src/index.ts"]
     },

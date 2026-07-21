@@ -1,0 +1,5 @@
+projects:
+  - description: "Missing the required name field"
+    url: https://example.com/side-project
+    technologies:
+      - typescript

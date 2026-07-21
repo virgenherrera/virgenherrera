@@ -8,6 +8,8 @@ export {
   projectSchema,
   languageSchema,
   secretsPayloadSchema,
+  publicProfileSchema,
+  profileSnapshotSchema,
 } from './schema';
 
 export type {
@@ -20,9 +22,12 @@ export type {
   ProjectData,
   LanguageData,
   SecretsPayload,
+  PublicProfileData,
+  ProfileSnapshotData,
 } from './schema';
 
 export { parseDescription, type DescriptionBlock } from './description-block';
 
-export { PUBLIC_PROFILE, PRIVATE_PROFILE } from './data';
-export type { PublicProfileData } from './schema';
+// PUBLIC_PROFILE and PRIVATE_PROFILE read content/ from the filesystem and
+// are intentionally NOT re-exported here — this keeps the main export
+// browser-safe. Server consumers must import from '@vh/profile/data'.

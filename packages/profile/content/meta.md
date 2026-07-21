@@ -1,0 +1,6 @@
+---
+name: 'Hugo Enrique Virgen Herrera'
+headline: 'Senior Fullstack Engineer | Design Systems | AI Integrations | Cloud | Node.js | TypeScript | C# | Angular | .NET'
+summary: 'Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems. Proven experience with Node.js orchestration and Azure-based serverless architectures, including Azure Functions and CI/CD pipelines. Skilled in microservices architectures, integrating Node.js and .NET services to handle data-intensive workloads, optimize performance, and maintain conversational context across distributed systems. Brings deep expertise in frontend architecture and component-driven design systems, building Angular applications with strict ARIA/WCAG accessibility patterns. Proficient in end-to-end testing automation with Playwright, ensuring quality and reliability across web platforms.'
+location: 'Mexico'
+---

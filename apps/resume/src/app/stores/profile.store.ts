@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import profileJson from '@profile-data';
-import { profileSchema, secretsPayloadSchema } from '@vh/profile';
+import { profileSnapshotSchema, secretsPayloadSchema } from '@vh/profile';
 import { z } from 'zod';
 
 const hashPayloadSchema = z
@@ -32,7 +32,7 @@ export class ProfileStore {
       VERSION.major,
     );
 
-    return profileSchema.parse(JSON.parse(interpolated));
+    return profileSnapshotSchema.parse(JSON.parse(interpolated));
   })();
   readonly isPrivateView = signal(false);
   readonly email = signal<string | null>(null);
