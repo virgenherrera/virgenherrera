@@ -1,0 +1,10 @@
+- label: GitHub
+  url: https://github.com/virgenherrera
+  icon: gitHub
+  type: social
+  cta: false
+- label: LinkedIn
+  url: https://www.linkedin.com/in/virgenherrera
+  icon: linkedIn
+  type: professional
+  cta: true
