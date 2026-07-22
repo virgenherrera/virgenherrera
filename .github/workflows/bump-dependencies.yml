@@ -1,0 +1,57 @@
+name: Bump Dependencies
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 1"
+
+concurrency:
+  group: bump-deps
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-dependencies:
+    name: Bump Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Install Playwright browsers
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list
+          pnpm dlx playwright install --with-deps chromium
+      - name: Bump dependencies
+        run: pnpm run bumpDependencies
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create Pull Request
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="chore/bump-dependencies-$(date +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: bump dependencies"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: bump dependencies" \
+            --body "Automated dependency bump via the bump-dependencies workflow." \
+            --base main \
+            --head "$BRANCH"
+          echo "✅ Pull request created for branch \`$BRANCH\`" >> "$GITHUB_STEP_SUMMARY"
+      - name: Up-to-date summary
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "✅ Dependencies already up to date — no PR needed" >> "$GITHUB_STEP_SUMMARY"
