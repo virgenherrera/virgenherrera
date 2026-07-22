@@ -14,11 +14,55 @@ permissions:
   id-token: write
 
 jobs:
+  bump:
+    name: Version Bump
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      sha: ${{ steps.bump.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Conditional patch bump
+        id: bump
+        env:
+          HUSKY: '0'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git fetch --tags --quiet
+
+          if [ -n "$(git tag -l "v${VERSION}")" ]; then
+            node -e "
+              const fs = require('fs');
+              const p = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+              const v = p.version.split('.');
+              v[2] = parseInt(v[2], 10) + 1;
+              p.version = v.join('.');
+              fs.writeFileSync('package.json', JSON.stringify(p, null, 2) + '\n');
+            "
+            VERSION=$(node -p "require('./package.json').version")
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package.json
+            git commit -m "release: v${VERSION} [skip ci]"
+            git push origin HEAD:main
+            echo "🔄 Auto-bumped to **v${VERSION}**" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "✅ Version **v${VERSION}** is fresh — no bump needed" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
   build:
     name: Build
+    needs: [bump]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.bump.outputs.sha }}
       - uses: ./.github/actions/setup
       - name: Build
         run: pnpm run build
@@ -29,19 +73,22 @@ jobs:
 
   tag:
     name: Tag Release
-    needs: [build]
+    needs: [bump, build]
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
       sha: ${{ steps.tag.outputs.sha }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.bump.outputs.sha }}
       - name: Create tag
         id: tag
+        env:
+          VERSION: ${{ needs.bump.outputs.version }}
+          SHA: ${{ needs.bump.outputs.sha }}
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          SHA=$(git rev-parse HEAD)
-          SHORT_SHA=$(git rev-parse --short HEAD)
+          SHORT_SHA="${SHA:0:7}"
           git fetch --tags --quiet
           if [ -z "$(git tag -l "v${VERSION}")" ]; then
             git tag "v${VERSION}"
@@ -70,11 +117,12 @@ jobs:
 
   deploy-readme:
     name: Deploy README
-    needs: [build]
+    needs: [bump, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ needs.bump.outputs.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/setup
       - name: Generate README
