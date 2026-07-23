@@ -177,4 +177,64 @@ export class ResumePage {
   get canonicalLink(): Locator {
     return this.page.locator('head link[rel="canonical"]');
   }
+
+  get ogTitle(): Locator {
+    return this.page.locator('head meta[property="og:title"]');
+  }
+
+  get ogDescription(): Locator {
+    return this.page.locator('head meta[property="og:description"]');
+  }
+
+  get ogUrl(): Locator {
+    return this.page.locator('head meta[property="og:url"]');
+  }
+
+  get ogType(): Locator {
+    return this.page.locator('head meta[property="og:type"]');
+  }
+
+  get ogSiteName(): Locator {
+    return this.page.locator('head meta[property="og:site_name"]');
+  }
+
+  get ogImage(): Locator {
+    return this.page.locator('head meta[property="og:image"]');
+  }
+
+  get ogImageWidth(): Locator {
+    return this.page.locator('head meta[property="og:image:width"]');
+  }
+
+  get ogImageHeight(): Locator {
+    return this.page.locator('head meta[property="og:image:height"]');
+  }
+
+  get ogImageAlt(): Locator {
+    return this.page.locator('head meta[property="og:image:alt"]');
+  }
+
+  get ogLocale(): Locator {
+    return this.page.locator('head meta[property="og:locale"]');
+  }
+
+  get twitterCard(): Locator {
+    return this.page.locator('head meta[name="twitter:card"]');
+  }
+
+  get twitterTitle(): Locator {
+    return this.page.locator('head meta[name="twitter:title"]');
+  }
+
+  get twitterDescription(): Locator {
+    return this.page.locator('head meta[name="twitter:description"]');
+  }
+
+  get twitterImage(): Locator {
+    return this.page.locator('head meta[name="twitter:image"]');
+  }
+
+  get twitterImageAlt(): Locator {
+    return this.page.locator('head meta[name="twitter:image:alt"]');
+  }
 }

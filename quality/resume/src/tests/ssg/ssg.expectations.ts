@@ -41,4 +41,20 @@ export class SsgPreRenderExpectations {
     'have robots meta allowing indexing and following';
   static readonly notLeakPiiInHead =
     'not leak PII (email/phone) in prerendered head';
+  static readonly haveOgTitle = 'have og:title matching "{name} — {role}"';
+  static readonly haveOgDescription = 'have og:description under 155 chars';
+  static readonly haveOgUrl = 'have og:url pointing to the site URL';
+  static readonly haveOgType = 'have og:type set to "profile"';
+  static readonly haveOgImage = 'have og:image pointing to avatar.jpg';
+  static readonly haveOgImageDimensions =
+    'have og:image:width and og:image:height set to 528';
+  static readonly haveTwitterCard = 'have twitter:card set to "summary"';
+  static readonly haveTwitterTitle = 'have twitter:title present';
+  static readonly haveTwitterImage =
+    'have twitter:image pointing to avatar.jpg';
+  static readonly haveOgLocale = 'have og:locale set to "en_US"';
+  static readonly haveImageAltText =
+    'have og:image:alt and twitter:image:alt containing the profile name';
+  static readonly notLeakPiiInSocialMeta =
+    'not leak PII (email/phone) in Open Graph or Twitter meta tags';
 }
