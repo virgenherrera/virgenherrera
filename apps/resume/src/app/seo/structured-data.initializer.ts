@@ -63,6 +63,15 @@ export function structuredDataInitializer(): () => void {
       person['knowsLanguage'] = profile.languages.map((lang) => lang.language);
     }
 
+    // D7: sameAs (from public profile links)
+    const publicLinks = profile.links
+      .filter((link) => link.visibility === 'public')
+      .map((link) => link.url);
+
+    if (publicLinks.length > 0) {
+      person['sameAs'] = publicLinks;
+    }
+
     // Inject via Renderer2 (safe for Angular — innerHTML would be sanitized).
     // This initializer runs on BOTH the server (prerender) and the client
     // (hydration) — the prerendered <script> survives hydration since it

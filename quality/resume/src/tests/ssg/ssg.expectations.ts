@@ -75,6 +75,8 @@ export class SsgPreRenderExpectations {
     'have hasCredential present only when certifications exist';
   static readonly haveJsonLdKnowsLanguage =
     'have knowsLanguage as an array of language names';
+  static readonly haveJsonLdSameAs =
+    'have sameAs as an array of public profile link URLs';
   static readonly notLeakPiiInJsonLd =
     'not leak PII (email/phone) in JSON-LD structured data';
   static readonly matchJsonLdBetweenSsgAndCsr =

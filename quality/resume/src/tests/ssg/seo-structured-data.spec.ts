@@ -18,6 +18,7 @@ interface PersonJsonLd {
   knowsAbout?: string[];
   hasCredential?: { '@type': string; name: string }[];
   knowsLanguage?: string[];
+  sameAs?: string[];
   email?: string;
   telephone?: string;
 }
@@ -128,6 +129,20 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
 
     expect(Array.isArray(jsonLd.knowsLanguage)).toBe(true);
     expect(jsonLd.knowsLanguage).toHaveLength(PUBLIC_PROFILE.languages.length);
+  });
+
+  test(should.haveJsonLdSameAs, async ({ resumePage }) => {
+    const publicLinks = PUBLIC_PROFILE.links
+      .filter((link) => link.visibility === 'public')
+      .map((link) => link.url);
+
+    test.skip(publicLinks.length === 0, 'no public links in profile');
+
+    const html = await resumePage.gotoRaw();
+    const jsonLd = extractJsonLd(html) as PersonJsonLd;
+
+    expect(Array.isArray(jsonLd.sameAs)).toBe(true);
+    expect(jsonLd.sameAs).toEqual(publicLinks);
   });
 
   test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {
