@@ -21,7 +21,7 @@ export function structuredDataInitializer(): () => void {
       name: profile.name,
       url: siteUrl,
       image: `${siteUrl}avatar.jpg`,
-      jobTitle: profile.experience[0]?.role ?? profile.headline,
+      jobTitle: profile.experience[0].role,
       description: profile.summary,
     };
 

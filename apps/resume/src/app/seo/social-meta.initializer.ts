@@ -10,12 +10,10 @@ export function socialMetaInitializer(): () => void {
   const profileStore = inject(ProfileStore);
 
   return () => {
-    const siteUrl = environment.siteUrl;
     const { name, headline, summary, experience } = profileStore.profile;
-    const role = experience[0]?.role ?? headline;
-    const title = `${name} — ${role}`;
+    const title = `${name} — ${experience[0].role}`;
     const description = truncateDescription(summary || headline);
-    const imageUrl = `${siteUrl}avatar.jpg`;
+    const imageUrl = `${environment.siteUrl}avatar.jpg`;
     const imageAlt = `Professional photo of ${name}`;
 
     // S1: Core Open Graph
@@ -23,7 +21,7 @@ export function socialMetaInitializer(): () => void {
     meta.updateTag({ property: 'og:description', content: description });
     meta.updateTag({
       property: 'og:url',
-      content: siteUrl,
+      content: environment.siteUrl,
     });
     meta.updateTag({ property: 'og:type', content: 'profile' });
     meta.updateTag({ property: 'og:site_name', content: name });
