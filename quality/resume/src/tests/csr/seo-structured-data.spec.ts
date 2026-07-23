@@ -65,7 +65,7 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
   test(should.haveJsonLdJobTitle, async ({ resumePage }) => {
     const jsonLd = await getJsonLd(resumePage);
 
-    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.headline);
+    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.experience[0].role);
   });
 
   test(should.haveJsonLdWorksFor, async ({ resumePage }) => {

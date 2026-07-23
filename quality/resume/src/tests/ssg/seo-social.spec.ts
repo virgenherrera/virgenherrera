@@ -15,7 +15,8 @@ test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () =>
     const ogTitle = extractMetaContent(html, 'property', 'og:title');
 
     expect(ogTitle).toBeTruthy();
-    expect(ogTitle!.startsWith(`${PUBLIC_PROFILE.name} — `)).toBe(true);
+    const expectedTitle = `${PUBLIC_PROFILE.name} — ${PUBLIC_PROFILE.experience[0].role}`;
+    expect(ogTitle).toBe(expectedTitle);
   });
 
   test(should.haveOgDescription, async ({ resumePage }) => {

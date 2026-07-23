@@ -11,8 +11,9 @@ export function socialMetaInitializer(): () => void {
 
   return () => {
     const siteUrl = environment.siteUrl;
-    const { name, headline, summary } = profileStore.profile;
-    const title = `${name} — ${headline}`;
+    const { name, headline, summary, experience } = profileStore.profile;
+    const role = experience[0]?.role ?? headline;
+    const title = `${name} — ${role}`;
     const description = truncateDescription(summary || headline);
     const imageUrl = `${siteUrl}avatar.jpg`;
     const imageAlt = `Professional photo of ${name}`;

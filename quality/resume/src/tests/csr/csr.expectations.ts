@@ -83,7 +83,7 @@ export class ClientHydrationExpectations {
   static readonly haveJsonLdUrl = 'have url pointing to the site URL';
   static readonly haveJsonLdImage = 'have image pointing to avatar.jpg';
   static readonly haveJsonLdJobTitle =
-    "have jobTitle matching the profile's headline";
+    'have jobTitle matching the current role from experience';
   static readonly haveJsonLdWorksFor =
     "have worksFor.name matching the current employer's company";
   static readonly haveJsonLdAlumniOf =

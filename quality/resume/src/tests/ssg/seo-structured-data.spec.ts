@@ -67,7 +67,7 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     const html = await resumePage.gotoRaw();
     const jsonLd = extractJsonLd(html) as PersonJsonLd;
 
-    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.headline);
+    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.experience[0].role);
   });
 
   test(should.haveJsonLdWorksFor, async ({ resumePage }) => {

@@ -18,7 +18,8 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     const ogTitle = await resumePage.ogTitle.getAttribute('content');
 
     expect(ogTitle).toBeTruthy();
-    expect(ogTitle!.startsWith(`${PUBLIC_PROFILE.name} — `)).toBe(true);
+    const expectedTitle = `${PUBLIC_PROFILE.name} — ${PUBLIC_PROFILE.experience[0].role}`;
+    expect(ogTitle).toBe(expectedTitle);
   });
 
   test(should.haveOgDescription, async ({ resumePage }) => {
