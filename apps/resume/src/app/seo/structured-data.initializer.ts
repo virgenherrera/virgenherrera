@@ -12,8 +12,7 @@ export function structuredDataInitializer(): () => void {
   return () => {
     const renderer = rendererFactory.createRenderer(null, null);
     const profile = profileStore.profile;
-    const baseHref = doc.querySelector('base')?.getAttribute('href') ?? '/';
-    const siteUrl = `${environment.siteOrigin}${baseHref}`;
+    const siteUrl = environment.siteUrl;
 
     const person: Record<string, unknown> = {
       '@context': 'https://schema.org',

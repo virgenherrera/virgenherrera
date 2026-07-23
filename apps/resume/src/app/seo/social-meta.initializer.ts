@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 
 import { environment } from '../../environments/environment';
@@ -8,12 +7,10 @@ import { truncateDescription } from './seo-meta.initializer';
 
 export function socialMetaInitializer(): () => void {
   const meta = inject(Meta);
-  const doc = inject(DOCUMENT);
   const profileStore = inject(ProfileStore);
 
   return () => {
-    const baseHref = doc.querySelector('base')?.getAttribute('href') ?? '/';
-    const siteUrl = `${environment.siteOrigin}${baseHref}`;
+    const siteUrl = environment.siteUrl;
     const { name, headline, summary } = profileStore.profile;
     const title = `${name} — ${headline}`;
     const description = truncateDescription(summary || headline);
