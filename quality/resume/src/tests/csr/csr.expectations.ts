@@ -76,4 +76,24 @@ export class ClientHydrationExpectations {
     'have og:image:alt and twitter:image:alt containing the profile name';
   static readonly notLeakPiiInSocialMeta =
     'not leak PII (email/phone) in Open Graph or Twitter meta tags';
+  static readonly haveJsonLdScript =
+    'have a JSON-LD script tag after hydration';
+  static readonly havePersonType = 'have @type set to "Person"';
+  static readonly haveJsonLdName = "have name matching the profile's name";
+  static readonly haveJsonLdUrl = 'have url pointing to the site URL';
+  static readonly haveJsonLdImage = 'have image pointing to avatar.jpg';
+  static readonly haveJsonLdJobTitle =
+    "have jobTitle matching the profile's headline";
+  static readonly haveJsonLdWorksFor =
+    "have worksFor.name matching the current employer's company";
+  static readonly haveJsonLdAlumniOf =
+    'have alumniOf as an array matching education entries';
+  static readonly haveJsonLdKnowsAbout =
+    'have knowsAbout as an array of skill names';
+  static readonly haveJsonLdHasCredentialGuarded =
+    'have hasCredential present only when certifications exist';
+  static readonly haveJsonLdKnowsLanguage =
+    'have knowsLanguage as an array of language names';
+  static readonly notLeakPiiInJsonLd =
+    'not leak PII (email/phone) in JSON-LD structured data';
 }

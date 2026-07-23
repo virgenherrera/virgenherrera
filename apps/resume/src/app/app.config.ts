@@ -18,6 +18,7 @@ import { APP_VERSION, APP_COMMIT_SHA } from './version.token';
 import { ResumeTitleStrategy } from './seo/resume-title.strategy';
 import { seoMetaInitializer } from './seo/seo-meta.initializer';
 import { socialMetaInitializer } from './seo/social-meta.initializer';
+import { structuredDataInitializer } from './seo/structured-data.initializer';
 
 function versionMetaInitializer(): () => void {
   const meta = inject(Meta);
@@ -53,6 +54,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: socialMetaInitializer,
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: structuredDataInitializer,
       multi: true,
     },
   ],

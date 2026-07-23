@@ -237,4 +237,8 @@ export class ResumePage {
   get twitterImageAlt(): Locator {
     return this.page.locator('head meta[name="twitter:image:alt"]');
   }
+
+  get jsonLdScript(): Locator {
+    return this.page.locator('head script[type="application/ld+json"]');
+  }
 }
