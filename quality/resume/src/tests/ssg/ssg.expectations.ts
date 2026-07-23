@@ -79,4 +79,6 @@ export class SsgPreRenderExpectations {
     'not leak PII (email/phone) in JSON-LD structured data';
   static readonly matchJsonLdBetweenSsgAndCsr =
     'produce equivalent JSON-LD structured data between SSG and CSR';
+  static readonly matchCanonicalOgUrlAndJsonLdUrl =
+    'have matching canonical link, og:url, and JSON-LD url';
 }

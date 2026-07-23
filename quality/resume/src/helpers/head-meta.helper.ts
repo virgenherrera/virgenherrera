@@ -9,13 +9,13 @@ export function extractMetaContent(
 ): string | null {
   const metaTags = html.match(/<meta\b[^>]*>/gi) ?? [];
   const attrRegex = new RegExp(`${attr}=["']${escapeRegExp(key)}["']`, 'i');
-  const contentRegex = /content=["']([^"']*)["']/i;
+  const contentRegex = /content=(["'])((?:(?!\1).)*)\1/i;
 
   for (const tag of metaTags) {
     if (!attrRegex.test(tag)) continue;
 
     const contentMatch = tag.match(contentRegex);
-    if (contentMatch) return contentMatch[1];
+    if (contentMatch) return contentMatch[2];
   }
 
   return null;
@@ -30,13 +30,13 @@ export function extractTitle(html: string): string | null {
 export function extractLinkHref(html: string, rel: string): string | null {
   const linkTags = html.match(/<link\b[^>]*>/gi) ?? [];
   const relRegex = new RegExp(`rel=["']${escapeRegExp(rel)}["']`, 'i');
-  const hrefRegex = /href=["']([^"']*)["']/i;
+  const hrefRegex = /href=(["'])((?:(?!\1).)*)\1/i;
 
   for (const tag of linkTags) {
     if (!relRegex.test(tag)) continue;
 
     const hrefMatch = tag.match(hrefRegex);
-    if (hrefMatch) return hrefMatch[1];
+    if (hrefMatch) return hrefMatch[2];
   }
 
   return null;

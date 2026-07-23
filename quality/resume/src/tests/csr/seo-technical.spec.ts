@@ -51,6 +51,9 @@ test.describe('IT: CSR Resume page — technical SEO (live DOM)', () => {
 
     expect(locMatches).toHaveLength(1);
     expect(body).toContain(`<loc>${SITE_URL}</loc>`);
+    expect(body).toContain(
+      'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+    );
   });
 
   test(should.haveRobotsMeta, async ({ resumePage }) => {

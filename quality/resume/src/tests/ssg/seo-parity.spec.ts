@@ -1,6 +1,10 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/resume.fixture.js';
-import { extractJsonLd } from '../../helpers/head-meta.helper.js';
+import {
+  extractJsonLd,
+  extractLinkHref,
+  extractMetaContent,
+} from '../../helpers/head-meta.helper.js';
 import { SsgPreRenderExpectations as should } from './ssg.expectations.js';
 
 test.describe('IT: Resume page — SSG/CSR structured data parity', () => {
@@ -18,5 +22,16 @@ test.describe('IT: Resume page — SSG/CSR structured data parity', () => {
 
     expect(csrJsonLd).toBeTruthy();
     expect(csrJsonLd).toEqual(ssgJsonLd);
+  });
+
+  test(should.matchCanonicalOgUrlAndJsonLdUrl, async ({ resumePage }) => {
+    const html = await resumePage.gotoRaw();
+    const canonical = extractLinkHref(html, 'canonical');
+    const ogUrl = extractMetaContent(html, 'property', 'og:url');
+    const jsonLd = extractJsonLd(html) as Record<string, unknown>;
+
+    expect(canonical).toBeTruthy();
+    expect(canonical).toBe(ogUrl);
+    expect(canonical).toBe(jsonLd?.url);
   });
 });

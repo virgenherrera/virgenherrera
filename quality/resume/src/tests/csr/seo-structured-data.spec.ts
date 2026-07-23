@@ -97,6 +97,9 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
     const jsonLd = await getJsonLd(resumePage);
 
     expect(Array.isArray(jsonLd.knowsAbout)).toBe(true);
+    expect(jsonLd.knowsAbout).toHaveLength(
+      PUBLIC_PROFILE.skills.flatMap((category) => category.skills).length,
+    );
   });
 
   test(should.haveJsonLdHasCredentialGuarded, async ({ resumePage }) => {
@@ -117,6 +120,7 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
     const jsonLd = await getJsonLd(resumePage);
 
     expect(Array.isArray(jsonLd.knowsLanguage)).toBe(true);
+    expect(jsonLd.knowsLanguage).toHaveLength(PUBLIC_PROFILE.languages.length);
   });
 
   test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {

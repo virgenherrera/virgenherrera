@@ -28,6 +28,11 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     const jsonLd = extractJsonLd(html);
 
     expect(jsonLd).toBeTruthy();
+
+    const matches =
+      html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>/gi) ??
+      [];
+    expect(matches).toHaveLength(1);
   });
 
   test(should.havePersonType, async ({ resumePage }) => {
@@ -97,6 +102,9 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     const jsonLd = extractJsonLd(html) as PersonJsonLd;
 
     expect(Array.isArray(jsonLd.knowsAbout)).toBe(true);
+    expect(jsonLd.knowsAbout).toHaveLength(
+      PUBLIC_PROFILE.skills.flatMap((category) => category.skills).length,
+    );
   });
 
   test(should.haveJsonLdHasCredentialGuarded, async ({ resumePage }) => {
@@ -119,6 +127,7 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     const jsonLd = extractJsonLd(html) as PersonJsonLd;
 
     expect(Array.isArray(jsonLd.knowsLanguage)).toBe(true);
+    expect(jsonLd.knowsLanguage).toHaveLength(PUBLIC_PROFILE.languages.length);
   });
 
   test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {
