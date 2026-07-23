@@ -4,7 +4,7 @@ import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 
 import { ProfileStore } from '../stores/profile.store';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ResumeTitleStrategy extends TitleStrategy {
   private readonly title = inject(Title);
   private readonly profileStore = inject(ProfileStore);
