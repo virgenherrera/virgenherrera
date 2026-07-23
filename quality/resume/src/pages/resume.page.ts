@@ -13,6 +13,13 @@ export class ResumePage {
     await this.page.goto(`${BASE_PATH}/`);
   }
 
+  /** Navigates and returns the raw HTTP response body — what crawlers see. */
+  async gotoRaw(): Promise<string> {
+    const response = await this.page.goto(`${BASE_PATH}/`);
+
+    return response!.text();
+  }
+
   async gotoWithHash(hash: string): Promise<void> {
     await this.page.goto(`${BASE_PATH}/#${hash}`);
   }
@@ -157,5 +164,17 @@ export class ResumePage {
 
   get snackbar(): Locator {
     return this.page.locator('text=Invalid link');
+  }
+
+  get metaDescription(): Locator {
+    return this.page.locator('head meta[name="description"]');
+  }
+
+  get metaRobots(): Locator {
+    return this.page.locator('head meta[name="robots"]');
+  }
+
+  get canonicalLink(): Locator {
+    return this.page.locator('head link[rel="canonical"]');
   }
 }

@@ -49,4 +49,15 @@ export class ClientHydrationExpectations {
   static readonly showLinkedInCtaInPublicView =
     'show LinkedIn CTA in public view';
   static readonly showTooltipOnHover = 'show tooltip on action item hover';
+  static readonly haveDynamicTitle =
+    'have dynamic title matching "{name} — {role}"';
+  static readonly haveMetaDescription =
+    'have meta description under 155 chars, prefix of profile summary';
+  static readonly haveCanonicalLink =
+    'have canonical link pointing to the site URL';
+  static readonly serveSitemap = 'serve sitemap.xml with exactly one loc entry';
+  static readonly haveRobotsMeta =
+    'have robots meta allowing indexing and following';
+  static readonly notLeakPiiInHead =
+    'not leak PII (email/phone) in prerendered head';
 }

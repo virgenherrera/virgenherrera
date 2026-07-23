@@ -30,4 +30,15 @@ export class SsgPreRenderExpectations {
     'load all page resources without HTTP errors';
   static readonly renderAllImagesSuccessfully =
     'render all images with valid dimensions';
+  static readonly haveDynamicTitle =
+    'have dynamic title matching "{name} — {role}"';
+  static readonly haveMetaDescription =
+    'have meta description under 155 chars, prefix of profile summary';
+  static readonly haveCanonicalLink =
+    'have canonical link pointing to the site URL';
+  static readonly serveSitemap = 'serve sitemap.xml with exactly one loc entry';
+  static readonly haveRobotsMeta =
+    'have robots meta allowing indexing and following';
+  static readonly notLeakPiiInHead =
+    'not leak PII (email/phone) in prerendered head';
 }
