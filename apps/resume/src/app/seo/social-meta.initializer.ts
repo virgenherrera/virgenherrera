@@ -1,19 +1,23 @@
 import { inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 
-import { SITE_BASE_PATH, SITE_ORIGIN } from '../constants/site.constants';
+import { environment } from '../../environments/environment';
 import { ProfileStore } from '../stores/profile.store';
 import { truncateDescription } from './seo-meta.initializer';
 
 export function socialMetaInitializer(): () => void {
   const meta = inject(Meta);
+  const doc = inject(DOCUMENT);
   const profileStore = inject(ProfileStore);
 
   return () => {
+    const baseHref = doc.querySelector('base')?.getAttribute('href') ?? '/';
+    const siteUrl = `${environment.siteOrigin}${baseHref}`;
     const { name, headline, summary } = profileStore.profile;
     const title = `${name} — ${headline}`;
     const description = truncateDescription(summary || headline);
-    const imageUrl = `${SITE_ORIGIN}${SITE_BASE_PATH}avatar.jpg`;
+    const imageUrl = `${siteUrl}avatar.jpg`;
     const imageAlt = `Professional photo of ${name}`;
 
     // S1: Core Open Graph
@@ -21,7 +25,7 @@ export function socialMetaInitializer(): () => void {
     meta.updateTag({ property: 'og:description', content: description });
     meta.updateTag({
       property: 'og:url',
-      content: `${SITE_ORIGIN}${SITE_BASE_PATH}`,
+      content: siteUrl,
     });
     meta.updateTag({ property: 'og:type', content: 'profile' });
     meta.updateTag({ property: 'og:site_name', content: name });

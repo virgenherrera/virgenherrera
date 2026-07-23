@@ -1,19 +1,19 @@
-import { inject } from '@angular/core';
+import { inject, RendererFactory2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { RendererFactory2 } from '@angular/core';
 
-import { SITE_BASE_PATH, SITE_ORIGIN } from '../constants/site.constants';
+import { environment } from '../../environments/environment';
 import { ProfileStore } from '../stores/profile.store';
 
 export function structuredDataInitializer(): () => void {
   const rendererFactory = inject(RendererFactory2);
-  const document = inject(DOCUMENT);
+  const doc = inject(DOCUMENT);
   const profileStore = inject(ProfileStore);
 
   return () => {
     const renderer = rendererFactory.createRenderer(null, null);
     const profile = profileStore.profile;
-    const siteUrl = `${SITE_ORIGIN}${SITE_BASE_PATH}`;
+    const baseHref = doc.querySelector('base')?.getAttribute('href') ?? '/';
+    const siteUrl = `${environment.siteOrigin}${baseHref}`;
 
     const person: Record<string, unknown> = {
       '@context': 'https://schema.org',
@@ -69,7 +69,7 @@ export function structuredDataInitializer(): () => void {
     // (hydration) — the prerendered <script> survives hydration since it
     // isn't Angular-managed content, so without this guard the client run
     // would append a second, duplicate <script> tag.
-    const existing = document.head.querySelector(
+    const existing = doc.head.querySelector(
       'script[type="application/ld+json"]',
     );
 
@@ -82,6 +82,6 @@ export function structuredDataInitializer(): () => void {
     const script = renderer.createElement('script');
     renderer.setAttribute(script, 'type', 'application/ld+json');
     renderer.appendChild(script, renderer.createText(JSON.stringify(person)));
-    renderer.appendChild(document.head, script);
+    renderer.appendChild(doc.head, script);
   };
 }
