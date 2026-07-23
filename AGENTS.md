@@ -99,7 +99,77 @@ Antes de lanzar un sub-agente, preguntar: ¿necesita RAZONAR, IMPLEMENTAR o BUSC
 
 Con 6+ agentes, la disciplina de niveles multiplica los ahorros. Nunca quemar opus en un grep.
 
+## Patrón Orquestador-Minion
+
+Patrón de coordinación en sistemas distribuidos donde un único orquestador descompone el trabajo en unidades discretas, delega cada una a trabajadores sin estado (minions), recopila y valida resultados, y gestiona el estado del flujo de trabajo. El orquestador mantiene el plan de ejecución y el contexto global; los trabajadores no conocen nada más allá de su asignación actual. Esto centraliza el flujo de control (a diferencia de la coreografía, donde los pares se coordinan mediante eventos). Catalogado formalmente como "Master-Slave" en POSA Vol. 1 (Buschmann et al., 1996); instanciado en MapReduce (Dean & Ghemawat, 2004), Sagas (Garcia-Molina, 1987), Process Manager (Hohpe & Woolf, 2003) y Temporal.io.
+
+**Incident tag (2026-07-23):** Primera ejecución del patrón orquestador-minion (PR #55, RAG docs). El handoff sirvió como contrato efectivo, pero el patrón no estaba definido formalmente en AGENTS.md. El orquestador improvisó la estructura del briefing basándose en archivos de configuración global y principios ad hoc. Sin definición canónica, cada sesión reinventa el formato de delegación.
+
+### Principios
+
+1. **Control centralizado, ejecución distribuida** — el orquestador es dueño del DAG; los trabajadores son dueños solo de su unidad asignada
+2. **Trabajadores sin estado** — los trabajadores no retienen memoria entre invocaciones; todo contexto llega en el briefing; esto habilita escalamiento, reemplazo y desacoplamiento
+3. **Briefings autocontenidos** — cada delegación lleva todo lo que el trabajador necesita; el trabajador nunca busca su propio contexto
+4. **Ejecución idempotente** — los trabajadores producen la misma salida para la misma entrada; entrega al-menos-una-vez + trabajadores idempotentes = semántica efectivamente exactamente-una-vez
+5. **Orquestador como fuente única de verdad** — el estado global vive exclusivamente en el orquestador o en su almacén durable, nunca distribuido entre trabajadores
+6. **Quality gates explícitos** — el orquestador valida cada resultado contra un contrato antes de incorporarlo; "se ve bien" no es verificación
+7. **El orquestador nunca ejecuta** — descompone, asigna y agrega; ejecutar trabajo sustantivo por sí mismo infla el contexto y crea un cuello de botella
+8. **Inyectar reglas como texto, no como rutas** — los trabajadores reciben reglas pre-digeridas en su briefing; nunca leen archivos de configuración, registros ni definiciones de skills; esto hace las delegaciones resistentes a compactación y elimina overhead de descubrimiento
+
+### Contrato de Briefing
+
+Cada delegación del orquestador al trabajador DEBE incluir estos elementos. Un briefing incompleto transfiere la carga de descubrimiento al trabajador, violando el principio de briefings autocontenidos.
+
+| Elemento         | Descripción                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| Task ID          | Identificador único para deduplicación y seguimiento de reintentos                                     |
+| Input payload    | Todos los datos requeridos, completamente resueltos (sin referencias que el trabajador deba perseguir) |
+| Output schema    | Estructura exacta del resultado esperado                                                               |
+| Scope boundaries | Qué está dentro del alcance Y qué no lo está                                                           |
+| Done criteria    | Condición de parada explícita                                                                          |
+| Constraints      | Timeout, límites de recursos, política de reintentos                                                   |
+| Context          | Subconjunto mínimo relevante del estado global (no el estado completo)                                 |
+
+El principio de inyección aplica a todo artefacto de contexto: reglas del proyecto, convenciones de código, axiomas de arquitectura y estándares de calidad se copian como texto literal en el briefing. El trabajador no tiene acceso al registro de origen ni responsabilidad de buscarlo.
+
+### Contrato de Resultado
+
+Cada respuesta del trabajador al orquestador DEBE conformarse a esta estructura. El orquestador rechaza resultados que no cumplan el contrato.
+
+| Elemento  | Descripción                                                     |
+| --------- | --------------------------------------------------------------- |
+| Task ID   | Devuelto para correlación con el briefing original              |
+| Status    | success / failure / partial                                     |
+| Payload   | Salida estructurada conforme al schema solicitado               |
+| Errors    | Tipificados (transitorio vs permanente) con mensaje descriptivo |
+| Metadata  | Duración, consumo de recursos, señales de confianza             |
+| Artifacts | Salidas concretas e inspeccionables (no resúmenes vagos)        |
+
+### Anti-Patrones de Orquestación
+
+1. **Orquestador verboso** — pasar contexto parcial, forzando al trabajador a solicitar más información; viola el principio de briefings autocontenidos
+2. **Trabajadores con estado** — cachear datos entre invocaciones crea acoplamiento oculto e impide el reemplazo de trabajadores
+3. **Orquestador como ejecutor** — realizar trabajo sustantivo infla el contexto del orquestador y crea un cuello de botella; equivale a un Process Manager que ejecuta actividades en lugar de coordinarlas
+4. **Resultados sin validar** — aceptar la salida sin verificación contra el contrato propaga errores aguas abajo
+5. **Orden implícito** — depender del timing de ejecución en lugar de dependencias explícitas del DAG
+6. **Briefings inflados** — enviar el estado global completo en lugar del subconjunto mínimo relevante; aumenta el costo de procesamiento sin aportar valor
+7. **Descomposición teléfono-descompuesto** — dividir por tipo de problema (planificación/implementación/testing) en lugar de por fronteras de contexto; cada salto entre trabajadores pierde fidelidad
+
+### Referencias
+
+| Fuente                                           | Contribución                                                          |
+| ------------------------------------------------ | --------------------------------------------------------------------- |
+| Buschmann et al., _POSA Vol. 1_ (1996)           | Primera entrada formal en catálogo de patrones (Master-Slave)         |
+| Garcia-Molina & Salem, SIGMOD '87                | Sagas — transacciones compensatorias orquestadas                      |
+| Dean & Ghemawat, OSDI '04                        | MapReduce — master-worker canónico a gran escala                      |
+| Hohpe & Woolf, _EIP_ (2003)                      | Patrón Process Manager en mensajería                                  |
+| Richardson, _Microservices Patterns_ (2018)      | Formalización del saga de orquestación                                |
+| Temporal.io docs                                 | Ejecución durable: orquestador determinista + trabajadores sin estado |
+| Anthropic, "Building Multi-Agent Systems" (2025) | Orquestador-trabajador como patrón central multi-agente               |
+
 ## Protocolo de Orquestación
+
+Este protocolo implementa el patrón definido en [Patrón Orquestador-Minion](#patrón-orquestador-minion).
 
 ### Principio de Orquestador Puro
 
