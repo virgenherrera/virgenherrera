@@ -41,6 +41,10 @@ export const appConfig: ApplicationConfig = {
     { provide: HUB_ACTIONS, useClass: DownloadPdfAction, multi: true },
     ...provideCtaActions(),
     { provide: TitleStrategy, useClass: ResumeTitleStrategy },
+    // TD-SEO-001: APP_INITIALIZER is deprecated since Angular 19.
+    // Replace with provideAppInitializer(fn()).
+    // https://angular.dev/api/core/APP_INITIALIZER
+    // https://angular.dev/api/core/provideAppInitializer
     {
       provide: APP_INITIALIZER,
       useFactory: versionMetaInitializer,
