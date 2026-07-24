@@ -57,6 +57,13 @@ Los orquestadores DEBEN inyectar estas reglas de forma literal en cada prompt de
 - PROHIBIDO: valores CSS hardcodeados — siempre `var(--vh-*)`.
 - PROHIBIDO: imports estáticos de bibliotecas con carga diferida.
 
+**ECHO-GUARD:**
+
+- PROHIBIDO: ejecutar `test:e2e` o `playwright test` sin `pnpm run build` previo en la misma sesión.
+- OBLIGATORIO: pipeline canónico es `setup(0) → build(1) → static(2) → dynamic(3) → e2e(4)`. Nunca reordenar.
+- OBLIGATORIO: verificar que `artifacts/resume/virgenherrera/index.html` existe antes de cualquier operación E2E.
+- PROHIBIDO: asumir que `artifacts/` tiene contenido válido de una ejecución anterior. Build fresco antes de E2E.
+
 Violación → kill inmediato. No se otorga segundo intento sobre la misma violación.
 
 ## Protocolo Anti-Racionalización
@@ -99,7 +106,77 @@ Antes de lanzar un sub-agente, preguntar: ¿necesita RAZONAR, IMPLEMENTAR o BUSC
 
 Con 6+ agentes, la disciplina de niveles multiplica los ahorros. Nunca quemar opus en un grep.
 
+## Patrón Orquestador-Minion
+
+Patrón de coordinación en sistemas distribuidos donde un único orquestador descompone el trabajo en unidades discretas, delega cada una a trabajadores sin estado (minions), recopila y valida resultados, y gestiona el estado del flujo de trabajo. El orquestador mantiene el plan de ejecución y el contexto global; los trabajadores no conocen nada más allá de su asignación actual. Esto centraliza el flujo de control (a diferencia de la coreografía, donde los pares se coordinan mediante eventos). Catalogado formalmente como "Master-Slave" en POSA Vol. 1 (Buschmann et al., 1996); instanciado en MapReduce (Dean & Ghemawat, 2004), Sagas (Garcia-Molina, 1987), Process Manager (Hohpe & Woolf, 2003) y Temporal.io.
+
+**Incident tag (2026-07-23):** Primera ejecución del patrón orquestador-minion (PR #55, RAG docs). El handoff sirvió como contrato efectivo, pero el patrón no estaba definido formalmente en AGENTS.md. El orquestador improvisó la estructura del briefing basándose en archivos de configuración global y principios ad hoc. Sin definición canónica, cada sesión reinventa el formato de delegación.
+
+### Principios
+
+1. **Control centralizado, ejecución distribuida** — el orquestador es dueño del DAG; los trabajadores son dueños solo de su unidad asignada
+2. **Trabajadores sin estado** — los trabajadores no retienen memoria entre invocaciones; todo contexto llega en el briefing; esto habilita escalamiento, reemplazo y desacoplamiento
+3. **Briefings autocontenidos** — cada delegación lleva todo lo que el trabajador necesita; el trabajador nunca busca su propio contexto
+4. **Ejecución idempotente** — los trabajadores producen la misma salida para la misma entrada; entrega al-menos-una-vez + trabajadores idempotentes = semántica efectivamente exactamente-una-vez
+5. **Orquestador como fuente única de verdad** — el estado global vive exclusivamente en el orquestador o en su almacén durable, nunca distribuido entre trabajadores
+6. **Quality gates explícitos** — el orquestador valida cada resultado contra un contrato antes de incorporarlo; "se ve bien" no es verificación
+7. **El orquestador nunca ejecuta** — descompone, asigna y agrega; ejecutar trabajo sustantivo por sí mismo infla el contexto y crea un cuello de botella
+8. **Inyectar reglas como texto, no como rutas** — los trabajadores reciben reglas pre-digeridas en su briefing; nunca leen archivos de configuración, registros ni definiciones de skills; esto hace las delegaciones resistentes a compactación y elimina overhead de descubrimiento
+
+### Contrato de Briefing
+
+Cada delegación del orquestador al trabajador DEBE incluir estos elementos. Un briefing incompleto transfiere la carga de descubrimiento al trabajador, violando el principio de briefings autocontenidos.
+
+| Elemento         | Descripción                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| Task ID          | Identificador único para deduplicación y seguimiento de reintentos                                     |
+| Input payload    | Todos los datos requeridos, completamente resueltos (sin referencias que el trabajador deba perseguir) |
+| Output schema    | Estructura exacta del resultado esperado                                                               |
+| Scope boundaries | Qué está dentro del alcance Y qué no lo está                                                           |
+| Done criteria    | Condición de parada explícita                                                                          |
+| Constraints      | Timeout, límites de recursos, política de reintentos                                                   |
+| Context          | Subconjunto mínimo relevante del estado global (no el estado completo)                                 |
+
+El principio de inyección aplica a todo artefacto de contexto: reglas del proyecto, convenciones de código, axiomas de arquitectura y estándares de calidad se copian como texto literal en el briefing. El trabajador no tiene acceso al registro de origen ni responsabilidad de buscarlo.
+
+### Contrato de Resultado
+
+Cada respuesta del trabajador al orquestador DEBE conformarse a esta estructura. El orquestador rechaza resultados que no cumplan el contrato.
+
+| Elemento  | Descripción                                                     |
+| --------- | --------------------------------------------------------------- |
+| Task ID   | Devuelto para correlación con el briefing original              |
+| Status    | success / failure / partial                                     |
+| Payload   | Salida estructurada conforme al schema solicitado               |
+| Errors    | Tipificados (transitorio vs permanente) con mensaje descriptivo |
+| Metadata  | Duración, consumo de recursos, señales de confianza             |
+| Artifacts | Salidas concretas e inspeccionables (no resúmenes vagos)        |
+
+### Anti-Patrones de Orquestación
+
+1. **Orquestador verboso** — pasar contexto parcial, forzando al trabajador a solicitar más información; viola el principio de briefings autocontenidos
+2. **Trabajadores con estado** — cachear datos entre invocaciones crea acoplamiento oculto e impide el reemplazo de trabajadores
+3. **Orquestador como ejecutor** — realizar trabajo sustantivo infla el contexto del orquestador y crea un cuello de botella; equivale a un Process Manager que ejecuta actividades en lugar de coordinarlas
+4. **Resultados sin validar** — aceptar la salida sin verificación contra el contrato propaga errores aguas abajo
+5. **Orden implícito** — depender del timing de ejecución en lugar de dependencias explícitas del DAG
+6. **Briefings inflados** — enviar el estado global completo en lugar del subconjunto mínimo relevante; aumenta el costo de procesamiento sin aportar valor
+7. **Descomposición teléfono-descompuesto** — dividir por tipo de problema (planificación/implementación/testing) en lugar de por fronteras de contexto; cada salto entre trabajadores pierde fidelidad
+
+### Referencias
+
+| Fuente                                           | Contribución                                                          |
+| ------------------------------------------------ | --------------------------------------------------------------------- |
+| Buschmann et al., _POSA Vol. 1_ (1996)           | Primera entrada formal en catálogo de patrones (Master-Slave)         |
+| Garcia-Molina & Salem, SIGMOD '87                | Sagas — transacciones compensatorias orquestadas                      |
+| Dean & Ghemawat, OSDI '04                        | MapReduce — master-worker canónico a gran escala                      |
+| Hohpe & Woolf, _EIP_ (2003)                      | Patrón Process Manager en mensajería                                  |
+| Richardson, _Microservices Patterns_ (2018)      | Formalización del saga de orquestación                                |
+| Temporal.io docs                                 | Ejecución durable: orquestador determinista + trabajadores sin estado |
+| Anthropic, "Building Multi-Agent Systems" (2025) | Orquestador-trabajador como patrón central multi-agente               |
+
 ## Protocolo de Orquestación
+
+Este protocolo implementa el patrón definido en [Patrón Orquestador-Minion](#patrón-orquestador-minion).
 
 ### Principio de Orquestador Puro
 
@@ -236,8 +313,8 @@ Gates mínimos requeridos para cualquier tarea:
 | Gate                  | Comando                                     | Tipo |
 | --------------------- | ------------------------------------------- | ---- |
 | Handoff existe        | `eza .tmp-*-handoff.md` (exit 0)            | EXE  |
-| Lint limpio           | `pnpm test:static`                          | EXE  |
-| Tipos limpios         | `pnpm test:types`                           | EXE  |
+| Lint limpio           | `pnpm run test:static`                      | EXE  |
+| E2E green             | `pnpm run build && pnpm run test:e2e`       | EXE  |
 | Sin efectos laterales | `git diff --stat` (solo archivos esperados) | EXE  |
 
 ### Incident Tags
@@ -270,13 +347,69 @@ Los hooks de pre-commit y pre-push pueden deshabilitarse durante iteracion local
 
 | Gate              | Verificacion                                                           | Obligatoriedad      |
 | ----------------- | ---------------------------------------------------------------------- | ------------------- |
-| Lint limpio       | `pnpm test:static`                                                     | Obligatorio para PR |
-| Tipos limpios     | `pnpm test:types`                                                      | Obligatorio para PR |
-| E2E local green   | `pnpm test:e2e` (suite completa)                                       | Obligatorio para PR |
+| Lint limpio       | `pnpm run test:static`                                                 | Obligatorio para PR |
+| E2E local green   | `pnpm run build && pnpm run test:e2e` (suite completa)                 | Obligatorio para PR |
 | CI green          | Todos los checks de GitHub Actions en estado `success`                 | Obligatorio para PR |
 | Visual regression | Baselines de screenshot sin sufijo de plataforma, tolerancia calibrada | Obligatorio para PR |
 
 **Diferencia clave:** Entre commits, los hooks pueden omitirse para velocidad de iteracion. Para PR, cada gate es un hard stop. Un PR con CI rojo no se mergea — punto.
+
+## Sistema de Ecos (Echo System)
+
+**Incident tag (2026-07-23):** Un agente ejecutó `pnpm test:e2e` sin `build` previo durante la épica SEO Tech Debt. Phase 1 E2E fue falso positivo (artifacts de un build anterior). Phase 2 E2E falló contra artifacts stale. Causa raíz: pipeline no documentado + scripts inconsistentes con el canon + agentes sin memoria del pipeline.
+
+### Pipeline Canónico
+
+```text
+0. setup    → install deps (pnpm install)
+1. build    → packages emit, Angular PROD, artifacts generados
+2. static   → lint (eslint) + format (prettier) + types (tsc --noEmit)
+3. dynamic  → unit tests (jest)
+4. e2e      → Playwright (requiere artifacts de paso 1)
+```
+
+### Invariantes
+
+1. **Nunca reordenar** — un contexto puede SKIP pasos pero nunca cambiar el orden relativo
+2. **Prerequisitos** — paso 4 (e2e) REQUIERE paso 1 (build). Sin excepción. Sin "ya tengo artifacts de antes"
+3. **Sin pasos fantasma** — cada paso del pipeline corresponde a un script pnpm concreto
+4. **Build fresco** — nunca asumir que `artifacts/` tiene contenido válido de una ejecución anterior. Si se necesita e2e, ejecutar build primero
+
+### Contextos de Ejecución
+
+Los 6 contextos implementan subsets del pipeline canónico. Pueden SKIP pasos pero NUNCA cambiar el orden.
+
+| #   | Contexto   | Steps            | Notas                                                  |
+| --- | ---------- | ---------------- | ------------------------------------------------------ |
+| A   | Dev Setup  | 0                | Solo install                                           |
+| B   | pre-commit | 2(parcial)+3     | lintStaged + unit. Sin build (velocidad)               |
+| C   | pre-push   | 1+4              | build + e2e. Static/unit cubiertos por pre-commit      |
+| D   | CI         | 0+1+2+3+4        | Pipeline completo, canon estricto, secuencial          |
+| E   | bumpDeps   | 0+1+2+3+4        | Usa root `test` (pipeline completo) + ncu doctor       |
+| F   | CD         | 0+1+deploy+smoke | Sin tests — confía en CI del PR. Agrega deploy + smoke |
+
+### Mapping de Scripts
+
+| Paso canon | Script root             | Script workspace                         |
+| ---------- | ----------------------- | ---------------------------------------- |
+| 0. setup   | `pnpm install`          | —                                        |
+| 1. build   | `pnpm run build`        | `build` (if-present)                     |
+| 2. static  | `pnpm run test:static`  | `test:static` = eslint + prettier + tsc  |
+| 3. dynamic | `pnpm run test:dynamic` | `test:dynamic` = `test:unit`             |
+| 4. e2e     | `pnpm run test:e2e`     | `test:e2e` (if-present, workspace-owned) |
+
+### Sistema de Artifacts
+
+`artifacts/` es el directorio centralizado de outputs del paso 1 (build). Los tests E2E sirven archivos pre-construidos desde este directorio — no ejecutan un build propio.
+
+```text
+artifacts/
+└── resume/
+    └── virgenherrera/
+        └── index.html    ← prerendered Angular SSG
+```
+
+**Regla**: si `artifacts/` no contiene archivos válidos, los tests E2E DEBEN fallar con un mensaje claro indicando que se requiere `pnpm run build` primero. Nunca correr e2e contra contenido stale ni reconstruir silenciosamente.
 
 ## Handoff
 

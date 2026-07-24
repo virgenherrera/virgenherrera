@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:doctor": "pnpm run test:static && pnpm run test:types",
-    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
-    "test:types": "tsc --noEmit",
+    "test:doctor": "pnpm run test:static",
+    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck && tsc --noEmit",
+    "pretest:e2e": "test -f ../../artifacts/resume/virgenherrera/index.html || (echo 'ERROR: Build artifacts not found. Run pnpm run build first (echo system: step 1 before step 4).' >&2 && exit 1)",
     "test:e2e": "playwright test",
     "test:dynamic": "pnpm run test:e2e",
     "eslintCheck": "eslint .",
