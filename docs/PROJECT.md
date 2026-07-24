@@ -65,3 +65,24 @@ Importing `@vh/profile/data` or `@vh/profile/server` from `apps/resume` (browser
 | RAG embedder never ships to apps                                | `src/rag/embedder.ts` loads the all-MiniLM-L6-v2 model (~45MB). Only type-only imports (`ProfileIndex`) may cross into other files — no runtime import from any `apps/*` workspace.                                                              |
 | Content uses registry-controlled slugs                          | Files under `packages/profile/content/` reference skill slugs defined in `content/skills-registry.yaml`. An unknown slug throws at parse time, not at build time.                                                                                |
 | `profileSchema` vs `profileSnapshotSchema` are different shapes | The description transform (raw strings → `DescriptionBlock[]`) in `src/schema.ts` is one-way and non-idempotent. Re-running `profileSchema.parse()` on already-transformed data fails. Use `profileSnapshotSchema` for pre-parsed/snapshot data. |
+
+## Technical Debt Convention
+
+Source of truth for TD is **source code** (`rg 'TODO: TD-'`), not external trackers.
+
+### Format
+
+```typescript
+// TODO: TD-{SCOPE}-{NNN} — one-line description
+// CONTEXT: why this is debt right now
+// RESOLVE: how to fix it correctly
+```
+
+| Rule              | Detail                                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| Line 1            | Mandatory. `rg`-searchable. ID + description.                                            |
+| CONTEXT / RESOLVE | Optional — use for non-trivial TD only.                                                  |
+| SCOPE             | Workspace: `PROFILE`, `DS`, `RESUME`, `README`                                           |
+| Numbering         | Sequential per scope, zero-padded 3 digits                                               |
+| On resolution     | **Delete the entire block.** Do not mark "RESOLVED" — that is noise.                     |
+| History           | `git blame` has the commit that introduced and resolved each TD. No TICKET field needed. |

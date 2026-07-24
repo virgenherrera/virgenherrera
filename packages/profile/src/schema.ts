@@ -1,7 +1,9 @@
 import { z } from 'zod';
 import { parseDescription } from './description-block';
 
-// TODO: TD — transform YYYY-MM string into { year: number; month: number } at parse time
+// TODO: TD-PROFILE-001 — transform YYYY-MM string into { year: number; month: number } at parse time
+// CONTEXT: keeping as validated string avoids breaking profileSnapshotSchema consumers
+// RESOLVE: add .transform() to yearMonth (like description → DescriptionBlock[]), update profileSnapshotSchema with parsed shape
 const yearMonth = z
   .string()
   .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected YYYY-MM format');
