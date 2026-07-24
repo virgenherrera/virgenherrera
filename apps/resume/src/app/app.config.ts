@@ -1,7 +1,7 @@
 import {
-  APP_INITIALIZER,
   ApplicationConfig,
   inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -41,29 +41,9 @@ export const appConfig: ApplicationConfig = {
     { provide: HUB_ACTIONS, useClass: DownloadPdfAction, multi: true },
     ...provideCtaActions(),
     { provide: TitleStrategy, useClass: ResumeTitleStrategy },
-    // TD-SEO-001: APP_INITIALIZER is deprecated since Angular 19.
-    // Replace with provideAppInitializer(fn()).
-    // https://angular.dev/api/core/APP_INITIALIZER
-    // https://angular.dev/api/core/provideAppInitializer
-    {
-      provide: APP_INITIALIZER,
-      useFactory: versionMetaInitializer,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: seoMetaInitializer,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: socialMetaInitializer,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: structuredDataInitializer,
-      multi: true,
-    },
+    provideAppInitializer(() => versionMetaInitializer()()),
+    provideAppInitializer(() => seoMetaInitializer()()),
+    provideAppInitializer(() => socialMetaInitializer()()),
+    provideAppInitializer(() => structuredDataInitializer()()),
   ],
 };

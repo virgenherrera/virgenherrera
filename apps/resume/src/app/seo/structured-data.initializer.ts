@@ -12,8 +12,7 @@ export function structuredDataInitializer(): () => void {
   return () => {
     const renderer = rendererFactory.createRenderer(null, null);
     const profile = profileStore.profile;
-    const baseHref = doc.querySelector('base')?.getAttribute('href') ?? '/';
-    const siteUrl = `${environment.siteOrigin}${baseHref}`;
+    const siteUrl = environment.siteUrl;
 
     const person: Record<string, unknown> = {
       '@context': 'https://schema.org',
@@ -22,7 +21,7 @@ export function structuredDataInitializer(): () => void {
       name: profile.name,
       url: siteUrl,
       image: `${siteUrl}avatar.jpg`,
-      jobTitle: profile.headline,
+      jobTitle: profile.experience[0].role,
       description: profile.summary,
     };
 
@@ -62,6 +61,15 @@ export function structuredDataInitializer(): () => void {
     // D6: knowsLanguage (from languages)
     if (profile.languages.length > 0) {
       person['knowsLanguage'] = profile.languages.map((lang) => lang.language);
+    }
+
+    // D7: sameAs (from public profile links)
+    const publicLinks = profile.links
+      .filter((link) => link.visibility === 'public')
+      .map((link) => link.url);
+
+    if (publicLinks.length > 0) {
+      person['sameAs'] = publicLinks;
     }
 
     // Inject via Renderer2 (safe for Angular — innerHTML would be sanitized).

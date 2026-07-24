@@ -18,6 +18,7 @@ interface PersonJsonLd {
   knowsAbout?: string[];
   hasCredential?: { '@type': string; name: string }[];
   knowsLanguage?: string[];
+  sameAs?: string[];
   email?: string;
   telephone?: string;
 }
@@ -65,7 +66,7 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
   test(should.haveJsonLdJobTitle, async ({ resumePage }) => {
     const jsonLd = await getJsonLd(resumePage);
 
-    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.headline);
+    expect(jsonLd.jobTitle).toBe(PUBLIC_PROFILE.experience[0].role);
   });
 
   test(should.haveJsonLdWorksFor, async ({ resumePage }) => {
@@ -121,6 +122,19 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
 
     expect(Array.isArray(jsonLd.knowsLanguage)).toBe(true);
     expect(jsonLd.knowsLanguage).toHaveLength(PUBLIC_PROFILE.languages.length);
+  });
+
+  test(should.haveJsonLdSameAs, async ({ resumePage }) => {
+    const publicLinks = PUBLIC_PROFILE.links
+      .filter((link) => link.visibility === 'public')
+      .map((link) => link.url);
+
+    test.skip(publicLinks.length === 0, 'no public links in profile');
+
+    const jsonLd = await getJsonLd(resumePage);
+
+    expect(Array.isArray(jsonLd.sameAs)).toBe(true);
+    expect(jsonLd.sameAs).toEqual(publicLinks);
   });
 
   test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {

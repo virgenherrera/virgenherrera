@@ -83,7 +83,7 @@ export class ClientHydrationExpectations {
   static readonly haveJsonLdUrl = 'have url pointing to the site URL';
   static readonly haveJsonLdImage = 'have image pointing to avatar.jpg';
   static readonly haveJsonLdJobTitle =
-    "have jobTitle matching the profile's headline";
+    'have jobTitle matching the current role from experience';
   static readonly haveJsonLdWorksFor =
     "have worksFor.name matching the current employer's company";
   static readonly haveJsonLdAlumniOf =
@@ -94,6 +94,8 @@ export class ClientHydrationExpectations {
     'have hasCredential present only when certifications exist';
   static readonly haveJsonLdKnowsLanguage =
     'have knowsLanguage as an array of language names';
+  static readonly haveJsonLdSameAs =
+    'have sameAs as an array of public profile link URLs';
   static readonly notLeakPiiInJsonLd =
     'not leak PII (email/phone) in JSON-LD structured data';
 }
