@@ -2,6 +2,16 @@
 
 Hexagonal architecture. `@vh/profile` is the core/port. Everything else is an adapter.
 
+## Purpose
+
+| Aspect              | Detail                                                                |
+| ------------------- | --------------------------------------------------------------------- |
+| Product             | Personal brand system — one content source, multiple platform outputs |
+| Audience            | Recruiters, potential clients, GitHub visitors                        |
+| Deployed artifacts  | GitHub Pages resume (SSG), GitHub README (generated)                  |
+| Optimization target | SEO, visual quality, content freshness across platforms               |
+| Growth vector       | New adapters (LinkedIn, Indeed, arc.dev) — never new content sources  |
+
 ## Layer Map
 
 | Workspace                | Package             | Role      | Allowed Dependencies                                        |
