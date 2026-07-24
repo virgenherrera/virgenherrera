@@ -306,8 +306,8 @@ Gates mínimos requeridos para cualquier tarea:
 | Gate                  | Comando                                     | Tipo |
 | --------------------- | ------------------------------------------- | ---- |
 | Handoff existe        | `eza .tmp-*-handoff.md` (exit 0)            | EXE  |
-| Lint limpio           | `pnpm test:static`                          | EXE  |
-| Tipos limpios         | `pnpm test:types`                           | EXE  |
+| Lint limpio           | `pnpm run test:static`                      | EXE  |
+| E2E green             | `pnpm run build && pnpm run test:e2e`       | EXE  |
 | Sin efectos laterales | `git diff --stat` (solo archivos esperados) | EXE  |
 
 ### Incident Tags
@@ -340,13 +340,69 @@ Los hooks de pre-commit y pre-push pueden deshabilitarse durante iteracion local
 
 | Gate              | Verificacion                                                           | Obligatoriedad      |
 | ----------------- | ---------------------------------------------------------------------- | ------------------- |
-| Lint limpio       | `pnpm test:static`                                                     | Obligatorio para PR |
-| Tipos limpios     | `pnpm test:types`                                                      | Obligatorio para PR |
-| E2E local green   | `pnpm test:e2e` (suite completa)                                       | Obligatorio para PR |
+| Lint limpio       | `pnpm run test:static`                                                 | Obligatorio para PR |
+| E2E local green   | `pnpm run build && pnpm run test:e2e` (suite completa)                 | Obligatorio para PR |
 | CI green          | Todos los checks de GitHub Actions en estado `success`                 | Obligatorio para PR |
 | Visual regression | Baselines de screenshot sin sufijo de plataforma, tolerancia calibrada | Obligatorio para PR |
 
 **Diferencia clave:** Entre commits, los hooks pueden omitirse para velocidad de iteracion. Para PR, cada gate es un hard stop. Un PR con CI rojo no se mergea — punto.
+
+## Sistema de Ecos (Echo System)
+
+**Incident tag (2026-07-23):** Un agente ejecutó `pnpm test:e2e` sin `build` previo durante la épica SEO Tech Debt. Phase 1 E2E fue falso positivo (artifacts de un build anterior). Phase 2 E2E falló contra artifacts stale. Causa raíz: pipeline no documentado + scripts inconsistentes con el canon + agentes sin memoria del pipeline.
+
+### Pipeline Canónico
+
+```text
+0. setup    → install deps (pnpm install)
+1. build    → packages emit, Angular PROD, artifacts generados
+2. static   → lint (eslint) + format (prettier) + types (tsc --noEmit)
+3. dynamic  → unit tests (jest)
+4. e2e      → Playwright (requiere artifacts de paso 1)
+```
+
+### Invariantes
+
+1. **Nunca reordenar** — un contexto puede SKIP pasos pero nunca cambiar el orden relativo
+2. **Prerequisitos** — paso 4 (e2e) REQUIERE paso 1 (build). Sin excepción. Sin "ya tengo artifacts de antes"
+3. **Sin pasos fantasma** — cada paso del pipeline corresponde a un script pnpm concreto
+4. **Build fresco** — nunca asumir que `artifacts/` tiene contenido válido de una ejecución anterior. Si se necesita e2e, ejecutar build primero
+
+### Contextos de Ejecución
+
+Los 6 contextos implementan subsets del pipeline canónico. Pueden SKIP pasos pero NUNCA cambiar el orden.
+
+| #   | Contexto   | Steps            | Notas                                                  |
+| --- | ---------- | ---------------- | ------------------------------------------------------ |
+| A   | Dev Setup  | 0                | Solo install                                           |
+| B   | pre-commit | 2(parcial)+3     | lintStaged + unit. Sin build (velocidad)               |
+| C   | pre-push   | 1+4              | build + e2e. Static/unit cubiertos por pre-commit      |
+| D   | CI         | 0+1+2+3+4        | Pipeline completo, canon estricto, secuencial          |
+| E   | bumpDeps   | 0+1+2+3+4        | Usa root `test` (pipeline completo) + ncu doctor       |
+| F   | CD         | 0+1+deploy+smoke | Sin tests — confía en CI del PR. Agrega deploy + smoke |
+
+### Mapping de Scripts
+
+| Paso canon | Script root             | Script workspace                         |
+| ---------- | ----------------------- | ---------------------------------------- |
+| 0. setup   | `pnpm install`          | —                                        |
+| 1. build   | `pnpm run build`        | `build` (if-present)                     |
+| 2. static  | `pnpm run test:static`  | `test:static` = eslint + prettier + tsc  |
+| 3. dynamic | `pnpm run test:dynamic` | `test:dynamic` = `test:unit`             |
+| 4. e2e     | `pnpm run test:e2e`     | `test:e2e` (if-present, workspace-owned) |
+
+### Sistema de Artifacts
+
+`artifacts/` es el directorio centralizado de outputs del paso 1 (build). Los tests E2E sirven archivos pre-construidos desde este directorio — no ejecutan un build propio.
+
+```text
+artifacts/
+└── resume/
+    └── virgenherrera/
+        └── index.html    ← prerendered Angular SSG
+```
+
+**Regla**: si `artifacts/` no contiene archivos válidos, los tests E2E DEBEN fallar con un mensaje claro indicando que se requiere `pnpm run build` primero. Nunca correr e2e contra contenido stale ni reconstruir silenciosamente.
 
 ## Handoff
 
