@@ -1,3 +1,6 @@
+// TODO: TD-RESUME-001 — PDF layout is invisible and untestable
+// CONTEXT: jsPDF programmatic render shares zero code with the resume page; layout changes require manual PDF inspection
+// RESOLVE: (1) add Playwright smoke test: trigger download, parse PDF, assert content. (2) long-term: evaluate component-based PDF layout
 import { Injectable } from '@angular/core';
 import type { jsPDF } from 'jspdf';
 import type {
