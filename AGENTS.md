@@ -57,6 +57,13 @@ Los orquestadores DEBEN inyectar estas reglas de forma literal en cada prompt de
 - PROHIBIDO: valores CSS hardcodeados — siempre `var(--vh-*)`.
 - PROHIBIDO: imports estáticos de bibliotecas con carga diferida.
 
+**FORMO-ECHO:**
+
+- PROHIBIDO: ejecutar `test:e2e` o `playwright test` sin `pnpm run build` previo en la misma sesión.
+- OBLIGATORIO: pipeline canónico es `setup(0) → build(1) → static(2) → dynamic(3) → e2e(4)`. Nunca reordenar.
+- OBLIGATORIO: verificar que `artifacts/resume/virgenherrera/index.html` existe antes de cualquier operación E2E.
+- PROHIBIDO: asumir que `artifacts/` tiene contenido válido de una ejecución anterior. Build fresco antes de E2E.
+
 Violación → kill inmediato. No se otorga segundo intento sobre la misma violación.
 
 ## Protocolo Anti-Racionalización
