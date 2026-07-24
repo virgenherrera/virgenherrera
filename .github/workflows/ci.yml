@@ -47,41 +47,9 @@ jobs:
             quality-readme:
               - 'quality/readme/**'
 
-  static-analysis:
-    name: Static Analysis & Types
-    needs: [changes]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/setup
-      - name: test:static
-        run: |
-          pnpm run test:static
-          echo "✅ **test:static** passed" >> $GITHUB_STEP_SUMMARY
-      - name: test:types
-        run: |
-          pnpm run test:types
-          echo "✅ **test:types** passed" >> $GITHUB_STEP_SUMMARY
-
-  unit-tests:
-    name: Unit Tests
-    needs: [changes, static-analysis]
-    if: >-
-      needs.changes.outputs.root-config == 'true' ||
-      needs.changes.outputs.packages-profile == 'true' ||
-      needs.changes.outputs.quality-readme == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/setup
-      - name: test:unit
-        run: |
-          pnpm run test:unit
-          echo "✅ **test:unit** passed" >> $GITHUB_STEP_SUMMARY
-
   build:
     name: Build
-    needs: [changes, static-analysis]
+    needs: [changes]
     if: >-
       needs.changes.outputs.root-config == 'true' ||
       needs.changes.outputs.apps-resume == 'true' ||
@@ -102,15 +70,48 @@ jobs:
           path: artifacts/resume/
           retention-days: 1
 
+  static-analysis:
+    name: Static Analysis
+    needs: [changes, build]
+    if: ${{ !cancelled() && needs.build.result != 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: test:static
+        run: |
+          pnpm run test:static
+          echo "✅ **test:static** passed" >> $GITHUB_STEP_SUMMARY
+
+  unit-tests:
+    name: Unit Tests
+    needs: [changes, static-analysis]
+    if: >-
+      needs.static-analysis.result == 'success' &&
+      (needs.changes.outputs.root-config == 'true' ||
+      needs.changes.outputs.packages-profile == 'true' ||
+      needs.changes.outputs.quality-readme == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: test:unit
+        run: |
+          pnpm run test:unit
+          echo "✅ **test:unit** passed" >> $GITHUB_STEP_SUMMARY
+
   e2e-tests:
     name: E2E Tests
-    needs: [changes, build]
+    needs: [changes, build, unit-tests]
     if: >-
-      needs.changes.outputs.root-config == 'true' ||
+      !cancelled() &&
+      needs.build.result == 'success' &&
+      needs.unit-tests.result != 'failure' &&
+      (needs.changes.outputs.root-config == 'true' ||
       needs.changes.outputs.apps-resume == 'true' ||
       needs.changes.outputs.quality-resume == 'true' ||
       needs.changes.outputs.packages-design-system == 'true' ||
-      needs.changes.outputs.packages-profile == 'true'
+      needs.changes.outputs.packages-profile == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
