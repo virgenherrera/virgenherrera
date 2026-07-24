@@ -4,9 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:doctor": "pnpm run test:static && pnpm run test:types",
-    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck",
-    "test:types": "tsc --noEmit",
+    "test:doctor": "pnpm run test:static",
+    "test:static": "pnpm run eslintCheck && pnpm run prettierCheck && tsc --noEmit",
     "test:e2e": "playwright test",
     "test:dynamic": "pnpm run test:e2e",
     "eslintCheck": "eslint .",
