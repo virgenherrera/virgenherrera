@@ -23,6 +23,7 @@
       @if (showSummaryToggle()) {
         <button
           class="vh-profile-sidebar__about-toggle"
+          [attr.aria-expanded]="summaryExpanded()"
           (click)="toggleSummary()"
         >
           {{ summaryExpanded() ? 'Show less' : 'Show more' }}

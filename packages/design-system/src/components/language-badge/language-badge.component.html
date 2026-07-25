@@ -1,4 +1,4 @@
-<span class="vh-language-badge">
-  <span class="vh-language-badge__name">{{ language() }}</span>
-  <span class="vh-language-badge__proficiency">{{ proficiency() }}</span>
+<span class="vh-language-badge" [attr.aria-label]="language() + ': ' + proficiency()">
+  <span class="vh-language-badge__name" aria-hidden="true">{{ language() }}</span>
+  <span class="vh-language-badge__proficiency" aria-hidden="true">{{ proficiency() }}</span>
 </span>

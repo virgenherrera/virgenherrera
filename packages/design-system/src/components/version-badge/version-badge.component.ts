@@ -3,7 +3,12 @@ import { Component, ViewEncapsulation, input } from '@angular/core';
 @Component({
   selector: 'vh-version-badge',
   standalone: true,
-  template: `<div class="vh-version-badge">{{ version() }}</div>`,
+  template: `<div
+    class="vh-version-badge"
+    [attr.aria-label]="'Version ' + version()"
+  >
+    {{ version() }}
+  </div>`,
   styleUrl: './version-badge.component.css',
   encapsulation: ViewEncapsulation.None,
 })
