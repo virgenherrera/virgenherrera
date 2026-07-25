@@ -7,6 +7,12 @@ type PlaywrightConfig = Parameters<typeof defineConfig>[0];
 
 const WEB_SERVER_TIMEOUT = 10_000;
 
+/** Mobile viewport fixtures — narrowest common breakpoints below the 768px stack threshold. */
+const MOBILE_VIEWPORTS = {
+  se: { width: 375, height: 667 },
+  xr: { width: 414, height: 896 },
+} as const;
+
 function envSchema(configDir: string) {
   const defaultArtifactsDir = resolve(
     configDir,
@@ -107,6 +113,26 @@ function envSchema(configDir: string) {
             name: 'csr',
             testDir: './src/tests/csr',
             use: { ...devices['Desktop Chrome'] },
+          },
+          {
+            name: 'mobile-se',
+            testDir: './src/tests/mobile',
+            use: {
+              ...devices['Desktop Chrome'],
+              viewport: MOBILE_VIEWPORTS.se,
+              isMobile: true,
+              hasTouch: true,
+            },
+          },
+          {
+            name: 'mobile-xr',
+            testDir: './src/tests/mobile',
+            use: {
+              ...devices['Desktop Chrome'],
+              viewport: MOBILE_VIEWPORTS.xr,
+              isMobile: true,
+              hasTouch: true,
+            },
           },
         ],
       };

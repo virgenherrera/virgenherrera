@@ -1,5 +1,8 @@
 name: Continuous Deployment
 
+# TODO: TD-RESUME-004 — no automated CHANGELOG generation
+# RESOLVE: add conventional-changelog or release-please step after version bump
+
 on:
   push:
     branches: [main]

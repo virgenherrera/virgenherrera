@@ -1,8 +1,8 @@
 <div class="vh-skill-group">
   <h3 class="vh-skill-group__label">{{ category() }}</h3>
-  <div class="vh-skill-group__tags">
+  <div class="vh-skill-group__tags" role="list" [attr.aria-label]="category() + ' skills'">
     @for (skill of skills(); track skill) {
-      <vh-tag [label]="skill" size="sm" />
+      <vh-tag role="listitem" [label]="skill" size="sm" />
     }
   </div>
 </div>

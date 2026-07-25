@@ -14,6 +14,6 @@
       (error)="onImageError()"
     />
   } @else {
-    <span class="vh-avatar__fallback">{{ alt() }}</span>
+    <span class="vh-avatar__fallback" role="img" [attr.aria-label]="alt()">{{ alt() }}</span>
   }
 </div>

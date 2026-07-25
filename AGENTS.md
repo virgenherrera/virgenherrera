@@ -2,6 +2,10 @@
 
 Instrucciones para agentes de IA que trabajan en este repositorio.
 
+## Mapa de Arquitectura
+
+Antes de crear un nuevo workspace/adapter, modificar `@vh/profile` (schemas, subpath exports) o tomar cualquier decisión arquitectónica, leer [`docs/PROJECT.md`](docs/PROJECT.md). Ese documento define la capa hexagonal, el límite del puerto y qué decisiones requieren MIM.
+
 ## Convención de Commits
 
 Cada mensaje de commit sigue [Conventional Commits](https://www.conventionalcommits.org/).

@@ -3,6 +3,7 @@
   [href]="url()"
   [attr.target]="targetAttr()"
   [attr.rel]="relAttr()"
+  [attr.aria-label]="targetAttr() === '_blank' ? label() + ' (opens in a new window)' : null"
 >
   @if (iconName()) {
     <vh-icon [name]="iconName()!" />

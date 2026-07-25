@@ -27,6 +27,8 @@ export const WithoutIcon: Story = {
       url: 'https://teslauniverse.com/nikola-tesla/articles',
       target: 'blank',
       visibility: 'public',
+      type: 'portfolio',
+      cta: false,
     },
   },
 };

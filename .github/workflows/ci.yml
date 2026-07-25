@@ -1,5 +1,11 @@
 name: Continuous Integration
 
+# TODO: TD-DS-002 — Storybook build not validated in CI
+# RESOLVE: add job that runs pnpm --filter @vh/design-system run build:storybook
+#
+# TODO: TD-RESUME-003 — no bundle size tracking between PRs
+# RESOLVE: add size-limit or bundlesize step comparing against main baseline
+
 on:
   pull_request:
     branches: [main, develop]

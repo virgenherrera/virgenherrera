@@ -1,3 +1,6 @@
+// TODO: TD-DS-001 — zero unit test coverage across entire design-system
+// CONTEXT: 17 components, 2 directives, 1 pipe, 6 particle-canvas services — none have specs
+// RESOLVE: add Jest + Angular TestBed specs; start with pure pipes/directives, then stateless components
 export {
   AvatarComponent,
   type AvatarSize,

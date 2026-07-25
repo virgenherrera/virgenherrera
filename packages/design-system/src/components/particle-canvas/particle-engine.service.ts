@@ -13,15 +13,6 @@ import { ObserverManager } from './observer-manager.service';
 import { ParticleFactory } from './particle-factory.service';
 import { SpatialIndex } from './spatial-index.service';
 
-// ─── Tech Debt: RESOLVED (PRs #46, #47) ─────────────────────────────────────
-//
-// Origin: adversarial review (69 agents, 5 expert panels) on nest-base.
-// Performance: levels 1-3 implemented; levels 4-5 evaluated and deferred
-// (architecture ready — not beneficial at current scale, verified at 501 particles).
-// Architecture: monolith decomposed into 5 injectable services (see providers).
-//
-// ─────────────────────────────────────────────────────────────────────────────
-
 // ─── Float32Array layout: [x, y, vx, vy, intrinsicRadius, colorIndex, z] ────
 export const FLOATS_PER_DOT = 7;
 
