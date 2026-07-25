@@ -1,3 +1,6 @@
+// TODO: TD-PROFILE-002 — 5 source files lack unit tests
+// CONTEXT: description-block, get-profile, schema, embedder, export have zero test coverage
+// RESOLVE: add Jest specs; prioritize schema.ts (Zod transforms) and description-block.ts (pure functions)
 export {
   profileSchema,
   linkSchema,
