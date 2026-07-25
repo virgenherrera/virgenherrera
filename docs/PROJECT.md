@@ -78,7 +78,7 @@ Importing `@vh/profile/data` or `@vh/profile/server` from `apps/resume` (browser
 
 ## Technical Debt Convention
 
-Source of truth for TD is **source code** (`rg 'TODO: TD-'`), not external trackers.
+Source of truth for TD is **source code** (`rg 'TODO: TD-' --hidden`), not external trackers.
 
 ### Format
 

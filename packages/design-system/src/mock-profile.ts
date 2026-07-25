@@ -197,6 +197,8 @@ const links: LinkData[] = [
     icon: 'patent',
     target: 'blank',
     visibility: 'public',
+    type: 'portfolio',
+    cta: false,
   },
   {
     label: 'Tesla Museum',
@@ -204,12 +206,16 @@ const links: LinkData[] = [
     icon: 'museum',
     target: 'blank',
     visibility: 'public',
+    type: 'professional',
+    cta: false,
   },
   {
     label: 'Publications',
     url: 'https://teslauniverse.com/nikola-tesla/articles',
     target: 'blank',
     visibility: 'public',
+    type: 'portfolio',
+    cta: false,
   },
 ];
 
