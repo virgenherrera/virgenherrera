@@ -15,7 +15,6 @@ const DESKTOP_BREAKPOINT = 768;
   standalone: true,
   host: {
     '[style.position]': '"sticky"',
-    '[style.align-self]': '"start"',
   },
 })
 export class StickyScrollDirective {
@@ -35,10 +34,19 @@ export class StickyScrollDirective {
       let lastScrollY = window.scrollY;
       let currentTop = this.marginTop();
 
-      element.style.top = `${currentTop}px`;
-
-      const onScroll = () => {
+      /**
+       * `align-self: start` opts the sidebar out of the flex container's
+       * default `stretch`, which is required on desktop so the sidebar can
+       * be measured independently of the main column for sticky offset math.
+       * Below the desktop breakpoint the layout stacks (flex-direction:
+       * column), so the sidebar must keep the default stretch behavior to
+       * fill the available inline size — otherwise it shrinks to a
+       * fit-content width that can overflow the viewport.
+       */
+      const syncLayout = () => {
         const isDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
+
+        element.style.alignSelf = isDesktop ? 'start' : '';
 
         if (!isDesktop) {
           element.style.top = '';
@@ -68,15 +76,19 @@ export class StickyScrollDirective {
         element.style.top = `${currentTop}px`;
       };
 
-      window.addEventListener('scroll', onScroll, { passive: true });
+      syncLayout();
+
+      window.addEventListener('scroll', syncLayout, { passive: true });
+      window.addEventListener('resize', syncLayout, { passive: true });
 
       const resizeObserver = new ResizeObserver(() => {
-        onScroll();
+        syncLayout();
       });
       resizeObserver.observe(element);
 
       this.destroyRef.onDestroy(() => {
-        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('scroll', syncLayout);
+        window.removeEventListener('resize', syncLayout);
         resizeObserver.disconnect();
       });
     });
