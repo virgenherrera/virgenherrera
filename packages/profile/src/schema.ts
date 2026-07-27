@@ -22,6 +22,19 @@ export const linkSchema = z
   })
   .readonly();
 
+export const engagementSchema = z
+  .object({
+    title: z.string().min(1),
+    domain: z.string().min(1).optional(),
+    client: z.string().min(1).optional(),
+    skills: z.array(z.string()).default([]),
+    description: z.array(z.string().min(1)).min(1).transform(parseDescription),
+    technologies: z.array(z.string()).default([]),
+  })
+  .readonly();
+
+export type EngagementData = z.infer<typeof engagementSchema>;
+
 export const experienceSchema = z
   .object({
     company: z.string().min(1),
@@ -30,6 +43,7 @@ export const experienceSchema = z
     endDate: yearMonth.optional(),
     description: z.array(z.string().min(1)).min(1).transform(parseDescription),
     technologies: z.array(z.string().min(1)),
+    engagements: z.array(engagementSchema).optional(),
   })
   .readonly();
 
@@ -140,9 +154,30 @@ const parsedExperienceSchema = z
   })
   .readonly();
 
+const skillStatsSchema = z
+  .object({
+    experiences: z.array(z.string()),
+    projects: z.array(z.string()),
+    years: z.number(),
+  })
+  .readonly();
+
+export const serializedGraphSchema = z
+  .object({
+    bySkill: z.record(z.string(), skillStatsSchema),
+    byExperience: z.record(z.string(), z.array(z.string())),
+    byProject: z.record(z.string(), z.array(z.string())),
+  })
+  .readonly();
+
+export type SerializedProfileGraph = z.infer<typeof serializedGraphSchema>;
+
 export const profileSnapshotSchema = profileObject
   .omit({ email: true, phone: true, experience: true })
-  .extend({ experience: z.array(parsedExperienceSchema).min(1) })
+  .extend({
+    experience: z.array(parsedExperienceSchema).min(1),
+    graph: serializedGraphSchema.optional(),
+  })
   .readonly();
 
 export type ProfileSnapshotData = z.infer<typeof profileSnapshotSchema>;
