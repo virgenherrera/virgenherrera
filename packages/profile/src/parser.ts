@@ -27,6 +27,14 @@ interface RawMeta {
   readonly phone?: string;
 }
 
+interface RawEngagement {
+  readonly title: string;
+  readonly domain?: string;
+  readonly client?: string;
+  readonly description: string[];
+  readonly technologies: string[];
+}
+
 interface RawExperience {
   readonly company: string;
   readonly role: string;
@@ -34,6 +42,7 @@ interface RawExperience {
   readonly endDate?: string;
   readonly description: string[];
   readonly technologies: string[];
+  readonly engagements?: RawEngagement[];
 }
 
 interface RawEducation {
@@ -388,6 +397,46 @@ function parseDescriptionLines(body: string): string[] {
     .filter((line) => line.length > 0);
 }
 
+function parseEngagements(
+  data: Record<string, unknown>,
+  lookup: ReadonlyMap<string, SkillRegistryEntry>,
+  filePath: string,
+): RawEngagement[] | undefined {
+  const raw = data.engagements;
+
+  if (raw === undefined) {
+    return undefined;
+  }
+
+  if (!Array.isArray(raw)) {
+    throw new Error(
+      `parseContent: "${filePath}" field "engagements" must be an array.`,
+    );
+  }
+
+  return raw.map((item, index) => {
+    const context = `${filePath}#engagements[${index}]`;
+    const record = asRecord(item, filePath, `engagements[${index}]`);
+    const slugs = requireStringArray(record, 'skills', context);
+    const technologies = resolveDisplayNames(slugs, lookup, context);
+    const description = requireStringArray(record, 'description', context);
+
+    if (description.length === 0) {
+      throw new Error(
+        `parseContent: "${context}" has an empty "description" — at least one description line is required.`,
+      );
+    }
+
+    return {
+      title: requireString(record, 'title', context),
+      domain: optionalString(record, 'domain'),
+      client: optionalString(record, 'client'),
+      description,
+      technologies,
+    };
+  });
+}
+
 function parseExperienceDir(
   dirPath: string,
   lookup: ReadonlyMap<string, SkillRegistryEntry>,
@@ -398,6 +447,7 @@ function parseExperienceDir(
     const slugs = requireStringArray(data, 'skills', filePath);
     const technologies = resolveDisplayNames(slugs, lookup, filePath);
     const description = parseDescriptionLines(content);
+    const engagements = parseEngagements(data, lookup, filePath);
 
     if (description.length === 0) {
       throw new Error(
@@ -412,6 +462,7 @@ function parseExperienceDir(
       endDate: optionalString(data, 'endDate'),
       description,
       technologies,
+      engagements,
     };
   });
 }

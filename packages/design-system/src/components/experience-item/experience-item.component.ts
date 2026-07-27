@@ -1,5 +1,9 @@
 import { Component, ViewEncapsulation, input, computed } from '@angular/core';
-import type { DescriptionBlock, ExperienceData } from '@vh/profile';
+import type {
+  DescriptionBlock,
+  EngagementData,
+  ExperienceData,
+} from '@vh/profile';
 import { FormatDatePipe } from '../../pipes/format-date.pipe';
 
 export type ExperienceItemVariant = 'full' | 'compact';
@@ -36,6 +40,12 @@ export class ExperienceItemComponent {
     }
 
     return [...blocks];
+  });
+
+  protected readonly engagements = computed<EngagementData[]>(() => {
+    if (this.variant() === 'compact') return [];
+
+    return this.data().engagements ?? [];
   });
 
   protected readonly visibleTechnologies = computed(() => {

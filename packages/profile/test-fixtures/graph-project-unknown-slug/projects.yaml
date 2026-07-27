@@ -1,6 +1,0 @@
-projects:
-  - name: side-project
-    description: "A side project"
-    url: https://example.com/side-project
-    technologies:
-      - this-slug-does-not-exist

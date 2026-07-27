@@ -50,6 +50,7 @@ catalog:
   reflect-metadata: 0.2.2
   rxjs: 7.8.2
   zod: 4.4.3
+  http-server: 14.1.1
   # quality
   '@playwright/test': 1.61.1
   # tooling

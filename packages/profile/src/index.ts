@@ -5,6 +5,7 @@ export {
   profileSchema,
   linkSchema,
   experienceSchema,
+  engagementSchema,
   educationSchema,
   certificationSchema,
   skillCategorySchema,
@@ -13,12 +14,14 @@ export {
   secretsPayloadSchema,
   publicProfileSchema,
   profileSnapshotSchema,
+  serializedGraphSchema,
 } from './schema';
 
 export type {
   ProfileData,
   LinkData,
   ExperienceData,
+  EngagementData,
   EducationData,
   CertificationData,
   SkillCategoryData,
@@ -27,6 +30,7 @@ export type {
   SecretsPayload,
   PublicProfileData,
   ProfileSnapshotData,
+  SerializedProfileGraph,
 } from './schema';
 
 export { parseDescription, type DescriptionBlock } from './description-block';

@@ -28,6 +28,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@huggingface/transformers": "catalog:"
+    "@huggingface/transformers": "catalog:",
+    "memfs": "4.64.0"
   }
 }

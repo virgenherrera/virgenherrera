@@ -28,6 +28,10 @@ interface ExperienceEntry {
   readonly startDate: string;
   readonly endDate?: string;
   readonly skills: string[];
+  readonly engagements: ReadonlyArray<{
+    readonly title: string;
+    readonly skills: string[];
+  }>;
 }
 
 interface ProjectEntry {
@@ -226,6 +230,33 @@ function readSkillSlugs(filePath: string): Set<string> {
   return slugs;
 }
 
+function readEngagements(
+  data: Record<string, unknown>,
+  filePath: string,
+): Array<{ title: string; skills: string[] }> {
+  const raw = data.engagements;
+
+  if (raw === undefined) {
+    return [];
+  }
+
+  if (!Array.isArray(raw)) {
+    throw new Error(
+      `buildProfileGraph: "${filePath}" field "engagements" must be an array.`,
+    );
+  }
+
+  return raw.map((item, index) => {
+    const context = `${filePath}#engagements[${index}]`;
+    const record = asRecord(item, filePath, `engagements[${index}]`);
+
+    return {
+      title: requireString(record, 'title', context),
+      skills: requireStringArray(record, 'skills', context),
+    };
+  });
+}
+
 function readExperiences(dirPath: string): ExperienceEntry[] {
   return readMarkdownFilesSorted(dirPath).map((file) => {
     const filePath = join(dirPath, file);
@@ -236,6 +267,7 @@ function readExperiences(dirPath: string): ExperienceEntry[] {
       startDate: requireString(data, 'startDate', filePath),
       endDate: optionalString(data, 'endDate'),
       skills: requireStringArray(data, 'skills', filePath),
+      engagements: readEngagements(data, filePath),
     };
   });
 }
@@ -268,6 +300,17 @@ function validateSlugs(
         );
       }
     }
+
+    for (const engagement of experience.engagements) {
+      for (const slug of engagement.skills) {
+        if (!validSlugs.has(slug)) {
+          throw new Error(
+            `buildProfileGraph: unknown skill slug "${slug}" referenced by engagement "${engagement.title}" at "${experience.company}". ` +
+              'Add it to content/skills-registry.yaml or fix the typo.',
+          );
+        }
+      }
+    }
   }
 
   for (const project of projects) {
@@ -284,13 +327,24 @@ function validateSlugs(
 
 // ── graph assembly ───────────────────────────────────────────────────────
 
+function dedupe(values: readonly string[]): string[] {
+  return [...new Set(values)];
+}
+
 function buildByExperience(
   experiences: readonly ExperienceEntry[],
 ): Map<string, string[]> {
   const byExperience = new Map<string, string[]>();
 
   for (const experience of experiences) {
-    byExperience.set(experience.company, [...experience.skills]);
+    const engagementSkills = experience.engagements.flatMap(
+      (engagement) => engagement.skills,
+    );
+
+    byExperience.set(
+      experience.company,
+      dedupe([...experience.skills, ...engagementSkills]),
+    );
   }
 
   return byExperience;
@@ -318,8 +372,12 @@ function buildBySkill(
 
   for (const experience of experiences) {
     const interval = toInterval(experience.startDate, experience.endDate);
+    const engagementSkills = experience.engagements.flatMap(
+      (engagement) => engagement.skills,
+    );
+    const allSkills = dedupe([...experience.skills, ...engagementSkills]);
 
-    for (const slug of experience.skills) {
+    for (const slug of allSkills) {
       pushUnique(experiencesBySlug, slug, experience.company);
       pushInterval(intervalsBySlug, slug, interval);
     }

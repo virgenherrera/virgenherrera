@@ -131,7 +131,7 @@ jobs:
       - name: Install Playwright browsers
         run: |
           sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list
-          pnpm dlx playwright install --with-deps chromium
+          pnpm --filter @vh/quality-resume exec playwright install --with-deps chromium
       - name: test:e2e
         run: |
           pnpm run test:e2e

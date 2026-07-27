@@ -6,6 +6,7 @@ import type { jsPDF } from 'jspdf';
 import type {
   CertificationData,
   EducationData,
+  EngagementData,
   ExperienceData,
   LanguageData,
   ProfileData,
@@ -244,6 +245,11 @@ export class PdfGeneratorService {
         }
       }
 
+      if (exp.engagements?.length) {
+        cursorY += SPACER_SM;
+        cursorY = this.renderEngagements(doc, cursorY, exp.engagements);
+      }
+
       if (exp.technologies.length > 0) {
         cursorY += SPACER_SM;
         doc.setTextColor(COLORS.textTech);
@@ -258,6 +264,65 @@ export class PdfGeneratorService {
 
       doc.setTextColor(COLORS.textDefault);
       cursorY += EXPERIENCE_GAP;
+    }
+
+    return cursorY;
+  }
+
+  private renderEngagements(
+    doc: jsPDF,
+    cursorY: number,
+    engagements: readonly EngagementData[],
+  ): number {
+    const engIndent = MARGIN + BULLET_INDENT;
+    const engWidth = CONTENT_WIDTH - BULLET_INDENT;
+
+    for (const eng of engagements) {
+      cursorY = this.checkPageBreak(doc, cursorY, 15);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(FONT_SIZES.small);
+      doc.setTextColor(COLORS.textDefault);
+      doc.text(eng.title, engIndent, cursorY);
+      cursorY += LINE_HEIGHT;
+
+      if (eng.domain || eng.client) {
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(COLORS.textMuted);
+        const meta = [eng.domain, eng.client].filter(Boolean).join(' — ');
+        doc.text(meta, engIndent, cursorY);
+        cursorY += LINE_HEIGHT;
+      }
+
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(COLORS.textBody);
+      for (const block of eng.description) {
+        if (block.type === 'paragraph') {
+          for (const line of block.lines) {
+            cursorY = this.textJustified(
+              doc,
+              cursorY,
+              line,
+              engIndent,
+              engWidth,
+            );
+          }
+        } else {
+          for (const line of block.lines) {
+            cursorY = this.checkPageBreak(doc, cursorY, LINE_HEIGHT);
+            doc.text('•', engIndent + 1, cursorY);
+            cursorY = this.textJustified(
+              doc,
+              cursorY,
+              line,
+              engIndent + BULLET_INDENT,
+              engWidth - BULLET_INDENT,
+            );
+          }
+        }
+      }
+
+      cursorY += SPACER_SM;
     }
 
     return cursorY;
