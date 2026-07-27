@@ -13,9 +13,25 @@ skills:
   - azure
   - azure-functions
   - ci-cd
+engagements:
+  - title: Enterprise AI Conversational Platform
+    domain: Enterprise Operations
+    skills:
+      - nestjs
+      - langchain
+      - openai-api
+      - dotnet-8
+      - azure
+      - angular
+      - react
+      - vue
+      - typescript
+      - nodejs
+    description:
+      - 'Employees manually repeated HR operations (vacation requests, sick leave, feedback, training enrollment) across up to 3 separate internal and external platforms. Built a unified conversational entry point that interprets natural language and executes the appropriate actions automatically.'
+      - '*Designed and built an AI agent orchestration layer with NestJS, LangChain, and the OpenAI API, implementing Retrieval-Augmented Generation (RAG) and function calling to interpret user intent and execute actions against internal and third-party services, replacing manual multi-platform workflows with a single conversational interface.'
+      - '*Designed and built a context engineering service in .NET 8 supporting the RAG pipeline — managing context retrieval for repeated, interrupted, and asynchronous conversational requests; evaluated Rust as the initial candidate, then aligned to corporate governance constraints (.NET or Node.js only), selecting .NET 8 for its performance profile.'
+      - '*Built 3 framework-specific SDKs (React, Angular, Vue) exposing a floating chatbot widget that extracts the Active Directory payload, identifies the user, and forwards an auth token — supporting internal, second-party, and external consumer integrations.'
 ---
 
-Contributed to the design, implementation, and production release of AI-powered integration services that unified 5+ isolated enterprise systems into a single conversational platform, using machine learning and natural language processing, with a strong focus on code quality, scalability, and reliable delivery pipelines.
-*Developed AI-driven microservices using JavaScript, TypeScript, Node.js, NestJS, and LangChain, integrating OpenAI APIs to deliver conversational capabilities in production environments.
-*Implemented a .NET 8 microservice on Azure to support data-intensive processing and conversation context management, while maintaining Node.js as the primary orchestration and integration layer.
-*Designed microservices integration flows that consolidated multiple API endpoints into a single unified endpoint, combining Node.js-based AI orchestration with .NET-based high-performance data processing, and contributing to CI/CD automation, performance optimization, and scalable event-driven architectures.
+Contributed to the design, implementation, and production release of AI-powered integration services that unified 5+ isolated enterprise systems into a single conversational platform, with a strong focus on code quality, scalability, and reliable delivery pipelines.

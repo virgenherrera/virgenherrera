@@ -16,10 +16,33 @@ skills:
   - chai
   - istanbul
   - dotnet
+engagements:
+  - title: Fortune 500 Pharmaceutical — Post-Incident Cloud Modernization
+    domain: Pharmaceutical / Cybersecurity Recovery
+    client: Fortune 500 Pharmaceutical Company
+    skills:
+      - aws-lambda
+      - aws-step-functions
+    description:
+      - "The client's infrastructure was compromised by a catastrophic ransomware attack (2017) that froze all machines simultaneously. The entire technology stack needed to be rebuilt with a cloud-first, decentralized architecture to eliminate single points of failure and prevent future lateral propagation."
+      - '*Co-designed the decentralization strategy — decomposing a monolith into independent microservices with isolated databases, AWS Lambda functions, and Step Functions orchestration — for a Fortune 500 client recovering from a catastrophic infrastructure compromise.'
+      - '*Produced system decomposition proposals, architectural diagrams, and migration strategies under strict post-breach security compartmentalization, delivering architecture guidance within constrained implementation access protocols.'
+  - title: High-Volume User Registration Platform
+    domain: Digital Platform
+    skills:
+      - react
+      - nodejs
+      - apollo-graphql
+      - aws-lambda
+      - aws-sns
+      - dynamodb
+      - mocha
+      - chai
+      - istanbul
+    description:
+      - 'The client needed a scalable platform for processing 100K+ monthly user registrations with reliable email subscription workflows.'
+      - '*Built a high-volume registration platform handling 100K+ monthly sign-ups using React, Node.js, Apollo GraphQL, AWS Lambda, SNS, and DynamoDB.'
+      - '*Established automated test coverage using Mocha, Chai, and Istanbul, hardening reliability for high-volume registration and subscription flows.'
 ---
 
-Contributed to the development of a platform handling 100K+ monthly user registrations, focused on streamlining core business operations such as user registration and email subscription workflows, with an emphasis on scalability, reliability, and clean architecture.
-*Enhanced core platform features using JavaScript, TypeScript, Node.js, and React as part of a full-stack development team.
-*Supported the adoption of a microservices architecture, utilizing Node.js, serverless React components, and Apollo GraphQL to build scalable and maintainable services.
-*Developed and maintained backend services on AWS, leveraging Lambda, SNS, and DynamoDB to ensure high availability and performance.
-*Participated in testing and quality assurance using Mocha, Chai, and Istanbul, ensuring reliable and well-tested code delivery.
+Contributed to cloud modernization and platform engineering initiatives at EPAM, spanning post-incident infrastructure recovery for a Fortune 500 pharmaceutical client and high-volume platform development for a digital registration service, with an emphasis on scalability, reliability, and clean architecture.
