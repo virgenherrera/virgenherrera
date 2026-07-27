@@ -7,7 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import profileJson from '@profile-data';
-import { profileSnapshotSchema, secretsPayloadSchema } from '@vh/profile';
+import {
+  profileSnapshotSchema,
+  secretsPayloadSchema,
+  type SerializedProfileGraph,
+} from '@vh/profile';
 import { z } from 'zod';
 
 const hashPayloadSchema = z
@@ -34,6 +38,7 @@ export class ProfileStore {
 
     return profileSnapshotSchema.parse(JSON.parse(interpolated));
   })();
+  readonly graph: SerializedProfileGraph | null = this.profile.graph ?? null;
   readonly isPrivateView = signal(false);
   readonly email = signal<string | null>(null);
   readonly phone = signal<string | null>(null);

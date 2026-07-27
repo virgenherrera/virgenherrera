@@ -143,6 +143,17 @@ const descriptionBlockSchema = z.object({
   lines: z.array(z.string().min(1)).min(1),
 });
 
+const parsedEngagementSchema = z
+  .object({
+    title: z.string().min(1),
+    domain: z.string().min(1).optional(),
+    client: z.string().min(1).optional(),
+    skills: z.array(z.string()).default([]),
+    description: z.array(descriptionBlockSchema).min(1),
+    technologies: z.array(z.string()).default([]),
+  })
+  .readonly();
+
 const parsedExperienceSchema = z
   .object({
     company: z.string().min(1),
@@ -151,6 +162,7 @@ const parsedExperienceSchema = z
     endDate: yearMonth.optional(),
     description: z.array(descriptionBlockSchema).min(1),
     technologies: z.array(z.string().min(1)),
+    engagements: z.array(parsedEngagementSchema).optional(),
   })
   .readonly();
 

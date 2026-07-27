@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { parseContent } from './parser';
 
+// TODO: TD-PROFILE-003 — test-fixtures are filesystem-coupled; consider memfs or I/O abstraction
 const FIXTURES_DIR = join(__dirname, '../test-fixtures');
 
 describe('UT: parser', () => {
