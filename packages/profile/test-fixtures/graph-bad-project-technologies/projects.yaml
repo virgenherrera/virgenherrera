@@ -1,7 +1,0 @@
-projects:
-  - name: side-project
-    description: "A side project"
-    url: https://example.com/side-project
-    technologies:
-      - typescript
-      - 42

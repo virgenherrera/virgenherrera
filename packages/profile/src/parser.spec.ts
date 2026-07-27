@@ -1,8 +1,21 @@
-import { join } from 'node:path';
+import { vol } from 'memfs';
 import { parseContent } from './parser';
 
-// TODO: TD-PROFILE-003 — test-fixtures are filesystem-coupled; consider memfs or I/O abstraction
-const FIXTURES_DIR = join(__dirname, '../test-fixtures');
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
+jest.mock('node:fs', () => require('memfs').fs);
+/* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
+
+const ERROR_META = `---
+name: Ada Lovelace
+headline: Senior Fullstack Engineer
+summary: Senior engineer with a decade of experience building scalable systems.
+location: Mexico
+---`;
+
+const ERROR_SKILLS = `skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages`;
 
 describe('UT: parser', () => {
   class should {
@@ -40,11 +53,175 @@ describe('UT: parser', () => {
       'allow an experience with no engagements (backward compat)';
   }
 
+  afterEach(() => vol.reset());
+
   describe('parseContent (valid fixtures)', () => {
-    const contentDir = join(FIXTURES_DIR, 'valid');
+    beforeEach(() => {
+      vol.fromJSON({
+        '/content/meta.md': `---
+name: Ada Lovelace
+headline: Senior Fullstack Engineer | TypeScript | AI Integrations
+summary: Senior engineer with a decade of experience building scalable web and backend systems.
+location: Mexico
+email: ada@example.com
+phone: '+52 555 000 0000'
+---`,
+        '/content/skills-registry.yaml': `skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+  - slug: javascript
+    display: JavaScript
+    category: Languages
+  - slug: nodejs
+    display: Node.js
+    category: Backend Frameworks
+  - slug: nestjs
+    display: NestJS
+    category: Backend Frameworks
+  - slug: langchain
+    display: LangChain
+    category: AI & Integrations
+  - slug: openai-api
+    display: OpenAI API
+    category: AI & Integrations
+  - slug: dotnet-8
+    display: .NET 8
+    category: Backend Frameworks
+  - slug: azure
+    display: Azure
+    category: Cloud & DevOps
+  - slug: azure-functions
+    display: Azure Functions
+    category: Cloud & DevOps
+  - slug: ci-cd
+    display: CI/CD
+    category: Cloud & DevOps
+  - slug: graphql
+    display: GraphQL
+    category: APIs & Protocols
+  - slug: angular
+    display: Angular
+    category: Frontend Frameworks
+  - slug: zod
+    display: Zod
+    category: Architecture & Patterns
+  - slug: playwright
+    display: Playwright
+    category: Testing & QA`,
+        '/content/experience/01-pwc.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+endDate: null
+skills:
+  - typescript
+  - nodejs
+  - nestjs
+  - langchain
+  - openai-api
+  - dotnet-8
+  - azure
+  - azure-functions
+  - ci-cd
+engagements:
+  - title: Enterprise AI Platform
+    domain: Enterprise Operations
+    client: Internal HR Systems
+    skills:
+      - nestjs
+      - langchain
+      - openai-api
+    description:
+      - 'Built a conversational platform automating manual HR workflows.'
+      - '*Designed an AI agent orchestration layer with NestJS and LangChain.'
+      - '*Integrated the OpenAI API for natural language understanding.'
+  - title: Context Engineering Service
+    domain: Platform Infrastructure
+    skills:
+      - dotnet-8
+      - azure
+    description:
+      - 'Built a context engineering service supporting the RAG pipeline.'
+---
+
+Contributed to AI-powered integration services unifying enterprise systems into a conversational platform.
+*Developed AI-driven microservices using TypeScript, Node.js, NestJS, and LangChain.
+*Implemented a .NET 8 microservice on Azure to support data-intensive processing and conversation context management.`,
+        '/content/experience/02-globant.md': `---
+company: Globant
+role: Senior Fullstack Node.js Developer
+startDate: '2021-04'
+endDate: '2024-08'
+skills:
+  - nodejs
+  - typescript
+  - nestjs
+  - graphql
+  - angular
+---
+
+Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, leading a team of 4-6 engineers.
+*Designed and maintained backend services and SDKs using Node.js, TypeScript, and NestJS.
+*Implemented GraphQL APIs within a NestJS architecture, improving API flexibility and developer experience.`,
+        '/content/experience/03-no-tech.md': `---
+company: EPAM Systems
+role: Resources Manager (Leadership Development)
+startDate: '2019-05'
+endDate: '2020-02'
+skills: []
+---
+
+Additional leadership development role alongside primary engineering responsibilities.
+*Acted as point of contact for engineers, supporting career growth and structured feedback.`,
+        '/content/education/01-ual.md': `---
+degree: Licenciatura en Informática Administrativa
+degreeTranslation: B.S. in Management Information Systems
+institution: Universidad América Latina
+location: Guadalajara, Mexico
+startDate: '2018-01'
+graduationDate: '2021-05'
+honors: Graduated with Honors (GPA-based)
+---`,
+        '/content/projects.yaml': `projects:
+  - name: virgenherrera
+    description: "GitHub special profile repo: Angular resume app (SSR/SSG), NestJS-powered README generator, shared design system."
+    url: https://github.com/virgenherrera/virgenherrera
+    technologies:
+      - typescript
+      - angular
+      - nestjs
+      - playwright
+      - zod
+  - name: nest-base
+    description: Starter template for building NestJS 11 HTTP services with typed environment configuration.
+    url: https://github.com/virgenherrera/nest-base
+    technologies:
+      - typescript
+      - nodejs
+      - nestjs
+      - zod`,
+        '/content/links.yaml': `links:
+  - label: GitHub
+    url: https://github.com/virgenherrera
+    icon: gitHub
+    type: social
+    cta: false
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/virgenherrera
+    icon: linkedIn
+    type: professional
+    cta: true`,
+        '/content/languages.yaml': `languages:
+  - language: Spanish
+    proficiency: Native
+  - language: English
+    proficiency: C1`,
+      });
+    });
 
     it(`${should.produceValidProfileData}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
 
       expect(profile.name).toBe('Ada Lovelace');
       expect(profile.headline).toEqual(expect.any(String));
@@ -61,7 +238,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.sortExperienceByNumericPrefix}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
 
       expect(
         profile.experience.map((experience) => experience.company),
@@ -69,7 +246,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.separateFrontmatterAndBody}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const pwc = profile.experience[0];
 
       expect(pwc.startDate).toBe('2024-08');
@@ -78,7 +255,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.produceDescriptionBlocks}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const pwc = profile.experience[0];
 
       expect(pwc.description[0]).toMatchObject({ type: 'paragraph' });
@@ -88,7 +265,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.resolveTechnologyDisplayNames}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const pwc = profile.experience[0];
 
       expect(pwc.technologies).toEqual(
@@ -105,7 +282,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.allowEmptyTechnologies}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const leadership = profile.experience.find((experience) =>
         experience.role.includes('Resources Manager'),
       );
@@ -114,7 +291,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.groupSkillsByCategory}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const languages = profile.skills.find(
         (category) => category.category === 'Languages',
       );
@@ -125,7 +302,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.produceEngagementData}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const pwc = profile.experience[0];
 
       expect(pwc.engagements).toHaveLength(2);
@@ -141,7 +318,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.produceEngagementDescriptionBlocks}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const pwc = profile.experience[0];
       const first = pwc.engagements?.[0];
 
@@ -152,7 +329,7 @@ describe('UT: parser', () => {
     });
 
     it(`${should.allowExperienceWithoutEngagements}`, () => {
-      const profile = parseContent(contentDir);
+      const profile = parseContent('/content');
       const leadership = profile.experience.find((experience) =>
         experience.role.includes('Resources Manager'),
       );
@@ -163,39 +340,110 @@ describe('UT: parser', () => {
 
   describe('parseContent (error handling)', () => {
     it(`${should.throwOnUnknownSlug}`, () => {
-      expect(() => parseContent(join(FIXTURES_DIR, 'invalid-slug'))).toThrow(
+      vol.fromJSON({
+        '/err/meta.md': ERROR_META,
+        '/err/skills-registry.yaml': ERROR_SKILLS,
+        '/err/experience/01-bad.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+skills:
+  - typescript
+  - this-slug-does-not-exist
+---
+
+A description paragraph that has enough content to parse correctly.`,
+      });
+
+      expect(() => parseContent('/err')).toThrow(
         /unknown skill slug "this-slug-does-not-exist"/,
       );
     });
 
     it(`${should.throwOnDuplicateSlug}`, () => {
-      expect(() => parseContent(join(FIXTURES_DIR, 'duplicate-slug'))).toThrow(
+      vol.fromJSON({
+        '/err/skills-registry.yaml': `skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+  - slug: typescript
+    display: TypeScript (duplicate)
+    category: Languages`,
+      });
+
+      expect(() => parseContent('/err')).toThrow(
         /duplicate skill slug "typescript"/,
       );
     });
 
     it(`${should.throwOnMalformedFrontmatter}`, () => {
-      expect(() =>
-        parseContent(join(FIXTURES_DIR, 'malformed-frontmatter')),
-      ).toThrow(/failed to parse frontmatter in ".*meta\.md"/);
+      vol.fromJSON({
+        '/err/meta.md': `---
+name: Ada Lovelace
+headline: [unterminated flow sequence
+summary: Senior engineer.
+location: Mexico
+---`,
+        '/err/skills-registry.yaml': ERROR_SKILLS,
+      });
+
+      expect(() => parseContent('/err')).toThrow(
+        /failed to parse frontmatter in ".*meta\.md"/,
+      );
     });
 
     it(`${should.throwOnMissingFile}`, () => {
-      expect(() => parseContent(join(FIXTURES_DIR, 'missing-meta'))).toThrow(
+      vol.fromJSON({
+        '/err/skills-registry.yaml': ERROR_SKILLS,
+      });
+
+      expect(() => parseContent('/err')).toThrow(
         /unable to read required content file ".*meta\.md"/,
       );
     });
 
     it(`${should.throwOnEngagementsNotArray}`, () => {
-      expect(() =>
-        parseContent(join(FIXTURES_DIR, 'engagement-not-array')),
-      ).toThrow(/field "engagements" must be an array/);
+      vol.fromJSON({
+        '/err/meta.md': ERROR_META,
+        '/err/skills-registry.yaml': ERROR_SKILLS,
+        '/err/experience/01-bad.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+skills:
+  - typescript
+engagements: not-an-array
+---
+
+A description paragraph that has enough content to parse correctly.`,
+      });
+
+      expect(() => parseContent('/err')).toThrow(
+        /field "engagements" must be an array/,
+      );
     });
 
     it(`${should.throwOnEmptyEngagementDescription}`, () => {
-      expect(() =>
-        parseContent(join(FIXTURES_DIR, 'engagement-empty-description')),
-      ).toThrow(/has an empty "description"/);
+      vol.fromJSON({
+        '/err/meta.md': ERROR_META,
+        '/err/skills-registry.yaml': ERROR_SKILLS,
+        '/err/experience/01-bad.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+skills:
+  - typescript
+engagements:
+  - title: Empty Engagement
+    skills:
+      - typescript
+    description: []
+---
+
+A description paragraph that has enough content to parse correctly.`,
+      });
+
+      expect(() => parseContent('/err')).toThrow(/has an empty "description"/);
     });
   });
 });

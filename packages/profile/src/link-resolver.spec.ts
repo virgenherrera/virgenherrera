@@ -1,7 +1,9 @@
-import { join } from 'node:path';
+import { vol } from 'memfs';
 import { buildProfileGraph } from './link-resolver';
 
-const FIXTURES_DIR = join(__dirname, '../test-fixtures');
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
+jest.mock('node:fs', () => require('memfs').fs);
+/* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
 
 describe('UT: link-resolver', () => {
   class should {
@@ -45,8 +47,111 @@ describe('UT: link-resolver', () => {
       'throw a descriptive error when "engagements" is not an array';
   }
 
+  afterEach(() => vol.reset());
+
   describe('buildProfileGraph (valid fixtures)', () => {
-    const contentDir = join(FIXTURES_DIR, 'graph-valid');
+    const contentDir = '/content';
+
+    beforeEach(() => {
+      vol.fromJSON({
+        '/content/skills-registry.yaml': [
+          'skills:',
+          '  - slug: typescript',
+          '    display: TypeScript',
+          '    category: Languages',
+          '  - slug: nodejs',
+          '    display: Node.js',
+          '    category: Backend Frameworks',
+          '  - slug: nestjs',
+          '    display: NestJS',
+          '    category: Backend Frameworks',
+          '  - slug: docker',
+          '    display: Docker',
+          '    category: Cloud & DevOps',
+        ].join('\n'),
+        '/content/experience/01-alpha.md': [
+          '---',
+          'company: AlphaCo',
+          'role: Engineer',
+          "startDate: '2018-01'",
+          "endDate: '2019-01'",
+          'skills:',
+          '  - typescript',
+          '  - nodejs',
+          '---',
+          '',
+          'Worked on the Alpha platform.',
+        ].join('\n'),
+        '/content/experience/02-beta.md': [
+          '---',
+          'company: BetaCo',
+          'role: Engineer',
+          "startDate: '2019-06'",
+          "endDate: '2020-06'",
+          'skills:',
+          '  - typescript',
+          '---',
+          '',
+          'Worked on the Beta platform.',
+        ].join('\n'),
+        '/content/experience/03-gamma.md': [
+          '---',
+          'company: GammaCo',
+          'role: Engineer',
+          "startDate: '2020-01'",
+          "endDate: '2021-01'",
+          'skills:',
+          '  - nodejs',
+          '---',
+          '',
+          'Worked on the Gamma platform.',
+        ].join('\n'),
+        '/content/experience/04-delta.md': [
+          '---',
+          'company: DeltaCo',
+          'role: Engineer',
+          "startDate: '2015-01'",
+          "endDate: '2016-01'",
+          'skills:',
+          '  - nestjs',
+          '---',
+          '',
+          'Worked on the Delta platform.',
+        ].join('\n'),
+        '/content/experience/05-epsilon.md': [
+          '---',
+          'company: EpsilonCo',
+          'role: Engineer',
+          "startDate: '2015-07'",
+          "endDate: '2016-07'",
+          'skills:',
+          '  - nestjs',
+          '---',
+          '',
+          'Worked on the Epsilon platform, overlapping with DeltaCo.',
+        ].join('\n'),
+        '/content/experience/06-zeta.md': [
+          '---',
+          'company: ZetaCo',
+          'role: Engineer',
+          "startDate: '2022-01'",
+          'skills:',
+          '  - docker',
+          '---',
+          '',
+          'Ongoing role, no endDate — years-per-skill must fall back to "now".',
+        ].join('\n'),
+        '/content/projects.yaml': [
+          'projects:',
+          '  - name: side-project',
+          '    description: "A side project"',
+          '    url: https://example.com/side-project',
+          '    technologies:',
+          '      - typescript',
+          '      - docker',
+        ].join('\n'),
+      });
+    });
 
     it(`${should.buildByExperience}`, () => {
       const graph = buildProfileGraph(contentDir);
@@ -115,7 +220,47 @@ describe('UT: link-resolver', () => {
   });
 
   describe('buildProfileGraph (engagement fixtures)', () => {
-    const contentDir = join(FIXTURES_DIR, 'graph-engagement-valid');
+    const contentDir = '/content';
+
+    beforeEach(() => {
+      vol.fromJSON({
+        '/content/skills-registry.yaml': [
+          'skills:',
+          '  - slug: typescript',
+          '    display: TypeScript',
+          '    category: Languages',
+          '  - slug: nodejs',
+          '    display: Node.js',
+          '    category: Backend Frameworks',
+          '  - slug: nestjs',
+          '    display: NestJS',
+          '    category: Backend Frameworks',
+          '  - slug: langchain',
+          '    display: LangChain',
+          '    category: AI & Integrations',
+        ].join('\n'),
+        '/content/experience/01-acme.md': [
+          '---',
+          'company: AcmeCo',
+          'role: Engineer',
+          "startDate: '2020-01'",
+          "endDate: '2021-01'",
+          'skills:',
+          '  - typescript',
+          'engagements:',
+          '  - title: AI Platform',
+          '    skills:',
+          '      - nestjs',
+          '      - langchain',
+          '    description:',
+          "      - 'Built an AI platform.'",
+          '---',
+          '',
+          'Worked on the Acme platform.',
+        ].join('\n'),
+        '/content/projects.yaml': 'projects: []',
+      });
+    });
 
     it(`${should.includeEngagementSkillsInBySkill}`, () => {
       const graph = buildProfileGraph(contentDir);
@@ -146,74 +291,228 @@ describe('UT: link-resolver', () => {
   });
 
   describe('buildProfileGraph (error handling)', () => {
+    const minimalExp = [
+      '---',
+      'company: AlphaCo',
+      'role: Engineer',
+      "startDate: '2018-01'",
+      "endDate: '2019-01'",
+      'skills:',
+      '  - typescript',
+      '---',
+      '',
+      'Worked on the Alpha platform.',
+    ].join('\n');
+
+    const minimalRegistry = [
+      'skills:',
+      '  - slug: typescript',
+      '    display: TypeScript',
+      '    category: Languages',
+    ].join('\n');
+
     it(`${should.throwOnUnknownExperienceSlug}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-invalid-slug')),
-      ).toThrow(/unknown skill slug "this-slug-does-not-exist"/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-bad.md': [
+          '---',
+          'company: BadCo',
+          'role: Engineer',
+          "startDate: '2020-01'",
+          "endDate: '2020-06'",
+          'skills:',
+          '  - typescript',
+          '  - this-slug-does-not-exist',
+          '---',
+          '',
+          'Referenced a skill slug that is not in the registry.',
+        ].join('\n'),
+        '/err/projects.yaml': 'projects: []',
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /unknown skill slug "this-slug-does-not-exist"/,
+      );
     });
 
     it(`${should.throwOnMissingExperienceDir}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-missing-exp-dir')),
-      ).toThrow(/unable to read required content directory ".*experience"/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /unable to read required content directory ".*experience"/,
+      );
     });
 
     it(`${should.throwOnNonObjectRegistry}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-registry-not-object')),
-      ).toThrow(/must be a YAML\/frontmatter object/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': [
+          '- slug: typescript',
+          '  display: TypeScript',
+          '  category: Languages',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /must be a YAML\/frontmatter object/,
+      );
     });
 
     it(`${should.throwOnMalformedRegistryYaml}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-malformed-registry')),
-      ).toThrow(/failed to parse YAML in ".*skills-registry\.yaml"/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': 'skills: [this is: not, valid: yaml',
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /failed to parse YAML in ".*skills-registry\.yaml"/,
+      );
     });
 
     it(`${should.throwOnDuplicateRegistrySlug}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-duplicate-registry')),
-      ).toThrow(/duplicate skill slug "typescript"/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': [
+          'skills:',
+          '  - slug: typescript',
+          '    display: TypeScript',
+          '    category: Languages',
+          '  - slug: typescript',
+          '    display: TypeScript (dup)',
+          '    category: Languages',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /duplicate skill slug "typescript"/,
+      );
     });
 
     it(`${should.throwOnProjectMissingField}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-bad-project-fields')),
-      ).toThrow(/is missing required field "name"/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-alpha.md': minimalExp,
+        '/err/projects.yaml': [
+          'projects:',
+          '  - description: "Missing the required name field"',
+          '    url: https://example.com/side-project',
+          '    technologies:',
+          '      - typescript',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /is missing required field "name"/,
+      );
     });
 
     it(`${should.throwOnProjectBadTechnologyType}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-bad-project-technologies')),
-      ).toThrow(/field "technologies\[1\]" must be a string/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-alpha.md': minimalExp,
+        '/err/projects.yaml': [
+          'projects:',
+          '  - name: side-project',
+          '    description: "A side project"',
+          '    url: https://example.com/side-project',
+          '    technologies:',
+          '      - typescript',
+          '      - 42',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /field "technologies\[1\]" must be a string/,
+      );
     });
 
     it(`${should.throwOnProjectsKeyMissing}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-project-missing-key')),
-      ).toThrow(/must define a top-level "projects" array/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-alpha.md': minimalExp,
+        '/err/projects.yaml': [
+          'items:',
+          '  - name: side-project',
+          '    description: "A side project"',
+          '    url: https://example.com/side-project',
+          '    technologies:',
+          '      - typescript',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /must define a top-level "projects" array/,
+      );
     });
 
     it(`${should.throwOnUnknownProjectSlug}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-project-unknown-slug')),
-      ).toThrow(
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-alpha.md': minimalExp,
+        '/err/projects.yaml': [
+          'projects:',
+          '  - name: side-project',
+          '    description: "A side project"',
+          '    url: https://example.com/side-project',
+          '    technologies:',
+          '      - this-slug-does-not-exist',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
         /unknown skill slug "this-slug-does-not-exist" referenced by project "side-project"/,
       );
     });
 
     it(`${should.throwOnUnknownEngagementSlug}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-engagement-invalid-slug')),
-      ).toThrow(
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-bad.md': [
+          '---',
+          'company: BadCo',
+          'role: Engineer',
+          "startDate: '2020-01'",
+          "endDate: '2021-01'",
+          'skills:',
+          '  - typescript',
+          'engagements:',
+          '  - title: Something',
+          '    skills:',
+          '      - this-slug-does-not-exist',
+          '    description:',
+          "      - 'Some description.'",
+          '---',
+          '',
+          'Body text.',
+        ].join('\n'),
+        '/err/projects.yaml': 'projects: []',
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
         /unknown skill slug "this-slug-does-not-exist" referenced by engagement "Something"/,
       );
     });
 
     it(`${should.throwOnEngagementsNotArray}`, () => {
-      expect(() =>
-        buildProfileGraph(join(FIXTURES_DIR, 'graph-engagement-not-array')),
-      ).toThrow(/field "engagements" must be an array/);
+      vol.fromJSON({
+        '/err/skills-registry.yaml': minimalRegistry,
+        '/err/experience/01-bad.md': [
+          '---',
+          'company: BadCo',
+          'role: Engineer',
+          "startDate: '2020-01'",
+          "endDate: '2021-01'",
+          'skills:',
+          '  - typescript',
+          'engagements: not-an-array',
+          '---',
+          '',
+          'Body text.',
+        ].join('\n'),
+      });
+
+      expect(() => buildProfileGraph('/err')).toThrow(
+        /field "engagements" must be an array/,
+      );
     });
   });
 });
