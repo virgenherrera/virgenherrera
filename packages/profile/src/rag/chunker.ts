@@ -8,7 +8,7 @@ import matter from 'gray-matter';
  */
 export interface ChunkMetadata {
   source: string;
-  type: 'experience' | 'education' | 'summary' | 'project';
+  type: 'experience' | 'education' | 'summary' | 'project' | 'engagement';
   skills: string[];
   company?: string;
   role?: string;
@@ -20,6 +20,12 @@ export interface Chunk {
   id: string;
   text: string;
   metadata: ChunkMetadata;
+}
+
+interface RawEngagement {
+  readonly title: string;
+  readonly skills: string[];
+  readonly description: string[];
 }
 
 interface RawEducation {
@@ -226,6 +232,43 @@ function resolveDisplayNames(
   return slugs.map((slug) => displayBySlug.get(slug) ?? slug);
 }
 
+// ── experience/*.md engagements ──────────────────────────────────────────
+
+function readEngagements(
+  data: Record<string, unknown>,
+  filePath: string,
+): RawEngagement[] {
+  const raw = data.engagements;
+
+  if (raw === undefined) {
+    return [];
+  }
+
+  if (!Array.isArray(raw)) {
+    throw new Error(
+      `chunkContent: "${filePath}" field "engagements" must be an array.`,
+    );
+  }
+
+  return raw.map((item, index) => {
+    const context = `${filePath}#engagements[${index}]`;
+    const record = asRecord(item, filePath, `engagements[${index}]`);
+
+    return {
+      title: requireString(record, 'title', context),
+      skills: requireStringArray(record, 'skills', context),
+      description: requireStringArray(record, 'description', context),
+    };
+  });
+}
+
+/** Strips the leading `*` bullet marker from an already-split line array. */
+function stripBulletMarkers(lines: readonly string[]): string[] {
+  return lines.map((line) =>
+    line.startsWith('*') ? line.slice(1).trim() : line,
+  );
+}
+
 // ── shared helpers ────────────────────────────────────────────────────────
 
 /**
@@ -363,7 +406,7 @@ function chunkExperience(
 
     const baseId = `experience-${fileStem(file)}`;
 
-    return groups.map((group, index) => ({
+    const experienceChunks = groups.map((group, index) => ({
       id: groups.length === 1 ? baseId : `${baseId}-${index + 1}`,
       text: enrich(displayNames, context, group.join(' ')),
       metadata: {
@@ -376,6 +419,37 @@ function chunkExperience(
         endDate,
       },
     }));
+
+    const engagements = readEngagements(data, filePath);
+    const engagementBaseId = `engagement-${fileStem(file)}`;
+
+    const engagementChunks = engagements.map((engagement, index) => {
+      const engagementDisplayNames = resolveDisplayNames(
+        engagement.skills,
+        displayBySlug,
+      );
+      const engagementContext = `${engagement.title} at ${company}, ${formatDateRange(startDate, endDate)}`;
+      const body = stripBulletMarkers(engagement.description).join(' ');
+
+      return {
+        id:
+          engagements.length === 1
+            ? engagementBaseId
+            : `${engagementBaseId}-${index + 1}`,
+        text: enrich(engagementDisplayNames, engagementContext, body),
+        metadata: {
+          source: `experience/${file}`,
+          type: 'engagement' as const,
+          skills: engagement.skills,
+          company,
+          role,
+          startDate,
+          endDate,
+        },
+      };
+    });
+
+    return [...experienceChunks, ...engagementChunks];
   });
 }
 

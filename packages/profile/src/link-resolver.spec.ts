@@ -33,6 +33,16 @@ describe('UT: link-resolver', () => {
       'throw a descriptive error when projects.yaml has no top-level "projects" array';
     static readonly throwOnUnknownProjectSlug =
       'throw a descriptive error when a project references an unknown skill slug';
+    static readonly includeEngagementSkillsInBySkill =
+      'include engagement skills in the bySkill graph';
+    static readonly includeEngagementSkillsInByExperience =
+      'include engagement skills in byExperience under the parent company';
+    static readonly includeEngagementSkillsInYears =
+      'compute years-per-skill including engagement skill usage via the parent date range';
+    static readonly throwOnUnknownEngagementSlug =
+      'throw a descriptive error when an engagement references an unknown skill slug';
+    static readonly throwOnEngagementsNotArray =
+      'throw a descriptive error when "engagements" is not an array';
   }
 
   describe('buildProfileGraph (valid fixtures)', () => {
@@ -104,6 +114,37 @@ describe('UT: link-resolver', () => {
     });
   });
 
+  describe('buildProfileGraph (engagement fixtures)', () => {
+    const contentDir = join(FIXTURES_DIR, 'graph-engagement-valid');
+
+    it(`${should.includeEngagementSkillsInBySkill}`, () => {
+      const graph = buildProfileGraph(contentDir);
+
+      expect(graph.bySkill.get('nestjs')?.experiences).toEqual(['AcmeCo']);
+      expect(graph.bySkill.get('langchain')?.experiences).toEqual(['AcmeCo']);
+    });
+
+    it(`${should.includeEngagementSkillsInByExperience}`, () => {
+      const graph = buildProfileGraph(contentDir);
+
+      expect(graph.byExperience.get('AcmeCo')).toEqual([
+        'typescript',
+        'nestjs',
+        'langchain',
+      ]);
+    });
+
+    it(`${should.includeEngagementSkillsInYears}`, () => {
+      const graph = buildProfileGraph(contentDir);
+
+      // AcmeCo runs 2020-01 -> 2021-01 (12mo/1.0y). The engagement skills
+      // (nestjs, langchain) have no dates of their own, so they inherit the
+      // parent experience's date range.
+      expect(graph.bySkill.get('nestjs')?.years).toBe(1.0);
+      expect(graph.bySkill.get('langchain')?.years).toBe(1.0);
+    });
+  });
+
   describe('buildProfileGraph (error handling)', () => {
     it(`${should.throwOnUnknownExperienceSlug}`, () => {
       expect(() =>
@@ -159,6 +200,20 @@ describe('UT: link-resolver', () => {
       ).toThrow(
         /unknown skill slug "this-slug-does-not-exist" referenced by project "side-project"/,
       );
+    });
+
+    it(`${should.throwOnUnknownEngagementSlug}`, () => {
+      expect(() =>
+        buildProfileGraph(join(FIXTURES_DIR, 'graph-engagement-invalid-slug')),
+      ).toThrow(
+        /unknown skill slug "this-slug-does-not-exist" referenced by engagement "Something"/,
+      );
+    });
+
+    it(`${should.throwOnEngagementsNotArray}`, () => {
+      expect(() =>
+        buildProfileGraph(join(FIXTURES_DIR, 'graph-engagement-not-array')),
+      ).toThrow(/field "engagements" must be an array/);
     });
   });
 });

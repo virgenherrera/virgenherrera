@@ -13,6 +13,25 @@ skills:
   - azure
   - azure-functions
   - ci-cd
+engagements:
+  - title: Enterprise AI Platform
+    domain: Enterprise Operations
+    client: Internal HR Systems
+    skills:
+      - nestjs
+      - langchain
+      - openai-api
+    description:
+      - 'Built a conversational platform automating manual HR workflows.'
+      - '*Designed an AI agent orchestration layer with NestJS and LangChain.'
+      - '*Integrated the OpenAI API for natural language understanding.'
+  - title: Context Engineering Service
+    domain: Platform Infrastructure
+    skills:
+      - dotnet-8
+      - azure
+    description:
+      - 'Built a context engineering service supporting the RAG pipeline.'
 ---
 
 Contributed to the design, implementation, and production release of AI-powered integration services that unified 5+ isolated enterprise systems into a single conversational platform.

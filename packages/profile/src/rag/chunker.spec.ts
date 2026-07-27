@@ -30,6 +30,12 @@ describe('UT: chunker', () => {
       'tag each chunk with its correct metadata.type';
     static readonly tagExperienceMetadataFields =
       'tag experience chunks with company, role, startDate, endDate, and skills';
+    static readonly produceEngagementChunks =
+      "produce one chunk per engagement tagged with type 'engagement'";
+    static readonly tagEngagementChunksWithParentMetadata =
+      'tag engagement chunks with the parent company/role/dates plus the engagement skills';
+    static readonly throwOnEngagementsNotArray =
+      'throw a descriptive error when "engagements" is not an array';
   }
 
   describe('chunkContent (chunker-valid fixture)', () => {
@@ -211,6 +217,52 @@ describe('UT: chunker', () => {
       expect(education?.text.startsWith('[Skills:')).toBe(false);
       expect(summary?.text.startsWith('[Context:')).toBe(true);
       expect(education?.text.startsWith('[Context:')).toBe(true);
+    });
+  });
+
+  describe('chunkContent (chunker-engagement-valid fixture)', () => {
+    const contentDir = join(FIXTURES_DIR, 'chunker-engagement-valid');
+
+    it(`${should.produceEngagementChunks}`, () => {
+      const chunks = chunkContent(contentDir);
+      const engagementChunks = chunks.filter(
+        (c) => c.metadata.type === 'engagement',
+      );
+
+      expect(engagementChunks).toHaveLength(1);
+      expect(engagementChunks[0].id).toBe('engagement-eng');
+    });
+
+    it(`${should.tagEngagementChunksWithParentMetadata}`, () => {
+      const chunks = chunkContent(contentDir);
+      const engagement = chunks.find((c) => c.metadata.type === 'engagement');
+
+      expect(engagement?.metadata).toEqual(
+        expect.objectContaining({
+          source: 'experience/01-eng.md',
+          company: 'EngCo',
+          role: 'Engineer',
+          startDate: '2020-01',
+          endDate: '2021-01',
+          skills: ['nestjs', 'nodejs'],
+        }),
+      );
+      expect(engagement?.text).toMatch(/^\[Skills: NestJS, Node\.js\]/);
+      expect(engagement?.text).toContain(
+        '[Context: AI Platform Engagement at EngCo, 2020-01 to 2021-01]',
+      );
+      expect(engagement?.text).toContain('Built an AI platform for a client.');
+      expect(engagement?.text).toContain(
+        'Implemented core services using NestJS and Node.js.',
+      );
+    });
+  });
+
+  describe('chunkContent (error handling)', () => {
+    it(`${should.throwOnEngagementsNotArray}`, () => {
+      expect(() =>
+        chunkContent(join(FIXTURES_DIR, 'chunker-engagement-not-array')),
+      ).toThrow(/field "engagements" must be an array/);
     });
   });
 });

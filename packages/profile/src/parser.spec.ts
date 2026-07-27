@@ -27,6 +27,16 @@ describe('UT: parser', () => {
       'throw a descriptive error when frontmatter YAML is malformed';
     static readonly throwOnMissingFile =
       'throw a descriptive error when a required content file is missing';
+    static readonly throwOnEngagementsNotArray =
+      'throw a descriptive error when "engagements" is not an array';
+    static readonly throwOnEmptyEngagementDescription =
+      'throw a descriptive error when an engagement has an empty description';
+    static readonly produceEngagementData =
+      'produce EngagementData[] with resolved skill display names';
+    static readonly produceEngagementDescriptionBlocks =
+      'produce DescriptionBlocks for engagement description via the schema transform';
+    static readonly allowExperienceWithoutEngagements =
+      'allow an experience with no engagements (backward compat)';
   }
 
   describe('parseContent (valid fixtures)', () => {
@@ -112,6 +122,42 @@ describe('UT: parser', () => {
         expect.arrayContaining(['TypeScript', 'JavaScript']),
       );
     });
+
+    it(`${should.produceEngagementData}`, () => {
+      const profile = parseContent(contentDir);
+      const pwc = profile.experience[0];
+
+      expect(pwc.engagements).toHaveLength(2);
+
+      const first = pwc.engagements?.[0];
+
+      expect(first?.title).toBe('Enterprise AI Platform');
+      expect(first?.domain).toBe('Enterprise Operations');
+      expect(first?.client).toBe('Internal HR Systems');
+      expect(first?.technologies).toEqual(
+        expect.arrayContaining(['NestJS', 'LangChain', 'OpenAI API']),
+      );
+    });
+
+    it(`${should.produceEngagementDescriptionBlocks}`, () => {
+      const profile = parseContent(contentDir);
+      const pwc = profile.experience[0];
+      const first = pwc.engagements?.[0];
+
+      expect(first?.description[0]).toMatchObject({ type: 'paragraph' });
+      expect(first?.description.some((block) => block.type === 'bullets')).toBe(
+        true,
+      );
+    });
+
+    it(`${should.allowExperienceWithoutEngagements}`, () => {
+      const profile = parseContent(contentDir);
+      const leadership = profile.experience.find((experience) =>
+        experience.role.includes('Resources Manager'),
+      );
+
+      expect(leadership?.engagements).toBeUndefined();
+    });
   });
 
   describe('parseContent (error handling)', () => {
@@ -137,6 +183,18 @@ describe('UT: parser', () => {
       expect(() => parseContent(join(FIXTURES_DIR, 'missing-meta'))).toThrow(
         /unable to read required content file ".*meta\.md"/,
       );
+    });
+
+    it(`${should.throwOnEngagementsNotArray}`, () => {
+      expect(() =>
+        parseContent(join(FIXTURES_DIR, 'engagement-not-array')),
+      ).toThrow(/field "engagements" must be an array/);
+    });
+
+    it(`${should.throwOnEmptyEngagementDescription}`, () => {
+      expect(() =>
+        parseContent(join(FIXTURES_DIR, 'engagement-empty-description')),
+      ).toThrow(/has an empty "description"/);
     });
   });
 });
