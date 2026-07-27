@@ -88,6 +88,37 @@
   text-align: left;
 }
 
+.vh-experience-item__engagements {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.vh-experience-item__engagement {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--vh-text-accent);
+}
+
+.vh-experience-item__engagement-title {
+  font-size: var(--vh-text-sm);
+  font-weight: 600;
+  color: var(--vh-text-tertiary);
+  margin: 0;
+}
+
+.vh-experience-item__engagement-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--vh-text-xs);
+  color: var(--vh-text-secondary);
+  margin: 0;
+}
+
 .vh-experience-item__chips {
   display: flex;
   flex-wrap: wrap;

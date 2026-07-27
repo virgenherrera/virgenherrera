@@ -28,6 +28,38 @@
       }
     </div>
 
+    @if (engagements().length) {
+      <div class="vh-experience-item__engagements">
+        @for (eng of engagements(); track eng.title) {
+          <div class="vh-experience-item__engagement">
+            <h4 class="vh-experience-item__engagement-title">{{ eng.title }}</h4>
+            @if (eng.domain || eng.client) {
+              <p class="vh-experience-item__engagement-meta">
+                @if (eng.domain) { <span>{{ eng.domain }}</span> }
+                @if (eng.domain && eng.client) { <span class="vh-experience-item__date-separator" aria-hidden="true">&mdash;</span> }
+                @if (eng.client) { <span>{{ eng.client }}</span> }
+              </p>
+            }
+            <div class="vh-experience-item__description">
+              @for (block of eng.description; track $index) {
+                @if (block.type === 'paragraph') {
+                  @for (line of block.lines; track $index) {
+                    <p class="vh-experience-item__paragraph">{{ line }}</p>
+                  }
+                } @else {
+                  <ul class="vh-experience-item__bullets">
+                    @for (line of block.lines; track $index) {
+                      <li class="vh-experience-item__bullet">{{ line }}</li>
+                    }
+                  </ul>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
     @if (visibleTechnologies().length) {
       <ul class="vh-experience-item__chips" aria-label="Technologies">
         @for (tech of visibleTechnologies(); track tech) {
