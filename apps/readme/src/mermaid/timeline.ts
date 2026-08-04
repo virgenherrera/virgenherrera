@@ -8,13 +8,13 @@ function escapeMermaid(text: string): string {
     .replace(/;/g, ',');
 }
 
-function extractYear(yearMonth: string): number {
-  return parseInt(yearMonth.split('-')[0], 10);
+function extractYear(yearMonth: { year: number; month: number }): number {
+  return yearMonth.year;
 }
 
 function calculateScore(
-  startDate: string,
-  endDate: string | undefined,
+  startDate: { year: number; month: number },
+  endDate: { year: number; month: number } | undefined,
 ): number {
   const startYear = extractYear(startDate);
   const endYear = endDate ? extractYear(endDate) : new Date().getFullYear();
@@ -28,8 +28,11 @@ export function buildTimelineDiagram(
 ): string {
   if (experiences.length === 0) return '';
 
-  const sorted = [...experiences].sort((a, b) =>
-    a.startDate.localeCompare(b.startDate),
+  const sorted = [...experiences].sort(
+    (a, b) =>
+      a.startDate.year * 12 +
+      a.startDate.month -
+      (b.startDate.year * 12 + b.startDate.month),
   );
 
   const lines = ['journey', '    title Career Journey'];

@@ -1,11 +1,5 @@
 name: Continuous Integration
 
-# TODO: TD-DS-002 — Storybook build not validated in CI
-# RESOLVE: add job that runs pnpm --filter @vh/design-system run build:storybook
-#
-# TODO: TD-RESUME-003 — no bundle size tracking between PRs
-# RESOLVE: add size-limit or bundlesize step comparing against main baseline
-
 on:
   pull_request:
     branches: [main, develop]
@@ -75,6 +69,29 @@ jobs:
           name: resume-build
           path: artifacts/resume/
           retention-days: 1
+      - name: Report bundle sizes
+        run: |
+          JS_BUNDLE=$(ls artifacts/resume/virgenherrera/main-*.js 2>/dev/null | head -1)
+          CSS_BUNDLE=$(ls artifacts/resume/virgenherrera/styles-*.css 2>/dev/null | head -1)
+
+          if [ -n "$JS_BUNDLE" ]; then
+            JS_SIZE=$(du -k "$JS_BUNDLE" | cut -f1)
+          else
+            JS_SIZE="n/a"
+          fi
+
+          if [ -n "$CSS_BUNDLE" ]; then
+            CSS_SIZE=$(du -k "$CSS_BUNDLE" | cut -f1)
+          else
+            CSS_SIZE="n/a"
+          fi
+
+          echo "## 📦 Bundle Sizes" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Bundle | File | Size (KB) |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|-----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| JS (main) | \`$(basename "${JS_BUNDLE:-n/a}")\` | ${JS_SIZE} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CSS (styles) | \`$(basename "${CSS_BUNDLE:-n/a}")\` | ${CSS_SIZE} |" >> $GITHUB_STEP_SUMMARY
 
   static-analysis:
     name: Static Analysis
@@ -88,6 +105,19 @@ jobs:
         run: |
           pnpm run test:static
           echo "✅ **test:static** passed" >> $GITHUB_STEP_SUMMARY
+
+  storybook-build:
+    name: Storybook Build
+    needs: [changes, static-analysis]
+    if: needs.changes.outputs.packages-design-system == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: build:storybook
+        run: |
+          pnpm --filter @vh/design-system run build:storybook
+          echo "✅ **build:storybook** passed" >> $GITHUB_STEP_SUMMARY
 
   unit-tests:
     name: Unit Tests
@@ -131,7 +161,7 @@ jobs:
       - name: Install Playwright browsers
         run: |
           sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list
-          pnpm --filter @vh/quality-resume exec playwright install --with-deps chromium
+          pnpm --filter @vh/quality-resume exec playwright install --with-deps chromium webkit firefox
       - name: test:e2e
         run: |
           pnpm run test:e2e

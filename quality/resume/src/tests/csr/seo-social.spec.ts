@@ -14,7 +14,7 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     await resumePage.waitForHydration();
   });
 
-  test(should.haveOgTitle, async ({ resumePage }) => {
+  test(`${should.haveOgTitle} @critical`, async ({ resumePage }) => {
     const ogTitle = await resumePage.ogTitle.getAttribute('content');
 
     expect(ogTitle).toBeTruthy();
@@ -22,7 +22,7 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     expect(ogTitle).toBe(expectedTitle);
   });
 
-  test(should.haveOgDescription, async ({ resumePage }) => {
+  test(`${should.haveOgDescription} @critical`, async ({ resumePage }) => {
     const ogDescription =
       await resumePage.ogDescription.getAttribute('content');
 
@@ -32,25 +32,25 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     );
   });
 
-  test(should.haveOgUrl, async ({ resumePage }) => {
+  test(`${should.haveOgUrl} @critical`, async ({ resumePage }) => {
     const ogUrl = await resumePage.ogUrl.getAttribute('content');
 
     expect(ogUrl).toBe(SITE_URL);
   });
 
-  test(should.haveOgType, async ({ resumePage }) => {
+  test(`${should.haveOgType} @critical`, async ({ resumePage }) => {
     const ogType = await resumePage.ogType.getAttribute('content');
 
     expect(ogType).toBe('profile');
   });
 
-  test(should.haveOgImage, async ({ resumePage }) => {
+  test(`${should.haveOgImage} @critical`, async ({ resumePage }) => {
     const ogImage = await resumePage.ogImage.getAttribute('content');
 
     expect(ogImage).toBe(AVATAR_URL);
   });
 
-  test(should.haveOgImageDimensions, async ({ resumePage }) => {
+  test(`${should.haveOgImageDimensions} @critical`, async ({ resumePage }) => {
     const width = await resumePage.ogImageWidth.getAttribute('content');
     const height = await resumePage.ogImageHeight.getAttribute('content');
 
@@ -76,13 +76,13 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     expect(twitterImage).toBe(AVATAR_URL);
   });
 
-  test(should.haveOgLocale, async ({ resumePage }) => {
+  test(`${should.haveOgLocale} @critical`, async ({ resumePage }) => {
     const ogLocale = await resumePage.ogLocale.getAttribute('content');
 
     expect(ogLocale).toBe('en_US');
   });
 
-  test(should.haveImageAltText, async ({ resumePage }) => {
+  test(`${should.haveImageAltText} @critical`, async ({ resumePage }) => {
     const ogImageAlt = await resumePage.ogImageAlt.getAttribute('content');
     const twitterImageAlt =
       await resumePage.twitterImageAlt.getAttribute('content');
@@ -93,7 +93,7 @@ test.describe('IT: CSR Resume page — social sharing SEO (live DOM)', () => {
     expect(twitterImageAlt).toContain(PUBLIC_PROFILE.name);
   });
 
-  test(should.notLeakPiiInSocialMeta, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInSocialMeta} @critical`, async ({ resumePage }) => {
     const values = await Promise.all([
       resumePage.ogTitle.getAttribute('content'),
       resumePage.ogDescription.getAttribute('content'),

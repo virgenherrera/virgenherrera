@@ -23,7 +23,7 @@ describe('IT: @vh/profile', () => {
       'include projects in PUBLIC_PROFILE';
   }
 
-  describe('PUBLIC_PROFILE (anti-doxxing)', () => {
+  describe('PUBLIC_PROFILE (anti-doxxing) @smoke', () => {
     it(`${should.excludePii}`, () => {
       expect(PUBLIC_PROFILE).not.toHaveProperty('email');
       expect(PUBLIC_PROFILE).not.toHaveProperty('phone');
@@ -52,7 +52,10 @@ describe('IT: @vh/profile', () => {
           expect.objectContaining({
             company: expect.any(String),
             role: expect.any(String),
-            startDate: expect.stringMatching(/^\d{4}-(0[1-9]|1[0-2])$/),
+            startDate: expect.objectContaining({
+              year: expect.any(Number),
+              month: expect.any(Number),
+            }),
             description: expect.any(Array),
             technologies: expect.any(Array),
           }),
@@ -101,7 +104,7 @@ describe('IT: @vh/profile', () => {
     });
   });
 
-  describe('PRIVATE_PROFILE', () => {
+  describe('PRIVATE_PROFILE @critical', () => {
     it(`${should.beDeeplyFrozen}`, () => {
       expect(Object.isFrozen(PRIVATE_PROFILE)).toBe(true);
       expect(Object.isFrozen(PRIVATE_PROFILE.experience)).toBe(true);
@@ -138,7 +141,7 @@ describe('IT: @vh/profile', () => {
     });
   });
 
-  describe('projectSchema', () => {
+  describe('projectSchema @critical', () => {
     it(`${should.parseValidProject}`, () => {
       const result = projectSchema.parse({
         name: 'my-lib',
@@ -260,7 +263,7 @@ describe('IT: @vh/profile', () => {
     });
   });
 
-  describe('getProfile (server)', () => {
+  describe('getProfile (server) @critical', () => {
     it(`${should.returnValidData}`, () => {
       const profile = getProfile();
 

@@ -1,6 +1,3 @@
-// TODO: TD-RESUME-001 — PDF layout is invisible and untestable
-// CONTEXT: jsPDF programmatic render shares zero code with the resume page; layout changes require manual PDF inspection
-// RESOLVE: (1) add Playwright smoke test: trigger download, parse PDF, assert content. (2) long-term: evaluate component-based PDF layout
 import { Injectable } from '@angular/core';
 import type { jsPDF } from 'jspdf';
 import type {
@@ -482,13 +479,12 @@ export class PdfGeneratorService {
     return cursorY;
   }
 
-  private fmtDate(value: string | undefined): string {
-    if (!value || !/^\d{4}-\d{2}$/.test(value)) {
-      return value ?? 'Present';
+  private fmtDate(value: { year: number; month: number } | undefined): string {
+    if (!value) {
+      return 'Present';
     }
 
-    const [year, month] = value.split('-').map(Number);
-    const date = new Date(year, month - 1, 1);
+    const date = new Date(value.year, value.month - 1, 1);
 
     return DATE_FORMATTER.format(date);
   }

@@ -24,7 +24,7 @@ interface PersonJsonLd {
 }
 
 test.describe('IT: SSG Resume page — structured data SEO (raw response)', () => {
-  test(should.haveJsonLdScript, async ({ resumePage }) => {
+  test(`${should.haveJsonLdScript} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const jsonLd = extractJsonLd(html);
 
@@ -36,7 +36,7 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     expect(matches).toHaveLength(1);
   });
 
-  test(should.havePersonType, async ({ resumePage }) => {
+  test(`${should.havePersonType} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const jsonLd = extractJsonLd(html) as PersonJsonLd;
 
@@ -145,7 +145,7 @@ test.describe('IT: SSG Resume page — structured data SEO (raw response)', () =
     expect(jsonLd.sameAs).toEqual(publicLinks);
   });
 
-  test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInJsonLd} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const jsonLd = extractJsonLd(html) as PersonJsonLd;
 

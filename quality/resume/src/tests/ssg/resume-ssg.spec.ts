@@ -9,13 +9,13 @@ test.describe('IT: SSG Resume page (pre-rendered)', () => {
     await resumePage.goto();
   });
 
-  test(should.renderPrerenderedHtml, async ({ resumePage }) => {
+  test(`${should.renderPrerenderedHtml} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.jumbotron).toBeAttached();
     await expect(resumePage.sidebar).toBeAttached();
     await expect(resumePage.mainContent).toBeAttached();
   });
 
-  test(should.displayProfileName, async ({ resumePage }) => {
+  test(`${should.displayProfileName} @critical`, async ({ resumePage }) => {
     await expect(resumePage.nameHeading).not.toBeEmpty();
   });
 
@@ -55,37 +55,37 @@ test.describe('IT: SSG Resume page (pre-rendered)', () => {
     );
   });
 
-  test(should.renderExperienceTimeline, async ({ resumePage }) => {
+  test(`${should.renderExperienceTimeline} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.experienceItems.first()).toBeAttached();
   });
 
-  test(should.notShowPrivateContent, async ({ resumePage }) => {
+  test(`${should.notShowPrivateContent} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.mailtoLinks).toHaveCount(0);
     await expect(resumePage.telLinks).toHaveCount(0);
   });
 
-  test(should.showProfileInSidebar, async ({ resumePage }) => {
+  test(`${should.showProfileInSidebar} @critical`, async ({ resumePage }) => {
     await expect(resumePage.sidebarName).not.toBeEmpty();
     await expect(resumePage.skillGroups.first()).toBeAttached();
     await expect(resumePage.sidebarContact).toBeAttached();
   });
 
-  test(should.showExperienceItems, async ({ resumePage }) => {
+  test(`${should.showExperienceItems} @critical`, async ({ resumePage }) => {
     const itemCount = await resumePage.experienceItems.count();
     expect(itemCount).toBeGreaterThan(0);
   });
 
-  test(should.renderThemeToggle, async ({ resumePage }) => {
+  test(`${should.renderThemeToggle} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.themeToggle).toBeAttached();
   });
 
-  test(should.renderAboutSection, async ({ resumePage }) => {
+  test(`${should.renderAboutSection} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.aboutSection).toBeAttached();
     await expect(resumePage.aboutText).not.toBeEmpty();
     await expect(resumePage.aboutToggle).not.toBeAttached();
   });
 
-  test(should.showPublicContactLinks, async ({ resumePage }) => {
+  test(`${should.showPublicContactLinks} @critical`, async ({ resumePage }) => {
     await expect(resumePage.sidebarContact).toBeAttached();
     await expect(resumePage.contactLinks.first()).toBeAttached();
     const linkCount = await resumePage.contactLinks.count();
@@ -96,11 +96,13 @@ test.describe('IT: SSG Resume page (pre-rendered)', () => {
     await expect(resumePage.sidebar).toHaveCSS('position', 'sticky');
   });
 
-  test(should.notPreRenderDownloadButton, async ({ resumePage }) => {
+  test(`${should.notPreRenderDownloadButton} @smoke`, async ({
+    resumePage,
+  }) => {
     await expect(resumePage.downloadButton).not.toBeAttached();
   });
 
-  test(should.serveGoogleVerificationFile, async ({ page }) => {
+  test(`${should.serveGoogleVerificationFile} @smoke`, async ({ page }) => {
     const response = await page.goto(GOOGLE_VERIFICATION.path);
     test.skip(
       response?.status() === 404,

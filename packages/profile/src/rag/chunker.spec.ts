@@ -42,7 +42,7 @@ describe('UT: chunker', () => {
 
   afterEach(() => vol.reset());
 
-  describe('chunkContent (chunker-valid fixture)', () => {
+  describe('chunkContent (chunker-valid fixture) @critical', () => {
     beforeEach(() => {
       vol.fromJSON({
         '/content/meta.md': [
@@ -309,7 +309,7 @@ describe('UT: chunker', () => {
     });
   });
 
-  describe('chunkContent (chunker-engagement-valid fixture)', () => {
+  describe('chunkContent (chunker-engagement-valid fixture) @critical', () => {
     beforeEach(() => {
       vol.fromJSON({
         '/eng/meta.md': [
