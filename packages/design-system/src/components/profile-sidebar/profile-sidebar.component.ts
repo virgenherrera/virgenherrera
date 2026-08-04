@@ -49,18 +49,20 @@ export class ProfileSidebarComponent {
   protected readonly isPrivate = computed(() => this.variant() === 'private');
 
   protected readonly visibleContactLinks = computed<readonly LinkData[]>(() => {
-    const publicLinks = this.links().filter(
-      (link) => link.visibility === 'public',
-    );
+    const allLinks = this.links();
+    const publicLinks = allLinks.filter((link) => link.visibility === 'public');
 
     if (!this.isPrivate()) return publicLinks;
 
-    const privateLinks: LinkData[] = [];
+    const privateDataLinks = allLinks.filter(
+      (link) => link.visibility === 'private',
+    );
+    const syntheticLinks: LinkData[] = [];
     const emailValue = this.email();
     const phoneValue = this.phone();
 
     if (emailValue) {
-      privateLinks.push({
+      syntheticLinks.push({
         label: 'Email',
         url: `mailto:${emailValue}`,
         icon: 'mail',
@@ -71,7 +73,7 @@ export class ProfileSidebarComponent {
       });
     }
     if (phoneValue) {
-      privateLinks.push({
+      syntheticLinks.push({
         label: 'Phone',
         url: `tel:${phoneValue}`,
         icon: 'phone',
@@ -82,7 +84,7 @@ export class ProfileSidebarComponent {
       });
     }
 
-    return [...privateLinks, ...publicLinks];
+    return [...syntheticLinks, ...publicLinks, ...privateDataLinks];
   });
 
   protected readonly summaryExpanded = signal(false);
