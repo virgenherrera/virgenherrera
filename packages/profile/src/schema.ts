@@ -211,6 +211,14 @@ export const serializedGraphSchema = z
     bySkill: z.record(z.string(), skillStatsSchema),
     byExperience: z.record(z.string(), z.array(z.string())),
     byProject: z.record(z.string(), z.array(z.string())),
+    /**
+     * Registry slug -> display name (e.g. "dotnet-8" -> ".NET 8"). Enables
+     * exact persona identifier matching in `persona-projector.ts` instead of
+     * heuristically slugifying display names (which fails for irregular
+     * slugs). Optional for backward compatibility with pre-existing
+     * `profile-snapshot.json` files that predate this field.
+     */
+    displayNames: z.record(z.string(), z.string()).optional(),
   })
   .readonly();
 

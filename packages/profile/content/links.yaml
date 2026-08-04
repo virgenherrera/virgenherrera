@@ -9,3 +9,15 @@ links:
     icon: linkedIn
     type: professional
     cta: true
+  - label: Schedule a Call
+    url: https://calendar.app.google/M1VWHaWxfspB7Zst6
+    icon: calendar
+    type: professional
+    visibility: private
+    cta: true
+  - label: Full Profile
+    url: https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=
+    icon: globe
+    type: portfolio
+    visibility: private
+    cta: false

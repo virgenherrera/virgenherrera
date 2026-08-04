@@ -70,7 +70,7 @@
   font-size: var(--vh-text-sm);
   line-height: var(--vh-lh-relaxed);
   margin: 0;
-  text-align: left;
+  text-align: justify;
 }
 
 .vh-experience-item__bullets {
@@ -85,7 +85,7 @@
 .vh-experience-item__bullet {
   font-size: var(--vh-text-sm);
   line-height: var(--vh-lh-relaxed);
-  text-align: left;
+  text-align: justify;
 }
 
 .vh-experience-item__engagements {

@@ -21,6 +21,8 @@ export interface ProfileGraph {
   readonly bySkill: Map<string, SkillStats>;
   readonly byExperience: Map<string, string[]>;
   readonly byProject: Map<string, string[]>;
+  /** Registry slug -> display name (e.g. "dotnet-8" -> ".NET 8"). */
+  readonly displayNames: Map<string, string>;
 }
 
 interface ExperienceEntry {
@@ -50,7 +52,10 @@ interface Interval {
  * and projects, along with a computed years-per-skill figure (D5).
  */
 export function buildProfileGraph(contentDir: string): ProfileGraph {
-  const validSlugs = readSkillSlugs(join(contentDir, 'skills-registry.yaml'));
+  const displayNames = readSkillRegistry(
+    join(contentDir, 'skills-registry.yaml'),
+  );
+  const validSlugs = new Set(displayNames.keys());
   const experiences = readExperiences(join(contentDir, 'experience'));
   const projects = readProjects(join(contentDir, 'projects.yaml'));
 
@@ -60,7 +65,7 @@ export function buildProfileGraph(contentDir: string): ProfileGraph {
   const byProject = buildByProject(projects);
   const bySkill = buildBySkill(experiences, projects);
 
-  return { bySkill, byExperience, byProject };
+  return { bySkill, byExperience, byProject, displayNames };
 }
 
 // ── file & frontmatter primitives ───────────────────────────────────────────
@@ -209,25 +214,26 @@ function requireStringArray(
 
 // ── content readers ──────────────────────────────────────────────────────
 
-function readSkillSlugs(filePath: string): Set<string> {
+function readSkillRegistry(filePath: string): Map<string, string> {
   const entries = readYamlArray(filePath, 'skills');
-  const slugs = new Set<string>();
+  const displayNames = new Map<string, string>();
 
   entries.forEach((entry, index) => {
     const context = `${filePath}#skills[${index}]`;
     const record = asRecord(entry, filePath, `skills[${index}]`);
     const slug = requireString(record, 'slug', context);
+    const display = requireString(record, 'display', context);
 
-    if (slugs.has(slug)) {
+    if (displayNames.has(slug)) {
       throw new Error(
         `buildProfileGraph: duplicate skill slug "${slug}" in skills-registry.yaml.`,
       );
     }
 
-    slugs.add(slug);
+    displayNames.set(slug, display);
   });
 
-  return slugs;
+  return displayNames;
 }
 
 function readEngagements(

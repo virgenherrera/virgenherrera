@@ -2,6 +2,7 @@
 company: PwC
 role: Senior Software Developer
 startDate: '2024-08'
+endDate: '2025-08'
 skills:
   - javascript
   - typescript
@@ -9,6 +10,11 @@ skills:
   - nestjs
   - langchain
   - openai-api
+  - llm-orchestration
+  - rag
+  - prompt-engineering
+  - context-engineering
+  - function-calling
   - dotnet-8
   - azure
   - azure-functions
@@ -20,6 +26,11 @@ engagements:
       - nestjs
       - langchain
       - openai-api
+      - llm-orchestration
+      - rag
+      - prompt-engineering
+      - context-engineering
+      - function-calling
       - dotnet-8
       - azure
       - angular

@@ -20,11 +20,17 @@ export class LinkCtaAction implements HubAction {
     this.label = signal(`Connect on ${link.label}`);
     this.icon = signal(link.icon ?? 'link');
     this.order = 10 + index;
-    this.highlight = computed(() => !this.profileStore.isPrivateView());
+    this.highlight = computed(() =>
+      this.link.visibility === 'private'
+        ? this.profileStore.isPrivateView()
+        : !this.profileStore.isPrivateView(),
+    );
   }
 
   isAvailable(ctx: HubContext): boolean {
-    return !ctx.isPrivateView;
+    return this.link.visibility === 'private'
+      ? ctx.isPrivateView
+      : !ctx.isPrivateView;
   }
 
   execute(): void {

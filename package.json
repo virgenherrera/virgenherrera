@@ -45,7 +45,7 @@
     "updatePnpm": "corepack up",
     "cleanup": "pnpm -r run --if-present cleanup && rimraf artifacts/",
     "bumpDependencies": "pnpm run securityFix && pnpm dlx npm-check-updates@22.2.7 && pnpm run securityFix && pnpm run test",
-    "serve:preview": "http-server artifacts/resume -p 8080 --gzip -c-1",
+    "serve:preview": "http-server artifacts/resume -p 8080 --gzip -c-1 -o /virgenherrera/",
     "release:patch": "node scripts/release.js patch",
     "release:minor": "node scripts/release.js minor",
     "release:major": "node scripts/release.js major"
