@@ -14,6 +14,9 @@ skills:
   - slug: php
     display: PHP
     category: Languages
+  - slug: java
+    display: Java
+    category: Languages
   - slug: golang
     display: Golang
     category: Languages
@@ -126,6 +129,9 @@ skills:
     children: [azure-devops, azure-aks, azure-functions]
   - slug: docker
     display: Docker
+    category: Cloud & DevOps
+  - slug: openshift
+    display: OpenShift
     category: Cloud & DevOps
   - slug: ci-cd
     display: CI/CD

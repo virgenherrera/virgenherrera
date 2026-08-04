@@ -1,49 +1,59 @@
 ---
-company: B2B Contractor
+company: Independent Contractor
 role: Fullstack AI Engineer
 startDate: '2025-08'
 skills:
-  - javascript
   - typescript
+  - javascript
   - nodejs
-  - nestjs
-  - langchain
-  - openai-api
+  - angular
+  - java
+  - golang
+  - docker
+  - openshift
   - llm-orchestration
-  - rag
   - prompt-engineering
   - context-engineering
-  - function-calling
-  - agentic-workflows
-  - azure
-  - angular
-  - react
-  - zod
   - ci-cd
 engagements:
-  - title: AI Integration & Agent Orchestration for Enterprise Clients
-    domain: B2B Software Consulting
+  - title: Healthcare Platform Cloud Migration
+    domain: Healthcare Technology
+    client: Overstory Health
     skills:
-      - nestjs
-      - langchain
-      - openai-api
-      - llm-orchestration
-      - rag
-      - prompt-engineering
-      - context-engineering
-      - function-calling
-      - agentic-workflows
+      - nodejs
+      - docker
+      - ci-cd
+    description:
+      - 'Existing healthcare platform required cloud readiness assessment and migration planning to scale beyond its monolithic architecture.'
+      - '*Instrumented platform services with OpenTelemetry for observability baseline, enabling data-driven identification of performance bottlenecks and service boundaries.'
+      - '*Analyzed domain boundaries across the existing codebase and delivered a preliminary architecture proposal identifying candidate services for microservice extraction.'
+  - title: AI-Driven Infrastructure Automation
+    domain: Cloud Infrastructure & AI
+    client: Kayn.ai
+    skills:
       - typescript
       - nodejs
-      - angular
-      - react
-      - zod
+      - llm-orchestration
+      - prompt-engineering
+      - context-engineering
+      - ci-cd
     description:
-      - 'Enterprise clients required LLM integration into existing fullstack platforms, including conversational interfaces, document-aware retrieval, and intelligent workflow automation under strict regulatory compliance requirements including HIPAA, PCI-DSS, and insurance industry data handling standards.'
-      - '*Designed and delivered RAG pipelines, conversational AI platforms, and agent orchestration layers integrating with enterprise systems including Salesforce and SAP, with hallucination safeguards, source traceability, and human-in-the-loop validation gates ensuring every AI-generated output is verifiable before reaching production.'
-      - '*Built a conversational memory service to persist session context across repeated and asynchronous interactions, preventing context drift and maintaining coherent multi-turn conversations against distributed backend systems.'
-      - '*Built AI-powered development workflow tooling using NestJS standalone applications, integrating Jira and Confluence APIs, implementing agent handoff sandboxing with auditable review checkpoints, and automating technical refinement pipelines.'
-      - '*Authored an open-source AI-first process framework for agent-assisted software delivery, enforcing structured human ownership at every decision point, TDD-driven execution axioms, and systematic review gates across an 8-phase delivery pipeline.'
+      - 'Infrastructure platform required AI-powered automation for provisioning, configuration management, and multi-tenant service delivery.'
+      - '*Built Infrastructure as Code and Infrastructure as a Service pipelines with Claude-powered automation for intelligent configuration generation, template standardization, and compliance validation.'
+      - '*Implemented AI-assisted infrastructure provisioning workflows reducing manual configuration effort and enforcing consistent deployment patterns across client environments.'
+  - title: Core Banking Platform Modernization
+    domain: Financial Services
+    client: Solinte
+    skills:
+      - angular
+      - java
+      - golang
+      - docker
+      - openshift
+    description:
+      - 'Mexican banking institution required modernization of core systems including migration from legacy .NET services to Java, containerization, and integration with national payment infrastructure.'
+      - '*Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.'
+      - '*Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements.'
 ---
 
-Integrates AI capabilities into operational enterprise systems with the same engineering rigor applied to any production service: microservices architecture, end-to-end traceability, automated test coverage, and regulatory compliance. Every LLM-powered feature is testable, auditable, and held to the same quality bar as the existing platform it extends.
+Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, and cloud infrastructure.

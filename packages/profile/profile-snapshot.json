@@ -21,11 +21,29 @@
       "visibility": "public",
       "type": "professional",
       "cta": true
+    },
+    {
+      "label": "Schedule a Call",
+      "url": "https://calendar.app.google/M1VWHaWxfspB7Zst6",
+      "icon": "calendar",
+      "target": "blank",
+      "visibility": "public",
+      "type": "professional",
+      "cta": true
+    },
+    {
+      "label": "Full Profile",
+      "url": "https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=",
+      "icon": "globe",
+      "target": "blank",
+      "visibility": "public",
+      "type": "portfolio",
+      "cta": false
     }
   ],
   "experience": [
     {
-      "company": "B2B Contractor",
+      "company": "Independent Contractor",
       "role": "Fullstack AI Engineer",
       "startDate": {
         "year": 2025,
@@ -35,67 +53,97 @@
         {
           "type": "paragraph",
           "lines": [
-            "Integrates AI capabilities into operational enterprise systems with the same engineering rigor applied to any production service: microservices architecture, end-to-end traceability, automated test coverage, and regulatory compliance. Every LLM-powered feature is testable, auditable, and held to the same quality bar as the existing platform it extends."
+            "Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, and cloud infrastructure."
           ]
         }
       ],
       "technologies": [
-        "JavaScript",
         "TypeScript",
+        "JavaScript",
         "Node.js",
-        "NestJS",
-        "LangChain",
-        "OpenAI API",
+        "Angular",
+        "Java",
+        "Golang",
+        "Docker",
+        "OpenShift",
         "LLM Orchestration",
-        "RAG",
         "Prompt Engineering",
         "Context Engineering",
-        "Function Calling",
-        "Agentic Workflows",
-        "Azure",
-        "Angular",
-        "React",
-        "Zod",
         "CI/CD"
       ],
       "engagements": [
         {
-          "title": "AI Integration & Agent Orchestration for Enterprise Clients",
-          "domain": "B2B Software Consulting",
+          "title": "Healthcare Platform Cloud Migration",
+          "domain": "Healthcare Technology",
+          "client": "Overstory Health",
           "skills": [],
           "description": [
             {
               "type": "paragraph",
               "lines": [
-                "Enterprise clients required LLM integration into existing fullstack platforms, including conversational interfaces, document-aware retrieval, and intelligent workflow automation under strict regulatory compliance requirements including HIPAA, PCI-DSS, and insurance industry data handling standards."
+                "Existing healthcare platform required cloud readiness assessment and migration planning to scale beyond its monolithic architecture."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Designed and delivered RAG pipelines, conversational AI platforms, and agent orchestration layers integrating with enterprise systems including Salesforce and SAP, with hallucination safeguards, source traceability, and human-in-the-loop validation gates ensuring every AI-generated output is verifiable before reaching production.",
-                "Built a conversational memory service to persist session context across repeated and asynchronous interactions, preventing context drift and maintaining coherent multi-turn conversations against distributed backend systems.",
-                "Built AI-powered development workflow tooling using NestJS standalone applications, integrating Jira and Confluence APIs, implementing agent handoff sandboxing with auditable review checkpoints, and automating technical refinement pipelines.",
-                "Authored an open-source AI-first process framework for agent-assisted software delivery, enforcing structured human ownership at every decision point, TDD-driven execution axioms, and systematic review gates across an 8-phase delivery pipeline."
+                "Instrumented platform services with OpenTelemetry for observability baseline, enabling data-driven identification of performance bottlenecks and service boundaries.",
+                "Analyzed domain boundaries across the existing codebase and delivered a preliminary architecture proposal identifying candidate services for microservice extraction."
+              ]
+            }
+          ],
+          "technologies": ["Node.js", "Docker", "CI/CD"]
+        },
+        {
+          "title": "AI-Driven Infrastructure Automation",
+          "domain": "Cloud Infrastructure & AI",
+          "client": "Kayn.ai",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "Infrastructure platform required AI-powered automation for provisioning, configuration management, and multi-tenant service delivery."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Built Infrastructure as Code and Infrastructure as a Service pipelines with Claude-powered automation for intelligent configuration generation, template standardization, and compliance validation.",
+                "Implemented AI-assisted infrastructure provisioning workflows reducing manual configuration effort and enforcing consistent deployment patterns across client environments."
               ]
             }
           ],
           "technologies": [
-            "NestJS",
-            "LangChain",
-            "OpenAI API",
-            "LLM Orchestration",
-            "RAG",
-            "Prompt Engineering",
-            "Context Engineering",
-            "Function Calling",
-            "Agentic Workflows",
             "TypeScript",
             "Node.js",
-            "Angular",
-            "React",
-            "Zod"
+            "LLM Orchestration",
+            "Prompt Engineering",
+            "Context Engineering",
+            "CI/CD"
           ]
+        },
+        {
+          "title": "Core Banking Platform Modernization",
+          "domain": "Financial Services",
+          "client": "Solinte",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "Mexican banking institution required modernization of core systems including migration from legacy .NET services to Java, containerization, and integration with national payment infrastructure."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.",
+                "Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements."
+              ]
+            }
+          ],
+          "technologies": ["Angular", "Java", "Golang", "Docker", "OpenShift"]
         }
       ]
     },
@@ -688,6 +736,7 @@
         "JavaScript",
         "C#",
         "PHP",
+        "Java",
         "Golang",
         "HTML",
         "CSS"
@@ -731,6 +780,7 @@
         "AWS",
         "Azure",
         "Docker",
+        "OpenShift",
         "CI/CD",
         "Jenkins",
         "Webpack",
@@ -805,20 +855,13 @@
   ],
   "graph": {
     "bySkill": {
-      "javascript": {
-        "experiences": [
-          "B2B Contractor",
-          "PwC",
-          "EPAM Systems",
-          "3Pillar Global (formerly Tiempo Development)",
-          "Hitss México",
-          "Ramsal Software"
-        ],
-        "projects": [],
-        "years": 6.4
-      },
       "typescript": {
-        "experiences": ["B2B Contractor", "PwC", "Globant", "EPAM Systems"],
+        "experiences": [
+          "Independent Contractor",
+          "PwC",
+          "Globant",
+          "EPAM Systems"
+        ],
         "projects": [
           "virgenherrera",
           "nest-base",
@@ -828,9 +871,21 @@
         ],
         "years": 6.7
       },
+      "javascript": {
+        "experiences": [
+          "Independent Contractor",
+          "PwC",
+          "EPAM Systems",
+          "3Pillar Global (formerly Tiempo Development)",
+          "Hitss México",
+          "Ramsal Software"
+        ],
+        "projects": [],
+        "years": 6.4
+      },
       "nodejs": {
         "experiences": [
-          "B2B Contractor",
+          "Independent Contractor",
           "PwC",
           "Globant",
           "EPAM Systems",
@@ -840,64 +895,9 @@
         "projects": ["nest-base", "typescript-base"],
         "years": 9.5
       },
-      "nestjs": {
-        "experiences": ["B2B Contractor", "PwC", "Globant"],
-        "projects": [
-          "virgenherrera",
-          "nest-base",
-          "lan-file-share",
-          "tl-assistant"
-        ],
-        "years": 5.3
-      },
-      "langchain": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "openai-api": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "llm-orchestration": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "rag": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "prompt-engineering": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "context-engineering": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "function-calling": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
-      "agentic-workflows": {
-        "experiences": ["B2B Contractor", "Globant"],
-        "projects": [],
-        "years": 4.3
-      },
-      "azure": {
-        "experiences": ["B2B Contractor", "PwC"],
-        "projects": [],
-        "years": 2
-      },
       "angular": {
         "experiences": [
-          "B2B Contractor",
+          "Independent Contractor",
           "PwC",
           "Globant",
           "Unosquare",
@@ -906,28 +906,82 @@
         "projects": ["virgenherrera", "lan-file-share"],
         "years": 7.3
       },
-      "react": {
-        "experiences": [
-          "B2B Contractor",
-          "PwC",
-          "Globant",
-          "EPAM Systems",
-          "Hitss México"
-        ],
+      "java": {
+        "experiences": ["Independent Contractor"],
         "projects": [],
-        "years": 6.9
-      },
-      "zod": {
-        "experiences": ["B2B Contractor"],
-        "projects": ["virgenherrera", "nest-base"],
         "years": 1
       },
-      "ci-cd": {
-        "experiences": ["B2B Contractor", "PwC"],
+      "golang": {
+        "experiences": ["Independent Contractor", "Unosquare"],
+        "projects": [],
+        "years": 2.2
+      },
+      "docker": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
+      "openshift": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
+      "llm-orchestration": {
+        "experiences": ["Independent Contractor", "PwC"],
         "projects": [],
         "years": 2
       },
+      "prompt-engineering": {
+        "experiences": ["Independent Contractor", "PwC"],
+        "projects": [],
+        "years": 2
+      },
+      "context-engineering": {
+        "experiences": ["Independent Contractor", "PwC"],
+        "projects": [],
+        "years": 2
+      },
+      "ci-cd": {
+        "experiences": ["Independent Contractor", "PwC"],
+        "projects": [],
+        "years": 2
+      },
+      "nestjs": {
+        "experiences": ["PwC", "Globant"],
+        "projects": [
+          "virgenherrera",
+          "nest-base",
+          "lan-file-share",
+          "tl-assistant"
+        ],
+        "years": 4.3
+      },
+      "langchain": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
+      "openai-api": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
+      "rag": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
+      "function-calling": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
       "dotnet-8": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
+      "azure": {
         "experiences": ["PwC"],
         "projects": [],
         "years": 1
@@ -936,6 +990,11 @@
         "experiences": ["PwC", "Unosquare"],
         "projects": [],
         "years": 2.2
+      },
+      "react": {
+        "experiences": ["PwC", "Globant", "EPAM Systems", "Hitss México"],
+        "projects": [],
+        "years": 5.9
       },
       "vue": {
         "experiences": ["PwC", "Globant"],
@@ -990,6 +1049,11 @@
         "projects": [],
         "years": 3.3
       },
+      "agentic-workflows": {
+        "experiences": ["Globant"],
+        "projects": [],
+        "years": 3.3
+      },
       "csharp": {
         "experiences": ["Unosquare"],
         "projects": [],
@@ -1011,11 +1075,6 @@
         "years": 1.2
       },
       "azure-aks": {
-        "experiences": ["Unosquare"],
-        "projects": [],
-        "years": 1.2
-      },
-      "golang": {
         "experiences": ["Unosquare"],
         "projects": [],
         "years": 1.2
@@ -1134,6 +1193,11 @@
         "projects": [],
         "years": 0.8
       },
+      "zod": {
+        "experiences": [],
+        "projects": ["virgenherrera", "nest-base"],
+        "years": 0
+      },
       "github-actions": {
         "experiences": [],
         "projects": ["virgenherrera", "lan-file-share"],
@@ -1171,23 +1235,18 @@
       }
     },
     "byExperience": {
-      "B2B Contractor": [
-        "javascript",
+      "Independent Contractor": [
         "typescript",
+        "javascript",
         "nodejs",
-        "nestjs",
-        "langchain",
-        "openai-api",
+        "angular",
+        "java",
+        "golang",
+        "docker",
+        "openshift",
         "llm-orchestration",
-        "rag",
         "prompt-engineering",
         "context-engineering",
-        "function-calling",
-        "agentic-workflows",
-        "azure",
-        "angular",
-        "react",
-        "zod",
         "ci-cd"
       ],
       "PwC": [
@@ -1294,6 +1353,7 @@
       "javascript": "JavaScript",
       "csharp": "C#",
       "php": "PHP",
+      "java": "Java",
       "golang": "Golang",
       "html": "HTML",
       "css": "CSS",
@@ -1323,6 +1383,7 @@
       "aws": "AWS",
       "azure": "Azure",
       "docker": "Docker",
+      "openshift": "OpenShift",
       "ci-cd": "CI/CD",
       "jenkins": "Jenkins",
       "webpack": "Webpack",

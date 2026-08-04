@@ -21,8 +21,7 @@ summary: >-
   replaced manual multi-platform HR workflows with a single
   conversational interface.
 
-  This work was not a career reset — it was a direct continuation. At
-  Globant, led backend teams building NestJS services handling 50K+
+  At Globant, led backend teams building NestJS services handling 50K+
   daily API requests, implemented workflow orchestration with AWS Step
   Functions across distributed services, and championed enterprise AI
   adoption when LLM usage was organizationally discouraged —
@@ -95,7 +94,7 @@ skills:
 
 experience:
   weights:
-    B2B Contractor: 1.0
+    Independent Contractor: 1.0
     PwC: 0.95
     Globant: 0.85
     EPAM Systems: 0.55
@@ -104,7 +103,9 @@ experience:
     Hitss México: 0.1
     Ramsal Software: 0.05
   engagementWeights:
-    AI Integration & Agent Orchestration for Enterprise Clients: 1.0
+    AI-Driven Infrastructure Automation: 1.0
+    Core Banking Platform Modernization: 0.9
+    Healthcare Platform Cloud Migration: 0.85
     Enterprise AI Conversational Platform: 0.98
     Workflow Automation & Enterprise AI Evangelism: 0.95
     Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem: 0.7
