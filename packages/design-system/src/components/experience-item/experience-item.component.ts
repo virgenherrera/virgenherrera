@@ -26,6 +26,14 @@ export class ExperienceItemComponent {
   protected readonly role = computed(() => this.data().role);
   protected readonly startDate = computed(() => this.data().startDate);
   protected readonly endDate = computed(() => this.data().endDate);
+  protected readonly startDateIso = computed(() =>
+    this.toIsoYearMonth(this.startDate()),
+  );
+  protected readonly endDateIso = computed(() => {
+    const endDate = this.endDate();
+
+    return endDate ? this.toIsoYearMonth(endDate) : '';
+  });
 
   protected readonly descriptionBlocks = computed<DescriptionBlock[]>(() => {
     const blocks = this.data().description;
@@ -63,6 +71,10 @@ export class ExperienceItemComponent {
       ? total - COMPACT_MAX_TECHNOLOGIES
       : 0;
   });
+
+  private toIsoYearMonth(value: { year: number; month: number }): string {
+    return `${String(value.year)}-${String(value.month).padStart(2, '0')}`;
+  }
 
   private truncate(text: string): string {
     if (text.length <= COMPACT_MAX_DESCRIPTION_LENGTH) {

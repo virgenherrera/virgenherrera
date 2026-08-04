@@ -16,7 +16,7 @@ function isTrackedResource(response: Response): boolean {
   );
 }
 
-test.describe('IT: SSG Resume page — resource loading', () => {
+test.describe('IT: SSG Resume page — resource loading @smoke', () => {
   test(should.loadAllResourcesWithoutErrors, async ({ page, resumePage }) => {
     const failedResources: Array<{ url: string; status: number }> = [];
 

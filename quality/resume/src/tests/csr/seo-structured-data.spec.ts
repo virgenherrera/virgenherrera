@@ -35,11 +35,11 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
     return JSON.parse(content ?? '{}') as PersonJsonLd;
   }
 
-  test(should.haveJsonLdScript, async ({ resumePage }) => {
+  test(`${should.haveJsonLdScript} @critical`, async ({ resumePage }) => {
     await expect(resumePage.jsonLdScript).toHaveCount(1);
   });
 
-  test(should.havePersonType, async ({ resumePage }) => {
+  test(`${should.havePersonType} @critical`, async ({ resumePage }) => {
     const jsonLd = await getJsonLd(resumePage);
 
     expect(jsonLd['@type']).toBe('Person');
@@ -137,7 +137,7 @@ test.describe('IT: CSR Resume page — structured data SEO (live DOM)', () => {
     expect(jsonLd.sameAs).toEqual(publicLinks);
   });
 
-  test(should.notLeakPiiInJsonLd, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInJsonLd} @critical`, async ({ resumePage }) => {
     const jsonLd = await getJsonLd(resumePage);
 
     expect(jsonLd.email).toBeUndefined();

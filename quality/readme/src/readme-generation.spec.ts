@@ -71,56 +71,60 @@ describe('QA: README Generation', () => {
     mockWriteFileSync.mockClear();
   });
 
-  it('should call writeFileSync with generated markdown', async () => {
-    await service.generate();
+  describe('basic generation @smoke', () => {
+    it('should call writeFileSync with generated markdown', async () => {
+      await service.generate();
 
-    expect(mockWriteFileSync).toHaveBeenCalledTimes(1);
-    expect(mockWriteFileSync).toHaveBeenCalledWith(
-      expect.stringContaining('README.md'),
-      expect.any(String),
-      'utf-8',
-    );
+      expect(mockWriteFileSync).toHaveBeenCalledTimes(1);
+      expect(mockWriteFileSync).toHaveBeenCalledWith(
+        expect.stringContaining('README.md'),
+        expect.any(String),
+        'utf-8',
+      );
+    });
   });
 
-  it('should generate markdown containing profile name in typing SVG', async () => {
-    await service.generate();
+  describe('content accuracy @critical', () => {
+    it('should generate markdown containing profile name in typing SVG', async () => {
+      await service.generate();
 
-    const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain(
-      encodeURIComponent('Hugo Enrique Virgen Herrera'),
-    );
-  });
+      expect(writtenContent).toContain(
+        encodeURIComponent('Hugo Enrique Virgen Herrera'),
+      );
+    });
 
-  it('should generate markdown with expected sections', async () => {
-    await service.generate();
+    it('should generate markdown with expected sections', async () => {
+      await service.generate();
 
-    const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain('## 👤 About');
-    expect(writtenContent).toContain('## 🛠️ Skills');
-    expect(writtenContent).toContain("## 🤝 Let's Connect");
-    expect(writtenContent).toContain('## 📈 GitHub Stats');
-    expect(writtenContent).toContain('## 🧑‍💻 For Developers');
-    expect(writtenContent).toContain('CONTRIBUTING.md');
-  });
+      expect(writtenContent).toContain('## 👤 About');
+      expect(writtenContent).toContain('## 🛠️ Skills');
+      expect(writtenContent).toContain("## 🤝 Let's Connect");
+      expect(writtenContent).toContain('## 📈 GitHub Stats');
+      expect(writtenContent).toContain('## 🧑‍💻 For Developers');
+      expect(writtenContent).toContain('CONTRIBUTING.md');
+    });
 
-  it('should include profile projects in featured projects', async () => {
-    await service.generate();
+    it('should include profile projects in featured projects', async () => {
+      await service.generate();
 
-    const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain('## 🚀 Featured Projects');
-    expect(writtenContent).toContain('nest-base');
-    expect(writtenContent).toContain('lan-file-share');
-  });
+      expect(writtenContent).toContain('## 🚀 Featured Projects');
+      expect(writtenContent).toContain('nest-base');
+      expect(writtenContent).toContain('lan-file-share');
+    });
 
-  it('should include top languages as mermaid pie chart', async () => {
-    await service.generate();
+    it('should include top languages as mermaid pie chart', async () => {
+      await service.generate();
 
-    const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
-    expect(writtenContent).toContain('TypeScript');
-    expect(writtenContent).toContain('pie');
+      expect(writtenContent).toContain('TypeScript');
+      expect(writtenContent).toContain('pie');
+    });
   });
 });

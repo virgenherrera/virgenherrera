@@ -18,10 +18,10 @@ export class EducationItemComponent {
   protected readonly institution = computed(() => this.data().institution);
   protected readonly location = computed(() => this.data().location);
   protected readonly startYear = computed(() =>
-    this.data().startDate.slice(0, 4),
+    String(this.data().startDate.year),
   );
   protected readonly endYear = computed(() =>
-    this.data().graduationDate.slice(0, 4),
+    String(this.data().graduationDate.year),
   );
   protected readonly honors = computed(() => this.data().honors);
 }

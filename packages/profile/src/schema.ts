@@ -1,12 +1,16 @@
 import { z } from 'zod';
 import { parseDescription } from './description-block';
 
-// TODO: TD-PROFILE-001 — transform YYYY-MM string into { year: number; month: number } at parse time
-// CONTEXT: keeping as validated string avoids breaking profileSnapshotSchema consumers
-// RESOLVE: add .transform() to yearMonth (like description → DescriptionBlock[]), update profileSnapshotSchema with parsed shape
 const yearMonth = z
   .string()
-  .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected YYYY-MM format');
+  .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected YYYY-MM format')
+  .transform((val) => {
+    const [year, month] = val.split('-').map(Number);
+
+    return { year, month };
+  });
+
+export type YearMonth = z.infer<typeof yearMonth>;
 
 export const linkSchema = z
   .object({
@@ -143,6 +147,13 @@ const descriptionBlockSchema = z.object({
   lines: z.array(z.string().min(1)).min(1),
 });
 
+const parsedYearMonth = z
+  .object({
+    year: z.number().int().min(1900).max(2100),
+    month: z.number().int().min(1).max(12),
+  })
+  .readonly();
+
 const parsedEngagementSchema = z
   .object({
     title: z.string().min(1),
@@ -158,11 +169,32 @@ const parsedExperienceSchema = z
   .object({
     company: z.string().min(1),
     role: z.string().min(1),
-    startDate: yearMonth,
-    endDate: yearMonth.optional(),
+    startDate: parsedYearMonth,
+    endDate: parsedYearMonth.optional(),
     description: z.array(descriptionBlockSchema).min(1),
     technologies: z.array(z.string().min(1)),
     engagements: z.array(parsedEngagementSchema).optional(),
+  })
+  .readonly();
+
+const parsedEducationSchema = z
+  .object({
+    degree: z.string().min(1),
+    degreeTranslation: z.string().min(1),
+    institution: z.string().min(1),
+    location: z.string().min(1),
+    startDate: parsedYearMonth,
+    graduationDate: parsedYearMonth,
+    honors: z.string().optional(),
+  })
+  .readonly();
+
+const parsedCertificationSchema = z
+  .object({
+    name: z.string().min(1),
+    issuer: z.string().min(1),
+    date: parsedYearMonth,
+    url: z.url().optional(),
   })
   .readonly();
 
@@ -185,9 +217,17 @@ export const serializedGraphSchema = z
 export type SerializedProfileGraph = z.infer<typeof serializedGraphSchema>;
 
 export const profileSnapshotSchema = profileObject
-  .omit({ email: true, phone: true, experience: true })
+  .omit({
+    email: true,
+    phone: true,
+    experience: true,
+    education: true,
+    certifications: true,
+  })
   .extend({
     experience: z.array(parsedExperienceSchema).min(1),
+    education: z.array(parsedEducationSchema),
+    certifications: z.array(parsedCertificationSchema),
     graph: serializedGraphSchema.optional(),
   })
   .readonly();

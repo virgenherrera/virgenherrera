@@ -100,7 +100,7 @@ describe('UT: retriever', () => {
       'never duplicate a chunk already present in the direct top-K results';
   }
 
-  describe('cosineSimilarity (via retrieve scores)', () => {
+  describe('cosineSimilarity (via retrieve scores) @critical', () => {
     it(`${should.scoreIdenticalVectorsAsOne}`, () => {
       const index = buildIndex();
       const retriever = createRetriever(index);
@@ -124,7 +124,7 @@ describe('UT: retriever', () => {
     });
   });
 
-  describe('ranking', () => {
+  describe('ranking @critical', () => {
     it(`${should.rankByCosineSimilarity}`, () => {
       const index = buildIndex();
       const retriever = createRetriever(index);
@@ -165,7 +165,7 @@ describe('UT: retriever', () => {
     });
   });
 
-  describe('topK', () => {
+  describe('topK @critical', () => {
     it(`${should.limitToTopK}`, () => {
       const index = buildIndex();
       const retriever = createRetriever(index);

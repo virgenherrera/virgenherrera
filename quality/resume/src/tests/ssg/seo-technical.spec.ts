@@ -14,7 +14,7 @@ import {
 import { SsgPreRenderExpectations as should } from './ssg.expectations.js';
 
 test.describe('IT: SSG Resume page — technical SEO (raw response)', () => {
-  test(should.haveDynamicTitle, async ({ resumePage }) => {
+  test(`${should.haveDynamicTitle} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const title = extractTitle(html);
 
@@ -22,7 +22,7 @@ test.describe('IT: SSG Resume page — technical SEO (raw response)', () => {
     expect(title!.startsWith(`${PUBLIC_PROFILE.name} — `)).toBe(true);
   });
 
-  test(should.haveMetaDescription, async ({ resumePage }) => {
+  test(`${should.haveMetaDescription} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const description = extractMetaContent(html, 'name', 'description');
 
@@ -38,14 +38,14 @@ test.describe('IT: SSG Resume page — technical SEO (raw response)', () => {
     expect(PUBLIC_PROFILE.summary.startsWith(withoutEllipsis)).toBe(true);
   });
 
-  test(should.haveCanonicalLink, async ({ resumePage }) => {
+  test(`${should.haveCanonicalLink} @smoke`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const canonical = extractLinkHref(html, 'canonical');
 
     expect(canonical).toBe(SITE_URL);
   });
 
-  test(should.serveSitemap, async ({ page }) => {
+  test(`${should.serveSitemap} @critical`, async ({ page }) => {
     const response = await page.goto(`${BASE_PATH}/sitemap.xml`);
     expect(response?.status()).toBe(200);
 
@@ -59,14 +59,14 @@ test.describe('IT: SSG Resume page — technical SEO (raw response)', () => {
     );
   });
 
-  test(should.haveRobotsMeta, async ({ resumePage }) => {
+  test(`${should.haveRobotsMeta} @smoke`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const robots = extractMetaContent(html, 'name', 'robots');
 
     expect(robots).toBe('index, follow, max-image-preview:large');
   });
 
-  test(should.notLeakPiiInHead, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInHead} @smoke`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
     const head = headMatch ? headMatch[1] : '';

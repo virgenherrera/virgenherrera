@@ -6,9 +6,9 @@
       <h3 class="vh-experience-item__role">{{ role() }}</h3>
       <span class="vh-experience-item__company">{{ company() }}</span>
       <p class="vh-experience-item__dates">
-        <time [attr.datetime]="startDate()">{{ startDate() | formatDate }}</time>
+        <time [attr.datetime]="startDateIso()">{{ startDate() | formatDate }}</time>
         <span class="vh-experience-item__date-separator" aria-hidden="true">&mdash;</span>
-        <time [attr.datetime]="endDate() ?? ''">{{ endDate() | formatDate }}</time>
+        <time [attr.datetime]="endDateIso()">{{ endDate() | formatDate }}</time>
       </p>
     </header>
 

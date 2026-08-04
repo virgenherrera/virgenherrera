@@ -55,7 +55,7 @@ describe('UT: parser', () => {
 
   afterEach(() => vol.reset());
 
-  describe('parseContent (valid fixtures)', () => {
+  describe('parseContent (valid fixtures) @smoke', () => {
     beforeEach(() => {
       vol.fromJSON({
         '/content/meta.md': `---
@@ -249,7 +249,7 @@ honors: Graduated with Honors (GPA-based)
       const profile = parseContent('/content');
       const pwc = profile.experience[0];
 
-      expect(pwc.startDate).toBe('2024-08');
+      expect(pwc.startDate).toEqual({ year: 2024, month: 8 });
       expect(pwc.endDate).toBeUndefined();
       expect(pwc.description.length).toBeGreaterThan(0);
     });

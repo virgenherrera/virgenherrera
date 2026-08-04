@@ -9,7 +9,7 @@ test.describe('IT: Resume page — mobile viewport (functional)', () => {
     await resumePage.waitForHydration();
   });
 
-  test(should.noHorizontalOverflow, async ({ resumePage }) => {
+  test(`${should.noHorizontalOverflow} @critical`, async ({ resumePage }) => {
     const { scrollWidth, clientWidth } = await resumePage.page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
@@ -18,34 +18,36 @@ test.describe('IT: Resume page — mobile viewport (functional)', () => {
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth);
   });
 
-  test(should.stackSidebarBelowContent, async ({ resumePage }) => {
+  test(`${should.stackSidebarBelowContent} @critical`, async ({
+    resumePage,
+  }) => {
     await expect(resumePage.contentArea).toHaveCSS('flex-direction', 'column');
     await expect(resumePage.sidebar).toBeVisible();
     await expect(resumePage.mainContent).toBeVisible();
   });
 
-  test(should.showSidebarContact, async ({ resumePage }) => {
+  test(`${should.showSidebarContact} @critical`, async ({ resumePage }) => {
     await expect(resumePage.sidebarContact).toBeVisible();
     await expect(resumePage.sidebarName).not.toBeEmpty();
   });
 
-  test(should.showExperienceSection, async ({ resumePage }) => {
+  test(`${should.showExperienceSection} @critical`, async ({ resumePage }) => {
     await expect(resumePage.experienceItems.first()).toBeVisible();
     const itemCount = await resumePage.experienceItems.count();
     expect(itemCount).toBeGreaterThan(0);
   });
 
-  test(should.showSkillsSection, async ({ resumePage }) => {
+  test(`${should.showSkillsSection} @critical`, async ({ resumePage }) => {
     await expect(resumePage.skillGroups.first()).toBeVisible();
   });
 
   test.describe('action hub', () => {
-    test(should.expandActionHub, async ({ resumePage }) => {
+    test(`${should.expandActionHub} @critical`, async ({ resumePage }) => {
       await resumePage.actionHubTrigger.click();
       await expect(resumePage.actionHubPanel).toBeVisible();
     });
 
-    test(should.collapseActionHub, async ({ resumePage }) => {
+    test(`${should.collapseActionHub} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       await expect(resumePage.actionHubPanel).toBeVisible();
       await resumePage.page.keyboard.press('Escape');
@@ -65,14 +67,16 @@ test.describe('IT: Resume page — mobile viewport (functional)', () => {
       }
     });
 
-    test(should.showLinkedInCtaInPublicView, async ({ resumePage }) => {
+    test(`${should.showLinkedInCtaInPublicView} @critical`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       await expect(resumePage.linkedInCta).toBeVisible();
     });
   });
 
   test.describe('theme', () => {
-    test(should.toggleTheme, async ({ resumePage }) => {
+    test(`${should.toggleTheme} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       await resumePage.themeToggleAction.click();
       await expect(resumePage.htmlRoot).toHaveClass(/dark/);
@@ -85,12 +89,12 @@ test.describe('IT: Resume page — mobile viewport (functional)', () => {
       await resumePage.waitForPrivateView();
     });
 
-    test(should.showDownloadButton, async ({ resumePage }) => {
+    test(`${should.showDownloadButton} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       await expect(resumePage.downloadButton).toBeVisible();
     });
 
-    test(should.downloadPdfOnTap, async ({ resumePage }) => {
+    test(`${should.downloadPdfOnTap} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       const downloadPromise = resumePage.page.waitForEvent('download');
       await resumePage.downloadButton.click();

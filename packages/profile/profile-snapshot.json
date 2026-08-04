@@ -27,7 +27,10 @@
     {
       "company": "PwC",
       "role": "Senior Software Developer",
-      "startDate": "2024-08",
+      "startDate": {
+        "year": 2024,
+        "month": 8
+      },
       "description": [
         {
           "type": "paragraph",
@@ -87,8 +90,14 @@
     {
       "company": "Globant",
       "role": "Senior Fullstack Node.js Developer",
-      "startDate": "2021-04",
-      "endDate": "2024-08",
+      "startDate": {
+        "year": 2021,
+        "month": 4
+      },
+      "endDate": {
+        "year": 2024,
+        "month": 8
+      },
       "description": [
         {
           "type": "paragraph",
@@ -177,8 +186,14 @@
     {
       "company": "Unosquare",
       "role": "Lead Full Stack JavaScript Engineer",
-      "startDate": "2020-03",
-      "endDate": "2021-05",
+      "startDate": {
+        "year": 2020,
+        "month": 3
+      },
+      "endDate": {
+        "year": 2021,
+        "month": 5
+      },
       "description": [
         {
           "type": "paragraph",
@@ -238,8 +253,14 @@
     {
       "company": "EPAM Systems",
       "role": "Full Stack JavaScript Engineer",
-      "startDate": "2018-10",
-      "endDate": "2020-02",
+      "startDate": {
+        "year": 2018,
+        "month": 10
+      },
+      "endDate": {
+        "year": 2020,
+        "month": 2
+      },
       "description": [
         {
           "type": "paragraph",
@@ -321,8 +342,14 @@
     {
       "company": "EPAM Systems",
       "role": "Resources Manager (Leadership Development)",
-      "startDate": "2019-05",
-      "endDate": "2020-02",
+      "startDate": {
+        "year": 2019,
+        "month": 5
+      },
+      "endDate": {
+        "year": 2020,
+        "month": 2
+      },
       "description": [
         {
           "type": "paragraph",
@@ -345,8 +372,14 @@
     {
       "company": "3Pillar Global (formerly Tiempo Development)",
       "role": "Full-stack Software Engineer",
-      "startDate": "2016-10",
-      "endDate": "2018-10",
+      "startDate": {
+        "year": 2016,
+        "month": 10
+      },
+      "endDate": {
+        "year": 2018,
+        "month": 10
+      },
       "description": [
         {
           "type": "paragraph",
@@ -430,8 +463,14 @@
     {
       "company": "Hitss México",
       "role": "Frontend Software Engineer",
-      "startDate": "2016-07",
-      "endDate": "2016-10",
+      "startDate": {
+        "year": 2016,
+        "month": 7
+      },
+      "endDate": {
+        "year": 2016,
+        "month": 10
+      },
       "description": [
         {
           "type": "paragraph",
@@ -452,8 +491,14 @@
     {
       "company": "Ramsal Software",
       "role": "Fullstack Software Engineer",
-      "startDate": "2015-08",
-      "endDate": "2016-06",
+      "startDate": {
+        "year": 2015,
+        "month": 8
+      },
+      "endDate": {
+        "year": 2016,
+        "month": 6
+      },
       "description": [
         {
           "type": "paragraph",
@@ -487,8 +532,14 @@
       "degreeTranslation": "B.S. in Management Information Systems",
       "institution": "Universidad América Latina",
       "location": "Guadalajara, Mexico",
-      "startDate": "2018-01",
-      "graduationDate": "2021-05",
+      "startDate": {
+        "year": 2018,
+        "month": 1
+      },
+      "graduationDate": {
+        "year": 2021,
+        "month": 5
+      },
       "honors": "Graduated with Honors (GPA-based)"
     }
   ],
@@ -665,7 +716,7 @@
           "Ramsal Software"
         ],
         "projects": [],
-        "years": 6.3
+        "years": 6.4
       },
       "typescript": {
         "experiences": ["PwC", "Globant", "EPAM Systems"],
@@ -676,7 +727,7 @@
           "typescript-base",
           "tl-assistant"
         ],
-        "years": 6.6
+        "years": 6.7
       },
       "nodejs": {
         "experiences": [
@@ -687,7 +738,7 @@
           "Ramsal Software"
         ],
         "projects": ["nest-base", "typescript-base"],
-        "years": 9.4
+        "years": 9.5
       },
       "nestjs": {
         "experiences": ["PwC", "Globant"],
@@ -702,42 +753,42 @@
       "langchain": {
         "experiences": ["PwC"],
         "projects": [],
-        "years": 1.9
+        "years": 2
       },
       "openai-api": {
         "experiences": ["PwC"],
         "projects": [],
-        "years": 1.9
+        "years": 2
       },
       "dotnet-8": {
         "experiences": ["PwC"],
         "projects": [],
-        "years": 1.9
+        "years": 2
       },
       "azure": {
         "experiences": ["PwC"],
         "projects": [],
-        "years": 1.9
+        "years": 2
       },
       "azure-functions": {
         "experiences": ["PwC", "Unosquare"],
         "projects": [],
-        "years": 3.1
+        "years": 3.2
       },
       "ci-cd": {
         "experiences": ["PwC"],
         "projects": [],
-        "years": 1.9
+        "years": 2
       },
       "angular": {
         "experiences": ["PwC", "Globant", "Unosquare", "Ramsal Software"],
         "projects": ["virgenherrera", "lan-file-share"],
-        "years": 7.2
+        "years": 7.3
       },
       "react": {
         "experiences": ["PwC", "Globant", "EPAM Systems", "Hitss México"],
         "projects": [],
-        "years": 6.8
+        "years": 6.9
       },
       "vue": {
         "experiences": ["PwC", "Globant"],
