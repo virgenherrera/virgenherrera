@@ -1,0 +1,13 @@
+id: default
+label: Default
+sectionOrder:
+  [
+    summary,
+    experience,
+    skills,
+    projects,
+    education,
+    certifications,
+    languages,
+    links,
+  ]

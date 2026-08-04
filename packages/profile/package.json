@@ -8,7 +8,9 @@
     ".": "./src/index.ts",
     "./data": "./src/data.ts",
     "./schema": "./src/schema.ts",
-    "./server": "./src/get-profile.ts"
+    "./server": "./src/get-profile.ts",
+    "./persona": "./src/persona-schema.ts",
+    "./persona-projector": "./src/persona-projector.ts"
   },
   "scripts": {
     "test:doctor": "pnpm run test:static && pnpm run test:dynamic",

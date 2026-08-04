@@ -1,0 +1,83 @@
+id: ai-engineer
+label: AI Engineer
+extends: default
+
+headline: 'AI/LLM Engineer | LangChain, RAG & Agent Orchestration | NestJS, Node.js, TypeScript | Azure'
+
+summary: >-
+  Senior Software Engineer specializing in AI-powered platforms, with
+  hands-on experience designing agent orchestration layers using NestJS,
+  LangChain, and the OpenAI API. Implemented Retrieval-Augmented Generation
+  (RAG) and function calling to interpret user intent and execute actions
+  against internal and third-party systems, replacing manual multi-platform
+  workflows with a single conversational interface. Built a context
+  engineering service in .NET 8 to support the RAG pipeline, managing
+  context retrieval across repeated, interrupted, and asynchronous
+  conversational requests. Delivered framework-specific SDKs (React,
+  Angular, Vue) exposing a floating chatbot widget with Active
+  Directory-backed authentication for internal, second-party, and external
+  integrations. Brings 10+ years of full-stack engineering experience in
+  Node.js, TypeScript, and cloud-native architectures (Azure, AWS) as the
+  foundation for reliable, production-grade AI systems.
+
+skills:
+  priority:
+    - langchain
+    - openai-api
+    - nestjs
+    - nodejs
+    - typescript
+    - azure
+    - azure-functions
+    - ci-cd
+    - graphql
+    - react
+    - angular
+  weights:
+    langchain: { weight: 1, highlight: true }
+    openai-api: { weight: 1, highlight: true }
+    nestjs: 0.9
+    nodejs: 0.85
+    typescript: 0.85
+    azure: 0.7
+    azure-functions: 0.7
+    ci-cd: 0.6
+    graphql: 0.5
+    react: 0.45
+    angular: 0.4
+  exclude:
+    - jquery
+    - php
+    - gulp
+    - mariadb
+    - webpack
+  maxDisplayed: 14
+
+experience:
+  weights:
+    PwC: 1
+    Globant: 0.6
+    Unosquare: 0.3
+    EPAM Systems: 0.2
+    3Pillar Global (formerly Tiempo Development): 0.2
+    Hitss México: 0.1
+    Ramsal Software: 0.1
+  engagementWeights:
+    Enterprise AI Conversational Platform: 1
+  maxDisplayed: 5
+
+technologyHighlights:
+  - LangChain
+  - OpenAI API
+  - RAG
+  - Function Calling
+  - NestJS
+  - Azure Functions
+  - .NET 8
+  - Agent Orchestration
+  - TypeScript
+  - Node.js
+
+meta:
+  description: 'AI/LLM engineering-focused profile — agent orchestration, RAG, LangChain, and OpenAI integrations.'
+  ogTitle: 'Hugo Virgen — AI/LLM Engineer'
