@@ -58,6 +58,7 @@ function serializeGraph(graph: ProfileGraph): SerializedProfileGraph {
         [...technologies],
       ]),
     ),
+    displayNames: Object.fromEntries(graph.displayNames.entries()),
   };
 }
 

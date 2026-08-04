@@ -539,6 +539,23 @@ describe('UT: schema', () => {
       expect(result.bySkill.typescript.years).toBe(5);
       expect(result.byExperience['Acme Corp']).toEqual(['typescript']);
       expect(result.byProject['side-project']).toEqual(['typescript']);
+      expect(result.displayNames).toBeUndefined();
+    });
+
+    it('parses an optional displayNames map when present', () => {
+      const graph = {
+        bySkill: {},
+        byExperience: {},
+        byProject: {},
+        displayNames: { 'dotnet-8': '.NET 8', csharp: 'C#' },
+      };
+
+      const result = serializedGraphSchema.parse(graph);
+
+      expect(result.displayNames).toEqual({
+        'dotnet-8': '.NET 8',
+        csharp: 'C#',
+      });
     });
   });
 

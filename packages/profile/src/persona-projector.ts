@@ -61,9 +61,11 @@ export function projectProfile(
   graph: SerializedProfileGraph | null,
   persona: PersonaConfig,
 ): ProjectedProfile {
+  const displayNames = graph?.displayNames;
   const { skills, highlights } = projectSkills(
     profile.skills,
     graph,
+    displayNames,
     persona.skills,
   );
   const experience = projectExperience(profile.experience, persona.experience);
@@ -86,21 +88,14 @@ export function projectProfile(
 //
 // `profile.skills` stores resolved display names (e.g. "LangChain",
 // "OpenAI API"); persona configs reference registry slugs (e.g. "langchain",
-// "openai-api"). There is no slug<->display map available to this pure
-// function (it only receives `ProfileSnapshotData` + `SerializedProfileGraph`,
-// neither of which carries the registry mapping), so identifiers are matched
-// via a best-effort slugification of the display name.
-//
-// This resolves the vast majority of registry slugs (anything the original
-// author derived from its display name via lowercase + hyphenation, e.g.
-// "OpenAI API" -> "openai-api", "Azure Functions" -> "azure-functions").
-// A handful of slugs are irregular relative to their display name (e.g.
-// ".NET 8" -> "dotnet-8", "C#" -> "csharp", "Azure Kubernetes Service" ->
-// "azure-aks", "LLM-based orchestration" -> "llm-orchestration") and will
-// NOT match through this heuristic — those skills simply fall back to
-// natural ordering/no highlight instead of throwing. Persona authors should
-// prefer slugs whose display name slugifies back to the slug (see
-// `packages/profile/personas/ai-engineer.yaml` for known-safe examples).
+// "openai-api"). `graph.displayNames` (slug -> display name, populated from
+// `skills-registry.yaml` by `buildProfileGraph()`) gives an exact lookup for
+// this mapping, so that is the primary matching strategy. When no graph (or
+// no `displayNames` on it) is available — e.g. a caller that only has the
+// profile snapshot without its graph — matching falls back to a best-effort
+// slugification of the display name, which only resolves regular slugs
+// (anything derivable via lowercase + hyphenation) and misses irregular ones
+// (".NET 8" -> "dotnet-8", "C#" -> "csharp", etc.).
 
 function slugifyDisplayName(value: string): string {
   return value
@@ -110,7 +105,19 @@ function slugifyDisplayName(value: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-function matchesIdentifier(displayName: string, identifier: string): boolean {
+function matchesIdentifier(
+  displayName: string,
+  identifier: string,
+  displayNames?: Record<string, string>,
+): boolean {
+  if (displayNames) {
+    const mapped = displayNames[identifier];
+
+    if (mapped) {
+      return mapped === displayName;
+    }
+  }
+
   return slugifyDisplayName(displayName) === slugifyDisplayName(identifier);
 }
 
@@ -158,19 +165,22 @@ function flattenSkills(categories: readonly SkillCategoryData[]): FlatSkill[] {
 function applyExclude(
   skills: FlatSkill[],
   exclude: readonly string[],
+  displayNames?: Record<string, string>,
 ): FlatSkill[] {
   if (exclude.length === 0) {
     return skills;
   }
 
   return skills.filter(
-    (skill) => !exclude.some((id) => matchesIdentifier(skill.name, id)),
+    (skill) =>
+      !exclude.some((id) => matchesIdentifier(skill.name, id, displayNames)),
   );
 }
 
 function applyInclude(
   skills: FlatSkill[],
   include: readonly string[] | undefined,
+  displayNames?: Record<string, string>,
 ): FlatSkill[] {
   if (!include || include.length === 0) {
     return skills;
@@ -178,7 +188,9 @@ function applyInclude(
 
   return skills.filter((skill) =>
     include.some(
-      (id) => matchesIdentifier(skill.name, id) || skill.category === id,
+      (id) =>
+        matchesIdentifier(skill.name, id, displayNames) ||
+        skill.category === id,
     ),
   );
 }
@@ -187,6 +199,7 @@ function applyWeights(
   skills: FlatSkill[],
   weights: Record<string, number | { weight: number; highlight?: boolean }>,
   graph: SerializedProfileGraph | null,
+  displayNames?: Record<string, string>,
 ): void {
   const identifiers = Object.keys(weights);
 
@@ -196,7 +209,7 @@ function applyWeights(
 
   for (const skill of skills) {
     const matchedId = identifiers.find((id) =>
-      matchesIdentifier(skill.name, id),
+      matchesIdentifier(skill.name, id, displayNames),
     );
 
     if (!matchedId) {
@@ -211,10 +224,17 @@ function applyWeights(
   }
 }
 
-function applyPriority(skills: FlatSkill[], priority: readonly string[]): void {
+function applyPriority(
+  skills: FlatSkill[],
+  priority: readonly string[],
+  displayNames?: Record<string, string>,
+): void {
   priority.forEach((id, priorityIndex) => {
     for (const skill of skills) {
-      if (skill.priorityIndex === -1 && matchesIdentifier(skill.name, id)) {
+      if (
+        skill.priorityIndex === -1 &&
+        matchesIdentifier(skill.name, id, displayNames)
+      ) {
         skill.priorityIndex = priorityIndex;
       }
     }
@@ -269,6 +289,7 @@ function regroupSkills(skills: readonly FlatSkill[]): SkillCategoryData[] {
 function projectSkills(
   categories: readonly SkillCategoryData[],
   graph: SerializedProfileGraph | null,
+  displayNames: Record<string, string> | undefined,
   config: SkillsConfig | undefined,
 ): { skills: SkillCategoryData[]; highlights: string[] } {
   if (!config) {
@@ -289,11 +310,11 @@ function projectSkills(
     maxDisplayed,
   } = config;
 
-  let working = applyExclude(flattenSkills(categories), exclude);
+  let working = applyExclude(flattenSkills(categories), exclude, displayNames);
 
-  working = applyInclude(working, include);
-  applyWeights(working, weights, graph);
-  applyPriority(working, priority);
+  working = applyInclude(working, include, displayNames);
+  applyWeights(working, weights, graph, displayNames);
+  applyPriority(working, priority, displayNames);
 
   const sorted = sortSkills(working);
   const truncated = maxDisplayed ? sorted.slice(0, maxDisplayed) : sorted;

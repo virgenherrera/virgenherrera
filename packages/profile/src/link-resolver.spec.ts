@@ -11,6 +11,8 @@ describe('UT: link-resolver', () => {
     static readonly buildByProject = 'map each project to its technologies';
     static readonly buildBySkill =
       'map each skill to the experiences and projects that reference it';
+    static readonly buildDisplayNames =
+      'map each skill slug to its registry display name';
     static readonly sumNonOverlappingYears =
       'sum non-overlapping periods for years-per-skill';
     static readonly mergeOverlappingYears =
@@ -184,6 +186,15 @@ describe('UT: link-resolver', () => {
       expect(typescriptStats?.projects).toEqual(['side-project']);
       expect(dockerStats?.experiences).toEqual(['ZetaCo']);
       expect(dockerStats?.projects).toEqual(['side-project']);
+    });
+
+    it(`${should.buildDisplayNames}`, () => {
+      const graph = buildProfileGraph(contentDir);
+
+      expect(graph.displayNames.get('typescript')).toBe('TypeScript');
+      expect(graph.displayNames.get('nodejs')).toBe('Node.js');
+      expect(graph.displayNames.get('nestjs')).toBe('NestJS');
+      expect(graph.displayNames.get('docker')).toBe('Docker');
     });
 
     it(`${should.sumNonOverlappingYears}`, () => {

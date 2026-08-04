@@ -60,6 +60,7 @@ function validSnapshot() {
     skills: [
       { category: 'AI & Integrations', skills: ['LangChain', 'OpenAI API'] },
       { category: 'Languages', skills: ['JavaScript', 'TypeScript'] },
+      { category: 'Backend Frameworks', skills: ['.NET 8', 'C#'] },
     ],
     languages: [{ language: 'English', proficiency: 'C1' }],
   });
@@ -79,6 +80,14 @@ function validGraph() {
       'Ramsal Software': ['javascript'],
     },
     byProject: {},
+    displayNames: {
+      langchain: 'LangChain',
+      'openai-api': 'OpenAI API',
+      typescript: 'TypeScript',
+      javascript: 'JavaScript',
+      'dotnet-8': '.NET 8',
+      csharp: 'C#',
+    },
   });
 }
 
@@ -111,6 +120,8 @@ describe('UT: persona-projector', () => {
       'truncate skills after sorting';
     static readonly extractSkillHighlights =
       'collect skillHighlights from weight entries with highlight: true';
+    static readonly matchIrregularSlugsViaDisplayNames =
+      'match irregular slugs (e.g. "dotnet-8") via graph.displayNames instead of the slugify heuristic';
     static readonly reorderExperienceByWeight =
       'reorder experience entries by weight (desc)';
     static readonly hideExperienceByCompany =
@@ -262,6 +273,48 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       expect(projected.skillHighlights).toEqual(['LangChain']);
+    });
+
+    it(`${should.matchIrregularSlugsViaDisplayNames}`, () => {
+      // "dotnet-8" -slugify-> "dotnet-8", but ".NET 8" -slugify-> "net-8" —
+      // the heuristic alone would never match these. Only the exact
+      // graph.displayNames lookup resolves it.
+      const config = persona({
+        skills: {
+          priority: ['dotnet-8'],
+          weights: { csharp: { weight: 1, highlight: true } },
+        },
+      });
+
+      const projected = projectProfile(validSnapshot(), validGraph(), config);
+
+      const backendCategory = projected.skills.find(
+        (c) => c.category === 'Backend Frameworks',
+      );
+
+      expect(backendCategory?.skills).toEqual(['.NET 8', 'C#']);
+      expect(projected.skillHighlights).toEqual(['C#']);
+    });
+
+    it('falls back to the slugify heuristic when displayNames is absent from the graph', () => {
+      const graphWithoutDisplayNames = serializedGraphSchema.parse({
+        bySkill: {},
+        byExperience: {},
+        byProject: {},
+      });
+      const config = persona({ skills: { exclude: ['openai-api'] } });
+
+      const projected = projectProfile(
+        validSnapshot(),
+        graphWithoutDisplayNames,
+        config,
+      );
+
+      const aiCategory = projected.skills.find(
+        (c) => c.category === 'AI & Integrations',
+      );
+
+      expect(aiCategory?.skills).toEqual(['LangChain']);
     });
   });
 
