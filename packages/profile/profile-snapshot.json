@@ -27,7 +27,7 @@
       "url": "https://calendar.app.google/M1VWHaWxfspB7Zst6",
       "icon": "calendar",
       "target": "blank",
-      "visibility": "public",
+      "visibility": "private",
       "type": "professional",
       "cta": true
     },
@@ -36,7 +36,7 @@
       "url": "https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=",
       "icon": "globe",
       "target": "blank",
-      "visibility": "public",
+      "visibility": "private",
       "type": "portfolio",
       "cta": false
     }
