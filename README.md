@@ -105,7 +105,7 @@ pie title Top Languages
 
 | Metric | Value |
 |:---|:---:|
-| Public Repos | 62 |
+| Public Repos | 63 |
 | Total Stars | ⭐ 5 |
 | Total Forks | 🍴 6 |
 

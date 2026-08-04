@@ -11,13 +11,12 @@ export class FormatDatePipe implements PipeTransform {
     year: 'numeric',
   });
 
-  transform(value: string | undefined): string {
+  transform(value: { year: number; month: number } | undefined): string {
     if (!value) {
       return 'Present';
     }
 
-    const [year, month] = value.split('-').map(Number);
-    const date = new Date(year, month - 1, 1);
+    const date = new Date(value.year, value.month - 1, 1);
 
     return FormatDatePipe.formatter.format(date);
   }

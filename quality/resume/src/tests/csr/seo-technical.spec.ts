@@ -14,13 +14,13 @@ test.describe('IT: CSR Resume page — technical SEO (live DOM)', () => {
     await resumePage.waitForHydration();
   });
 
-  test(should.haveDynamicTitle, async ({ resumePage }) => {
+  test(`${should.haveDynamicTitle} @critical`, async ({ resumePage }) => {
     const title = await resumePage.page.title();
 
     expect(title.startsWith(`${PUBLIC_PROFILE.name} — `)).toBe(true);
   });
 
-  test(should.haveMetaDescription, async ({ resumePage }) => {
+  test(`${should.haveMetaDescription} @critical`, async ({ resumePage }) => {
     const description =
       await resumePage.metaDescription.getAttribute('content');
 
@@ -36,13 +36,13 @@ test.describe('IT: CSR Resume page — technical SEO (live DOM)', () => {
     expect(PUBLIC_PROFILE.summary.startsWith(withoutEllipsis)).toBe(true);
   });
 
-  test(should.haveCanonicalLink, async ({ resumePage }) => {
+  test(`${should.haveCanonicalLink} @smoke`, async ({ resumePage }) => {
     const href = await resumePage.canonicalLink.getAttribute('href');
 
     expect(href).toBe(SITE_URL);
   });
 
-  test(should.serveSitemap, async ({ resumePage }) => {
+  test(`${should.serveSitemap} @critical`, async ({ resumePage }) => {
     const response = await resumePage.page.goto(`${BASE_PATH}/sitemap.xml`);
     expect(response?.status()).toBe(200);
 
@@ -56,13 +56,13 @@ test.describe('IT: CSR Resume page — technical SEO (live DOM)', () => {
     );
   });
 
-  test(should.haveRobotsMeta, async ({ resumePage }) => {
+  test(`${should.haveRobotsMeta} @smoke`, async ({ resumePage }) => {
     const content = await resumePage.metaRobots.getAttribute('content');
 
     expect(content).toBe('index, follow, max-image-preview:large');
   });
 
-  test(should.notLeakPiiInHead, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInHead} @smoke`, async ({ resumePage }) => {
     const headHtml = await resumePage.page.locator('head').innerHTML();
 
     expect(headHtml).not.toContain('mailto:');

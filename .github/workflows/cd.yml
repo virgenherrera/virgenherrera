@@ -1,8 +1,5 @@
 name: Continuous Deployment
 
-# TODO: TD-RESUME-004 — no automated CHANGELOG generation
-# RESOLVE: add conventional-changelog or release-please step after version bump
-
 on:
   push:
     branches: [main]
@@ -103,6 +100,21 @@ jobs:
           fi
           echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
           echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+
+  release:
+    name: GitHub Release
+    needs: [tag]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ needs.tag.outputs.tag }}" \
+            --title "${{ needs.tag.outputs.tag }}" \
+            --generate-notes \
+            --latest
 
   deploy-resume:
     name: Deploy Resume

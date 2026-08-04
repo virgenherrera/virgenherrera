@@ -10,7 +10,7 @@ import { extractMetaContent } from '../../helpers/head-meta.helper.js';
 import { SsgPreRenderExpectations as should } from './ssg.expectations.js';
 
 test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () => {
-  test(should.haveOgTitle, async ({ resumePage }) => {
+  test(`${should.haveOgTitle} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogTitle = extractMetaContent(html, 'property', 'og:title');
 
@@ -19,7 +19,7 @@ test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () =>
     expect(ogTitle).toBe(expectedTitle);
   });
 
-  test(should.haveOgDescription, async ({ resumePage }) => {
+  test(`${should.haveOgDescription} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogDescription = extractMetaContent(
       html,
@@ -33,28 +33,28 @@ test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () =>
     );
   });
 
-  test(should.haveOgUrl, async ({ resumePage }) => {
+  test(`${should.haveOgUrl} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogUrl = extractMetaContent(html, 'property', 'og:url');
 
     expect(ogUrl).toBe(SITE_URL);
   });
 
-  test(should.haveOgType, async ({ resumePage }) => {
+  test(`${should.haveOgType} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogType = extractMetaContent(html, 'property', 'og:type');
 
     expect(ogType).toBe('profile');
   });
 
-  test(should.haveOgImage, async ({ resumePage }) => {
+  test(`${should.haveOgImage} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogImage = extractMetaContent(html, 'property', 'og:image');
 
     expect(ogImage).toBe(AVATAR_URL);
   });
 
-  test(should.haveOgImageDimensions, async ({ resumePage }) => {
+  test(`${should.haveOgImageDimensions} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const width = extractMetaContent(html, 'property', 'og:image:width');
     const height = extractMetaContent(html, 'property', 'og:image:height');
@@ -84,14 +84,14 @@ test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () =>
     expect(twitterImage).toBe(AVATAR_URL);
   });
 
-  test(should.haveOgLocale, async ({ resumePage }) => {
+  test(`${should.haveOgLocale} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogLocale = extractMetaContent(html, 'property', 'og:locale');
 
     expect(ogLocale).toBe('en_US');
   });
 
-  test(should.haveImageAltText, async ({ resumePage }) => {
+  test(`${should.haveImageAltText} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const ogImageAlt = extractMetaContent(html, 'property', 'og:image:alt');
     const twitterImageAlt = extractMetaContent(
@@ -106,7 +106,7 @@ test.describe('IT: SSG Resume page — social sharing SEO (raw response)', () =>
     expect(twitterImageAlt).toContain(PUBLIC_PROFILE.name);
   });
 
-  test(should.notLeakPiiInSocialMeta, async ({ resumePage }) => {
+  test(`${should.notLeakPiiInSocialMeta} @critical`, async ({ resumePage }) => {
     const html = await resumePage.gotoRaw();
     const values = [
       extractMetaContent(html, 'property', 'og:title'),

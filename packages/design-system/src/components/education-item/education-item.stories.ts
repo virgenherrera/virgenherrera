@@ -33,8 +33,8 @@ export const DateFormat: Story = {
   args: {
     data: {
       ...mockProfile.education[0],
-      startDate: '2018-01',
-      graduationDate: '2021-05',
+      startDate: { year: 2018, month: 1 },
+      graduationDate: { year: 2021, month: 5 },
     },
   },
 };

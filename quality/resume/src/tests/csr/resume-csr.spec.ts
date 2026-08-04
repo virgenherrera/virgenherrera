@@ -12,12 +12,14 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     await resumePage.waitForHydration();
   });
 
-  test(should.showPublicByDefault, async ({ resumePage }) => {
+  test(`${should.showPublicByDefault} @smoke`, async ({ resumePage }) => {
     await expect(resumePage.sidebarContact).toBeAttached();
     await expect(resumePage.sidebarName).not.toBeEmpty();
   });
 
-  test(should.stayPublicOnInvalidHash, async ({ resumePage }) => {
+  test(`${should.stayPublicOnInvalidHash} @critical`, async ({
+    resumePage,
+  }) => {
     await resumePage.gotoWithHash(INVALID_HASH);
     await resumePage.waitForHydration();
     await expect(resumePage.sidebarContact).toBeAttached();
@@ -25,20 +27,22 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     await expect(resumePage.telLinks).toHaveCount(0);
   });
 
-  test(should.showExperienceAfterHydration, async ({ resumePage }) => {
+  test(`${should.showExperienceAfterHydration} @smoke`, async ({
+    resumePage,
+  }) => {
     await expect(resumePage.experienceItems.first()).toBeAttached();
     const itemCount = await resumePage.experienceItems.count();
     expect(itemCount).toBeGreaterThan(0);
   });
 
-  test(should.activatePrivateView, async ({ resumePage }) => {
+  test(`${should.activatePrivateView} @critical`, async ({ resumePage }) => {
     await resumePage.gotoWithHash(PRIVATE_HASH);
     await resumePage.waitForPrivateView();
     await expect(resumePage.sidebarContact).toBeVisible();
     await expect(resumePage.experienceItems.first()).toBeAttached();
   });
 
-  test(should.revertToPublicOnClear, async ({ resumePage }) => {
+  test(`${should.revertToPublicOnClear} @critical`, async ({ resumePage }) => {
     await resumePage.gotoWithHash(PRIVATE_HASH);
     await resumePage.waitForPrivateView();
     await resumePage.goto();
@@ -79,14 +83,16 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
     await expect(resumePage.sidebar).toHaveCSS('position', 'sticky');
   });
 
-  test(should.hideDownloadInPublicView, async ({ resumePage }) => {
+  test(`${should.hideDownloadInPublicView} @critical`, async ({
+    resumePage,
+  }) => {
     await resumePage.expandHub();
     await expect(resumePage.linkedInCta).toBeVisible();
     await expect(resumePage.downloadButton).not.toBeAttached();
   });
 
   test.describe('action hub', () => {
-    test(should.expandActionHub, async ({ resumePage }) => {
+    test(`${should.expandActionHub} @critical`, async ({ resumePage }) => {
       await resumePage.actionHubTrigger.click();
       await expect(resumePage.actionHubPanel).toBeVisible();
       await expect(resumePage.actionHubPanel).toHaveAttribute(
@@ -95,7 +101,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
       );
     });
 
-    test(should.collapseActionHub, async ({ resumePage }) => {
+    test(`${should.collapseActionHub} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       await expect(resumePage.actionHubPanel).toBeVisible();
       await resumePage.page.keyboard.press('Escape');
@@ -103,7 +109,9 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
       await expect(resumePage.actionHubTrigger).toBeFocused();
     });
 
-    test(should.showLinkedInCtaInPublicView, async ({ resumePage }) => {
+    test(`${should.showLinkedInCtaInPublicView} @critical`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       await expect(resumePage.linkedInCta).toBeVisible();
     });
@@ -124,13 +132,15 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
   });
 
   test.describe('theme', () => {
-    test(should.toggleToDarkTheme, async ({ resumePage }) => {
+    test(`${should.toggleToDarkTheme} @critical`, async ({ resumePage }) => {
       await resumePage.expandHub();
       await resumePage.themeToggleAction.click();
       await expect(resumePage.htmlRoot).toHaveClass(/dark/);
     });
 
-    test(should.toggleBackToLightTheme, async ({ resumePage }) => {
+    test(`${should.toggleBackToLightTheme} @critical`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       await resumePage.themeToggleAction.click();
       await expect(resumePage.htmlRoot).toHaveClass(/dark/);
@@ -183,15 +193,21 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
       await resumePage.waitForPrivateView();
     });
 
-    test(should.displayPrivateContact, async ({ resumePage }) => {
+    test(`${should.displayPrivateContact} @critical`, async ({
+      resumePage,
+    }) => {
       await expect(resumePage.sidebarContact).toBeVisible();
     });
 
-    test(should.displayFullExperience, async ({ resumePage }) => {
+    test(`${should.displayFullExperience} @critical`, async ({
+      resumePage,
+    }) => {
       await expect(resumePage.experienceItems.first()).toBeVisible();
     });
 
-    test(should.addPrivateContactsWithHash, async ({ resumePage }) => {
+    test(`${should.addPrivateContactsWithHash} @critical`, async ({
+      resumePage,
+    }) => {
       await expect(
         resumePage.contactLinks.filter({ hasText: 'Email' }),
       ).toBeAttached();
@@ -227,7 +243,9 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
       await expect(resumePage.aboutToggle).toHaveText('Show more');
     });
 
-    test(should.showDownloadInPrivateView, async ({ resumePage }) => {
+    test(`${should.showDownloadInPrivateView} @critical`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       await expect(resumePage.downloadButton).toBeVisible();
       await expect(resumePage.downloadButton).toHaveAttribute(
@@ -236,16 +254,20 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
       );
     });
 
-    test(should.downloadPdfOnClick, async ({ resumePage }) => {
+    test(`${should.downloadPdfOnClick} @critical @smoke`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       const downloadPromise = resumePage.page.waitForEvent('download');
       await resumePage.downloadButton.click();
       const download = await downloadPromise;
 
-      expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+      expect(download.suggestedFilename()).toMatch(/resume\.pdf$/);
     });
 
-    test(should.downloadValidPdf, async ({ resumePage }) => {
+    test(`${should.downloadValidPdf} @critical @smoke`, async ({
+      resumePage,
+    }) => {
       await resumePage.expandHub();
       const downloadPromise = resumePage.page.waitForEvent('download');
       await resumePage.downloadButton.click();

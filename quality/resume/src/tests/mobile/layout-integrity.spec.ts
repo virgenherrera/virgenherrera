@@ -16,7 +16,7 @@ async function expectWithinViewport(
   }
 }
 
-test.describe('IT: Resume page — mobile layout integrity', () => {
+test.describe('IT: Resume page — mobile layout integrity @structural', () => {
   test.beforeEach(async ({ resumePage }) => {
     await resumePage.goto();
     await resumePage.waitForHydration();

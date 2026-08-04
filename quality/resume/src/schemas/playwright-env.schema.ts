@@ -134,6 +134,16 @@ function envSchema(configDir: string) {
               hasTouch: true,
             },
           },
+          {
+            name: 'firefox',
+            testDir: './src/tests/ssg',
+            use: { ...devices['Desktop Firefox'] },
+          },
+          {
+            name: 'webkit',
+            testDir: './src/tests/ssg',
+            use: { ...devices['Desktop Safari'] },
+          },
         ],
       };
     });

@@ -49,7 +49,7 @@ describe('UT: link-resolver', () => {
 
   afterEach(() => vol.reset());
 
-  describe('buildProfileGraph (valid fixtures)', () => {
+  describe('buildProfileGraph (valid fixtures) @critical', () => {
     const contentDir = '/content';
 
     beforeEach(() => {
@@ -219,7 +219,7 @@ describe('UT: link-resolver', () => {
     });
   });
 
-  describe('buildProfileGraph (engagement fixtures)', () => {
+  describe('buildProfileGraph (engagement fixtures) @critical', () => {
     const contentDir = '/content';
 
     beforeEach(() => {

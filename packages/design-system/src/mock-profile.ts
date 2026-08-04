@@ -12,8 +12,8 @@ const experience: ExperienceData[] = [
   {
     company: 'Tesla Electric Company',
     role: 'Founder & Chief Engineer',
-    startDate: '1887-04',
-    endDate: '1902-01',
+    startDate: { year: 1887, month: 4 },
+    endDate: { year: 1902, month: 1 },
     description: [
       {
         type: 'paragraph',
@@ -47,8 +47,8 @@ const experience: ExperienceData[] = [
   {
     company: 'Westinghouse Electric & Manufacturing',
     role: 'Consulting Engineer',
-    startDate: '1888-07',
-    endDate: '1895-03',
+    startDate: { year: 1888, month: 7 },
+    endDate: { year: 1895, month: 3 },
     description: [
       {
         type: 'paragraph',
@@ -77,8 +77,8 @@ const experience: ExperienceData[] = [
   {
     company: 'Edison Machine Works',
     role: 'Electrical Engineer',
-    startDate: '1884-06',
-    endDate: '1885-03',
+    startDate: { year: 1884, month: 6 },
+    endDate: { year: 1885, month: 3 },
     description: [
       {
         type: 'paragraph',
@@ -105,8 +105,8 @@ const experience: ExperienceData[] = [
   {
     company: 'Continental Edison Company',
     role: 'Junior Electrical Engineer',
-    startDate: '1882-09',
-    endDate: '1884-05',
+    startDate: { year: 1882, month: 9 },
+    endDate: { year: 1884, month: 5 },
     description: [
       {
         type: 'paragraph',
@@ -125,8 +125,8 @@ const education: EducationData[] = [
     degreeTranslation: 'Electrical Engineering',
     institution: 'Graz University of Technology',
     location: 'Graz, Austria',
-    startDate: '1875-09',
-    graduationDate: '1878-12',
+    startDate: { year: 1875, month: 9 },
+    graduationDate: { year: 1878, month: 12 },
     honors: 'Highest Honors — First Year',
   },
   {
@@ -134,8 +134,8 @@ const education: EducationData[] = [
     degreeTranslation: 'Philosophy',
     institution: 'Charles-Ferdinand University',
     location: 'Prague, Czech Republic',
-    startDate: '1880-01',
-    graduationDate: '1880-12',
+    startDate: { year: 1880, month: 1 },
+    graduationDate: { year: 1880, month: 12 },
   },
 ];
 
@@ -241,12 +241,12 @@ export const mockProfile: ProfileData = {
     {
       name: 'Order of St. Sava',
       issuer: 'Kingdom of Serbia',
-      date: '1892-06',
+      date: { year: 1892, month: 6 },
     },
     {
       name: 'Elliott Cresson Medal',
       issuer: 'Franklin Institute',
-      date: '1894-01',
+      date: { year: 1894, month: 1 },
     },
   ],
   projects: [],
