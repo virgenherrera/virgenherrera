@@ -52,8 +52,10 @@ journey
       Lead Full Stack JavaScript Engineer: 3: Unosquare
     section 2021-2024
       Senior Fullstack Node.js Developer: 5: Globant
-    section 2024-2026
-      Senior Software Developer: 5: PwC
+    section 2024-2025
+      Senior Software Developer: 3: PwC
+    section 2025-2026
+      Fullstack AI Engineer: 3: Independent Contractor
 ```
 
 ---
@@ -62,14 +64,14 @@ journey
 
 | | Category | Technologies |
 |:---:|:---|:---|
-| 💬 | **Languages** | TypeScript, JavaScript, C#, PHP, Golang, HTML, CSS |
+| 💬 | **Languages** | TypeScript, JavaScript, C#, PHP, Java, Golang, HTML, CSS |
 | ⚙️ | **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework, .NET Core, .NET 8, Fiber |
 | 🎨 | **Frontend Frameworks** | Angular, React, Vue, jQuery |
 | 🗄️ | **Databases** | PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis |
 | 🔌 | **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket, Apollo GraphQL |
-| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
+| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, OpenShift, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
 | 🗂️ | **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
-| 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM-based orchestration |
+| 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM Orchestration, RAG, Prompt Engineering, Context Engineering, Function Calling, Agentic Workflows |
 | 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha, Chai, Istanbul |
 | 🏗️ | **Architecture & Patterns** | Monorepo (pnpm workspaces), Design Systems, Angular Signals, DI Multi-Provider, SSR/SSG, Clean Architecture |
 | 📦 | **Developer Tooling** | Zod, pnpm, ESLint, Prettier, GitHub Actions, GitHub Pages |
@@ -117,6 +119,8 @@ pie title Top Languages
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&style=for-the-badge&logoColor=white)](https://github.com/virgenherrera)&nbsp;
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/virgenherrera)&nbsp;
+[![Schedule a Call](https://img.shields.io/badge/Schedule a Call-555555?logo=calendar&style=for-the-badge&logoColor=white)](https://calendar.app.google/M1VWHaWxfspB7Zst6)&nbsp;
+[![Full Profile](https://img.shields.io/badge/Full Profile-555555?logo=globe&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=)&nbsp;
 [![Resume](https://img.shields.io/badge/Resume-4285F4?logo=googlechrome&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/)
 
 </div>
