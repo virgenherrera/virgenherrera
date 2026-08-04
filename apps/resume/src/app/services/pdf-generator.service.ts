@@ -443,6 +443,7 @@ export class PdfGeneratorService {
     return cursorY;
   }
 
+  // Left-aligned (not per-word justified) to preserve literal spaces in the PDF content stream for ATS parsers.
   private textJustified(
     doc: jsPDF,
     cursorY: number,
@@ -452,27 +453,9 @@ export class PdfGeneratorService {
   ): number {
     const lines = doc.splitTextToSize(text, width) as string[];
 
-    for (const [idx, line] of lines.entries()) {
+    for (const line of lines) {
       cursorY = this.checkPageBreak(doc, cursorY, LINE_HEIGHT);
-      const isLast = idx === lines.length - 1;
-      const words = line.split(/\s+/).filter(Boolean);
-
-      if (isLast || words.length <= 1) {
-        doc.text(line, x, cursorY);
-      } else {
-        const wordsWidth = words.reduce(
-          (sum, word) => sum + doc.getTextWidth(word),
-          0,
-        );
-        const gap = (width - wordsWidth) / (words.length - 1);
-        let cx = x;
-
-        for (const word of words) {
-          doc.text(word, cx, cursorY);
-          cx += doc.getTextWidth(word) + gap;
-        }
-      }
-
+      doc.text(line, x, cursorY);
       cursorY += LINE_HEIGHT - 1;
     }
 
