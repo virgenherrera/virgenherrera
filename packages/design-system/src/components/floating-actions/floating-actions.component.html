@@ -32,12 +32,22 @@
         type="button"
         class="vh-floating-actions__item"
         [class.vh-floating-actions__item--cta-glow]="action.highlight()"
+        [class.vh-floating-actions__item--sonar-aggressive]="action.highlightIntensity?.() === 'aggressive' && action.highlight()"
+        [class.vh-floating-actions__item--sonar-subtle]="action.highlightIntensity?.() === 'subtle' && action.highlight()"
         [attr.aria-label]="action.label()"
         [attr.tabindex]="focusIndex() === i ? 0 : -1"
         (click)="executeAction(action)"
         (keydown)="onActionKeydown($event, i)"
       >
+        @if (action.highlight()) {
+          <span class="vh-floating-actions__sonar-ring" aria-hidden="true"></span>
+          <span class="vh-floating-actions__sonar-ring" aria-hidden="true"></span>
+          <span class="vh-floating-actions__sonar-ring" aria-hidden="true"></span>
+        }
         <vh-icon class="vh-floating-actions__item-icon" [name]="$any(action.icon())" />
+        @if (action.badge && action.badge()) {
+          <span class="vh-floating-actions__badge" aria-hidden="true">{{ action.badge() }}</span>
+        }
       </button>
     }
   </div>

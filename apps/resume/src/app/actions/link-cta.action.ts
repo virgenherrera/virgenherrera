@@ -10,6 +10,7 @@ export class LinkCtaAction implements HubAction {
   readonly zone = 'contextual' as const;
   readonly order: number;
   readonly highlight: Signal<boolean>;
+  readonly highlightIntensity: Signal<'aggressive' | 'subtle'>;
 
   constructor(
     private readonly link: LinkData,
@@ -25,6 +26,7 @@ export class LinkCtaAction implements HubAction {
         ? this.profileStore.isPrivateView()
         : !this.profileStore.isPrivateView(),
     );
+    this.highlightIntensity = signal('subtle');
   }
 
   isAvailable(ctx: HubContext): boolean {
