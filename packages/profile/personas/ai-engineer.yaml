@@ -2,82 +2,133 @@ id: ai-engineer
 label: AI Engineer
 extends: default
 
-headline: 'AI/LLM Engineer | LangChain, RAG & Agent Orchestration | NestJS, Node.js, TypeScript | Azure'
+headline: >-
+  AI Engineer | 11 Years Full-Stack & Cloud-Native to LLM Production
+  Systems | RAG, Agent Orchestration, Context Engineering | NestJS,
+  LangChain, Node.js, TypeScript
 
 summary: >-
-  Senior Software Engineer specializing in AI-powered platforms, with
-  hands-on experience designing agent orchestration layers using NestJS,
-  LangChain, and the OpenAI API. Implemented Retrieval-Augmented Generation
-  (RAG) and function calling to interpret user intent and execute actions
-  against internal and third-party systems, replacing manual multi-platform
-  workflows with a single conversational interface. Built a context
-  engineering service in .NET 8 to support the RAG pipeline, managing
-  context retrieval across repeated, interrupted, and asynchronous
-  conversational requests. Delivered framework-specific SDKs (React,
-  Angular, Vue) exposing a floating chatbot widget with Active
-  Directory-backed authentication for internal, second-party, and external
-  integrations. Brings 10+ years of full-stack engineering experience in
-  Node.js, TypeScript, and cloud-native architectures (Azure, AWS) as the
-  foundation for reliable, production-grade AI systems.
+  Senior AI Engineer with 11 years of production software engineering —
+  the last 2 years building enterprise LLM systems, the preceding 9
+  building the full-stack, cloud-native, and workflow orchestration
+  foundation that makes production AI reliable.
+
+  At PwC, designed and built an AI agent orchestration layer using
+  NestJS, LangChain, and the OpenAI API — implementing RAG with a
+  dedicated context engineering service, function calling for
+  multi-system action execution, and cross-framework SDKs (React,
+  Angular, Vue) with Active Directory authentication. The platform
+  replaced manual multi-platform HR workflows with a single
+  conversational interface.
+
+  This work was not a career reset — it was a direct continuation. At
+  Globant, led backend teams building NestJS services handling 50K+
+  daily API requests, implemented workflow orchestration with AWS Step
+  Functions across distributed services, and championed enterprise AI
+  adoption when LLM usage was organizationally discouraged —
+  contributing to AI readiness assessments covering governance, prompt
+  safety, and cost control. Earlier, at EPAM Systems, co-designed cloud
+  modernization strategies using AWS Lambda and Step Functions for a
+  Fortune 500 pharmaceutical client recovering from a catastrophic
+  ransomware attack.
+
+  The through-line: progressively deeper systems — from full-stack
+  Node.js and TypeScript applications, through serverless cloud
+  architectures on AWS and Azure, to workflow state machines, to
+  LLM-powered agent orchestration. Each stage required the previous
+  one. Production AI systems demand the same engineering discipline as
+  any high-traffic backend: observability, fault tolerance, cost
+  control, and security-first design.
 
 skills:
   priority:
     - langchain
     - openai-api
+    - rag
+    - llm-orchestration
+    - context-engineering
+    - prompt-engineering
+    - function-calling
+    - agentic-workflows
     - nestjs
     - nodejs
     - typescript
+    - aws-step-functions
+    - aws
     - azure
-    - azure-functions
-    - ci-cd
     - graphql
-    - react
     - angular
+    - react
+    - docker
+    - ci-cd
   weights:
     langchain: { weight: 1, highlight: true }
     openai-api: { weight: 1, highlight: true }
+    rag: { weight: 0.95, highlight: true }
+    llm-orchestration: 0.95
+    context-engineering: 0.9
+    prompt-engineering: 0.9
+    function-calling: 0.85
+    agentic-workflows: 0.85
     nestjs: 0.9
     nodejs: 0.85
     typescript: 0.85
+    aws-step-functions: 0.8
+    aws: 0.7
     azure: 0.7
-    azure-functions: 0.7
-    ci-cd: 0.6
-    graphql: 0.5
-    react: 0.45
-    angular: 0.4
+    graphql: 0.6
+    angular: 0.5
+    react: 0.5
+    docker: 0.45
+    ci-cd: 0.45
+    playwright: 0.4
+    vue: 0.35
+    dynamodb: 0.3
+    expressjs: 0.25
   exclude:
     - jquery
     - php
     - gulp
     - mariadb
     - webpack
-  maxDisplayed: 14
+  maxDisplayed: 18
 
 experience:
   weights:
-    PwC: 1
-    Globant: 0.6
-    Unosquare: 0.3
-    EPAM Systems: 0.2
-    3Pillar Global (formerly Tiempo Development): 0.2
+    B2B Contractor: 1.0
+    PwC: 0.95
+    Globant: 0.85
+    EPAM Systems: 0.55
+    Unosquare: 0.45
+    3Pillar Global (formerly Tiempo Development): 0.3
     Hitss México: 0.1
-    Ramsal Software: 0.1
+    Ramsal Software: 0.05
   engagementWeights:
-    Enterprise AI Conversational Platform: 1
-  maxDisplayed: 5
+    AI Integration & Agent Orchestration for Enterprise Clients: 1.0
+    Enterprise AI Conversational Platform: 0.98
+    Workflow Automation & Enterprise AI Evangelism: 0.95
+    Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem: 0.7
+    Fortune 500 Pharmaceutical — Post-Incident Cloud Modernization: 0.6
+    Digital Banking Platform Migration & A11y Compliance: 0.5
+  maxDisplayed: 7
 
 technologyHighlights:
   - LangChain
   - OpenAI API
   - RAG
-  - Function Calling
-  - NestJS
-  - Azure Functions
-  - .NET 8
   - Agent Orchestration
-  - TypeScript
+  - Context Engineering
+  - Function Calling
+  - AWS Step Functions
+  - NestJS
   - Node.js
+  - TypeScript
+  - GraphQL
+  - Azure
 
 meta:
-  description: 'AI/LLM engineering-focused profile — agent orchestration, RAG, LangChain, and OpenAI integrations.'
-  ogTitle: 'Hugo Virgen — AI/LLM Engineer'
+  description: >-
+    AI Engineer with 11 years of full-stack and cloud-native experience,
+    specializing in LLM agent orchestration, RAG, and context engineering
+    with NestJS, LangChain, and the OpenAI API.
+  ogTitle: 'Hugo Virgen — AI Engineer | Full-Stack to LLM Production Systems'

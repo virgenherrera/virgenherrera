@@ -199,7 +199,23 @@ skills:
     display: OpenAI API
     category: AI & Integrations
   - slug: llm-orchestration
-    display: LLM-based orchestration
+    display: LLM Orchestration
+    category: AI & Integrations
+  - slug: rag
+    display: RAG
+    category: AI & Integrations
+    aliases: [Retrieval-Augmented Generation]
+  - slug: prompt-engineering
+    display: Prompt Engineering
+    category: AI & Integrations
+  - slug: context-engineering
+    display: Context Engineering
+    category: AI & Integrations
+  - slug: function-calling
+    display: Function Calling
+    category: AI & Integrations
+  - slug: agentic-workflows
+    display: Agentic Workflows
     category: AI & Integrations
 
   # --- Testing & QA ---

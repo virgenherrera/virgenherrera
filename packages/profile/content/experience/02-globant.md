@@ -44,6 +44,7 @@ engagements:
     domain: Process Automation
     skills:
       - aws-step-functions
+      - agentic-workflows
     description:
       - 'The client needed to automate multi-step backend workflows still running with manual intervention. Simultaneously, enterprise AI adoption was in its early "taboo" phase — leadership was cautious and there were no internal guidelines for responsible AI integration.'
       - '*Implemented workflow orchestration using AWS Step Functions for business process automation — replacing manual sequential workflows with fault-tolerant state machines across 3 distributed services.'
