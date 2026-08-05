@@ -204,6 +204,11 @@
   height: 1.25rem;
 }
 
+.vh-floating-actions__item-icon {
+  position: relative;
+  z-index: 1;
+}
+
 .vh-floating-actions__item-icon,
 .vh-floating-actions__item-icon svg {
   width: 1rem;
@@ -243,11 +248,77 @@
   }
 }
 
-/* CTA glow — public view only, applied via [class.vh-floating-actions__item--cta-glow] */
+/* CTA glow — applied via [class.vh-floating-actions__item--cta-glow] */
 .vh-floating-actions__item--cta-glow {
   animation:
     vh-item-pop var(--_duration-expand) var(--_ease-pop) backwards,
-    vh-cta-breathe var(--vh-cta-glow-duration) ease-in-out infinite;
+    vh-cta-breathe var(--vh-cta-glow-duration, 2.5s) ease-in-out infinite;
+}
+
+/* Sonar ring animation */
+.vh-floating-actions__sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--vh-radius-circle);
+  border: 2px solid var(--_sonar-color, var(--_cta-glow-high));
+  pointer-events: none;
+  opacity: 0;
+  animation: vh-sonar-ring var(--_sonar-duration, 2s) ease-out infinite;
+  will-change: transform, opacity;
+  z-index: 0;
+}
+
+.vh-floating-actions__sonar-ring:nth-of-type(2) {
+  animation-delay: calc(var(--_sonar-duration, 2s) / 3);
+}
+
+.vh-floating-actions__sonar-ring:nth-of-type(3) {
+  animation-delay: calc(var(--_sonar-duration, 2s) / 3 * 2);
+}
+
+@keyframes vh-sonar-ring {
+  0%   { transform: scale(0.8); opacity: var(--_sonar-opacity-start, 0.6); }
+  70%  { opacity: calc(var(--_sonar-opacity-start, 0.6) * 0.35); }
+  100% { transform: scale(var(--_sonar-scale-end, 2.2)); opacity: 0; }
+}
+
+/* Aggressive tier — Download PDF (private view) */
+.vh-floating-actions__item--sonar-aggressive {
+  --_sonar-color: var(--_cta-glow-high);
+  --_sonar-duration: 1.4s;
+  --_sonar-scale-end: 2.2;
+  --_sonar-opacity-start: 0.75;
+  isolation: isolate;
+}
+
+/* Subtle tier — LinkedIn CTA (public view) */
+.vh-floating-actions__item--sonar-subtle {
+  --_sonar-color: var(--_cta-glow-low);
+  --_sonar-duration: 3.2s;
+  --_sonar-scale-end: 1.8;
+  --_sonar-opacity-start: 0.35;
+  isolation: isolate;
+}
+
+.vh-floating-actions__item--sonar-subtle .vh-floating-actions__sonar-ring:nth-of-type(3) {
+  display: none;
+}
+
+/* Badge chip */
+.vh-floating-actions__badge {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  padding: 0.0625rem 0.3125rem;
+  border-radius: 999px;
+  background: var(--_cta-glow-high);
+  color: #fff;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  z-index: 3;
 }
 
 /* Reduced motion */
@@ -262,6 +333,17 @@
 
   .vh-floating-actions__item--cta-glow {
     animation: none;
+    box-shadow: 0 0 16px var(--_cta-glow-low);
+  }
+
+  .vh-floating-actions__sonar-ring {
+    animation: none;
+    opacity: 0.45;
+    transform: scale(1.15);
+  }
+
+  .vh-floating-actions__sonar-ring:nth-of-type(n + 2) {
+    display: none;
   }
 }
 

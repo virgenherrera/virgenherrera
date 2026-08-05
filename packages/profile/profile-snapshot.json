@@ -53,7 +53,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, and cloud infrastructure."
+            "Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, cloud infrastructure, and industrial IoT."
           ]
         }
       ],
@@ -69,7 +69,15 @@
         "LLM Orchestration",
         "Prompt Engineering",
         "Context Engineering",
-        "CI/CD"
+        "CI/CD",
+        ".NET",
+        "Azure Service Bus",
+        "IoT",
+        "SCADA",
+        "RAG",
+        "React",
+        "Vue",
+        "Svelte"
       ],
       "engagements": [
         {
@@ -144,6 +152,41 @@
             }
           ],
           "technologies": ["Angular", "Java", "Golang", "Docker", "OpenShift"]
+        },
+        {
+          "title": "Industrial IoT Monitoring & AI Reporting Platform",
+          "domain": "Industrial IoT & Energy",
+          "client": "Multinational Energy Consortium (NDA)",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "Multinational energy consortium, engaged through Heidrick & Struggles, required a fullstack platform to monitor petroleum well telemetry in real time and a conversational reporting layer to make operational data accessible to non-technical stakeholders."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Established a test harness and clean-architecture foundation from day one — enforcing service boundaries, dependency inversion, and automated coverage gates to proactively prevent the architectural debt and untested surface area that erode long-lived platforms.",
+                "Built a fullstack Industrial IoT / SCADA monitoring platform with .NET, Angular, and Docker, consuming well telemetry through Azure Service Bus and rendering stock-exchange-density real-time dashboards with configurable thresholds and alerting.",
+                "Designed and implemented a Retrieval-Augmented Generation (RAG) reporting chatbot that translates operational telemetry and historical well data into natural-language answers for engineering and operations teams.",
+                "Built 4 framework-specific SDKs (React, Angular, Vue, Svelte) exposing a floating chatbot widget for embedding the reporting assistant across client applications with consistent behavior and styling."
+              ]
+            }
+          ],
+          "technologies": [
+            ".NET",
+            "Angular",
+            "Docker",
+            "Azure Service Bus",
+            "IoT",
+            "SCADA",
+            "RAG",
+            "React",
+            "Vue",
+            "Svelte"
+          ]
         }
       ]
     },
@@ -757,7 +800,7 @@
     },
     {
       "category": "Frontend Frameworks",
-      "skills": ["Angular", "React", "Vue", "jQuery"]
+      "skills": ["Angular", "React", "Vue", "Svelte", "jQuery"]
     },
     {
       "category": "Databases",
@@ -789,6 +832,7 @@
         "Azure DevOps",
         "Azure Kubernetes Service",
         "Azure Functions",
+        "Azure Service Bus",
         "AWS Lambda",
         "AWS SNS",
         "AWS SQS",
@@ -815,6 +859,10 @@
         "Function Calling",
         "Agentic Workflows"
       ]
+    },
+    {
+      "category": "IoT & Industrial Systems",
+      "skills": ["IoT", "SCADA"]
     },
     {
       "category": "Testing & QA",
@@ -946,6 +994,52 @@
         "projects": [],
         "years": 2
       },
+      "dotnet": {
+        "experiences": ["Independent Contractor", "Unosquare", "EPAM Systems"],
+        "projects": [],
+        "years": 3.5
+      },
+      "azure-service-bus": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
+      "iot": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
+      "scada": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
+      "rag": {
+        "experiences": ["Independent Contractor", "PwC"],
+        "projects": [],
+        "years": 2
+      },
+      "react": {
+        "experiences": [
+          "Independent Contractor",
+          "PwC",
+          "Globant",
+          "EPAM Systems",
+          "Hitss México"
+        ],
+        "projects": [],
+        "years": 6.9
+      },
+      "vue": {
+        "experiences": ["Independent Contractor", "PwC", "Globant"],
+        "projects": [],
+        "years": 5.3
+      },
+      "svelte": {
+        "experiences": ["Independent Contractor"],
+        "projects": [],
+        "years": 1
+      },
       "nestjs": {
         "experiences": ["PwC", "Globant"],
         "projects": [
@@ -962,11 +1056,6 @@
         "years": 1
       },
       "openai-api": {
-        "experiences": ["PwC"],
-        "projects": [],
-        "years": 1
-      },
-      "rag": {
         "experiences": ["PwC"],
         "projects": [],
         "years": 1
@@ -990,16 +1079,6 @@
         "experiences": ["PwC", "Unosquare"],
         "projects": [],
         "years": 2.2
-      },
-      "react": {
-        "experiences": ["PwC", "Globant", "EPAM Systems", "Hitss México"],
-        "projects": [],
-        "years": 5.9
-      },
-      "vue": {
-        "experiences": ["PwC", "Globant"],
-        "projects": [],
-        "years": 4.3
       },
       "graphql": {
         "experiences": [
@@ -1058,11 +1137,6 @@
         "experiences": ["Unosquare"],
         "projects": [],
         "years": 1.2
-      },
-      "dotnet": {
-        "experiences": ["Unosquare", "EPAM Systems"],
-        "projects": [],
-        "years": 2.5
       },
       "dotnet-core": {
         "experiences": ["Unosquare"],
@@ -1247,7 +1321,15 @@
         "llm-orchestration",
         "prompt-engineering",
         "context-engineering",
-        "ci-cd"
+        "ci-cd",
+        "dotnet",
+        "azure-service-bus",
+        "iot",
+        "scada",
+        "rag",
+        "react",
+        "vue",
+        "svelte"
       ],
       "PwC": [
         "javascript",
@@ -1368,6 +1450,7 @@
       "angular": "Angular",
       "react": "React",
       "vue": "Vue",
+      "svelte": "Svelte",
       "jquery": "jQuery",
       "postgresql": "PostgreSQL",
       "mysql": "MySQL",
@@ -1392,6 +1475,7 @@
       "azure-devops": "Azure DevOps",
       "azure-aks": "Azure Kubernetes Service",
       "azure-functions": "Azure Functions",
+      "azure-service-bus": "Azure Service Bus",
       "aws-lambda": "AWS Lambda",
       "aws-sns": "AWS SNS",
       "aws-sqs": "AWS SQS",
@@ -1412,6 +1496,8 @@
       "context-engineering": "Context Engineering",
       "function-calling": "Function Calling",
       "agentic-workflows": "Agentic Workflows",
+      "iot": "IoT",
+      "scada": "SCADA",
       "playwright": "Playwright",
       "jest": "Jest",
       "vitest": "Vitest",

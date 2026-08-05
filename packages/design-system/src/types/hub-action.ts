@@ -14,6 +14,8 @@ export interface HubAction {
   readonly zone: 'permanent' | 'contextual';
   readonly order: number;
   readonly highlight: Signal<boolean>;
+  readonly badge?: Signal<string | null>;
+  readonly highlightIntensity?: Signal<'aggressive' | 'subtle'>;
   isAvailable(ctx: HubContext): boolean;
   execute(): void | Promise<void>;
 }

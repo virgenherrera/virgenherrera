@@ -14,7 +14,9 @@ export class DownloadPdfAction implements HubAction {
 
   readonly label: Signal<string> = signal('Download resume');
   readonly icon: Signal<string> = signal('download');
-  readonly highlight: Signal<boolean> = signal(false);
+  readonly highlight: Signal<boolean> = signal(true);
+  readonly highlightIntensity = signal<'aggressive' | 'subtle'>('aggressive');
+  readonly badge = signal<string | null>('PDF');
 
   isAvailable(ctx: HubContext): boolean {
     return ctx.isPrivateView;

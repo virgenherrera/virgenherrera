@@ -9,7 +9,7 @@ skills:
     category: Languages
     aliases: [ES6]
   - slug: csharp
-    display: "C#"
+    display: 'C#'
     category: Languages
   - slug: php
     display: PHP
@@ -40,7 +40,7 @@ skills:
   - slug: dotnet
     display: .NET
     category: Backend Frameworks
-    aliases: [".NET Core", ".NET Framework", ".NET 8", "dotnet-core"]
+    aliases: ['.NET Core', '.NET Framework', '.NET 8', 'dotnet-core']
     children: [dotnet-framework, dotnet-core, dotnet-8]
   - slug: dotnet-framework
     display: .NET Framework
@@ -59,12 +59,15 @@ skills:
   - slug: angular
     display: Angular
     category: Frontend Frameworks
-    aliases: ["Angular 11"]
+    aliases: ['Angular 11']
   - slug: react
     display: React
     category: Frontend Frameworks
   - slug: vue
     display: Vue
+    category: Frontend Frameworks
+  - slug: svelte
+    display: Svelte
     category: Frontend Frameworks
   - slug: jquery
     display: jQuery
@@ -94,7 +97,7 @@ skills:
   - slug: rest
     display: REST
     category: APIs & Protocols
-    aliases: ["REST APIs"]
+    aliases: ['REST APIs']
   - slug: graphql
     display: GraphQL
     category: APIs & Protocols
@@ -126,7 +129,7 @@ skills:
   - slug: azure
     display: Azure
     category: Cloud & DevOps
-    children: [azure-devops, azure-aks, azure-functions]
+    children: [azure-devops, azure-aks, azure-functions, azure-service-bus]
   - slug: docker
     display: Docker
     category: Cloud & DevOps
@@ -157,6 +160,9 @@ skills:
     aliases: [AKS]
   - slug: azure-functions
     display: Azure Functions
+    category: Cloud & DevOps
+  - slug: azure-service-bus
+    display: Azure Service Bus
     category: Cloud & DevOps
   - slug: aws-lambda
     display: AWS Lambda
@@ -223,6 +229,15 @@ skills:
   - slug: agentic-workflows
     display: Agentic Workflows
     category: AI & Integrations
+
+  # --- IoT & Industrial Systems ---
+  - slug: iot
+    display: IoT
+    category: IoT & Industrial Systems
+    aliases: [IIoT, 'Industrial IoT']
+  - slug: scada
+    display: SCADA
+    category: IoT & Industrial Systems
 
   # --- Testing & QA ---
   - slug: playwright
