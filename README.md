@@ -66,12 +66,13 @@ journey
 |:---:|:---|:---|
 | 💬 | **Languages** | TypeScript, JavaScript, C#, PHP, Java, Golang, HTML, CSS |
 | ⚙️ | **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework, .NET Core, .NET 8, Fiber |
-| 🎨 | **Frontend Frameworks** | Angular, React, Vue, jQuery |
+| 🎨 | **Frontend Frameworks** | Angular, React, Vue, Svelte, jQuery |
 | 🗄️ | **Databases** | PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis |
 | 🔌 | **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket, Apollo GraphQL |
-| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, OpenShift, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
+| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, OpenShift, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, Azure Service Bus, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
 | 🗂️ | **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
 | 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM Orchestration, RAG, Prompt Engineering, Context Engineering, Function Calling, Agentic Workflows |
+| 📦 | **IoT & Industrial Systems** | IoT, SCADA |
 | 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha, Chai, Istanbul |
 | 🏗️ | **Architecture & Patterns** | Monorepo (pnpm workspaces), Design Systems, Angular Signals, DI Multi-Provider, SSR/SSG, Clean Architecture |
 | 📦 | **Developer Tooling** | Zod, pnpm, ESLint, Prettier, GitHub Actions, GitHub Pages |
