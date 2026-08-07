@@ -411,7 +411,7 @@ export class PdfGeneratorService {
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(COLORS.textSecondary);
       const skillLines = doc.splitTextToSize(
-        category.skills.join(', '),
+        category.skills.map((skill) => skill.name).join(', '),
         CONTENT_WIDTH - labelWidth,
       ) as string[];
       doc.text(skillLines, MARGIN + labelWidth, cursorY);

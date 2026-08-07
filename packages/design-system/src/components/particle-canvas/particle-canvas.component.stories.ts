@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { mockProfile } from '../../mock-profile';
 import { ParticleCanvasComponent } from './particle-canvas.component';
 
-const TECH_LABELS = mockProfile.skills.flatMap((category) => category.skills);
+const TECH_LABELS = mockProfile.skills.flatMap((category) =>
+  category.skills.map((skill) => skill.name),
+);
 
 const meta: Meta<ParticleCanvasComponent> = {
   title: 'Design System/Particle Canvas',

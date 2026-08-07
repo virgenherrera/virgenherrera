@@ -143,41 +143,46 @@ const skills: SkillCategoryData[] = [
   {
     category: 'Electrical Engineering',
     skills: [
-      'AC Power Systems',
-      'Transformers',
-      'Electric Motors',
-      'Generators',
+      { name: 'AC Power Systems', level: 5 },
+      { name: 'Transformers', level: 5 },
+      { name: 'Electric Motors', level: 4 },
+      { name: 'Generators', level: 4 },
     ],
   },
   {
     category: 'Electromagnetic Theory',
     skills: [
-      'Radio Waves',
-      'Resonance',
-      'High-Frequency',
-      'Wireless Transmission',
+      { name: 'Radio Waves', level: 4 },
+      { name: 'Resonance', level: 4 },
+      { name: 'High-Frequency', level: 3 },
+      { name: 'Wireless Transmission', level: 5 },
     ],
   },
   {
     category: 'Mechanical Engineering',
-    skills: ['Rotating Machinery', 'Turbines', 'Oscillators', 'Fluid Dynamics'],
+    skills: [
+      { name: 'Rotating Machinery', level: 3 },
+      { name: 'Turbines', level: 3 },
+      { name: 'Oscillators', level: 2 },
+      { name: 'Fluid Dynamics', level: 2 },
+    ],
   },
   {
     category: 'Applied Physics',
     skills: [
-      'Electromagnetic Fields',
-      'X-Ray Research',
-      'Plasma Physics',
-      'Cryogenics',
+      { name: 'Electromagnetic Fields', level: 4 },
+      { name: 'X-Ray Research', level: 2 },
+      { name: 'Plasma Physics', level: 2 },
+      { name: 'Cryogenics', level: 1 },
     ],
   },
   {
     category: 'Instrumentation',
     skills: [
-      'Oscilloscopes',
-      'Measurement Systems',
-      'Vacuum Tubes',
-      'Spark Gaps',
+      { name: 'Oscilloscopes', level: 3 },
+      { name: 'Measurement Systems', level: 3 },
+      { name: 'Vacuum Tubes', level: 4 },
+      { name: 'Spark Gaps', level: 3 },
     ],
   },
 ];

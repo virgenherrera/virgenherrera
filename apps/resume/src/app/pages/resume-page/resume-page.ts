@@ -34,7 +34,7 @@ export class ResumePage {
 
   protected readonly subtitleItems = this.store.profile.headline.split(' | ');
   protected readonly particleLabels = this.store.profile.skills.flatMap(
-    (category) => category.skills,
+    (category) => category.skills.map((skill) => skill.name),
   );
 
   private readonly pdfService = inject(PdfGeneratorService);

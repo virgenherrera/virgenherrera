@@ -14,30 +14,6 @@ jest.mock('node:fs', () => {
   return { ...actual, writeFileSync: jest.fn() };
 });
 
-// The real content/skills-registry.yaml has not been migrated to
-// { name, level } skills yet (tracked in a parallel task). Wrap the real
-// profile with synthetic proficiency levels so this suite already exercises
-// the weighted-average radar contract that apps/readme/src/mermaid expects.
-jest.mock('@vh/profile/server', () => {
-  const actual =
-    jest.requireActual<typeof import('@vh/profile/server')>(
-      '@vh/profile/server',
-    );
-  const profile = actual.getProfile();
-  const skills = profile.skills.map((category) => ({
-    ...category,
-    skills: category.skills.map((name, i) => ({
-      name,
-      level: (i % 5) + 1,
-    })),
-  }));
-
-  return {
-    ...actual,
-    getProfile: () => ({ ...profile, skills }),
-  };
-});
-
 const mockWriteFileSync = writeFileSync as jest.MockedFunction<
   typeof writeFileSync
 >;
