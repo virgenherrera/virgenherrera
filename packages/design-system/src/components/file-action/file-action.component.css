@@ -43,3 +43,31 @@
 .vh-file-action__label {
   display: inline-block;
 }
+
+/* Scroll target highlight — applied briefly when the floating hub's
+   Download PDF action scrolls the sidebar button into view. */
+.vh-file-action--target-highlight {
+  --_highlight-duration: 1.5s;
+  --_highlight-ring: var(--vh-text-accent);
+
+  animation: vh-file-action-highlight var(--_highlight-duration) ease-out;
+}
+
+@keyframes vh-file-action-highlight {
+  0% {
+    box-shadow: 0 0 0 0 var(--_highlight-ring, var(--vh-text-accent));
+  }
+  25% {
+    box-shadow: 0 0 0 6px var(--_highlight-ring, var(--vh-text-accent));
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vh-file-action--target-highlight {
+    animation: none;
+    box-shadow: 0 0 0 3px var(--vh-text-accent);
+  }
+}

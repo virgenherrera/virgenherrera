@@ -37,7 +37,11 @@
   --_toggle-border: rgba(217, 119, 6, 0.5);
   --_toggle-bg: rgba(254, 243, 199, 0.85);
   --_toggle-icon: #92400e;
+  /* Trigger sonar — amber family in light mode, matches the toggle's own glow hue */
+  --_trigger-sonar-color: rgba(245, 158, 11, 0.65);
 
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,6 +66,10 @@
   --_toggle-border: rgba(139, 92, 246, 0.3);
   --_toggle-bg: rgba(139, 92, 246, 0.1);
   --_toggle-icon: var(--vh-text-accent-subtle);
+  /* Trigger sonar — teal in dark mode: distinct hue from BOTH the light-mode
+     amber above and the purple CTA sonar (--_cta-glow-high), so the trigger
+     glow always reads as its own signal, never confused with a CTA glow. */
+  --_trigger-sonar-color: rgba(45, 212, 191, 0.75);
 }
 
 .vh-floating-actions__trigger:hover {
@@ -204,6 +212,11 @@
   height: 1.25rem;
 }
 
+.vh-floating-actions__icon {
+  position: relative;
+  z-index: 1;
+}
+
 .vh-floating-actions__item-icon {
   position: relative;
   z-index: 1;
@@ -304,6 +317,51 @@
   display: none;
 }
 
+/* Trigger sonar — one-shot attract animation shown while the hub is
+   collapsed. Unlike the action sonar rings (infinite loop), this plays
+   exactly once (1.5s total across 3 staggered rings) and freezes hidden. */
+.vh-floating-actions__trigger-sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--vh-radius-circle);
+  border: 2px solid var(--_trigger-sonar-color);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  will-change: transform, opacity;
+  animation-name: vh-trigger-sonar-ring;
+  animation-duration: var(--_trigger-sonar-ring-duration, 1.1s);
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.vh-floating-actions__trigger-sonar-ring:nth-of-type(1) {
+  animation-delay: var(--_trigger-sonar-delay-1, 0s);
+}
+
+.vh-floating-actions__trigger-sonar-ring:nth-of-type(2) {
+  animation-delay: var(--_trigger-sonar-delay-2, 0.2s);
+}
+
+.vh-floating-actions__trigger-sonar-ring:nth-of-type(3) {
+  animation-delay: var(--_trigger-sonar-delay-3, 0.4s);
+}
+
+@keyframes vh-trigger-sonar-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
 /* Badge chip */
 .vh-floating-actions__badge {
   position: absolute;
@@ -343,6 +401,16 @@
   }
 
   .vh-floating-actions__sonar-ring:nth-of-type(n + 2) {
+    display: none;
+  }
+
+  .vh-floating-actions__trigger-sonar-ring {
+    animation: none;
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+
+  .vh-floating-actions__trigger-sonar-ring:nth-of-type(n + 2) {
     display: none;
   }
 }

@@ -1,13 +1,20 @@
-import { Injectable, Signal, inject, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 import { HubAction, HubContext } from '@vh/design-system';
-import { PdfGeneratorService } from '../services/pdf-generator.service';
-import { ProfileStore } from '../stores/profile.store';
 
+/** Stable target for the sidebar's own Download PDF button (see resume-page.html). */
+const DOWNLOAD_TARGET_SELECTOR = '#vh-download-pdf-target';
+const HIGHLIGHT_CLASS = 'vh-file-action--target-highlight';
+const HIGHLIGHT_DURATION_MS = 1500;
+
+/**
+ * The floating hub does NOT generate the PDF itself — the sidebar's
+ * `vh-file-action[vhContactAction]` button already owns PDF generation via
+ * its own `(action)="onDownloadPdf()"` handler. This action just scrolls
+ * the user to that button and briefly highlights it, avoiding a duplicate
+ * PDF generation path.
+ */
 @Injectable()
 export class DownloadPdfAction implements HubAction {
-  private readonly pdfService = inject(PdfGeneratorService);
-  private readonly profileStore = inject(ProfileStore);
-
   readonly id = 'download-pdf';
   readonly zone = 'contextual' as const;
   readonly order = 10;
@@ -22,11 +29,20 @@ export class DownloadPdfAction implements HubAction {
     return ctx.isPrivateView;
   }
 
-  async execute(): Promise<void> {
-    await this.pdfService.generate({
-      ...this.profileStore.profile,
-      email: this.profileStore.email(),
-      phone: this.profileStore.phone(),
-    });
+  execute(): void {
+    const target = document.querySelector<HTMLElement>(
+      DOWNLOAD_TARGET_SELECTOR,
+    );
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    const button =
+      target.querySelector<HTMLElement>('.vh-file-action') ?? target;
+    button.classList.add(HIGHLIGHT_CLASS);
+    setTimeout(
+      () => button.classList.remove(HIGHLIGHT_CLASS),
+      HIGHLIGHT_DURATION_MS,
+    );
   }
 }
