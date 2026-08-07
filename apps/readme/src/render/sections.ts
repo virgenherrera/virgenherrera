@@ -5,7 +5,7 @@ import type {
   ProjectData,
 } from '@vh/profile';
 import type { RepoStats } from '../github/github.schemas';
-import { buildSkillsMindmap, buildLanguagesChart } from '../mermaid';
+import { buildSkillsRadar, buildLanguagesChart } from '../mermaid';
 
 const LANGUAGE_COLORS: Record<string, string> = {
   Spanish: 'CC0000',
@@ -101,9 +101,9 @@ export function renderSummary(profile: ProfileData): string {
 export function renderSkills(skills: readonly SkillCategoryData[]): string {
   if (skills.length === 0) return '';
 
-  const mindmap = buildSkillsMindmap(skills);
+  const radar = buildSkillsRadar(skills);
 
-  return `## 🛠️ Skills\n\n${mindmap}`;
+  return `## 🛠️ Skills\n\n${radar}`;
 }
 
 export function renderFeaturedProjects(

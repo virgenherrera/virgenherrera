@@ -203,32 +203,32 @@ skills:
     display: Mongoose
     category: ORMs & ODMs
 
-  # --- AI & Integrations ---
+  # --- AI Engineering ---
   - slug: langchain
     display: LangChain
-    category: AI & Integrations
+    category: AI Engineering
   - slug: openai-api
     display: OpenAI API
-    category: AI & Integrations
+    category: AI Engineering
   - slug: llm-orchestration
     display: LLM Orchestration
-    category: AI & Integrations
+    category: AI Engineering
   - slug: rag
     display: RAG
-    category: AI & Integrations
+    category: AI Engineering
     aliases: [Retrieval-Augmented Generation]
   - slug: prompt-engineering
     display: Prompt Engineering
-    category: AI & Integrations
+    category: AI Engineering
   - slug: context-engineering
     display: Context Engineering
-    category: AI & Integrations
+    category: AI Engineering
   - slug: function-calling
     display: Function Calling
-    category: AI & Integrations
+    category: AI Engineering
   - slug: agentic-workflows
     display: Agentic Workflows
-    category: AI & Integrations
+    category: AI Engineering
 
   # --- IoT & Industrial Systems ---
   - slug: iot

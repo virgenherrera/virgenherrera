@@ -35,82 +35,49 @@
 
 ---
 
-```mermaid
-journey
-    title Career Journey
-    section 2015-2016
-      Fullstack Software Engineer: 3: Ramsal Software
-    section 2016
-      Frontend Software Engineer: 3: Hitss México
-    section 2016-2018
-      Full-stack Software Engineer: 5: 3Pillar Global -formerly Tiempo Development
-    section 2018-2020
-      Full Stack JavaScript Engineer: 5: EPAM Systems
-    section 2019-2020
-      Resources Manager -Leadership Development: 3: EPAM Systems
-    section 2020-2021
-      Lead Full Stack JavaScript Engineer: 3: Unosquare
-    section 2021-2024
-      Senior Fullstack Node.js Developer: 5: Globant
-    section 2024-2025
-      Senior Software Developer: 3: PwC
-    section 2025-2026
-      Fullstack AI Engineer: 3: Independent Contractor
-```
-
----
-
 ## 🛠️ Skills
 
-| | Category | Technologies |
-|:---:|:---|:---|
-| 💬 | **Languages** | TypeScript, JavaScript, C#, PHP, Java, Golang, HTML, CSS |
-| ⚙️ | **Backend Frameworks** | Node.js, NestJS, Express.js, .NET, .NET Framework, .NET Core, .NET 8, Fiber |
-| 🎨 | **Frontend Frameworks** | Angular, React, Vue, Svelte, jQuery |
-| 🗄️ | **Databases** | PostgreSQL, MySQL, MariaDB, MongoDB, DynamoDB, Redis |
-| 🔌 | **APIs & Protocols** | REST, GraphQL, gRPC, WebSocket, Apollo GraphQL |
-| ☁️ | **Cloud & DevOps** | AWS, Azure, Docker, OpenShift, CI/CD, Jenkins, Webpack, Gulp, Git, Azure DevOps, Azure Kubernetes Service, Azure Functions, Azure Service Bus, AWS Lambda, AWS SNS, AWS SQS, AWS Cognito, AWS Step Functions, AWS CodeBuild, AWS CodeDeploy, AWS CodePipeline |
-| 🗂️ | **ORMs & ODMs** | Prisma, TypeORM, Sequelize, Mongoose |
-| 🤖 | **AI & Integrations** | LangChain, OpenAI API, LLM Orchestration, RAG, Prompt Engineering, Context Engineering, Function Calling, Agentic Workflows |
-| 📦 | **IoT & Industrial Systems** | IoT, SCADA |
-| 🧪 | **Testing & QA** | Playwright, Jest, Vitest, Mocha, Chai, Istanbul |
-| 🏗️ | **Architecture & Patterns** | Monorepo (pnpm workspaces), Design Systems, Angular Signals, DI Multi-Provider, SSR/SSG, Clean Architecture |
-| 📦 | **Developer Tooling** | Zod, pnpm, ESLint, Prettier, GitHub Actions, GitHub Pages |
+```mermaid
+radar-beta
+  title Skills Coverage
+  axis Languages, Backend, Frontend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
+  curve Breadth{8, 8, 5, 6, 5, 21, 4, 8, 2, 6, 6, 6}
+  graticule polygon
+```
 
 ---
 
 ## 🚀 Featured Projects
 
-| Project | Description | Stars |
-|:---|:---|:---:|
-| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
-| [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
-| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
-| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
-| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant) | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions. | ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐) |
+| Project                                                                 | Description                                                                                                                                                                                                                                                                                                                                                    |                                                 Stars                                                  |
+| :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------: |
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera)     | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. |  ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐)  |
+| [**nest-base**](https://github.com/virgenherrera/nest-base)             | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows.                                                                                                                                                                             |    ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐)    |
+| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share)   | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices.                                                                                                                                                                            | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐)  |
+| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development.                                                                                                                                                                                                                                      | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
+| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant)       | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions.                                                                                                                                                                                                                         |  ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐)   |
 
 ---
 
 ## 💻 Top Languages
 
 ```mermaid
-pie title Top Languages
-  "TypeScript" : 33
-  "JavaScript" : 7
-  "HTML" : 6
-  "PHP" : 5
-  "Rust" : 1
+xychart-beta
+    title "Top Languages"
+    x-axis ["TypeScript", "JavaScript", "HTML", "PHP", "Go", "Rust"]
+    y-axis "Repositories" 0 --> 40
+    bar [33, 7, 6, 5, 1, 1]
 ```
 
 ---
 
 ## 📈 GitHub Stats
 
-| Metric | Value |
-|:---|:---:|
-| Public Repos | 63 |
-| Total Stars | ⭐ 5 |
-| Total Forks | 🍴 6 |
+| Metric       | Value |
+| :----------- | :---: |
+| Public Repos |  63   |
+| Total Stars  | ⭐ 5  |
+| Total Forks  | 🍴 6  |
 
 ---
 
@@ -139,6 +106,6 @@ Looking for architecture details, local setup, or contribution guidelines?
 
 <div align="center">
 
-*Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)*
+_Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)_
 
 </div>

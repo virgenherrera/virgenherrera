@@ -248,7 +248,7 @@ describe('UT: link-resolver', () => {
           '    category: Backend Frameworks',
           '  - slug: langchain',
           '    display: LangChain',
-          '    category: AI & Integrations',
+          '    category: AI Engineering',
         ].join('\n'),
         '/content/experience/01-acme.md': [
           '---',

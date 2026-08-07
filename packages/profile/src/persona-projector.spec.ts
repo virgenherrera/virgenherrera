@@ -58,7 +58,7 @@ function validSnapshot() {
     certifications: [],
     projects: [],
     skills: [
-      { category: 'AI & Integrations', skills: ['LangChain', 'OpenAI API'] },
+      { category: 'AI Engineering', skills: ['LangChain', 'OpenAI API'] },
       { category: 'Languages', skills: ['JavaScript', 'TypeScript'] },
       { category: 'Backend Frameworks', skills: ['.NET 8', 'C#'] },
     ],
@@ -181,7 +181,7 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       const aiCategory = projected.skills.find(
-        (c) => c.category === 'AI & Integrations',
+        (c) => c.category === 'AI Engineering',
       );
 
       expect(aiCategory?.skills).toEqual(['OpenAI API', 'LangChain']);
@@ -193,7 +193,7 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       const aiCategory = projected.skills.find(
-        (c) => c.category === 'AI & Integrations',
+        (c) => c.category === 'AI Engineering',
       );
 
       expect(aiCategory?.skills).toEqual(['LangChain']);
@@ -207,17 +207,17 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       expect(
-        projected.skills.find((c) => c.category === 'AI & Integrations'),
+        projected.skills.find((c) => c.category === 'AI Engineering'),
       ).toBeUndefined();
     });
 
     it(`${should.filterSkillsByIncludeCategory}`, () => {
-      const config = persona({ skills: { include: ['AI & Integrations'] } });
+      const config = persona({ skills: { include: ['AI Engineering'] } });
 
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       expect(projected.skills).toEqual([
-        { category: 'AI & Integrations', skills: ['LangChain', 'OpenAI API'] },
+        { category: 'AI Engineering', skills: ['LangChain', 'OpenAI API'] },
       ]);
     });
 
@@ -229,7 +229,7 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), null, config);
 
       const aiCategory = projected.skills.find(
-        (c) => c.category === 'AI & Integrations',
+        (c) => c.category === 'AI Engineering',
       );
 
       expect(aiCategory?.skills).toEqual(['OpenAI API', 'LangChain']);
@@ -311,7 +311,7 @@ describe('UT: persona-projector', () => {
       );
 
       const aiCategory = projected.skills.find(
-        (c) => c.category === 'AI & Integrations',
+        (c) => c.category === 'AI Engineering',
       );
 
       expect(aiCategory?.skills).toEqual(['LangChain']);
