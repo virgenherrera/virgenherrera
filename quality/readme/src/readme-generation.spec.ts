@@ -118,13 +118,22 @@ describe('QA: README Generation', () => {
       expect(writtenContent).toContain('lan-file-share');
     });
 
-    it('should include top languages as mermaid pie chart', async () => {
+    it('should render skills as mermaid radar-beta chart', async () => {
+      await service.generate();
+
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+
+      expect(writtenContent).toContain('radar-beta');
+      expect(writtenContent).toContain('Skills Coverage');
+    });
+
+    it('should include top languages as mermaid xychart-beta bar chart', async () => {
       await service.generate();
 
       const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
 
       expect(writtenContent).toContain('TypeScript');
-      expect(writtenContent).toContain('pie');
+      expect(writtenContent).toContain('xychart-beta');
     });
   });
 });

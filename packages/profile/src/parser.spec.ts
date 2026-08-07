@@ -81,10 +81,10 @@ phone: '+52 555 000 0000'
     category: Backend Frameworks
   - slug: langchain
     display: LangChain
-    category: AI & Integrations
+    category: AI Engineering
   - slug: openai-api
     display: OpenAI API
-    category: AI & Integrations
+    category: AI Engineering
   - slug: dotnet-8
     display: .NET 8
     category: Backend Frameworks

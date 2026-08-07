@@ -5,19 +5,7 @@ import type {
   ProjectData,
 } from '@vh/profile';
 import type { RepoStats } from '../github/github.schemas';
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  Languages: '💬',
-  'Backend Frameworks': '⚙️',
-  'Frontend Frameworks': '🎨',
-  Databases: '🗄️',
-  'APIs & Protocols': '🔌',
-  'Cloud & DevOps': '☁️',
-  'ORMs & ODMs': '🗂️',
-  'AI & Integrations': '🤖',
-  'Testing & QA': '🧪',
-  'Architecture & Patterns': '🏗️',
-};
+import { buildSkillsRadar, buildLanguagesChart } from '../mermaid';
 
 const LANGUAGE_COLORS: Record<string, string> = {
   Spanish: 'CC0000',
@@ -113,15 +101,9 @@ export function renderSummary(profile: ProfileData): string {
 export function renderSkills(skills: readonly SkillCategoryData[]): string {
   if (skills.length === 0) return '';
 
-  const rows = skills
-    .map((cat) => {
-      const emoji = CATEGORY_EMOJI[cat.category] ?? '📦';
+  const radar = buildSkillsRadar(skills);
 
-      return `| ${emoji} | **${cat.category}** | ${cat.skills.join(', ')} |`;
-    })
-    .join('\n');
-
-  return `## 🛠️ Skills\n\n| | Category | Technologies |\n|:---:|:---|:---|\n${rows}`;
+  return `## 🛠️ Skills\n\n${radar}`;
 }
 
 export function renderFeaturedProjects(
@@ -142,12 +124,9 @@ export function renderFeaturedProjects(
 }
 
 export function renderTopLanguages(languages: Record<string, number>): string {
-  const entries = Object.entries(languages);
+  const diagram = buildLanguagesChart(languages);
 
-  if (entries.length === 0) return '';
-
-  const lines = entries.map(([lang, count]) => `  "${lang}" : ${count}`);
-  const diagram = `\`\`\`mermaid\npie title Top Languages\n${lines.join('\n')}\n\`\`\``;
+  if (!diagram) return '';
 
   return `## 💻 Top Languages\n\n${diagram}`;
 }

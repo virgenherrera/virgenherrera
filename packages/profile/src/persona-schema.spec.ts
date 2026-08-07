@@ -61,7 +61,7 @@ describe('UT: persona-schema', () => {
         skills: {
           priority: ['langchain'],
           weights: { langchain: { weight: 1, highlight: true }, nodejs: 0.5 },
-          include: ['AI & Integrations'],
+          include: ['AI Engineering'],
           exclude: ['php'],
           maxDisplayed: 10,
         },

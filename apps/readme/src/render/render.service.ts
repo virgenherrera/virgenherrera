@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { ProfileData } from '@vh/profile';
 import type { RepoData } from '../github/github.schemas';
-import { buildTimelineDiagram } from '../mermaid/index';
 import {
   renderHeader,
   renderSummary,
@@ -20,7 +19,6 @@ export class RenderService {
     const sections = [
       renderHeader(profile),
       renderSummary(profile),
-      buildTimelineDiagram(profile.experience),
       renderSkills(profile.skills),
       renderFeaturedProjects(profile.projects, username),
       renderTopLanguages(repoData.languages),

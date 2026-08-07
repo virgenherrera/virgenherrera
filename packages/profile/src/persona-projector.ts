@@ -267,7 +267,7 @@ function sortSkills(skills: FlatSkill[]): FlatSkill[] {
  *
  * Category order follows first appearance in the SORTED list (not the
  * source registry order) — otherwise a persona that prioritizes e.g.
- * "AI & Integrations" would still render that category last just because
+ * "AI Engineering" would still render that category last just because
  * `content/skills-registry.yaml` happens to declare it last.
  */
 function regroupSkills(skills: readonly FlatSkill[]): SkillCategoryData[] {
