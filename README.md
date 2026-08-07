@@ -41,8 +41,10 @@
 radar-beta
   title Skills Coverage
   axis Languages, Backend, Frontend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
-  curve Breadth{8, 8, 5, 6, 5, 21, 4, 8, 2, 6, 6, 6}
+  curve Breadth{3.5, 3.3, 3, 2.2, 3, 2.8, 2.5, 3.8, 2.5, 3.2, 3.8, 3.2}
   graticule polygon
+  max 5
+  min 0
 ```
 
 ---
@@ -87,8 +89,8 @@ xychart-beta
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&style=for-the-badge&logoColor=white)](https://github.com/virgenherrera)&nbsp;
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/virgenherrera)&nbsp;
-[![Schedule a Call](https://img.shields.io/badge/Schedule a Call-555555?logo=calendar&style=for-the-badge&logoColor=white)](https://calendar.app.google/M1VWHaWxfspB7Zst6)&nbsp;
-[![Full Profile](https://img.shields.io/badge/Full Profile-555555?logo=globe&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=)&nbsp;
+[![Schedule a Call](https://img.shields.io/badge/Schedule_a_Call-555555?logo=calendar&style=for-the-badge&logoColor=white)](https://calendar.app.google/M1VWHaWxfspB7Zst6)&nbsp;
+[![Full Profile](https://img.shields.io/badge/Full_Profile-555555?logo=globe&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=)&nbsp;
 [![Resume](https://img.shields.io/badge/Resume-4285F4?logo=googlechrome&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/)
 
 </div>
