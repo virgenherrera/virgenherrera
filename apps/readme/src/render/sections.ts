@@ -5,7 +5,7 @@ import type {
   ProjectData,
 } from '@vh/profile';
 import type { RepoStats } from '../github/github.schemas';
-import { buildSkillsMindmap } from '../mermaid';
+import { buildSkillsMindmap, buildLanguagesChart } from '../mermaid';
 
 const LANGUAGE_COLORS: Record<string, string> = {
   Spanish: 'CC0000',
@@ -124,12 +124,9 @@ export function renderFeaturedProjects(
 }
 
 export function renderTopLanguages(languages: Record<string, number>): string {
-  const entries = Object.entries(languages);
+  const diagram = buildLanguagesChart(languages);
 
-  if (entries.length === 0) return '';
-
-  const lines = entries.map(([lang, count]) => `  "${lang}" : ${count}`);
-  const diagram = `\`\`\`mermaid\npie title Top Languages\n${lines.join('\n')}\n\`\`\``;
+  if (!diagram) return '';
 
   return `## 💻 Top Languages\n\n${diagram}`;
 }

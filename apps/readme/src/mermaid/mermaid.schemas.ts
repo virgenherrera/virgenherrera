@@ -28,3 +28,5 @@ export const languagesInputSchema = z.record(
   z.string().min(1),
   z.number().int().nonnegative(),
 );
+
+export type LanguagesInput = z.infer<typeof languagesInputSchema>;
