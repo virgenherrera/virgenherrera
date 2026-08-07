@@ -14,6 +14,30 @@ jest.mock('node:fs', () => {
   return { ...actual, writeFileSync: jest.fn() };
 });
 
+// The real content/skills-registry.yaml has not been migrated to
+// { name, level } skills yet (tracked in a parallel task). Wrap the real
+// profile with synthetic proficiency levels so this suite already exercises
+// the weighted-average radar contract that apps/readme/src/mermaid expects.
+jest.mock('@vh/profile/server', () => {
+  const actual =
+    jest.requireActual<typeof import('@vh/profile/server')>(
+      '@vh/profile/server',
+    );
+  const profile = actual.getProfile();
+  const skills = profile.skills.map((category) => ({
+    ...category,
+    skills: category.skills.map((name, i) => ({
+      name,
+      level: (i % 5) + 1,
+    })),
+  }));
+
+  return {
+    ...actual,
+    getProfile: () => ({ ...profile, skills }),
+  };
+});
+
 const mockWriteFileSync = writeFileSync as jest.MockedFunction<
   typeof writeFileSync
 >;
@@ -125,6 +149,30 @@ describe('QA: README Generation', () => {
 
       expect(writtenContent).toContain('radar-beta');
       expect(writtenContent).toContain('Skills Coverage');
+    });
+
+    it('should render radar curve values as weighted average proficiency, not skill count', async () => {
+      await service.generate();
+
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const curveMatch = writtenContent.match(/curve Breadth\{([^}]+)\}/);
+
+      expect(curveMatch).not.toBeNull();
+
+      const values = (curveMatch?.[1] ?? '')
+        .split(',')
+        .map((v) => Number.parseFloat(v.trim()));
+
+      expect(values.length).toBeGreaterThan(0);
+
+      for (const value of values) {
+        expect(value).toBeGreaterThanOrEqual(1);
+        expect(value).toBeLessThanOrEqual(5);
+      }
+
+      // Fixed 0-5 scale, no longer derived from the max skill count per category.
+      expect(writtenContent).toContain('  max 5');
+      expect(writtenContent).toContain('  min 0');
     });
 
     it('should include top languages as mermaid xychart-beta bar chart', async () => {

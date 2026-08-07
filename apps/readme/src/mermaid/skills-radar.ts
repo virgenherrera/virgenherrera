@@ -18,13 +18,20 @@ function axisLabel(category: string): string {
   return SHORT_LABELS[category] ?? category;
 }
 
+/** Average of the given levels, rounded to 1 decimal place. */
+function averageLevel(levels: readonly number[]): number {
+  const sum = levels.reduce((acc, level) => acc + level, 0);
+
+  return Math.round((sum / levels.length) * 10) / 10;
+}
+
 export function buildSkillsRadar(skills: readonly SkillCategoryData[]): string {
   if (skills.length === 0) return '';
 
   const parsed = skillsInputArraySchema.parse(skills);
 
   const axes = parsed.map((c) => `${axisLabel(c.category)}`);
-  const values = parsed.map((c) => c.skills.length);
+  const values = parsed.map((c) => averageLevel(c.skills.map((s) => s.level)));
 
   const lines = [
     'radar-beta',
@@ -32,6 +39,8 @@ export function buildSkillsRadar(skills: readonly SkillCategoryData[]): string {
     `  axis ${axes.join(', ')}`,
     `  curve Breadth{${values.join(', ')}}`,
     '  graticule polygon',
+    '  max 5',
+    '  min 0',
   ];
 
   return `\`\`\`mermaid\n${lines.join('\n')}\n\`\`\``;

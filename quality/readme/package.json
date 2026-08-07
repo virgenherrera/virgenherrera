@@ -20,6 +20,7 @@
     "@nestjs/common": "catalog:",
     "@nestjs/core": "catalog:",
     "@vh/app-readme": "workspace:*",
+    "@vh/profile": "workspace:*",
     "axios": "catalog:",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:"

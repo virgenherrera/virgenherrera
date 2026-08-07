@@ -3,7 +3,14 @@ import { z } from 'zod';
 export const skillCategoryInputSchema = z
   .object({
     category: z.string().min(1),
-    skills: z.array(z.string().min(1)).min(1),
+    skills: z
+      .array(
+        z.object({
+          name: z.string().min(1),
+          level: z.number().int().min(1).max(5),
+        }),
+      )
+      .min(1),
   })
   .readonly();
 
