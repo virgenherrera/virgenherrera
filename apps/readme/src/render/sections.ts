@@ -17,6 +17,19 @@ interface LinkBadgeConfig {
   color: string;
 }
 
+/**
+ * Escapes text for use as a shields.io badge label segment.
+ *
+ * shields.io parses badge URLs as hyphen-delimited segments, so literal
+ * spaces must become underscores and literal underscores/hyphens must be
+ * doubled to avoid being misread as delimiters or escape sequences.
+ *
+ * @see https://shields.io/badges (label text escaping rules)
+ */
+function toShieldsLabel(text: string): string {
+  return text.replace(/_/g, '__').replace(/-/g, '--').replace(/ /g, '_');
+}
+
 const LINK_BADGE_CONFIG: Record<string, LinkBadgeConfig> = {
   GitHub: { logo: 'github', color: '181717' },
   LinkedIn: { logo: 'linkedin', color: '0A66C2' },
@@ -25,7 +38,7 @@ const LINK_BADGE_CONFIG: Record<string, LinkBadgeConfig> = {
 
 export function renderHeader(profile: ProfileData): string {
   const encodedName = encodeURIComponent(profile.name);
-  const locationSafe = profile.location.replace(/ /g, '_');
+  const locationSafe = toShieldsLabel(profile.location);
 
   const typingSvgBase = 'https://readme-typing-svg.demolab.com?font=Fira+Code';
   const typingSvgParams =
@@ -60,7 +73,7 @@ export function renderHeader(profile: ProfileData): string {
   ]
     .map(
       ({ name, color, logo, logoColor }) =>
-        `![${name}](https://img.shields.io/badge/${name}-${color}?logo=${logo}&style=for-the-badge&logoColor=${logoColor})`,
+        `![${name}](https://img.shields.io/badge/${toShieldsLabel(name)}-${color}?logo=${logo}&style=for-the-badge&logoColor=${logoColor})`,
     )
     .join('&nbsp;\n');
 
@@ -90,8 +103,10 @@ export function renderSummary(profile: ProfileData): string {
   const languageBadges = profile.languages
     .map((lang) => {
       const color = LANGUAGE_COLORS[lang.language] ?? '555555';
+      const language = toShieldsLabel(lang.language);
+      const proficiency = toShieldsLabel(lang.proficiency);
 
-      return `![${lang.language}](https://img.shields.io/badge/${lang.language}-${lang.proficiency}-${color}?style=for-the-badge)`;
+      return `![${lang.language}](https://img.shields.io/badge/${language}-${proficiency}-${color}?style=for-the-badge)`;
     })
     .join('&nbsp;\n');
 
@@ -151,15 +166,16 @@ export function renderCTA(
       const config = LINK_BADGE_CONFIG[l.label];
       const logo = config?.logo ?? (l.icon ?? l.label).toLowerCase();
       const color = config?.color ?? '555555';
+      const label = toShieldsLabel(l.label);
 
-      return `[![${l.label}](https://img.shields.io/badge/${l.label}-${color}?logo=${logo}&style=for-the-badge&logoColor=white)](${l.url})`;
+      return `[![${l.label}](https://img.shields.io/badge/${label}-${color}?logo=${logo}&style=for-the-badge&logoColor=white)](${l.url})`;
     });
 
   if (username) {
     const { color, logo } = LINK_BADGE_CONFIG['Resume'];
     const resumeUrl = `https://${username}.github.io/${username}/`;
     const badgeUrl =
-      `https://img.shields.io/badge/Resume-${color}` +
+      `https://img.shields.io/badge/${toShieldsLabel('Resume')}-${color}` +
       `?logo=${logo}&style=for-the-badge&logoColor=white`;
 
     badges.push(`[![Resume](${badgeUrl})](${resumeUrl})`);
