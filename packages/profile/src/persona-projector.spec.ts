@@ -58,9 +58,27 @@ function validSnapshot() {
     certifications: [],
     projects: [],
     skills: [
-      { category: 'AI Engineering', skills: ['LangChain', 'OpenAI API'] },
-      { category: 'Languages', skills: ['JavaScript', 'TypeScript'] },
-      { category: 'Backend Frameworks', skills: ['.NET 8', 'C#'] },
+      {
+        category: 'AI Engineering',
+        skills: [
+          { name: 'LangChain', level: 4 },
+          { name: 'OpenAI API', level: 5 },
+        ],
+      },
+      {
+        category: 'Languages',
+        skills: [
+          { name: 'JavaScript', level: 3 },
+          { name: 'TypeScript', level: 5 },
+        ],
+      },
+      {
+        category: 'Backend Frameworks',
+        skills: [
+          { name: '.NET 8', level: 4 },
+          { name: 'C#', level: 3 },
+        ],
+      },
     ],
     languages: [{ language: 'English', proficiency: 'C1' }],
   });
@@ -184,7 +202,10 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'AI Engineering',
       );
 
-      expect(aiCategory?.skills).toEqual(['OpenAI API', 'LangChain']);
+      expect(aiCategory?.skills).toEqual([
+        { name: 'OpenAI API', level: 5 },
+        { name: 'LangChain', level: 4 },
+      ]);
     });
 
     it(`${should.filterSkillsByExclude}`, () => {
@@ -196,7 +217,7 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'AI Engineering',
       );
 
-      expect(aiCategory?.skills).toEqual(['LangChain']);
+      expect(aiCategory?.skills).toEqual([{ name: 'LangChain', level: 4 }]);
     });
 
     it(`${should.dropEmptyCategoryAfterExclude}`, () => {
@@ -217,7 +238,13 @@ describe('UT: persona-projector', () => {
       const projected = projectProfile(validSnapshot(), validGraph(), config);
 
       expect(projected.skills).toEqual([
-        { category: 'AI Engineering', skills: ['LangChain', 'OpenAI API'] },
+        {
+          category: 'AI Engineering',
+          skills: [
+            { name: 'LangChain', level: 4 },
+            { name: 'OpenAI API', level: 5 },
+          ],
+        },
       ]);
     });
 
@@ -232,7 +259,10 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'AI Engineering',
       );
 
-      expect(aiCategory?.skills).toEqual(['OpenAI API', 'LangChain']);
+      expect(aiCategory?.skills).toEqual([
+        { name: 'OpenAI API', level: 5 },
+        { name: 'LangChain', level: 4 },
+      ]);
     });
 
     it(`${should.weightSkillsWithGraph}`, () => {
@@ -249,7 +279,10 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'Languages',
       );
 
-      expect(languages?.skills).toEqual(['TypeScript', 'JavaScript']);
+      expect(languages?.skills).toEqual([
+        { name: 'TypeScript', level: 5 },
+        { name: 'JavaScript', level: 3 },
+      ]);
     });
 
     it(`${should.truncateSkillsByMaxDisplayed}`, () => {
@@ -292,7 +325,10 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'Backend Frameworks',
       );
 
-      expect(backendCategory?.skills).toEqual(['.NET 8', 'C#']);
+      expect(backendCategory?.skills).toEqual([
+        { name: '.NET 8', level: 4 },
+        { name: 'C#', level: 3 },
+      ]);
       expect(projected.skillHighlights).toEqual(['C#']);
     });
 
@@ -314,7 +350,7 @@ describe('UT: persona-projector', () => {
         (c) => c.category === 'AI Engineering',
       );
 
-      expect(aiCategory?.skills).toEqual(['LangChain']);
+      expect(aiCategory?.skills).toEqual([{ name: 'LangChain', level: 4 }]);
     });
   });
 

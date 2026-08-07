@@ -5,18 +5,29 @@ import {
   profileSchema,
   type ProfileData,
   type SkillCategoryData,
+  type SkillEntryData,
 } from './schema';
 
 /**
  * A single canonical entry from `content/skills-registry.yaml`.
  * `slug` is the cross-reference key used by every other content file;
- * `display` is the human-readable name that ends up in `ProfileData`.
+ * `display` is the human-readable name that ends up in `ProfileData`;
+ * `level` is a 1-5 proficiency rating.
  */
 interface SkillRegistryEntry {
   readonly slug: string;
   readonly display: string;
   readonly category: string;
+  readonly level: number;
 }
+
+/**
+ * Skills authored before the proficiency model (D5) don't declare `level` in
+ * `content/skills-registry.yaml` yet — it is backfilled in Phase 2. Until
+ * then, entries missing `level` fall back to this mid-scale rating so
+ * `skillEntrySchema` (which requires an int 1-5) still validates.
+ */
+const DEFAULT_SKILL_LEVEL = 3;
 
 interface RawMeta {
   readonly name: string;
@@ -244,6 +255,23 @@ function optionalString(
     : undefined;
 }
 
+/**
+ * Reads an integer `level` field when present and valid; otherwise
+ * `undefined` so the caller can fall back to `DEFAULT_SKILL_LEVEL`. Range
+ * validation (1-5) is left to `skillEntrySchema` inside `profileSchema.parse`
+ * so the error surfaces with a consistent Zod message.
+ */
+function optionalInteger(
+  record: Record<string, unknown>,
+  field: string,
+): number | undefined {
+  const value = record[field];
+
+  return typeof value === 'number' && Number.isInteger(value)
+    ? value
+    : undefined;
+}
+
 function requireStringArray(
   record: Record<string, unknown>,
   field: string,
@@ -308,6 +336,7 @@ function readSkillsRegistry(filePath: string): SkillRegistryEntry[] {
       slug: requireString(entryRecord, 'slug', context),
       display: requireString(entryRecord, 'display', context),
       category: requireString(entryRecord, 'category', context),
+      level: optionalInteger(entryRecord, 'level') ?? DEFAULT_SKILL_LEVEL,
     };
   });
 }
@@ -353,7 +382,7 @@ function groupSkillsByCategory(
   registry: readonly SkillRegistryEntry[],
 ): SkillCategoryData[] {
   const categoryOrder: string[] = [];
-  const byCategory = new Map<string, string[]>();
+  const byCategory = new Map<string, SkillEntryData[]>();
 
   for (const entry of registry) {
     let skills = byCategory.get(entry.category);
@@ -364,7 +393,7 @@ function groupSkillsByCategory(
       categoryOrder.push(entry.category);
     }
 
-    skills.push(entry.display);
+    skills.push({ name: entry.display, level: entry.level });
   }
 
   return categoryOrder.map((category) => ({

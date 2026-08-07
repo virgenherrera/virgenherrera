@@ -63,7 +63,12 @@ describe('IT: @vh/profile', () => {
         skills: expect.arrayContaining([
           expect.objectContaining({
             category: expect.any(String),
-            skills: expect.arrayContaining([expect.any(String)]),
+            skills: expect.arrayContaining([
+              expect.objectContaining({
+                name: expect.any(String),
+                level: expect.any(Number),
+              }),
+            ]),
           }),
         ]),
         languages: expect.arrayContaining([
