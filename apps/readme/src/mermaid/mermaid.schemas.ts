@@ -11,6 +11,8 @@ export const timelineInputSchema = z
   })
   .readonly();
 
+export type TimelineInput = z.infer<typeof timelineInputSchema>;
+
 export const timelineInputArraySchema = z.array(timelineInputSchema).min(1);
 
 export const skillCategoryInputSchema = z

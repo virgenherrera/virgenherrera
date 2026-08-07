@@ -1,4 +1,5 @@
 import type { ExperienceData } from '@vh/profile';
+import { timelineInputArraySchema } from './mermaid.schemas';
 
 function escapeMermaid(text: string): string {
   return text
@@ -12,30 +13,21 @@ function extractYear(yearMonth: { year: number; month: number }): number {
   return yearMonth.year;
 }
 
-function calculateScore(
-  startDate: { year: number; month: number },
-  endDate: { year: number; month: number } | undefined,
-): number {
-  const startYear = extractYear(startDate);
-  const endYear = endDate ? extractYear(endDate) : new Date().getFullYear();
-  const duration = endYear - startYear;
-
-  return duration >= 2 ? 5 : 3;
-}
-
 export function buildTimelineDiagram(
   experiences: readonly ExperienceData[],
 ): string {
   if (experiences.length === 0) return '';
 
-  const sorted = [...experiences].sort(
+  const validated = timelineInputArraySchema.parse(experiences);
+
+  const sorted = [...validated].sort(
     (a, b) =>
       a.startDate.year * 12 +
       a.startDate.month -
       (b.startDate.year * 12 + b.startDate.month),
   );
 
-  const lines = ['journey', '    title Career Journey'];
+  const lines = ['timeline', '    title Career Journey'];
 
   for (const exp of sorted) {
     const start = extractYear(exp.startDate);
@@ -44,11 +36,10 @@ export function buildTimelineDiagram(
       : new Date().getFullYear();
     const range =
       start === end ? String(start) : `${String(start)}-${String(end)}`;
-    const score = calculateScore(exp.startDate, exp.endDate);
 
     lines.push(`    section ${range}`);
     lines.push(
-      `      ${escapeMermaid(exp.role)}: ${String(score)}: ${escapeMermaid(exp.company)}`,
+      `      ${escapeMermaid(exp.role)} : ${escapeMermaid(exp.company)}`,
     );
   }
 
