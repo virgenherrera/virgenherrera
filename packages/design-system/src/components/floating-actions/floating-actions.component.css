@@ -31,28 +31,32 @@
   --_cta-glow-high: rgba(139, 92, 246, 0.85);
 }
 
-/* Trigger button — matches existing theme-toggle visual */
+/* Shared layout for trigger + action buttons */
+.vh-floating-actions__trigger,
+.vh-floating-actions__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vh-radius-circle);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
 .vh-floating-actions__trigger {
   --_toggle-glow: rgba(245, 158, 11, 0.5);
   --_toggle-border: rgba(217, 119, 6, 0.5);
   --_toggle-bg: rgba(254, 243, 199, 0.85);
   --_toggle-icon: #92400e;
-  /* Trigger sonar — amber family in light mode, matches the toggle's own glow hue */
+  /* Amber in light, teal in dark — distinct from CTA purple sonar */
   --_trigger-sonar-color: rgba(245, 158, 11, 0.65);
 
-  position: relative;
   isolation: isolate;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
   border: 1px solid var(--_toggle-border);
-  border-radius: var(--vh-radius-circle);
   background: var(--_toggle-bg);
   color: var(--_toggle-icon);
-  cursor: pointer;
-  backdrop-filter: blur(8px);
   box-shadow: 0 0 14px var(--_toggle-glow);
   transition:
     background var(--vh-duration-fast) ease,
@@ -66,9 +70,6 @@
   --_toggle-border: rgba(139, 92, 246, 0.3);
   --_toggle-bg: rgba(139, 92, 246, 0.1);
   --_toggle-icon: var(--vh-text-accent-subtle);
-  /* Trigger sonar — teal in dark mode: distinct hue from BOTH the light-mode
-     amber above and the purple CTA sonar (--_cta-glow-high), so the trigger
-     glow always reads as its own signal, never confused with a CTA glow. */
   --_trigger-sonar-color: rgba(45, 212, 191, 0.75);
 }
 
@@ -76,7 +77,8 @@
   box-shadow: 0 0 22px var(--_toggle-glow);
 }
 
-.vh-floating-actions__trigger:focus-visible {
+.vh-floating-actions__trigger:focus-visible,
+.vh-floating-actions__item:focus-visible {
   outline: 2px solid var(--vh-text-accent);
   outline-offset: 2px;
 }
@@ -96,18 +98,11 @@
 
 /* Action items */
 .vh-floating-actions__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: var(--_size-item);
   height: var(--_size-item);
   border: 1px solid var(--_fab-border);
-  border-radius: var(--vh-radius-circle);
   background: var(--_fab-bg);
   color: var(--_fab-icon);
-  cursor: pointer;
-  backdrop-filter: blur(8px);
   box-shadow: 0 0 8px var(--_fab-glow);
   animation: vh-item-pop var(--_duration-expand) var(--_ease-pop) backwards;
   transition:
@@ -126,12 +121,7 @@
   box-shadow: 0 0 16px var(--_fab-glow);
 }
 
-.vh-floating-actions__item:focus-visible {
-  outline: 2px solid var(--vh-text-accent);
-  outline-offset: 2px;
-}
-
-/* Tooltip arrow — right-pointing triangle, sits between tooltip and button */
+/* Tooltip — arrow + bubble via pseudo-elements */
 .vh-floating-actions__item::before {
   content: '';
   position: absolute;
@@ -149,7 +139,6 @@
   z-index: calc(var(--vh-z-overlay) + 1);
 }
 
-/* Tooltip bubble — reads label directly from aria-label */
 .vh-floating-actions__item::after {
   content: attr(aria-label);
   position: absolute;
@@ -172,7 +161,7 @@
   z-index: var(--vh-z-overlay);
 }
 
-/* Appear on hover with 300ms delay; disappear immediately on mouse-out (no base transition) */
+.vh-floating-actions__item:hover::before,
 .vh-floating-actions__item:hover::after {
   opacity: 1;
   visibility: visible;
@@ -181,45 +170,31 @@
     visibility 0s linear 300ms;
 }
 
-.vh-floating-actions__item:hover::before {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity var(--vh-duration-fast) ease 300ms,
-    visibility 0s linear 300ms;
-}
-
-/* Reduced motion: instant appearance, no transition delay */
 @media (prefers-reduced-motion: reduce) {
-  .vh-floating-actions__item:hover::after,
-  .vh-floating-actions__item:hover::before {
+  .vh-floating-actions__item:hover::before,
+  .vh-floating-actions__item:hover::after {
     transition: none;
   }
 }
 
-/* Touch devices: no real hover event, hide tooltips entirely */
 @media (hover: none) {
-  .vh-floating-actions__item::after,
-  .vh-floating-actions__item::before {
+  .vh-floating-actions__item::before,
+  .vh-floating-actions__item::after {
     display: none;
   }
 }
 
 /* Icons */
 .vh-floating-actions__icon,
-.vh-floating-actions__icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.vh-floating-actions__icon {
-  position: relative;
-  z-index: 1;
-}
-
 .vh-floating-actions__item-icon {
   position: relative;
   z-index: 1;
+}
+
+.vh-floating-actions__icon,
+.vh-floating-actions__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .vh-floating-actions__item-icon,
@@ -230,55 +205,44 @@
 
 /* Animations */
 @keyframes vh-panel-expand {
-  from {
-    opacity: 0;
-    transform: scaleY(0.8);
-    transform-origin: top center;
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
+  from { opacity: 0; transform: scaleY(0.8); transform-origin: top center; }
+  to   { opacity: 1; transform: scaleY(1); }
 }
 
 @keyframes vh-item-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes vh-cta-breathe {
-  0%, 100% {
-    box-shadow: 0 0 12px var(--_cta-glow-low);
-  }
-  50% {
-    box-shadow: 0 0 30px var(--_cta-glow-high);
-  }
+  0%, 100% { box-shadow: 0 0 12px var(--_cta-glow-low); }
+  50%      { box-shadow: 0 0 30px var(--_cta-glow-high); }
 }
 
-/* CTA glow — applied via [class.vh-floating-actions__item--cta-glow] */
 .vh-floating-actions__item--cta-glow {
   animation:
     vh-item-pop var(--_duration-expand) var(--_ease-pop) backwards,
     vh-cta-breathe var(--vh-cta-glow-duration, 2.5s) ease-in-out infinite;
 }
 
-/* Sonar ring animation */
-.vh-floating-actions__sonar-ring {
+/* Sonar rings — shared base for action + trigger */
+.vh-floating-actions__sonar-ring,
+.vh-floating-actions__trigger-sonar-ring {
   position: absolute;
   inset: 0;
   border-radius: var(--vh-radius-circle);
   border: 2px solid var(--_sonar-color, var(--_cta-glow-high));
   pointer-events: none;
   opacity: 0;
-  animation: vh-sonar-ring var(--_sonar-duration, 2s) ease-out infinite;
-  will-change: transform, opacity;
   z-index: 0;
+  will-change: transform, opacity;
+  animation-name: vh-sonar-ring;
+  animation-timing-function: ease-out;
+}
+
+.vh-floating-actions__sonar-ring {
+  animation-duration: var(--_sonar-duration, 2s);
+  animation-iteration-count: infinite;
 }
 
 .vh-floating-actions__sonar-ring:nth-of-type(2) {
@@ -295,7 +259,6 @@
   100% { transform: scale(var(--_sonar-scale-end, 2.2)); opacity: 0; }
 }
 
-/* Aggressive tier — Download PDF (private view) */
 .vh-floating-actions__item--sonar-aggressive {
   --_sonar-color: var(--_cta-glow-high);
   --_sonar-duration: 1.4s;
@@ -304,7 +267,6 @@
   isolation: isolate;
 }
 
-/* Subtle tier — LinkedIn CTA (public view) */
 .vh-floating-actions__item--sonar-subtle {
   --_sonar-color: var(--_cta-glow-low);
   --_sonar-duration: 3.2s;
@@ -317,21 +279,12 @@
   display: none;
 }
 
-/* Trigger sonar — one-shot attract animation shown while the hub is
-   collapsed. Unlike the action sonar rings (infinite loop), this plays
-   exactly once (1.5s total across 3 staggered rings) and freezes hidden. */
+/* Trigger sonar — one-shot attract, overrides shared ring base */
 .vh-floating-actions__trigger-sonar-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--vh-radius-circle);
-  border: 2px solid var(--_trigger-sonar-color);
-  pointer-events: none;
-  opacity: 0;
-  z-index: 0;
-  will-change: transform, opacity;
-  animation-name: vh-trigger-sonar-ring;
+  --_sonar-color: var(--_trigger-sonar-color);
+  --_sonar-opacity-start: 0.65;
+  --_sonar-scale-end: 1.9;
   animation-duration: var(--_trigger-sonar-ring-duration, 1.1s);
-  animation-timing-function: ease-out;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
@@ -346,20 +299,6 @@
 
 .vh-floating-actions__trigger-sonar-ring:nth-of-type(3) {
   animation-delay: var(--_trigger-sonar-delay-3, 0.4s);
-}
-
-@keyframes vh-trigger-sonar-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.65;
-  }
-  70% {
-    opacity: 0.2;
-  }
-  100% {
-    transform: scale(1.9);
-    opacity: 0;
-  }
 }
 
 /* Badge chip */
@@ -381,10 +320,7 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .vh-floating-actions__panel {
-    animation: none;
-  }
-
+  .vh-floating-actions__panel,
   .vh-floating-actions__item {
     animation: none;
   }
@@ -394,28 +330,28 @@
     box-shadow: 0 0 16px var(--_cta-glow-low);
   }
 
-  .vh-floating-actions__sonar-ring {
+  .vh-floating-actions__sonar-ring,
+  .vh-floating-actions__trigger-sonar-ring {
     animation: none;
+  }
+
+  .vh-floating-actions__sonar-ring {
     opacity: 0.45;
     transform: scale(1.15);
   }
 
-  .vh-floating-actions__sonar-ring:nth-of-type(n + 2) {
-    display: none;
-  }
-
   .vh-floating-actions__trigger-sonar-ring {
-    animation: none;
     opacity: 0.4;
     transform: scale(1.05);
   }
 
+  .vh-floating-actions__sonar-ring:nth-of-type(n + 2),
   .vh-floating-actions__trigger-sonar-ring:nth-of-type(n + 2) {
     display: none;
   }
 }
 
-/* Screen-reader only utility */
+/* Screen-reader only */
 .vh-sr-only {
   position: absolute;
   width: 1px;
@@ -428,7 +364,7 @@
   border-width: 0;
 }
 
-/* Responsive — mobile switches to bottom-right, expands upward */
+/* Mobile — bottom-right, expand upward */
 @media (max-width: 767px) {
   .vh-floating-actions {
     top: auto;
@@ -437,14 +373,7 @@
   }
 
   @keyframes vh-panel-expand {
-    from {
-      opacity: 0;
-      transform: scaleY(0.8);
-      transform-origin: bottom center;
-    }
-    to {
-      opacity: 1;
-      transform: scaleY(1);
-    }
+    from { opacity: 0; transform: scaleY(0.8); transform-origin: bottom center; }
+    to   { opacity: 1; transform: scaleY(1); }
   }
 }
