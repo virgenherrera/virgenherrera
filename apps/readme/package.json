@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "generate:linkedin": "pnpm run cleanup && ts-node -r tsconfig-paths/register src/main.ts linkedin",
     "test:doctor": "pnpm run test:static && pnpm run test:dynamic",
     "test:static": "pnpm run eslintCheck && pnpm run prettierCheck && tsc --noEmit",
     "test:unit": "jest",
