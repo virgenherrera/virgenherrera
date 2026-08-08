@@ -1,11 +1,17 @@
 <button
   type="button"
   class="vh-file-action"
+  [class.vh-file-action--highlight]="highlight()"
   [attr.aria-busy]="loading()"
   [attr.aria-disabled]="loading()"
   [attr.aria-label]="label()"
   (click)="!loading() && action.emit()"
 >
+  @if (highlight()) {
+    <span class="vh-file-action__sonar-ring"></span>
+    <span class="vh-file-action__sonar-ring"></span>
+    <span class="vh-file-action__sonar-ring" (animationend)="highlightEnd.emit()"></span>
+  }
   <vh-icon [name]="icon()" />
   <span class="vh-file-action__label">{{ label() }}</span>
 </button>

@@ -31,6 +31,8 @@
         icon="download"
         label="Download PDF"
         [loading]="pdfLoading()"
+        [highlight]="downloadPdf.targetHighlight()"
+        (highlightEnd)="onPdfHighlightEnd()"
         (action)="onDownloadPdf()"
         (mouseenter)="onPdfHover()"
         (focusin)="onPdfHover()"

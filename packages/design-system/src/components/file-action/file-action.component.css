@@ -44,30 +44,47 @@
   display: inline-block;
 }
 
-/* Scroll target highlight — applied briefly when the floating hub's
-   Download PDF action scrolls the sidebar button into view. */
-.vh-file-action--target-highlight {
-  --_highlight-duration: 1.5s;
-  --_highlight-ring: var(--vh-text-accent);
-
-  animation: vh-file-action-highlight var(--_highlight-duration) ease-out;
+/* Sonar ring highlight — one-shot, pill-shaped */
+.vh-file-action--highlight {
+  position: relative;
+  isolation: isolate;
 }
 
-@keyframes vh-file-action-highlight {
-  0% {
-    box-shadow: 0 0 0 0 var(--_highlight-ring, var(--vh-text-accent));
-  }
-  25% {
-    box-shadow: 0 0 0 6px var(--_highlight-ring, var(--vh-text-accent));
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
+.vh-file-action__sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--vh-radius-pill);
+  border: 2px solid var(--vh-text-accent);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  will-change: transform, opacity;
+  animation: vh-file-action-sonar 1.1s ease-out 1 forwards;
+}
+
+.vh-file-action__sonar-ring:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.vh-file-action__sonar-ring:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes vh-file-action-sonar {
+  0%   { transform: scale(0.8); opacity: 0.65; }
+  70%  { opacity: 0.23; }
+  100% { transform: scale(1.9); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vh-file-action--target-highlight {
+  .vh-file-action__sonar-ring {
     animation: none;
-    box-shadow: 0 0 0 3px var(--vh-text-accent);
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+
+  .vh-file-action__sonar-ring:nth-of-type(n + 2) {
+    display: none;
   }
 }
+

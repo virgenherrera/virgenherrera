@@ -14,6 +14,8 @@ export class FileActionComponent {
   readonly icon = input.required<IconName>();
   readonly label = input.required<string>();
   readonly loading = input(false);
+  readonly highlight = input(false);
 
   readonly action = output<void>();
+  readonly highlightEnd = output<void>();
 }

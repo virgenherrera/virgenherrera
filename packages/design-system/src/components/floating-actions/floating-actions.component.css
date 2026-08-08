@@ -44,12 +44,11 @@
 }
 
 .vh-floating-actions__trigger {
-  --_toggle-glow: rgba(245, 158, 11, 0.5);
-  --_toggle-border: rgba(217, 119, 6, 0.5);
-  --_toggle-bg: rgba(254, 243, 199, 0.85);
-  --_toggle-icon: #92400e;
-  /* Amber in light, teal in dark — distinct from CTA purple sonar */
-  --_trigger-sonar-color: rgba(245, 158, 11, 0.65);
+  --_toggle-glow: rgba(124, 58, 237, 0.3);
+  --_toggle-border: rgba(124, 58, 237, 0.4);
+  --_toggle-bg: rgba(139, 92, 246, 0.1);
+  --_toggle-icon: #5b21b6;
+  --_trigger-sonar-color: rgba(124, 58, 237, 0.6);
 
   isolation: isolate;
   width: 2.75rem;
@@ -66,11 +65,11 @@
 }
 
 .dark .vh-floating-actions__trigger {
-  --_toggle-glow: rgba(139, 92, 246, 0.35);
-  --_toggle-border: rgba(139, 92, 246, 0.3);
-  --_toggle-bg: rgba(139, 92, 246, 0.1);
-  --_toggle-icon: var(--vh-text-accent-subtle);
-  --_trigger-sonar-color: rgba(45, 212, 191, 0.75);
+  --_toggle-glow: rgba(139, 92, 246, 0.5);
+  --_toggle-border: rgba(167, 139, 250, 0.5);
+  --_toggle-bg: rgba(139, 92, 246, 0.2);
+  --_toggle-icon: #c4b5fd;
+  --_trigger-sonar-color: rgba(167, 139, 250, 0.7);
 }
 
 .vh-floating-actions__trigger:hover {
