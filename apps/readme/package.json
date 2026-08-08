@@ -12,8 +12,10 @@
   },
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "test:doctor": "pnpm run test:static",
+    "test:doctor": "pnpm run test:static && pnpm run test:dynamic",
     "test:static": "pnpm run eslintCheck && pnpm run prettierCheck && tsc --noEmit",
+    "test:unit": "jest",
+    "test:dynamic": "pnpm run test:unit",
     "eslintCheck": "eslint .",
     "eslintFix": "eslint --fix",
     "prettierCheck": "prettier --check 'src/**/*.ts'",
