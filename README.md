@@ -40,22 +40,24 @@
 ```mermaid
 radar-beta
   title Skills Coverage
-  axis Languages, Backend, Frontend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
-  curve Breadth{8, 8, 5, 6, 5, 21, 4, 8, 2, 6, 6, 6}
+  axis Backend, Frontend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
+  curve Breadth{4.9, 4.9, 4.5, 4.9, 3.9, 4.8, 3.9, 3.5, 4.7, 4, 4.5}
   graticule polygon
+  max 5
+  min 0
 ```
 
 ---
 
 ## 🚀 Featured Projects
 
-| Project | Description | Stars |
-|:---|:---|:---:|
-| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
-| [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
-| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
-| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
-| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant) | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions. | ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐) |
+| Project                                                                 | Description                                                                                                                                                                                                                                                                                                                                                    |                                                 Stars                                                  |
+| :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------: |
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera)     | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. |  ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐)  |
+| [**nest-base**](https://github.com/virgenherrera/nest-base)             | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows.                                                                                                                                                                             |    ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐)    |
+| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share)   | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices.                                                                                                                                                                            | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐)  |
+| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development.                                                                                                                                                                                                                                      | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
+| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant)       | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions.                                                                                                                                                                                                                         |  ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐)   |
 
 ---
 
@@ -73,11 +75,11 @@ xychart-beta
 
 ## 📈 GitHub Stats
 
-| Metric | Value |
-|:---|:---:|
-| Public Repos | 63 |
-| Total Stars | ⭐ 5 |
-| Total Forks | 🍴 6 |
+| Metric       | Value |
+| :----------- | :---: |
+| Public Repos |  63   |
+| Total Stars  | ⭐ 5  |
+| Total Forks  | 🍴 6  |
 
 ---
 
@@ -87,8 +89,8 @@ xychart-beta
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&style=for-the-badge&logoColor=white)](https://github.com/virgenherrera)&nbsp;
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/virgenherrera)&nbsp;
-[![Schedule a Call](https://img.shields.io/badge/Schedule a Call-555555?logo=calendar&style=for-the-badge&logoColor=white)](https://calendar.app.google/M1VWHaWxfspB7Zst6)&nbsp;
-[![Full Profile](https://img.shields.io/badge/Full Profile-555555?logo=globe&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=)&nbsp;
+[![Schedule a Call](https://img.shields.io/badge/Schedule_a_Call-555555?logo=calendar&style=for-the-badge&logoColor=white)](https://calendar.app.google/M1VWHaWxfspB7Zst6)&nbsp;
+[![Full Profile](https://img.shields.io/badge/Full_Profile-555555?logo=globe&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/#eyJlbWFpbCI6InZpcmdlbmhlcnJlcmFAZ21haWwuY29tIiwicGhvbmUiOiIrNTI5OTgzMzg2MTQ5In0=)&nbsp;
 [![Resume](https://img.shields.io/badge/Resume-4285F4?logo=googlechrome&style=for-the-badge&logoColor=white)](https://virgenherrera.github.io/virgenherrera/)
 
 </div>
@@ -106,6 +108,6 @@ Looking for architecture details, local setup, or contribution guidelines?
 
 <div align="center">
 
-*Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)*
+_Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)_
 
 </div>

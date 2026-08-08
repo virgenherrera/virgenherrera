@@ -127,6 +127,30 @@ describe('QA: README Generation', () => {
       expect(writtenContent).toContain('Skills Coverage');
     });
 
+    it('should render radar curve values as weighted average proficiency, not skill count', async () => {
+      await service.generate();
+
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+      const curveMatch = writtenContent.match(/curve Breadth\{([^}]+)\}/);
+
+      expect(curveMatch).not.toBeNull();
+
+      const values = (curveMatch?.[1] ?? '')
+        .split(',')
+        .map((v) => Number.parseFloat(v.trim()));
+
+      expect(values.length).toBeGreaterThan(0);
+
+      for (const value of values) {
+        expect(value).toBeGreaterThanOrEqual(1);
+        expect(value).toBeLessThanOrEqual(5);
+      }
+
+      // Fixed 0-5 scale, no longer derived from the max skill count per category.
+      expect(writtenContent).toContain('  max 5');
+      expect(writtenContent).toContain('  min 0');
+    });
+
     it('should include top languages as mermaid xychart-beta bar chart', async () => {
       await service.generate();
 

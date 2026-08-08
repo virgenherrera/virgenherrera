@@ -32,12 +32,12 @@
     </div>
   }
 
-  @if (skills().length) {
+  @if (skillGroups().length) {
     <div class="vh-profile-sidebar__skills">
-      @for (skillGroup of skills(); track skillGroup.category) {
+      @for (skillGroup of skillGroups(); track skillGroup.category) {
         <vh-skill-group
           [category]="skillGroup.category"
-          [skills]="skillGroup.skills"
+          [skills]="skillGroup.skillNames"
         />
       }
     </div>

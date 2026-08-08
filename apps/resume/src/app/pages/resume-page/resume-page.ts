@@ -8,6 +8,7 @@ import {
   StickyScrollDirective,
   VersionBadgeComponent,
 } from '@vh/design-system';
+import { DownloadPdfAction } from '../../actions/download-pdf.action';
 import { PdfGeneratorService } from '../../services/pdf-generator.service';
 import { ProfileStore } from '../../stores/profile.store';
 import { APP_VERSION } from '../../version.token';
@@ -34,9 +35,10 @@ export class ResumePage {
 
   protected readonly subtitleItems = this.store.profile.headline.split(' | ');
   protected readonly particleLabels = this.store.profile.skills.flatMap(
-    (category) => category.skills,
+    (category) => category.skills.map((skill) => skill.name),
   );
 
+  protected readonly downloadPdf = inject(DownloadPdfAction);
   private readonly pdfService = inject(PdfGeneratorService);
   protected readonly pdfLoading = signal(false);
 
@@ -53,6 +55,11 @@ export class ResumePage {
     } finally {
       this.pdfLoading.set(false);
     }
+  }
+
+  protected onPdfHighlightEnd(): void {
+    this.downloadPdf.targetHighlight.set(false);
+    void this.onDownloadPdf();
   }
 
   protected onPdfHover(): void {

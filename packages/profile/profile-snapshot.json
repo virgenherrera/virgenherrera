@@ -775,119 +775,401 @@
     {
       "category": "Languages",
       "skills": [
-        "TypeScript",
-        "JavaScript",
-        "C#",
-        "PHP",
-        "Java",
-        "Golang",
-        "HTML",
-        "CSS"
+        {
+          "name": "TypeScript",
+          "level": 5
+        },
+        {
+          "name": "JavaScript",
+          "level": 5
+        },
+        {
+          "name": "C#",
+          "level": 3
+        },
+        {
+          "name": "PHP",
+          "level": 2
+        },
+        {
+          "name": "Java",
+          "level": 2
+        },
+        {
+          "name": "Golang",
+          "level": 3
+        },
+        {
+          "name": "HTML",
+          "level": 4
+        },
+        {
+          "name": "CSS",
+          "level": 4
+        }
       ]
     },
     {
       "category": "Backend Frameworks",
       "skills": [
-        "Node.js",
-        "NestJS",
-        "Express.js",
-        ".NET",
-        ".NET Framework",
-        ".NET Core",
-        ".NET 8",
-        "Fiber"
+        {
+          "name": "Node.js",
+          "level": 5
+        },
+        {
+          "name": "NestJS",
+          "level": 5
+        },
+        {
+          "name": "Express.js",
+          "level": 3
+        },
+        {
+          "name": ".NET",
+          "level": 3
+        },
+        {
+          "name": ".NET Framework",
+          "level": 2
+        },
+        {
+          "name": ".NET Core",
+          "level": 3
+        },
+        {
+          "name": ".NET 8",
+          "level": 3
+        },
+        {
+          "name": "Fiber",
+          "level": 2
+        }
       ]
     },
     {
       "category": "Frontend Frameworks",
-      "skills": ["Angular", "React", "Vue", "Svelte", "jQuery"]
+      "skills": [
+        {
+          "name": "Angular",
+          "level": 5
+        },
+        {
+          "name": "React",
+          "level": 4
+        },
+        {
+          "name": "Vue",
+          "level": 3
+        },
+        {
+          "name": "Svelte",
+          "level": 2
+        },
+        {
+          "name": "jQuery",
+          "level": 1
+        }
+      ]
     },
     {
       "category": "Databases",
       "skills": [
-        "PostgreSQL",
-        "MySQL",
-        "MariaDB",
-        "MongoDB",
-        "DynamoDB",
-        "Redis"
+        {
+          "name": "PostgreSQL",
+          "level": 3
+        },
+        {
+          "name": "MySQL",
+          "level": 2
+        },
+        {
+          "name": "MariaDB",
+          "level": 1
+        },
+        {
+          "name": "MongoDB",
+          "level": 3
+        },
+        {
+          "name": "DynamoDB",
+          "level": 2
+        },
+        {
+          "name": "Redis",
+          "level": 2
+        }
       ]
     },
     {
       "category": "APIs & Protocols",
-      "skills": ["REST", "GraphQL", "gRPC", "WebSocket", "Apollo GraphQL"]
+      "skills": [
+        {
+          "name": "REST",
+          "level": 5
+        },
+        {
+          "name": "GraphQL",
+          "level": 4
+        },
+        {
+          "name": "gRPC",
+          "level": 1
+        },
+        {
+          "name": "WebSocket",
+          "level": 3
+        },
+        {
+          "name": "Apollo GraphQL",
+          "level": 2
+        }
+      ]
     },
     {
       "category": "Cloud & DevOps",
       "skills": [
-        "AWS",
-        "Azure",
-        "Docker",
-        "OpenShift",
-        "CI/CD",
-        "Jenkins",
-        "Webpack",
-        "Gulp",
-        "Git",
-        "Azure DevOps",
-        "Azure Kubernetes Service",
-        "Azure Functions",
-        "Azure Service Bus",
-        "AWS Lambda",
-        "AWS SNS",
-        "AWS SQS",
-        "AWS Cognito",
-        "AWS Step Functions",
-        "AWS CodeBuild",
-        "AWS CodeDeploy",
-        "AWS CodePipeline"
+        {
+          "name": "AWS",
+          "level": 4
+        },
+        {
+          "name": "Azure",
+          "level": 3
+        },
+        {
+          "name": "Docker",
+          "level": 3
+        },
+        {
+          "name": "OpenShift",
+          "level": 2
+        },
+        {
+          "name": "CI/CD",
+          "level": 4
+        },
+        {
+          "name": "Jenkins",
+          "level": 3
+        },
+        {
+          "name": "Azure DevOps",
+          "level": 3
+        },
+        {
+          "name": "Azure Kubernetes Service",
+          "level": 2
+        },
+        {
+          "name": "Azure Functions",
+          "level": 3
+        },
+        {
+          "name": "Azure Service Bus",
+          "level": 2
+        },
+        {
+          "name": "AWS Lambda",
+          "level": 3
+        },
+        {
+          "name": "AWS SNS",
+          "level": 3
+        },
+        {
+          "name": "AWS SQS",
+          "level": 3
+        },
+        {
+          "name": "AWS Cognito",
+          "level": 3
+        },
+        {
+          "name": "AWS Step Functions",
+          "level": 3
+        },
+        {
+          "name": "AWS CodeBuild",
+          "level": 2
+        },
+        {
+          "name": "AWS CodeDeploy",
+          "level": 2
+        },
+        {
+          "name": "AWS CodePipeline",
+          "level": 2
+        }
       ]
     },
     {
       "category": "ORMs & ODMs",
-      "skills": ["Prisma", "TypeORM", "Sequelize", "Mongoose"]
+      "skills": [
+        {
+          "name": "Prisma",
+          "level": 3
+        },
+        {
+          "name": "TypeORM",
+          "level": 3
+        },
+        {
+          "name": "Sequelize",
+          "level": 2
+        },
+        {
+          "name": "Mongoose",
+          "level": 2
+        }
+      ]
     },
     {
       "category": "AI Engineering",
       "skills": [
-        "LangChain",
-        "OpenAI API",
-        "LLM Orchestration",
-        "RAG",
-        "Prompt Engineering",
-        "Context Engineering",
-        "Function Calling",
-        "Agentic Workflows"
+        {
+          "name": "LangChain",
+          "level": 4
+        },
+        {
+          "name": "OpenAI API",
+          "level": 4
+        },
+        {
+          "name": "LLM Orchestration",
+          "level": 4
+        },
+        {
+          "name": "RAG",
+          "level": 4
+        },
+        {
+          "name": "Prompt Engineering",
+          "level": 4
+        },
+        {
+          "name": "Context Engineering",
+          "level": 4
+        },
+        {
+          "name": "Function Calling",
+          "level": 3
+        },
+        {
+          "name": "Agentic Workflows",
+          "level": 3
+        }
       ]
     },
     {
       "category": "IoT & Industrial Systems",
-      "skills": ["IoT", "SCADA"]
+      "skills": [
+        {
+          "name": "IoT",
+          "level": 3
+        },
+        {
+          "name": "SCADA",
+          "level": 2
+        }
+      ]
     },
     {
       "category": "Testing & QA",
-      "skills": ["Playwright", "Jest", "Vitest", "Mocha", "Chai", "Istanbul"]
+      "skills": [
+        {
+          "name": "Playwright",
+          "level": 4
+        },
+        {
+          "name": "Jest",
+          "level": 4
+        },
+        {
+          "name": "Vitest",
+          "level": 2
+        },
+        {
+          "name": "Mocha",
+          "level": 3
+        },
+        {
+          "name": "Chai",
+          "level": 3
+        },
+        {
+          "name": "Istanbul",
+          "level": 3
+        }
+      ]
     },
     {
       "category": "Architecture & Patterns",
       "skills": [
-        "Monorepo (pnpm workspaces)",
-        "Design Systems",
-        "Angular Signals",
-        "DI Multi-Provider",
-        "SSR/SSG",
-        "Clean Architecture"
+        {
+          "name": "Monorepo (pnpm workspaces)",
+          "level": 4
+        },
+        {
+          "name": "Design Systems",
+          "level": 4
+        },
+        {
+          "name": "Angular Signals",
+          "level": 4
+        },
+        {
+          "name": "DI Multi-Provider",
+          "level": 4
+        },
+        {
+          "name": "SSR/SSG",
+          "level": 3
+        },
+        {
+          "name": "Clean Architecture",
+          "level": 4
+        }
       ]
     },
     {
       "category": "Developer Tooling",
       "skills": [
-        "Zod",
-        "pnpm",
-        "ESLint",
-        "Prettier",
-        "GitHub Actions",
-        "GitHub Pages"
+        {
+          "name": "Git",
+          "level": 5
+        },
+        {
+          "name": "Zod",
+          "level": 4
+        },
+        {
+          "name": "pnpm",
+          "level": 4
+        },
+        {
+          "name": "ESLint",
+          "level": 3
+        },
+        {
+          "name": "Prettier",
+          "level": 3
+        },
+        {
+          "name": "GitHub Actions",
+          "level": 4
+        },
+        {
+          "name": "GitHub Pages",
+          "level": 3
+        },
+        {
+          "name": "Webpack",
+          "level": 2
+        },
+        {
+          "name": "Gulp",
+          "level": 1
+        }
       ]
     }
   ],
@@ -1469,9 +1751,6 @@
       "openshift": "OpenShift",
       "ci-cd": "CI/CD",
       "jenkins": "Jenkins",
-      "webpack": "Webpack",
-      "gulp": "Gulp",
-      "git": "Git",
       "azure-devops": "Azure DevOps",
       "azure-aks": "Azure Kubernetes Service",
       "azure-functions": "Azure Functions",
@@ -1510,12 +1789,15 @@
       "di-multi-provider": "DI Multi-Provider",
       "ssr-ssg": "SSR/SSG",
       "clean-architecture": "Clean Architecture",
+      "git": "Git",
       "zod": "Zod",
       "pnpm": "pnpm",
       "eslint": "ESLint",
       "prettier": "Prettier",
       "github-actions": "GitHub Actions",
-      "github-pages": "GitHub Pages"
+      "github-pages": "GitHub Pages",
+      "webpack": "Webpack",
+      "gulp": "Gulp"
     }
   },
   "sectionOrder": [

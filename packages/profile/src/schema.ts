@@ -81,10 +81,17 @@ export const projectSchema = z
   })
   .readonly();
 
+export const skillEntrySchema = z
+  .object({
+    name: z.string().min(1),
+    level: z.number().int().min(1).max(5),
+  })
+  .readonly();
+
 export const skillCategorySchema = z
   .object({
     category: z.string().min(1),
-    skills: z.array(z.string().min(1)).min(1),
+    skills: z.array(skillEntrySchema).min(1),
   })
   .readonly();
 
@@ -118,6 +125,7 @@ export type LinkData = z.infer<typeof linkSchema>;
 export type ExperienceData = z.infer<typeof experienceSchema>;
 export type EducationData = z.infer<typeof educationSchema>;
 export type CertificationData = z.infer<typeof certificationSchema>;
+export type SkillEntryData = z.infer<typeof skillEntrySchema>;
 export type SkillCategoryData = z.infer<typeof skillCategorySchema>;
 export type ProjectData = z.infer<typeof projectSchema>;
 export type LanguageData = z.infer<typeof languageSchema>;

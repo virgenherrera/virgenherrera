@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { mockProfile } from '../../mock-profile';
 import { JumbotronComponent } from './jumbotron.component';
 
-const TECH_LABELS = mockProfile.skills.flatMap((category) => category.skills);
+const TECH_LABELS = mockProfile.skills.flatMap((category) =>
+  category.skills.map((skill) => skill.name),
+);
 const SUBTITLE_ITEMS = mockProfile.headline.split('|').map((s) => s.trim());
 
 const meta: Meta<JumbotronComponent> = {

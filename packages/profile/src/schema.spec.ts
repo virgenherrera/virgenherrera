@@ -90,7 +90,9 @@ function validProfile() {
         url: 'https://example.com/project',
       },
     ],
-    skills: [{ category: 'Languages', skills: ['TypeScript'] }],
+    skills: [
+      { category: 'Languages', skills: [{ name: 'TypeScript', level: 5 }] },
+    ],
     languages: [{ language: 'English', proficiency: 'C1' }],
   };
 }
@@ -345,16 +347,40 @@ describe('UT: schema', () => {
     it(`${should.parseValidSkillCategory}`, () => {
       const result = skillCategorySchema.parse({
         category: 'Languages',
-        skills: ['TypeScript', 'JavaScript'],
+        skills: [
+          { name: 'TypeScript', level: 5 },
+          { name: 'JavaScript', level: 4 },
+        ],
       });
 
       expect(result.category).toBe('Languages');
-      expect(result.skills).toEqual(['TypeScript', 'JavaScript']);
+      expect(result.skills).toEqual([
+        { name: 'TypeScript', level: 5 },
+        { name: 'JavaScript', level: 4 },
+      ]);
     });
 
     it(`${should.rejectEmptySkillsArray}`, () => {
       expect(() =>
         skillCategorySchema.parse({ category: 'Languages', skills: [] }),
+      ).toThrow();
+    });
+
+    it('reject a skill entry with level outside the 1-5 range', () => {
+      expect(() =>
+        skillCategorySchema.parse({
+          category: 'Languages',
+          skills: [{ name: 'TypeScript', level: 6 }],
+        }),
+      ).toThrow();
+    });
+
+    it('reject a skill entry with a non-integer level', () => {
+      expect(() =>
+        skillCategorySchema.parse({
+          category: 'Languages',
+          skills: [{ name: 'TypeScript', level: 2.5 }],
+        }),
       ).toThrow();
     });
   });
@@ -440,7 +466,9 @@ describe('UT: schema', () => {
             url: 'https://example.com/project',
           },
         ],
-        skills: [{ category: 'Languages', skills: ['TypeScript'] }],
+        skills: [
+          { category: 'Languages', skills: [{ name: 'TypeScript', level: 5 }] },
+        ],
         languages: [{ language: 'English', proficiency: 'C1' }],
       };
 
@@ -472,7 +500,9 @@ describe('UT: schema', () => {
         education: [],
         certifications: [],
         projects: [],
-        skills: [{ category: 'Languages', skills: ['TypeScript'] }],
+        skills: [
+          { category: 'Languages', skills: [{ name: 'TypeScript', level: 5 }] },
+        ],
         languages: [{ language: 'English', proficiency: 'C1' }],
       };
 
@@ -498,7 +528,9 @@ describe('UT: schema', () => {
         education: [],
         certifications: [],
         projects: [],
-        skills: [{ category: 'Languages', skills: ['TypeScript'] }],
+        skills: [
+          { category: 'Languages', skills: [{ name: 'TypeScript', level: 5 }] },
+        ],
         languages: [{ language: 'English', proficiency: 'C1' }],
         graph: {
           bySkill: {

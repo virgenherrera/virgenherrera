@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   ViewEncapsulation,
@@ -13,6 +14,9 @@ import { HubAction, HubContext, HUB_ACTIONS } from '../../types/hub-action';
 import { IconComponent } from '../icon/icon.component';
 
 type HubPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+
+/** Total duration of the trigger's one-shot sonar glow (see .component.css). */
+const TRIGGER_GLOW_DURATION_MS = 1500;
 
 @Component({
   selector: 'vh-floating-actions',
@@ -30,6 +34,17 @@ export class FloatingActionsComponent {
   readonly position = input<HubPosition>('top-right');
   readonly context = input<HubContext>({ isDark: false, isPrivateView: false });
   protected readonly isExpanded = signal(false);
+
+  /** Sonar glow on the collapsed trigger — on by default, one-shot. */
+  protected readonly triggerGlow = signal(true);
+
+  constructor() {
+    const timeoutId = setTimeout(
+      () => this.triggerGlow.set(false),
+      TRIGGER_GLOW_DURATION_MS,
+    );
+    inject(DestroyRef).onDestroy(() => clearTimeout(timeoutId));
+  }
 
   protected readonly availableActions = computed(() => {
     const ctx = this.context();
@@ -51,6 +66,7 @@ export class FloatingActionsComponent {
   }
 
   protected handleTriggerClick(): void {
+    this.triggerGlow.set(false);
     if (this.isPassThrough) {
       const single = this.availableActions()[0];
       if (single) void single.execute();

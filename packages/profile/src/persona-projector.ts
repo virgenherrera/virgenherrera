@@ -1,6 +1,7 @@
 import type {
   ProfileSnapshotData,
   SkillCategoryData,
+  SkillEntryData,
   SerializedProfileGraph,
 } from './schema';
 import type { PersonaConfig, SectionId } from './persona-schema';
@@ -136,6 +137,7 @@ function normalizeWeightEntry(
 interface FlatSkill {
   readonly category: string;
   readonly name: string;
+  readonly level: number;
   score: number;
   highlight: boolean;
   priorityIndex: number;
@@ -147,10 +149,11 @@ function flattenSkills(categories: readonly SkillCategoryData[]): FlatSkill[] {
   let index = 0;
 
   for (const category of categories) {
-    for (const name of category.skills) {
+    for (const skill of category.skills) {
       flat.push({
         category: category.category,
-        name,
+        name: skill.name,
+        level: skill.level,
         score: 0,
         highlight: false,
         priorityIndex: -1,
@@ -271,12 +274,12 @@ function sortSkills(skills: FlatSkill[]): FlatSkill[] {
  * `content/skills-registry.yaml` happens to declare it last.
  */
 function regroupSkills(skills: readonly FlatSkill[]): SkillCategoryData[] {
-  const byCategory = new Map<string, string[]>();
+  const byCategory = new Map<string, SkillEntryData[]>();
 
   for (const skill of skills) {
     const list = byCategory.get(skill.category) ?? [];
 
-    list.push(skill.name);
+    list.push({ name: skill.name, level: skill.level });
     byCategory.set(skill.category, list);
   }
 

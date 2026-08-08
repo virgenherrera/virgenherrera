@@ -470,6 +470,9 @@ importers:
       '@vh/app-readme':
         specifier: workspace:*
         version: link:../../apps/readme
+      '@vh/profile':
+        specifier: workspace:*
+        version: link:../../packages/profile
       axios:
         specifier: 'catalog:'
         version: 1.18.1

@@ -48,6 +48,13 @@ export class ProfileSidebarComponent {
 
   protected readonly isPrivate = computed(() => this.variant() === 'private');
 
+  protected readonly skillGroups = computed(() =>
+    this.skills().map((group) => ({
+      category: group.category,
+      skillNames: group.skills.map((skill) => skill.name),
+    })),
+  );
+
   protected readonly visibleContactLinks = computed<readonly LinkData[]>(() => {
     const allLinks = this.links();
     const publicLinks = allLinks.filter((link) => link.visibility === 'public');

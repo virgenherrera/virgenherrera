@@ -70,45 +70,59 @@ phone: '+52 555 000 0000'
   - slug: typescript
     display: TypeScript
     category: Languages
+    level: 5
   - slug: javascript
     display: JavaScript
     category: Languages
+    level: 4
   - slug: nodejs
     display: Node.js
     category: Backend Frameworks
+    level: 5
   - slug: nestjs
     display: NestJS
     category: Backend Frameworks
+    level: 5
   - slug: langchain
     display: LangChain
     category: AI Engineering
+    level: 4
   - slug: openai-api
     display: OpenAI API
     category: AI Engineering
+    level: 4
   - slug: dotnet-8
     display: .NET 8
     category: Backend Frameworks
+    level: 4
   - slug: azure
     display: Azure
     category: Cloud & DevOps
+    level: 3
   - slug: azure-functions
     display: Azure Functions
     category: Cloud & DevOps
+    level: 3
   - slug: ci-cd
     display: CI/CD
     category: Cloud & DevOps
+    level: 3
   - slug: graphql
     display: GraphQL
     category: APIs & Protocols
+    level: 3
   - slug: angular
     display: Angular
     category: Frontend Frameworks
+    level: 4
   - slug: zod
     display: Zod
     category: Architecture & Patterns
+    level: 4
   - slug: playwright
     display: Playwright
-    category: Testing & QA`,
+    category: Testing & QA
+    level: 3`,
         '/content/experience/01-pwc.md': `---
 company: PwC
 role: Senior Software Developer
@@ -217,6 +231,46 @@ honors: Graduated with Honors (GPA-based)
     proficiency: Native
   - language: English
     proficiency: C1`,
+        // Legacy fixture: `skills-registry.yaml` entries with no `level`
+        // field, mirroring `content/skills-registry.yaml` pre-Phase 2 —
+        // exercises the DEFAULT_SKILL_LEVEL fallback in `readSkillsRegistry`.
+        '/content-legacy/meta.md': `---
+name: Ada Lovelace
+headline: Senior Fullstack Engineer
+summary: Senior engineer with a decade of experience building scalable systems.
+location: Mexico
+---`,
+        '/content-legacy/skills-registry.yaml': `skills:
+  - slug: typescript
+    display: TypeScript
+    category: Languages
+  - slug: javascript
+    display: JavaScript
+    category: Languages`,
+        '/content-legacy/experience/01-legacy.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+skills:
+  - typescript
+---
+
+A description paragraph that has enough content to parse correctly.`,
+        '/content-legacy/education/01-legacy.md': `---
+degree: B.S. in Computer Science
+degreeTranslation: Licenciatura en Ciencias Computacionales
+institution: MIT
+location: Cambridge, MA
+startDate: '2014-08'
+graduationDate: '2018-05'
+---`,
+        '/content-legacy/projects.yaml': 'projects: []',
+        '/content-legacy/links.yaml': `links:
+  - label: GitHub
+    url: https://github.com/example`,
+        '/content-legacy/languages.yaml': `languages:
+  - language: English
+    proficiency: Native`,
       });
     });
 
@@ -297,7 +351,24 @@ honors: Graduated with Honors (GPA-based)
       );
 
       expect(languages?.skills).toEqual(
-        expect.arrayContaining(['TypeScript', 'JavaScript']),
+        expect.arrayContaining([
+          { name: 'TypeScript', level: 5 },
+          { name: 'JavaScript', level: 4 },
+        ]),
+      );
+    });
+
+    it('default a skill entry missing "level" in skills-registry.yaml to the mid-scale rating (Phase 1 backward compat)', () => {
+      const profile = parseContent('/content-legacy');
+      const languages = profile.skills.find(
+        (category) => category.category === 'Languages',
+      );
+
+      expect(languages?.skills).toEqual(
+        expect.arrayContaining([
+          { name: 'TypeScript', level: 3 },
+          { name: 'JavaScript', level: 3 },
+        ]),
       );
     });
 

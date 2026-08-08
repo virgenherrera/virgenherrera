@@ -44,8 +44,8 @@ export function structuredDataInitializer(): () => void {
 
     // D4: knowsAbout (from skills — flatten skill names across categories)
     if (profile.skills.length > 0) {
-      person['knowsAbout'] = profile.skills.flatMap(
-        (category) => category.skills,
+      person['knowsAbout'] = profile.skills.flatMap((category) =>
+        category.skills.map((skill) => skill.name),
       );
     }
 

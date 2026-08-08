@@ -7,6 +7,11 @@
   [attr.aria-label]="isPassThrough ? availableActions()[0]?.label() : 'Quick actions'"
   (click)="handleTriggerClick()"
 >
+  @if (triggerGlow() && !isExpanded()) {
+    <span class="vh-floating-actions__trigger-sonar-ring" aria-hidden="true"></span>
+    <span class="vh-floating-actions__trigger-sonar-ring" aria-hidden="true"></span>
+    <span class="vh-floating-actions__trigger-sonar-ring" aria-hidden="true"></span>
+  }
   @if (isPassThrough && availableActions()[0]; as action) {
     <vh-icon class="vh-floating-actions__icon" [name]="$any(action.icon())" />
   } @else {
@@ -53,10 +58,10 @@
   </div>
 }
 
-<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+<div role="status" aria-live="polite" aria-atomic="true" class="sr-only">
   {{ themeAnnouncement() }}
 </div>
-<div role="status" aria-live="polite" aria-atomic="true" class="vh-sr-only">
+<div role="status" aria-live="polite" aria-atomic="true" class="sr-only">
   {{ contextAnnouncement() }}
 </div>
 </div>
