@@ -4,9 +4,7 @@
   --_fab-bg: var(--vh-surface-secondary, rgba(255, 255, 255, 0.9));
   --_fab-icon: var(--vh-text-primary, #0f172a);
   --_duration-expand: 0.3s;
-  --_duration-collapse: 0.25s;
   --_stagger-expand: 50ms;
-  --_stagger-collapse: 30ms;
   --_ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
   --_ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --_size-item: 2.25rem;
@@ -31,7 +29,6 @@
   --_cta-glow-high: rgba(139, 92, 246, 0.85);
 }
 
-/* Shared layout for trigger + action buttons */
 .vh-floating-actions__trigger,
 .vh-floating-actions__item {
   position: relative;
@@ -82,7 +79,6 @@
   outline-offset: 2px;
 }
 
-/* Panel */
 .vh-floating-actions__panel {
   display: flex;
   flex-direction: column;
@@ -95,7 +91,6 @@
   display: none;
 }
 
-/* Action items */
 .vh-floating-actions__item {
   width: var(--_size-item);
   height: var(--_size-item);
@@ -109,7 +104,6 @@
     box-shadow var(--vh-duration-fast) ease;
 }
 
-.vh-floating-actions__item:nth-child(1) { animation-delay: calc(var(--_stagger-expand) * 0); }
 .vh-floating-actions__item:nth-child(2) { animation-delay: calc(var(--_stagger-expand) * 1); }
 .vh-floating-actions__item:nth-child(3) { animation-delay: calc(var(--_stagger-expand) * 2); }
 .vh-floating-actions__item:nth-child(4) { animation-delay: calc(var(--_stagger-expand) * 3); }
@@ -120,7 +114,6 @@
   box-shadow: 0 0 16px var(--_fab-glow);
 }
 
-/* Tooltip — arrow + bubble via pseudo-elements */
 .vh-floating-actions__item::before {
   content: '';
   position: absolute;
@@ -169,13 +162,6 @@
     visibility 0s linear 300ms;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vh-floating-actions__item:hover::before,
-  .vh-floating-actions__item:hover::after {
-    transition: none;
-  }
-}
-
 @media (hover: none) {
   .vh-floating-actions__item::before,
   .vh-floating-actions__item::after {
@@ -183,7 +169,6 @@
   }
 }
 
-/* Icons */
 .vh-floating-actions__icon,
 .vh-floating-actions__item-icon {
   position: relative;
@@ -202,7 +187,6 @@
   height: 1rem;
 }
 
-/* Animations */
 @keyframes vh-panel-expand {
   from { opacity: 0; transform: scaleY(0.8); transform-origin: top center; }
   to   { opacity: 1; transform: scaleY(1); }
@@ -224,7 +208,6 @@
     vh-cta-breathe var(--vh-cta-glow-duration, 2.5s) ease-in-out infinite;
 }
 
-/* Sonar rings — shared base for action + trigger */
 .vh-floating-actions__sonar-ring,
 .vh-floating-actions__trigger-sonar-ring {
   position: absolute;
@@ -278,7 +261,6 @@
   display: none;
 }
 
-/* Trigger sonar — one-shot attract, overrides shared ring base */
 .vh-floating-actions__trigger-sonar-ring {
   --_sonar-color: var(--_trigger-sonar-color);
   --_sonar-opacity-start: 0.65;
@@ -288,19 +270,14 @@
   animation-fill-mode: forwards;
 }
 
-.vh-floating-actions__trigger-sonar-ring:nth-of-type(1) {
-  animation-delay: var(--_trigger-sonar-delay-1, 0s);
-}
-
 .vh-floating-actions__trigger-sonar-ring:nth-of-type(2) {
-  animation-delay: var(--_trigger-sonar-delay-2, 0.2s);
+  animation-delay: 0.2s;
 }
 
 .vh-floating-actions__trigger-sonar-ring:nth-of-type(3) {
-  animation-delay: var(--_trigger-sonar-delay-3, 0.4s);
+  animation-delay: 0.4s;
 }
 
-/* Badge chip */
 .vh-floating-actions__badge {
   position: absolute;
   top: -0.25rem;
@@ -317,7 +294,6 @@
   z-index: 3;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .vh-floating-actions__panel,
   .vh-floating-actions__item {
@@ -327,6 +303,11 @@
   .vh-floating-actions__item--cta-glow {
     animation: none;
     box-shadow: 0 0 16px var(--_cta-glow-low);
+  }
+
+  .vh-floating-actions__item:hover::before,
+  .vh-floating-actions__item:hover::after {
+    transition: none;
   }
 
   .vh-floating-actions__sonar-ring,
@@ -350,7 +331,6 @@
   }
 }
 
-/* Screen-reader only */
 .vh-sr-only {
   position: absolute;
   width: 1px;
@@ -363,7 +343,6 @@
   border-width: 0;
 }
 
-/* Mobile — bottom-right, expand upward */
 @media (max-width: 767px) {
   .vh-floating-actions {
     top: auto;
