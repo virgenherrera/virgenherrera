@@ -773,7 +773,7 @@
   ],
   "skills": [
     {
-      "category": "Languages",
+      "category": "Frontend",
       "skills": [
         {
           "name": "TypeScript",
@@ -784,7 +784,44 @@
           "level": 5
         },
         {
+          "name": "HTML",
+          "level": 4
+        },
+        {
+          "name": "CSS",
+          "level": 4
+        },
+        {
+          "name": "Angular",
+          "level": 5
+        },
+        {
+          "name": "React",
+          "level": 4
+        },
+        {
+          "name": "Vue",
+          "level": 3
+        },
+        {
+          "name": "Svelte",
+          "level": 2
+        },
+        {
+          "name": "jQuery",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "category": "Backend",
+      "skills": [
+        {
           "name": "C#",
+          "level": 3
+        },
+        {
+          "name": "Golang",
           "level": 3
         },
         {
@@ -796,23 +833,6 @@
           "level": 2
         },
         {
-          "name": "Golang",
-          "level": 3
-        },
-        {
-          "name": "HTML",
-          "level": 4
-        },
-        {
-          "name": "CSS",
-          "level": 4
-        }
-      ]
-    },
-    {
-      "category": "Backend Frameworks",
-      "skills": [
-        {
           "name": "Node.js",
           "level": 5
         },
@@ -822,7 +842,7 @@
         },
         {
           "name": "Express.js",
-          "level": 3
+          "level": 4
         },
         {
           "name": ".NET",
@@ -847,36 +867,11 @@
       ]
     },
     {
-      "category": "Frontend Frameworks",
-      "skills": [
-        {
-          "name": "Angular",
-          "level": 5
-        },
-        {
-          "name": "React",
-          "level": 4
-        },
-        {
-          "name": "Vue",
-          "level": 3
-        },
-        {
-          "name": "Svelte",
-          "level": 2
-        },
-        {
-          "name": "jQuery",
-          "level": 1
-        }
-      ]
-    },
-    {
       "category": "Databases",
       "skills": [
         {
           "name": "PostgreSQL",
-          "level": 3
+          "level": 4
         },
         {
           "name": "MySQL",
@@ -888,7 +883,7 @@
         },
         {
           "name": "MongoDB",
-          "level": 3
+          "level": 4
         },
         {
           "name": "DynamoDB",
@@ -938,7 +933,7 @@
         },
         {
           "name": "Docker",
-          "level": 3
+          "level": 4
         },
         {
           "name": "OpenShift",
@@ -1007,11 +1002,11 @@
       "skills": [
         {
           "name": "Prisma",
-          "level": 3
+          "level": 4
         },
         {
           "name": "TypeORM",
-          "level": 3
+          "level": 4
         },
         {
           "name": "Sequelize",
@@ -1715,12 +1710,17 @@
     "displayNames": {
       "typescript": "TypeScript",
       "javascript": "JavaScript",
-      "csharp": "C#",
-      "php": "PHP",
-      "java": "Java",
-      "golang": "Golang",
       "html": "HTML",
       "css": "CSS",
+      "angular": "Angular",
+      "react": "React",
+      "vue": "Vue",
+      "svelte": "Svelte",
+      "jquery": "jQuery",
+      "csharp": "C#",
+      "golang": "Golang",
+      "php": "PHP",
+      "java": "Java",
       "nodejs": "Node.js",
       "nestjs": "NestJS",
       "expressjs": "Express.js",
@@ -1729,11 +1729,6 @@
       "dotnet-core": ".NET Core",
       "dotnet-8": ".NET 8",
       "fiber": "Fiber",
-      "angular": "Angular",
-      "react": "React",
-      "vue": "Vue",
-      "svelte": "Svelte",
-      "jquery": "jQuery",
       "postgresql": "PostgreSQL",
       "mysql": "MySQL",
       "mariadb": "MariaDB",
