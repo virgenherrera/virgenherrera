@@ -2,7 +2,7 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=30&pause=1000&color=3178C6&center=true&vCenter=true&width=650&height=70&lines=Hugo%20Enrique%20Virgen%20Herrera)](https://git.io/typing-svg)
 
-**Senior Fullstack Engineer | Design Systems | AI Integrations | Cloud | Node.js | TypeScript | C# | Angular | .NET**
+**Senior Fullstack Engineer | TypeScript | Angular | Node.js | AI Engineering | Clean Architecture | Design Systems**
 
 ![Location](https://img.shields.io/badge/📍_Mexico-555555?style=for-the-badge)
 
@@ -27,7 +27,7 @@
 
 ## 👤 About
 
-> Senior Fullstack Engineer with 10+ years of hands-on experience in JavaScript and TypeScript, specializing in building scalable, high-performance web and backend applications using Node.js. Strong background in designing cloud-native systems with a focus on performance, maintainability, and clean architecture. Experienced in AI-powered integrations using LangChain and OpenAI APIs, building conversational platforms that unify isolated enterprise systems.
+> Senior Fullstack Engineer with 11 years delivering production systems for consulting leaders (PwC, Globant, EPAM) and their Fortune 500 clients across 8 industries, from banking and healthcare to energy and industrial IoT. Six primary stack pivots built the system design judgment that single-product engineers rarely develop: evaluating architectural tradeoffs under client constraints, ramping into unfamiliar domains in weeks, and shipping Agile delivery on deadline. Frontend architecture (Angular, React, TypeScript) leads my stack, supported by backend microservices (Node.js, NestJS), SQL and NoSQL databases (PostgreSQL, MongoDB), and an active specialization spike in AI engineering (RAG pipelines, LLM orchestration, context engineering).
 
 **Spoken Languages:**&nbsp;
 ![Spanish](https://img.shields.io/badge/Spanish-Native-CC0000?style=for-the-badge)&nbsp;
@@ -40,8 +40,8 @@
 ```mermaid
 radar-beta
   title Skills Coverage
-  axis Backend, Frontend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
-  curve Breadth{4.9, 4.9, 4.5, 4.9, 3.9, 4.8, 3.9, 3.5, 4.7, 4, 4.5}
+  axis Frontend, Backend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
+  curve Breadth{4.3, 3.6, 4, 4, 3.3, 4, 3.8, 3, 3.4, 3.8, 3.7}
   graticule polygon
   max 5
   min 0
@@ -53,7 +53,7 @@ radar-beta
 
 | Project | Description | Stars |
 |:---|:---|:---:|
-| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines, orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
 | [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
 | [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
 | [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
