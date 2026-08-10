@@ -131,7 +131,14 @@ export class PdfGeneratorService {
       items.push({ text: data.email, url: `mailto:${data.email}` });
     }
     if (data.phone) {
-      items.push({ text: data.phone, url: `tel:${data.phone}` });
+      const digits = data.phone.replace(/\D/g, '');
+      const waText = encodeURIComponent(
+        'Hi Hugo, I found your resume and would like to connect.',
+      );
+      items.push({
+        text: data.phone,
+        url: `https://wa.me/${digits}?text=${waText}`,
+      });
     }
     for (const link of data.links) {
       items.push({ text: link.label, url: link.url });
