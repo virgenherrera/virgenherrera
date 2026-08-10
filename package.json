@@ -27,6 +27,7 @@
     "build": "pnpm -r run --if-present build",
     "build:storybook": "pnpm --filter @vh/design-system run build:storybook",
     "generate:readme": "pnpm --filter @vh/app-readme run start",
+    "generate:profile": "pnpm --filter @vh/app-readme run generate:profile",
     "test": "pnpm run cleanup && pnpm run build && pnpm run test:static && pnpm run test:dynamic && pnpm run test:e2e",
     "test:doctor": "pnpm run cleanup && pnpm -r run --if-present test:doctor",
     "test:static": "pnpm -r run --if-present test:static",

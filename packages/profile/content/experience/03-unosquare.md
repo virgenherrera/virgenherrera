@@ -32,7 +32,7 @@ engagements:
 ---
 
 Led a cross-functional team of 5+ engineers in a nearshore delivery engagement for Unosquare, driving the migration of a client-facing banking web application to Angular 11 and building out its Playwright test automation and WCAG accessibility remediation. Also supported backend services in C#/.NET, cloud-native architecture on Azure, and microservices in Golang.
-*Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with the Angular-based frontend and enterprise data sources.
+*Designed and developed backend services using C# and .NET / .NET Core, integrating with the Angular-based frontend and enterprise data sources.
 *Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity for the client engagement.
 *Deployed cloud-native architecture on Azure, including Azure Kubernetes Service and Azure Functions, backing scalable and resilient microservices.
 *Built lightweight microservices using Golang and Fiber, contributing to performance and service scalability within the broader distributed system.

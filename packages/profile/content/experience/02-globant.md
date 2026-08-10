@@ -52,4 +52,4 @@ engagements:
       - "*Contributed to an internal AI readiness assessment, evaluating integration patterns and tooling that informed the team's approach to generative AI adoption."
 ---
 
-Joined Globant, a global IT consulting firm, as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer over a 3+ year tenure, leading a team of 4-6 engineers across two major client-facing engagements for a US-based enterprise SaaS provider. Work spanned NestJS and GraphQL backend architecture, a multi-framework SDK ecosystem (Angular, React, Vue), and workflow automation, all supported by AWS-based cloud infrastructure.
+Joined Globant, a digitally native technology services company, as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer over a 3+ year tenure, leading a team of 4-6 engineers across two major client-facing engagements for a US-based enterprise SaaS provider. Work spanned NestJS and GraphQL backend architecture, a multi-framework SDK ecosystem (Angular, React, Vue), and workflow automation, all supported by AWS-based cloud infrastructure.
