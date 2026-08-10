@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Injectable, Logger } from '@nestjs/common';
 import { getProfile } from '@vh/profile/server';
@@ -10,7 +10,8 @@ import { LINKEDIN_LIMITS } from './linkedin-limits';
 
 const REPO_ROOT = resolve(__dirname, '../../../..');
 const PERSONAS_DIR = resolve(REPO_ROOT, 'packages/profile/personas');
-const OUTPUT_FILE = '.tmp-linkedin-profile.txt';
+const OUTPUT_DIR = 'artifacts';
+const OUTPUT_FILE = 'linkedin-profile.txt';
 const PERSONA_ID = 'linkedin';
 
 const BANNER_WIDTH = 80;
@@ -32,6 +33,9 @@ const MONTH_NAMES = [
 ] as const;
 
 type SnapshotExperience = ProfileSnapshotData['experience'][number];
+type SnapshotEngagement = NonNullable<
+  SnapshotExperience['engagements']
+>[number];
 type SnapshotEducation = ProfileSnapshotData['education'][number];
 type YearMonth = { year: number; month: number };
 
@@ -68,10 +72,11 @@ export class LinkedinService {
       renderExperience(projected.experience),
       renderEducation(projected.education),
       renderFeatured(projected.technologyHighlights ?? []),
-      renderFooter(),
     ];
 
-    const outputPath = resolve(REPO_ROOT, OUTPUT_FILE);
+    const outputDir = resolve(REPO_ROOT, OUTPUT_DIR);
+    mkdirSync(outputDir, { recursive: true });
+    const outputPath = resolve(outputDir, OUTPUT_FILE);
 
     writeFileSync(outputPath, sections.join('\n\n') + '\n', 'utf-8');
 
@@ -85,7 +90,7 @@ function renderBanner(name: string): string {
   const rule = '='.repeat(BANNER_WIDTH);
   const generated = new Date().toISOString().slice(0, 10);
 
-  return `${rule}\nLINKEDIN PROFILE — ${name}\nGenerated: ${generated}\n${rule}`;
+  return `${rule}\nLINKEDIN PROFILE - ${name}\nGenerated: ${generated}\n${rule}`;
 }
 
 function renderHeadline(headline: string): string {
@@ -110,11 +115,24 @@ function renderExperience(entries: readonly SnapshotExperience[]): string {
 }
 
 function renderExperienceEntry(entry: SnapshotExperience): string {
-  const dateRange = `${formatYearMonth(entry.startDate)} — ${entry.endDate ? formatYearMonth(entry.endDate) : 'Present'}`;
-  const description = renderDescriptionBlocks(entry.description);
+  const dateRange = `${formatYearMonth(entry.startDate)} - ${entry.endDate ? formatYearMonth(entry.endDate) : 'Present'}`;
+  const parts = [renderDescriptionBlocks(entry.description)];
+
+  for (const eng of entry.engagements ?? []) {
+    parts.push(renderEngagement(eng));
+  }
+
+  const description = parts.join('\n\n');
   const count = charCount(description, LINKEDIN_LIMITS.experienceDescription);
 
-  return `### ${entry.role} at ${entry.company}\n${dateRange}\n(${count})\n${description}`;
+  return `${entry.role} at ${entry.company}\n${dateRange}\n(${count})\n${description}`;
+}
+
+function renderEngagement(eng: SnapshotEngagement): string {
+  const meta = [eng.domain, eng.client].filter(Boolean).join(', ');
+  const title = meta ? `${eng.title} (${meta})` : eng.title;
+
+  return `${title}\n${renderDescriptionBlocks(eng.description)}`;
 }
 
 function renderEducation(entries: readonly SnapshotEducation[]): string {
@@ -130,10 +148,10 @@ function renderEducation(entries: readonly SnapshotEducation[]): string {
 }
 
 function renderEducationEntry(entry: SnapshotEducation): string {
-  const dateRange = `${formatYearMonth(entry.startDate)} — ${formatYearMonth(entry.graduationDate)}`;
+  const dateRange = `${formatYearMonth(entry.startDate)} - ${formatYearMonth(entry.graduationDate)}`;
   const lines = [
     `${entry.degree} (${entry.degreeTranslation})`,
-    `${entry.institution} — ${entry.location}`,
+    `${entry.institution}, ${entry.location}`,
     dateRange,
   ];
 
@@ -152,17 +170,6 @@ function renderFeatured(technologyHighlights: readonly string[]): string {
   }
 
   return `${header}\n${technologyHighlights.join(', ')}`;
-}
-
-function renderFooter(): string {
-  const rule = '='.repeat(BANNER_WIDTH);
-
-  return (
-    `${rule}\n` +
-    `Copy each section into the corresponding LinkedIn field.\n` +
-    `Character counts shown to help you stay within limits.\n` +
-    `${rule}`
-  );
 }
 
 // ── formatting helpers ───────────────────────────────────────────────────
