@@ -67,6 +67,14 @@ export const personaSchema = z.object({
         .optional(),
       hide: z.array(z.string()).optional(),
       maxDisplayed: z.number().int().positive().optional(),
+      /**
+       * Hard cap (in characters) on a rendered experience entry's
+       * description — matches `PlatformService.renderExperienceEntry()`'s
+       * char count in `apps/readme`. When set, `projectExperience()` trims
+       * bullets (lowest-weight engagement first, last bullet first) to fit
+       * each entry within this limit. See `persona-projector.ts`.
+       */
+      charLimit: z.number().int().positive().optional(),
     })
     .optional(),
 

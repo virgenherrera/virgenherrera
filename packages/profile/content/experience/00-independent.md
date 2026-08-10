@@ -1,7 +1,7 @@
 ---
 company: VASS
 role: Senior Fullstack AI Engineer
-startDate: '2025-08'
+startDate: '2025-09'
 skills:
   - typescript
   - javascript

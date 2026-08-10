@@ -138,6 +138,7 @@ experience:
     'Fortune 500 Pharmaceutical: Post-Incident Cloud Modernization': 0.6
     Digital Banking Platform Migration & A11y Compliance: 0.5
   maxDisplayed: 8
+  charLimit: 2000
 
 technologyHighlights:
   - TypeScript
