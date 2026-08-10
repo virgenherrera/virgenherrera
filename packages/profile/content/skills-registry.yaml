@@ -1,104 +1,102 @@
 skills:
-  # --- Languages ---
+  # --- Frontend ---
   - slug: typescript
     display: TypeScript
-    category: Languages
+    category: Frontend
     level: 5
     aliases: [ts]
   - slug: javascript
     display: JavaScript
-    category: Languages
+    category: Frontend
     level: 5
     aliases: [ES6]
-  - slug: csharp
-    display: 'C#'
-    category: Languages
-    level: 3
-  - slug: php
-    display: PHP
-    category: Languages
-    level: 2
-  - slug: java
-    display: Java
-    category: Languages
-    level: 2
-  - slug: golang
-    display: Golang
-    category: Languages
-    level: 3
   - slug: html
     display: HTML
-    category: Languages
+    category: Frontend
     level: 4
   - slug: css
     display: CSS
-    category: Languages
+    category: Frontend
     level: 4
+  - slug: angular
+    display: Angular
+    category: Frontend
+    level: 5
+    aliases: ['Angular 11']
+  - slug: react
+    display: React
+    category: Frontend
+    level: 4
+  - slug: vue
+    display: Vue
+    category: Frontend
+    level: 3
+  - slug: svelte
+    display: Svelte
+    category: Frontend
+    level: 2
+  - slug: jquery
+    display: jQuery
+    category: Frontend
+    level: 1
 
-  # --- Backend Frameworks ---
+  # --- Backend ---
+  - slug: csharp
+    display: 'C#'
+    category: Backend
+    level: 3
+  - slug: golang
+    display: Golang
+    category: Backend
+    level: 3
+  - slug: php
+    display: PHP
+    category: Backend
+    level: 2
+  - slug: java
+    display: Java
+    category: Backend
+    level: 2
   - slug: nodejs
     display: Node.js
-    category: Backend Frameworks
+    category: Backend
     level: 5
   - slug: nestjs
     display: NestJS
-    category: Backend Frameworks
+    category: Backend
     level: 5
   - slug: expressjs
     display: Express.js
-    category: Backend Frameworks
-    level: 3
+    category: Backend
+    level: 4
   - slug: dotnet
     display: .NET
-    category: Backend Frameworks
+    category: Backend
     level: 3
     aliases: ['.NET Core', '.NET Framework', '.NET 8', 'dotnet-core']
     children: [dotnet-framework, dotnet-core, dotnet-8]
   - slug: dotnet-framework
     display: .NET Framework
-    category: Backend Frameworks
+    category: Backend
     level: 2
   - slug: dotnet-core
     display: .NET Core
-    category: Backend Frameworks
+    category: Backend
     level: 3
   - slug: dotnet-8
     display: .NET 8
-    category: Backend Frameworks
+    category: Backend
     level: 3
   - slug: fiber
     display: Fiber
-    category: Backend Frameworks
+    category: Backend
     level: 2
-
-  # --- Frontend Frameworks ---
-  - slug: angular
-    display: Angular
-    category: Frontend Frameworks
-    level: 5
-    aliases: ['Angular 11']
-  - slug: react
-    display: React
-    category: Frontend Frameworks
-    level: 4
-  - slug: vue
-    display: Vue
-    category: Frontend Frameworks
-    level: 3
-  - slug: svelte
-    display: Svelte
-    category: Frontend Frameworks
-    level: 2
-  - slug: jquery
-    display: jQuery
-    category: Frontend Frameworks
-    level: 1
 
   # --- Databases ---
   - slug: postgresql
     display: PostgreSQL
     category: Databases
-    level: 3
+    level: 4
   - slug: mysql
     display: MySQL
     category: Databases
@@ -110,7 +108,7 @@ skills:
   - slug: mongodb
     display: MongoDB
     category: Databases
-    level: 3
+    level: 4
   - slug: dynamodb
     display: DynamoDB
     category: Databases
@@ -167,7 +165,7 @@ skills:
   - slug: docker
     display: Docker
     category: Cloud & DevOps
-    level: 3
+    level: 4
   - slug: openshift
     display: OpenShift
     category: Cloud & DevOps
@@ -234,11 +232,11 @@ skills:
   - slug: prisma
     display: Prisma
     category: ORMs & ODMs
-    level: 3
+    level: 4
   - slug: typeorm
     display: TypeORM
     category: ORMs & ODMs
-    level: 3
+    level: 4
   - slug: sequelize
     display: Sequelize
     category: ORMs & ODMs

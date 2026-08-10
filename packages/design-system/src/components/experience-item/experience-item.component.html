@@ -7,7 +7,7 @@
       <span class="vh-experience-item__company">{{ company() }}</span>
       <p class="vh-experience-item__dates">
         <time [attr.datetime]="startDateIso()">{{ startDate() | formatDate }}</time>
-        <span class="vh-experience-item__date-separator" aria-hidden="true">&mdash;</span>
+        <span class="vh-experience-item__date-separator" aria-hidden="true">-</span>
         <time [attr.datetime]="endDateIso()">{{ endDate() | formatDate }}</time>
       </p>
     </header>
@@ -36,7 +36,7 @@
             @if (eng.domain || eng.client) {
               <p class="vh-experience-item__engagement-meta">
                 @if (eng.domain) { <span>{{ eng.domain }}</span> }
-                @if (eng.domain && eng.client) { <span class="vh-experience-item__date-separator" aria-hidden="true">&mdash;</span> }
+                @if (eng.domain && eng.client) { <span class="vh-experience-item__date-separator" aria-hidden="true">,</span> }
                 @if (eng.client) { <span>{{ eng.client }}</span> }
               </p>
             }

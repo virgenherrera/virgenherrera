@@ -1,0 +1,162 @@
+id: linkedin
+label: LinkedIn Profile
+extends: default
+
+headline: >-
+  Senior Fullstack Engineer | 11+ Years | Angular, React, TypeScript |
+  Node.js, NestJS | System Design & Microservices | AI Engineering: RAG,
+  LLM Orchestration
+
+summary: >-
+  Consulting-forged engineer, not a single-product specialist. 11 years
+  inside PwC, Globant, EPAM, and 5 other consulting firms taught me
+  something product engineers rarely learn: how to walk into an
+  unfamiliar codebase, an unfamiliar industry, and an unfamiliar team,
+  then ship production software on a client deadline. Eight industries
+  (banking, healthcare, energy, pharma, IoT, insurance, telecom, SaaS)
+  and 6 primary stack pivots later, that pattern-matching is the skill I
+  bring to every new problem.
+
+  • At PwC, designed and built an AI agent orchestration platform
+  (NestJS, LangChain, OpenAI API) with RAG pipelines, function calling,
+  and a dedicated context engineering service, replacing manual
+  multi-platform HR workflows with one conversational interface across
+  enterprise systems.
+
+  • At Globant, led a backend team of 4 to 6 engineers building NestJS +
+  GraphQL microservices handling 50K+ daily API requests, with SDKs
+  (Angular, React, Vue) adopted by 10+ third-party integrators, applying
+  system design principles to support scale and extensibility.
+
+  • Built fullstack Industrial IoT and SCADA monitoring platforms with
+  real-time telemetry dashboards, RAG-powered reporting chatbots, and 4
+  framework-specific SDKs (React, Angular, Vue, Svelte) for enterprise
+  clients in energy and cloud infrastructure.
+
+  • Led enterprise platform modernization across financial services and
+  healthcare: Angular frontend rebuilds, .NET to Java/Golang backend
+  migrations on Kubernetes (OpenShift), SQL-backed SPEI interbank
+  payment processing with strict audit trails, and Agile delivery across
+  distributed teams.
+
+  My stack follows my strengths: frontend architecture (Angular, React,
+  TypeScript) first, backend systems (Node.js, NestJS, PostgreSQL,
+  MongoDB) second, AI engineering (RAG, LLM orchestration, context
+  engineering) as the active growth vector, and cloud infrastructure
+  (AWS, Azure, Docker, Kubernetes) underneath. Unit testing with Jest,
+  E2E automation with Playwright, and CI/CD pipelines are
+  non-negotiable on every project.
+
+  Open to senior and staff engineering roles where fullstack depth meets
+  applied AI. If your team needs someone who can own system design
+  across the stack and ship, let's talk.
+
+skills:
+  priority:
+    - typescript
+    - nodejs
+    - nestjs
+    - angular
+    - react
+    - aws
+    - azure
+    - docker
+    - langchain
+    - openai-api
+    - rag
+    - llm-orchestration
+    - graphql
+    - rest
+    - postgresql
+    - mongodb
+    - playwright
+    - jest
+    - ci-cd
+    - git
+  weights:
+    typescript: { weight: 1, highlight: true }
+    nodejs: { weight: 1, highlight: true }
+    nestjs: { weight: 0.95, highlight: true }
+    langchain: { weight: 0.9, highlight: true }
+    openai-api: { weight: 0.9, highlight: true }
+    angular: 0.85
+    react: 0.85
+    rag: 0.85
+    llm-orchestration: 0.85
+    aws: 0.8
+    context-engineering: 0.75
+    azure: 0.75
+    docker: 0.7
+    graphql: 0.7
+    prompt-engineering: 0.7
+    rest: 0.65
+    function-calling: 0.65
+    postgresql: 0.6
+    mongodb: 0.6
+    ci-cd: 0.6
+    agentic-workflows: 0.6
+    playwright: 0.55
+    jest: 0.55
+    aws-step-functions: 0.55
+    git: 0.5
+    iot: 0.4
+    azure-functions: 0.4
+    vue: 0.35
+    dotnet: 0.35
+    golang: 0.35
+    svelte: 0.3
+    csharp: 0.3
+    java: 0.3
+    expressjs: 0.25
+    dynamodb: 0.25
+  exclude:
+    - jquery
+    - gulp
+    - webpack
+    - mariadb
+    - fiber
+    - scada
+    - grpc
+  maxDisplayed: 35
+
+experience:
+  weights:
+    VASS: 1.0
+    PwC: 0.95
+    Globant: 0.85
+    EPAM Systems: 0.55
+    Unosquare: 0.45
+    3Pillar Global (formerly Tiempo Development): 0.3
+    Hitss México: 0.1
+    Ramsal Software: 0.05
+  engagementWeights:
+    Enterprise AI Conversational Platform: 0.98
+    AI & Industrial IoT Platforms: 1.0
+    Enterprise Platform Modernization: 0.92
+    Workflow Automation & Enterprise AI Evangelism: 0.95
+    'Enterprise SaaS Platform: Backend Architecture & SDK Ecosystem': 0.75
+    'Fortune 500 Pharmaceutical: Post-Incident Cloud Modernization': 0.6
+    Digital Banking Platform Migration & A11y Compliance: 0.5
+  maxDisplayed: 8
+
+technologyHighlights:
+  - TypeScript
+  - Node.js
+  - NestJS
+  - Angular
+  - React
+  - AWS
+  - Azure
+  - Docker
+  - LangChain
+  - OpenAI API
+  - RAG
+  - GraphQL
+
+meta:
+  description: >-
+    Senior Fullstack Engineer with 11+ years building frontend
+    architectures, backend systems, and AI-powered platforms.
+    TypeScript, Angular, Node.js, NestJS, clean architecture, design
+    systems, and LLM orchestration with RAG and context engineering.
+  ogTitle: 'Hugo Virgen | Senior Fullstack Engineer | AI Engineering & Clean Architecture'

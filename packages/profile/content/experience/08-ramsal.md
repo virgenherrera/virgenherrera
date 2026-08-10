@@ -13,7 +13,6 @@ skills:
   - css
 ---
 
-First professional software engineering role, contributing to the development of Ramsal, a SaaS payroll management platform serving multiple enterprise clients.
-*Built and maintained client-facing web modules using JavaScript and jQuery, delivering responsive interfaces for payroll processing and employee management workflows.
-*Collaborated in developing an integrated Web System that consolidated multiple business tools into a cohesive enterprise application.
-*Acquired foundational proficiency in Node.js, Angular, and Git, establishing a strong base for full-stack development.
+First professional software engineering role: foundational consultancy experience contributing to Ramsal, a SaaS payroll management platform serving multiple enterprise clients.
+*Built and maintained client-facing web modules with JavaScript and jQuery, delivering responsive interfaces for payroll processing and employee management workflows.
+*Collaborated on an integrated Web System consolidating multiple business tools into a cohesive enterprise application, establishing foundational proficiency in Node.js, Angular, and Git.

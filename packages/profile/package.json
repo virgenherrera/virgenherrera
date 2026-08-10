@@ -10,7 +10,8 @@
     "./schema": "./src/schema.ts",
     "./server": "./src/get-profile.ts",
     "./persona": "./src/persona-schema.ts",
-    "./persona-projector": "./src/persona-projector.ts"
+    "./persona-projector": "./src/persona-projector.ts",
+    "./persona-loader": "./src/persona-loader.ts"
   },
   "scripts": {
     "test:doctor": "pnpm run test:static && pnpm run test:dynamic",
