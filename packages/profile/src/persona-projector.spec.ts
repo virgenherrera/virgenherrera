@@ -417,6 +417,215 @@ describe('UT: persona-projector', () => {
     });
   });
 
+  describe('experience char limit @critical', () => {
+    // Mirrors `PlatformService.renderExperienceEntry()`'s char-count formula
+    // in `apps/readme/src/platform/platform.service.ts` — the projector's
+    // truncation target must match exactly what actually gets pasted into
+    // LinkedIn. Kept in sync manually since the two packages don't share
+    // this helper.
+    interface CountableBlock {
+      readonly type: string;
+      readonly lines: readonly string[];
+    }
+    interface CountableEngagement {
+      readonly title: string;
+      readonly domain?: string;
+      readonly client?: string;
+      readonly description: readonly CountableBlock[];
+    }
+    interface CountableEntry {
+      readonly description: readonly CountableBlock[];
+      readonly engagements?: readonly CountableEngagement[];
+    }
+
+    function renderBlocks(blocks: readonly CountableBlock[]): string {
+      return blocks
+        .map((block) =>
+          block.type === 'bullets'
+            ? block.lines.map((line) => `• ${line}`).join('\n')
+            : block.lines.join('\n'),
+        )
+        .join('\n');
+    }
+
+    function experienceChars(entry: CountableEntry): number {
+      const parts = [renderBlocks(entry.description)];
+
+      for (const eng of entry.engagements ?? []) {
+        const meta = [eng.domain, eng.client].filter(Boolean).join(', ');
+        const title = meta ? `${eng.title} (${meta})` : eng.title;
+
+        parts.push(`${title}\n${renderBlocks(eng.description)}`);
+      }
+
+      return parts.join('\n\n').length;
+    }
+
+    function snapshotWithBullets() {
+      return profileSnapshotSchema.parse({
+        name: 'Jane Doe',
+        headline: 'Senior Engineer',
+        summary: 'A senior engineer with a decade of experience.',
+        location: 'Mexico',
+        links: [{ label: 'GitHub', url: 'https://github.com/example' }],
+        experience: [
+          {
+            company: 'PwC',
+            role: 'Senior Software Developer',
+            startDate: { year: 2024, month: 8 },
+            description: [
+              {
+                type: 'paragraph',
+                lines: ['Led a cross-functional platform initiative.'],
+              },
+              {
+                type: 'bullets',
+                lines: ['Umbrella bullet one.', 'Umbrella bullet two.'],
+              },
+            ],
+            technologies: [],
+            engagements: [
+              {
+                title: 'Engagement A',
+                description: [
+                  { type: 'paragraph', lines: ['Context A.'] },
+                  {
+                    type: 'bullets',
+                    lines: [
+                      'A bullet one.',
+                      'A bullet two.',
+                      'A bullet three.',
+                    ],
+                  },
+                ],
+                technologies: [],
+              },
+              {
+                title: 'Engagement B',
+                description: [
+                  { type: 'paragraph', lines: ['Context B.'] },
+                  {
+                    type: 'bullets',
+                    lines: [
+                      'B bullet one.',
+                      'B bullet two.',
+                      'B bullet three.',
+                    ],
+                  },
+                ],
+                technologies: [],
+              },
+            ],
+          },
+        ],
+        education: [],
+        certifications: [],
+        projects: [],
+        skills: [
+          {
+            category: 'Languages',
+            skills: [{ name: 'TypeScript', level: 5 }],
+          },
+        ],
+        languages: [{ language: 'English', proficiency: 'C1' }],
+      });
+    }
+
+    const engagementWeights = { 'Engagement A': 0.9, 'Engagement B': 0.1 };
+
+    it('does not truncate an entry that is within charLimit', () => {
+      const snapshot = snapshotWithBullets();
+      const charLimit = experienceChars(snapshot.experience[0]);
+      const config = persona({ experience: { charLimit, engagementWeights } });
+
+      const projected = projectProfile(snapshot, null, config);
+      const pwc = projected.experience[0];
+
+      expect(pwc.engagements?.[0].description[1].lines).toHaveLength(3);
+      expect(pwc.engagements?.[1].description[1].lines).toHaveLength(3);
+      expect(pwc.description[1].lines).toHaveLength(2);
+    });
+
+    it('trims bullets from the lowest-weight engagement first, last bullet first, when over charLimit', () => {
+      const snapshot = snapshotWithBullets();
+      const entry = snapshot.experience[0];
+      const engagements = entry.engagements ?? [];
+      const trimmedOnce: CountableEntry = {
+        ...entry,
+        engagements: engagements.map((eng, i) =>
+          i === 1
+            ? {
+                ...eng,
+                description: [
+                  eng.description[0],
+                  {
+                    ...eng.description[1],
+                    lines: eng.description[1].lines.slice(0, 2),
+                  },
+                ],
+              }
+            : eng,
+        ),
+      };
+      const charLimit = experienceChars(trimmedOnce);
+      const config = persona({ experience: { charLimit, engagementWeights } });
+
+      const projected = projectProfile(snapshot, null, config);
+      const pwc = projected.experience[0];
+      const engA = pwc.engagements?.find((e) => e.title === 'Engagement A');
+      const engB = pwc.engagements?.find((e) => e.title === 'Engagement B');
+
+      expect(engA?.description[1].lines).toEqual([
+        'A bullet one.',
+        'A bullet two.',
+        'A bullet three.',
+      ]);
+      expect(engB?.description[1].lines).toEqual([
+        'B bullet one.',
+        'B bullet two.',
+      ]);
+      expect(experienceChars(pwc)).toBeLessThanOrEqual(charLimit);
+    });
+
+    it('drops an engagement entirely once it loses all its bullets, then trims umbrella bullets when still over charLimit', () => {
+      const snapshot = snapshotWithBullets();
+      const entry = snapshot.experience[0];
+      const target: CountableEntry = {
+        ...entry,
+        description: [
+          entry.description[0],
+          {
+            ...entry.description[1],
+            lines: entry.description[1].lines.slice(0, 1),
+          },
+        ],
+        engagements: [],
+      };
+      const charLimit = experienceChars(target);
+      const config = persona({ experience: { charLimit, engagementWeights } });
+
+      const projected = projectProfile(snapshot, null, config);
+      const pwc = projected.experience[0];
+
+      expect(pwc.engagements).toEqual([]);
+      expect(pwc.description[0]).toEqual(entry.description[0]);
+      expect(pwc.description[1].lines).toEqual(['Umbrella bullet one.']);
+      expect(experienceChars(pwc)).toBeLessThanOrEqual(charLimit);
+    });
+
+    it('does not truncate when charLimit is not set (backward compatible)', () => {
+      const snapshot = snapshotWithBullets();
+      const config = persona({ experience: { engagementWeights } });
+
+      const projected = projectProfile(snapshot, null, config);
+      const pwc = projected.experience[0];
+
+      expect(pwc.engagements?.[0].description[1].lines).toHaveLength(3);
+      expect(pwc.engagements?.[1].description[1].lines).toHaveLength(3);
+      expect(pwc.description[1].lines).toHaveLength(2);
+    });
+  });
+
   describe('headline, summary, and pass-through metadata @smoke', () => {
     it(`${should.overrideHeadlineAndSummary}`, () => {
       const config = persona({

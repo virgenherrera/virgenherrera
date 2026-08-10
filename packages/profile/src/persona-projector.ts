@@ -4,6 +4,7 @@ import type {
   SkillEntryData,
   SerializedProfileGraph,
 } from './schema';
+import type { DescriptionBlock } from './description-block';
 import type { PersonaConfig, SectionId } from './persona-schema';
 
 type SkillsConfig = NonNullable<PersonaConfig['skills']>;
@@ -359,6 +360,7 @@ function projectExperience(
     engagementWeights = {},
     hide = [],
     maxDisplayed,
+    charLimit,
   } = config;
 
   const visible = experience.filter((entry) => !hide.includes(entry.company));
@@ -401,5 +403,195 @@ function projectExperience(
     };
   });
 
-  return maxDisplayed ? projected.slice(0, maxDisplayed) : projected;
+  const truncated = maxDisplayed ? projected.slice(0, maxDisplayed) : projected;
+
+  return charLimit
+    ? truncated.map((entry) =>
+        applyExperienceCharLimit(entry, charLimit, engagementWeights),
+      )
+    : truncated;
+}
+
+// ── experience char-limit truncation ─────────────────────────────────────
+//
+// LinkedIn hard-caps a position's description field at 2000 chars. This
+// mirrors `PlatformService.renderExperienceEntry()` in
+// `apps/readme/src/platform/platform.service.ts` char-for-char: the counted
+// string is the umbrella description blocks + each engagement's rendered
+// block ("title (domain, client)" header + its description blocks), joined
+// by blank lines. Role, company, date range, and the "(N chars)" label are
+// renderer metadata and are NOT counted. If this drifts from
+// `renderExperienceEntry()`, the projector's truncation target stops
+// matching what actually gets pasted into LinkedIn — keep both in sync.
+
+function renderBlocksForCount(blocks: readonly DescriptionBlock[]): string {
+  return blocks
+    .map((block) =>
+      block.type === 'bullets'
+        ? block.lines.map((line) => `• ${line}`).join('\n')
+        : block.lines.join('\n'),
+    )
+    .join('\n');
+}
+
+function renderEngagementForCount(eng: SnapshotEngagement): string {
+  const meta = [eng.domain, eng.client].filter(Boolean).join(', ');
+  const title = meta ? `${eng.title} (${meta})` : eng.title;
+
+  return `${title}\n${renderBlocksForCount(eng.description)}`;
+}
+
+function experienceCharCount(
+  description: readonly DescriptionBlock[],
+  engagements: readonly SnapshotEngagement[] | undefined,
+): number {
+  const parts = [renderBlocksForCount(description)];
+
+  for (const eng of engagements ?? []) {
+    parts.push(renderEngagementForCount(eng));
+  }
+
+  return parts.join('\n\n').length;
+}
+
+/**
+ * Removes the last line of the last non-empty `bullets` block, starting
+ * search from `startIndex` (exclusive of anything before it). Drops the
+ * block entirely once it runs out of lines. Returns `null` when there is
+ * nothing left to trim (no `bullets` block with lines at/after `startIndex`)
+ * — `paragraph` blocks are never touched, matching the rule that context
+ * text is never removed, only bullets.
+ */
+function trimLastBulletLine(
+  blocks: readonly DescriptionBlock[],
+  startIndex: number,
+): DescriptionBlock[] | null {
+  const next = blocks.map((block) => ({ ...block, lines: [...block.lines] }));
+
+  for (let i = next.length - 1; i >= startIndex; i--) {
+    if (next[i].type === 'bullets' && next[i].lines.length > 0) {
+      next[i].lines.pop();
+
+      if (next[i].lines.length === 0) {
+        next.splice(i, 1);
+      }
+
+      return next;
+    }
+  }
+
+  return null;
+}
+
+function hasBulletLines(blocks: readonly DescriptionBlock[]): boolean {
+  return blocks.some(
+    (block) => block.type === 'bullets' && block.lines.length > 0,
+  );
+}
+
+/**
+ * Index of the engagement with the lowest `engagementWeights` score that
+ * still has at least one bullet line to trim, or -1 when none remain.
+ * Unweighted engagements default to score 0, so they are trimmed before
+ * any explicitly weighted engagement.
+ */
+function lowestWeightEngagementWithBullets(
+  engagements: readonly SnapshotEngagement[],
+  engagementWeights: Record<string, number>,
+): number {
+  let bestIndex = -1;
+  let bestWeight = Infinity;
+
+  engagements.forEach((eng, index) => {
+    if (!hasBulletLines(eng.description)) {
+      return;
+    }
+
+    const weight = engagementWeights[eng.title] ?? 0;
+
+    if (weight < bestWeight) {
+      bestWeight = weight;
+      bestIndex = index;
+    }
+  });
+
+  return bestIndex;
+}
+
+/**
+ * Trims a single experience entry to fit within `charLimit`, matching how
+ * `renderExperienceEntry()` counts chars (see `experienceCharCount()`).
+ *
+ * Trimming order (never removes umbrella paragraph text or engagement
+ * headers/context paragraphs — only bullets):
+ * 1. Engagement bullets, lowest-weight engagement first, last bullet first
+ *    within that engagement. An engagement that loses all its bullets is
+ *    removed entirely.
+ * 2. Once no engagement has bullets left to trim, umbrella bullets (the
+ *    entry's own `description` blocks after the first/paragraph block),
+ *    last bullet first.
+ */
+function applyExperienceCharLimit(
+  entry: SnapshotExperience,
+  charLimit: number,
+  engagementWeights: Record<string, number>,
+): SnapshotExperience {
+  let description = entry.description;
+  let engagements = entry.engagements;
+
+  if (experienceCharCount(description, engagements) <= charLimit) {
+    return entry;
+  }
+
+  if (engagements && engagements.length > 0) {
+    let working = [...engagements];
+
+    while (experienceCharCount(description, working) > charLimit) {
+      const targetIndex = lowestWeightEngagementWithBullets(
+        working,
+        engagementWeights,
+      );
+
+      if (targetIndex === -1) {
+        break;
+      }
+
+      const trimmedDescription = trimLastBulletLine(
+        working[targetIndex].description,
+        0,
+      );
+
+      if (trimmedDescription === null) {
+        break;
+      }
+
+      working = hasBulletLines(trimmedDescription)
+        ? working.map((eng, index) =>
+            index === targetIndex
+              ? { ...eng, description: trimmedDescription }
+              : eng,
+          )
+        : working.filter((_, index) => index !== targetIndex);
+    }
+
+    engagements = working;
+  }
+
+  if (experienceCharCount(description, engagements) > charLimit) {
+    let working = description;
+
+    while (experienceCharCount(working, engagements) > charLimit) {
+      const trimmed = trimLastBulletLine(working, 1);
+
+      if (trimmed === null) {
+        break;
+      }
+
+      working = trimmed;
+    }
+
+    description = working;
+  }
+
+  return { ...entry, description, engagements };
 }
