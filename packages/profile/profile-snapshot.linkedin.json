@@ -1,7 +1,7 @@
 {
   "name": "Hugo Enrique Virgen Herrera",
-  "headline": "Senior Fullstack Engineer | TypeScript, Angular, Node.js, NestJS | AI Engineering: RAG, LLM Orchestration, Context Engineering | Clean Architecture & Design Systems | 11+ Years to Production",
-  "summary": "I build production software systems, from frontend architecture and design systems to AI-powered platforms, for companies that need reliable engineering, not demos. 11+ years shipping TypeScript and Node.js systems for PwC, Globant, and enterprise clients across banking, healthcare, energy, and industrial IoT.\n• Led a backend team of 4-6 engineers at Globant building NestJS + GraphQL services handling 50K+ daily API requests, with SDKs (Angular, React, Vue) adopted by 10+ third-party integrators.\n• Designed and built an AI agent orchestration platform at PwC using NestJS, LangChain, and the OpenAI API (RAG, function calling, and a dedicated context engineering service), replacing manual multi-platform HR workflows with one conversational interface.\n• Built fullstack Industrial IoT / SCADA monitoring and AI-powered infrastructure platforms: real-time telemetry dashboards, RAG reporting chatbots, and 4 framework-specific SDKs (React, Angular, Vue, Svelte) for enterprise clients in energy and cloud infrastructure.\n• Led enterprise platform modernization across financial services and healthcare: Angular frontend rebuilds, .NET to Java/Golang backend migrations on OpenShift, and SPEI interbank payment processing with strict audit trail requirements.\nMy stack centers on TypeScript, Angular, and React on the frontend, Node.js and NestJS on the backend, clean architecture and design systems for structure, backed by PostgreSQL and MongoDB for data, Playwright and Jest for test automation, and Docker/CI-CD pipelines for reliable delivery.\nOpen to senior and staff engineering roles building production systems at the intersection of full-stack engineering and applied AI. Let's talk.",
+  "headline": "Senior Fullstack Engineer | 11+ Years | Angular, React, TypeScript | Node.js, NestJS | System Design & Microservices | AI Engineering: RAG, LLM Orchestration",
+  "summary": "Consulting-forged engineer, not a single-product specialist. 11 years inside PwC, Globant, EPAM, and 5 other consulting firms taught me something product engineers rarely learn: how to walk into an unfamiliar codebase, an unfamiliar industry, and an unfamiliar team, then ship production software on a client deadline. Eight industries (banking, healthcare, energy, pharma, IoT, insurance, telecom, SaaS) and 6 primary stack pivots later, that pattern-matching is the skill I bring to every new problem.\n• At PwC, designed and built an AI agent orchestration platform (NestJS, LangChain, OpenAI API) with RAG pipelines, function calling, and a dedicated context engineering service, replacing manual multi-platform HR workflows with one conversational interface across enterprise systems.\n• At Globant, led a backend team of 4 to 6 engineers building NestJS + GraphQL microservices handling 50K+ daily API requests, with SDKs (Angular, React, Vue) adopted by 10+ third-party integrators, applying system design principles to support scale and extensibility.\n• Built fullstack Industrial IoT and SCADA monitoring platforms with real-time telemetry dashboards, RAG-powered reporting chatbots, and 4 framework-specific SDKs (React, Angular, Vue, Svelte) for enterprise clients in energy and cloud infrastructure.\n• Led enterprise platform modernization across financial services and healthcare: Angular frontend rebuilds, .NET to Java/Golang backend migrations on Kubernetes (OpenShift), SQL-backed SPEI interbank payment processing with strict audit trails, and Agile delivery across distributed teams.\nMy stack follows my strengths: frontend architecture (Angular, React, TypeScript) first, backend systems (Node.js, NestJS, PostgreSQL, MongoDB) second, AI engineering (RAG, LLM orchestration, context engineering) as the active growth vector, and cloud infrastructure (AWS, Azure, Docker, Kubernetes) underneath. Unit testing with Jest, E2E automation with Playwright, and CI/CD pipelines are non-negotiable on every project.\nOpen to senior and staff engineering roles where fullstack depth meets applied AI. If your team needs someone who can own system design across the stack and ship, let's talk.",
   "location": "Mexico",
   "links": [
     {
@@ -43,8 +43,8 @@
   ],
   "experience": [
     {
-      "company": "Independent Contractor",
-      "role": "Fullstack AI Engineer",
+      "company": "VASS",
+      "role": "Senior Fullstack AI Engineer",
       "startDate": {
         "year": 2025,
         "month": 8
@@ -53,7 +53,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, cloud infrastructure, and industrial IoT."
+            "Consulting engagement at VASS, a global IT consulting firm, delivering fullstack and AI integration projects for enterprise clients across healthcare, financial services, cloud infrastructure, and industrial IoT."
           ]
         }
       ],
@@ -94,10 +94,10 @@
             {
               "type": "bullets",
               "lines": [
-                "Built a fullstack Industrial IoT / SCADA monitoring platform with .NET, Angular, and Docker, consuming well telemetry through Azure Service Bus and rendering stock-exchange-density real-time dashboards with configurable thresholds and alerting.",
+                "Contributed to a fullstack Industrial IoT / SCADA monitoring platform with .NET, Angular, and Docker, consuming well telemetry through Azure Service Bus and rendering stock-exchange-density real-time dashboards with configurable thresholds and alerting.",
                 "Designed and implemented a Retrieval-Augmented Generation (RAG) reporting chatbot that translates operational telemetry and historical well data into natural-language answers for engineering and operations teams.",
                 "Built AI-powered Infrastructure as Code pipelines for intelligent configuration generation, template standardization, and compliance validation across multi-tenant environments.",
-                "Built 4 framework-specific SDKs (React, Angular, Vue, Svelte) exposing a floating chatbot widget for embedding the reporting assistant across client applications with consistent behavior and styling."
+                "Contributed to 4 framework-specific SDKs (React, Angular, Vue, Svelte) exposing a floating chatbot widget for embedding the reporting assistant across client applications with consistent behavior and styling."
               ]
             }
           ],
@@ -134,7 +134,7 @@
             {
               "type": "bullets",
               "lines": [
-                "Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.",
+                "Drove frontend modernization with Angular and supported backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.",
                 "Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements.",
                 "Instrumented platform services with OpenTelemetry for observability baseline and delivered architecture proposals identifying candidate services for microservice extraction."
               ]
@@ -167,7 +167,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Contributed to the design, implementation, and production release of AI-powered integration services that unified 5+ isolated enterprise systems into a single conversational platform, with a strong focus on code quality, scalability, and reliable delivery pipelines."
+            "Senior Software Developer engagement at PwC, a Big 4 consulting firm, delivering AI-powered integration services for enterprise client operations. Contributed to the design, implementation, and production release of a conversational platform built primarily on NestJS and LangChain, unifying 5+ isolated enterprise systems into a single interface, with a strong focus on code quality, scalability, and reliable delivery pipelines."
           ]
         }
       ],
@@ -197,15 +197,15 @@
             {
               "type": "paragraph",
               "lines": [
-                "Employees manually repeated HR operations (vacation requests, sick leave, feedback, training enrollment) across up to 3 separate internal and external platforms. Built a unified conversational entry point that interprets natural language and executes the appropriate actions automatically."
+                "Within this PwC consulting engagement, employees manually repeated HR operations, including vacation requests, sick leave, feedback, and training enrollment, across up to 3 separate internal and external platforms. Built a unified conversational entry point that interprets natural language and executes the appropriate actions automatically."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Designed and built an AI agent orchestration layer with NestJS, LangChain, and the OpenAI API, implementing Retrieval-Augmented Generation (RAG) and function calling to interpret user intent and execute actions against internal and third-party services, replacing manual multi-platform workflows with a single conversational interface.",
-                "Designed and built a context engineering service in .NET 8 supporting the RAG pipeline — managing context retrieval for repeated, interrupted, and asynchronous conversational requests; evaluated Rust as the initial candidate, then aligned to corporate governance constraints (.NET or Node.js only), selecting .NET 8 for its performance profile.",
-                "Built 3 framework-specific SDKs (React, Angular, Vue) exposing a floating chatbot widget that extracts the Active Directory payload, identifies the user, and forwards an auth token — supporting internal, second-party, and external consumer integrations."
+                "Designed and built an AI agent orchestration layer with NestJS, LangChain, and the OpenAI API, implementing Retrieval-Augmented Generation (RAG) and Function Calling to interpret user intent and execute actions against internal and third-party services for enterprise client delivery, replacing manual multi-platform workflows with a single conversational interface.",
+                "Designed and built a context engineering service in .NET 8 supporting the RAG pipeline: managing context retrieval for repeated, interrupted, and asynchronous conversational requests. Evaluated Rust as the initial candidate, then aligned to corporate governance constraints (.NET or Node.js only), selecting .NET 8 for its performance profile.",
+                "Built 3 framework-specific SDKs (React, Angular, Vue) exposing a floating chatbot widget that extracts the Active Directory payload, identifies the user, and forwards an auth token, supporting internal, second-party, and external consumer integrations."
               ]
             }
           ],
@@ -231,7 +231,7 @@
     },
     {
       "company": "Globant",
-      "role": "Senior Fullstack Node.js Developer",
+      "role": "Lead Backend Developer",
       "startDate": {
         "year": 2021,
         "month": 4
@@ -244,7 +244,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Joined as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer, leading a team of 4-6 engineers across two major engagements for a US-based enterprise SaaS provider — spanning backend architecture, SDK ecosystem development, and workflow automation, within AWS-based cloud environments."
+            "Joined Globant, a global IT consulting firm, as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer over a 3+ year tenure, leading a team of 4-6 engineers across two major client-facing engagements for a US-based enterprise SaaS provider. Work spanned NestJS and GraphQL backend architecture, a multi-framework SDK ecosystem (Angular, React, Vue), and workflow automation, all supported by AWS-based cloud infrastructure."
           ]
         }
       ],
@@ -274,22 +274,22 @@
             {
               "type": "paragraph",
               "lines": [
-                "The client needed to automate multi-step backend workflows still running with manual intervention. Simultaneously, enterprise AI adoption was in its early \"taboo\" phase — leadership was cautious and there were no internal guidelines for responsible AI integration."
+                "A second engagement for the same client required automating multi-step backend workflows still running with manual intervention. At the same time, enterprise AI adoption was in its early \"taboo\" phase: leadership was cautious and there were no internal guidelines for responsible AI integration, an early signal read and acted on well ahead of the broader market."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Implemented workflow orchestration using AWS Step Functions for business process automation — replacing manual sequential workflows with fault-tolerant state machines across 3 distributed services.",
-                "Championed enterprise AI adoption when LLM usage was organizationally discouraged — evangelized best practices for responsible AI integration in enterprise contexts, covering data governance, prompt safety, and cost control.",
-                "Contributed to internal AI readiness assessment, evaluating integration patterns and tooling that informed the team's approach to generative AI adoption."
+                "Implemented workflow orchestration using AWS Step Functions for business process automation, replacing manual sequential workflows with fault-tolerant state machines across 3 distributed services.",
+                "Championed enterprise AI adoption when LLM usage was organizationally discouraged: evangelized best practices for responsible AI integration in enterprise contexts, covering data governance, prompt safety, and cost control, well before generative AI became a standard enterprise conversation.",
+                "Contributed to an internal AI readiness assessment, evaluating integration patterns and tooling that informed the team's approach to generative AI adoption."
               ]
             }
           ],
           "technologies": ["AWS Step Functions", "Agentic Workflows"]
         },
         {
-          "title": "Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem",
+          "title": "Enterprise SaaS Platform: Backend Architecture & SDK Ecosystem",
           "domain": "B2B Platform Services",
           "client": "US-based Enterprise SaaS Provider",
           "skills": [],
@@ -297,16 +297,16 @@
             {
               "type": "paragraph",
               "lines": [
-                "The client needed a scalable backend architecture to support 50K+ daily API requests and SDK distribution for 10+ third-party integrators across Angular, React, and Vue."
+                "This consulting engagement required a scalable backend architecture built on NestJS and GraphQL, paired with a multi-framework SDK ecosystem, to support 50K+ daily API requests and 10+ third-party integrators across Angular, React, and Vue."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Promoted from Senior to Lead Backend Developer; led a team of 4-6 engineers responsible for NestJS backend services, GraphQL APIs, and supporting SDK architecture serving 50K+ daily API requests.",
-                "Built frontend SDKs (Angular, React, Vue) adopted by 10+ third-party clients, standardizing integration patterns and reducing per-client onboarding effort.",
-                "Implemented GraphQL APIs within a NestJS architecture, improving API flexibility, data aggregation, and developer experience for internal and external consumers.",
-                "Designed and maintained CI/CD pipelines with AWS CodeBuild, CodeDeploy, and CodePipeline, enabling consistent, repeatable releases across distributed services."
+                "Promoted from Senior to Lead Backend Developer, a natural progression within the engagement: took ownership of a team of 4-6 engineers responsible for NestJS backend services, GraphQL APIs, and the SDK architecture serving 50K+ daily API requests.",
+                "Architected and shipped frontend SDKs spanning Angular, React, and Vue, adopted by 10+ third-party clients; standardized integration patterns and reduced per-client onboarding effort for the broader SDK ecosystem.",
+                "Designed GraphQL APIs within the NestJS backend architecture, improving API flexibility, data aggregation, and developer experience for internal and external consumers.",
+                "Managed the release cadence with CI/CD pipelines on AWS CodeBuild, CodeDeploy, and CodePipeline, enabling consistent, repeatable deployments across distributed services."
               ]
             }
           ],
@@ -327,37 +327,7 @@
     },
     {
       "company": "EPAM Systems",
-      "role": "Resources Manager (Leadership Development)",
-      "startDate": {
-        "year": 2019,
-        "month": 5
-      },
-      "endDate": {
-        "year": 2020,
-        "month": 2
-      },
-      "description": [
-        {
-          "type": "paragraph",
-          "lines": [
-            "Additional leadership development role alongside primary engineering responsibilities."
-          ]
-        },
-        {
-          "type": "bullets",
-          "lines": [
-            "Acted as point of contact for engineers, supporting career growth, performance assessments, structured feedback, and one-on-one meetings.",
-            "Conducted technical interviews to evaluate candidates on engineering fundamentals, problem-solving skills, and system design.",
-            "Produced technical evaluation reports and hiring recommendations for HR and engineering leadership.",
-            "Delivered technical talks and knowledge-sharing sessions for colleagues and engineering students, contributing to internal training initiatives."
-          ]
-        }
-      ],
-      "technologies": []
-    },
-    {
-      "company": "EPAM Systems",
-      "role": "Full Stack JavaScript Engineer",
+      "role": "Fullstack JavaScript Engineer",
       "startDate": {
         "year": 2018,
         "month": 10
@@ -370,7 +340,13 @@
         {
           "type": "paragraph",
           "lines": [
-            "Contributed to cloud modernization and platform engineering initiatives at EPAM, spanning post-incident infrastructure recovery for a Fortune 500 pharmaceutical client and high-volume platform development for a digital registration service, with an emphasis on scalability, reliability, and clean architecture."
+            "Led architectural decomposition and platform engineering initiatives at EPAM: rebuilt a Fortune 500 pharmaceutical client's infrastructure into isolated microservices following a catastrophic security incident, and built a high-volume registration platform for a digital service using React, Node.js, and Apollo GraphQL, with an emphasis on scalability, reliability, and clean architecture."
+          ]
+        },
+        {
+          "type": "bullets",
+          "lines": [
+            "Held a parallel Resources Manager role (May 2019 to Feb 2020): served as point of contact for engineers, ran technical interviews producing evaluation reports and hiring recommendations, and delivered technical talks for colleagues and engineering students."
           ]
         }
       ],
@@ -390,7 +366,7 @@
       ],
       "engagements": [
         {
-          "title": "Fortune 500 Pharmaceutical — Post-Incident Cloud Modernization",
+          "title": "Fortune 500 Pharmaceutical: Post-Incident Cloud Modernization",
           "domain": "Pharmaceutical / Cybersecurity Recovery",
           "client": "Fortune 500 Pharmaceutical Company",
           "skills": [],
@@ -398,13 +374,13 @@
             {
               "type": "paragraph",
               "lines": [
-                "The client's infrastructure was compromised by a catastrophic ransomware attack (2017) that froze all machines simultaneously. The entire technology stack needed to be rebuilt with a cloud-first, decentralized architecture to eliminate single points of failure and prevent future lateral propagation."
+                "A 2017 ransomware attack froze the client's entire infrastructure simultaneously, exposing the risk of a centralized, single-point-of-failure architecture. The engagement rebuilt the technology stack cloud-first, prioritizing service isolation to prevent future lateral propagation."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Co-designed the decentralization strategy — decomposing a monolith into independent microservices with isolated databases, AWS Lambda functions, and Step Functions orchestration — for a Fortune 500 client recovering from a catastrophic infrastructure compromise.",
+                "Co-designed the decentralization strategy for a Fortune 500 client recovering from a catastrophic infrastructure compromise: decomposed a monolith into independent microservices with isolated databases, orchestrated with AWS Lambda functions and Step Functions.",
                 "Produced system decomposition proposals, architectural diagrams, and migration strategies under strict post-breach security compartmentalization, delivering architecture guidance within constrained implementation access protocols."
               ]
             }
@@ -425,7 +401,7 @@
             {
               "type": "bullets",
               "lines": [
-                "Built a high-volume registration platform handling 100K+ monthly sign-ups using React, Node.js, Apollo GraphQL, AWS Lambda, SNS, and DynamoDB.",
+                "Built a high-volume registration platform handling 100K+ monthly sign-ups using React, Node.js, and Apollo GraphQL, backed by AWS Lambda, SNS, and DynamoDB.",
                 "Established automated test coverage using Mocha, Chai, and Istanbul, hardening reliability for high-volume registration and subscription flows."
               ]
             }
@@ -446,7 +422,7 @@
     },
     {
       "company": "Unosquare",
-      "role": "Lead Full Stack JavaScript Engineer",
+      "role": "Lead Fullstack JavaScript Engineer",
       "startDate": {
         "year": 2020,
         "month": 3
@@ -459,16 +435,16 @@
         {
           "type": "paragraph",
           "lines": [
-            "Led a cross-functional team of 5+ engineers in the migration of a banking web application to Angular 11, while also contributing to backend services in C#/.NET, cloud-native architecture on Azure, and microservices in Golang."
+            "Led a cross-functional team of 5+ engineers in a nearshore delivery engagement for Unosquare, driving the migration of a client-facing banking web application to Angular 11 and building out its Playwright test automation and WCAG accessibility remediation. Also supported backend services in C#/.NET, cloud-native architecture on Azure, and microservices in Golang."
           ]
         },
         {
           "type": "bullets",
           "lines": [
-            "Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with Angular-based frontends and enterprise data sources.",
-            "Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity.",
-            "Contributed to cloud-native architectures on Azure, including Azure Kubernetes Service and Azure Functions, supporting scalable and resilient microservices.",
-            "Developed lightweight microservices using Golang and Fiber, optimizing performance and service scalability within distributed systems."
+            "Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with the Angular-based frontend and enterprise data sources.",
+            "Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity for the client engagement.",
+            "Deployed cloud-native architecture on Azure, including Azure Kubernetes Service and Azure Functions, backing scalable and resilient microservices.",
+            "Built lightweight microservices using Golang and Fiber, contributing to performance and service scalability within the broader distributed system."
           ]
         }
       ],
@@ -493,7 +469,7 @@
             {
               "type": "paragraph",
               "lines": [
-                "The client had a legacy Angular 1.6 banking application serving 20K+ active users that needed migration to modern Angular. Additionally, the platform faced ADA Title III compliance pressure requiring full WCAG accessibility remediation under legal deadline."
+                "This nearshore delivery engagement centered on a legacy Angular 1.6 banking application serving 20K+ active users that needed migration to modern Angular. The platform also faced ADA Title III compliance pressure requiring full WCAG accessibility remediation under legal deadline."
               ]
             },
             {
@@ -501,9 +477,9 @@
               "lines": [
                 "Led a team of 5+ engineers in migrating Angular 1.6 to Angular 10/11 using hybrid compilation mode, delivering zero downtime for 20K+ active banking users.",
                 "Defined the team's test strategy and built a test automation framework with Playwright within 6 weeks of its public release (January 31, 2020), positioning the QA stack ahead of industry adoption and validating that migrated flows behaved identically to legacy.",
-                "Led an accessibility compliance initiative under active ADA Title III legal pressure — trained all developers and QA engineers on WCAG standards and tooling, remediated existing accessibility debt, and integrated automated accessibility checks into the Playwright e2e suite.",
+                "Led an accessibility compliance initiative under active ADA Title III legal pressure: trained all developers and QA engineers on WCAG standards and tooling, remediated existing accessibility debt, and integrated automated accessibility checks into the Playwright e2e suite.",
                 "Implemented state management with NgRx/Store and component testing with Spectator across the Angular SDK architecture.",
-                "Contributed to backend modernization across legacy .NET and .NET Core services using CQRS and Event Sourcing patterns."
+                "Supported backend modernization across legacy .NET and .NET Core services using CQRS and Event Sourcing patterns."
               ]
             }
           ],
@@ -513,7 +489,7 @@
     },
     {
       "company": "3Pillar Global (formerly Tiempo Development)",
-      "role": "Full-stack Software Engineer",
+      "role": "Fullstack Software Engineer",
       "startDate": {
         "year": 2016,
         "month": 10
@@ -526,7 +502,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Contributed to the design and development of microservices-based systems at 3Pillar Global, spanning a life-safety-critical emergency response platform for assisted living facilities and a legacy backend modernization initiative for an online IT training platform, following Agile/Scrum and Lean methodologies with a strong emphasis on scalability, reliability, and delivery quality."
+            "Delivered Node.js, Express.js, MongoDB, and GraphQL-based microservices at 3Pillar Global, including a life-safety-critical emergency response platform for assisted living facilities and a legacy backend modernization initiative for an online IT training platform, following Agile/Scrum and Lean methodologies with a strong emphasis on scalability, reliability, and delivery quality."
           ]
         }
       ],
@@ -554,13 +530,13 @@
             {
               "type": "paragraph",
               "lines": [
-                "The client's emergency response system for assisted living facilities relied on UDP-based data from help buttons and door/window sensors — packets were being silently dropped due to UDP's unreliable delivery, while web and iOS clients polled every 30 seconds simulating \"real-time\" alerts. In a system where a missed alert means a vulnerable resident does not receive help, both problems were life-safety defects."
+                "The client's emergency response system for assisted living facilities relied on UDP-based data from help buttons and door/window sensors: packets were being silently dropped due to UDP's unreliable delivery, while web and iOS clients polled every 30 seconds to simulate \"real-time\" alerts. In a system where a missed alert means a vulnerable resident does not receive help, both problems were life-safety defects."
               ]
             },
             {
               "type": "bullets",
               "lines": [
-                "Diagnosed a life-safety defect in the emergency alert pipeline — UDP packet loss combined with 30-second polling — and proposed and implemented Node.js with Socket.IO to deliver true real-time event streaming over TCP/WebSocket, eliminating both data loss and response delay.",
+                "Diagnosed a life-safety defect in the emergency alert pipeline (UDP packet loss combined with 30-second polling) and implemented Node.js with Socket.IO to deliver true real-time event streaming over TCP/WebSocket, eliminating both data loss and response delay.",
                 "Built a push notification system alerting caretakers when they left the facility's LAN boundary, closing a critical coverage gap in the elder care safety system."
               ]
             }
@@ -617,18 +593,53 @@
         {
           "type": "paragraph",
           "lines": [
-            "Contributed to frontend development for an insurance platform, building React components with ES6 syntax transpiled to ES5 using Webpack and Gulp for cross-browser compatibility."
+            "Built React components for an insurance platform, using ES6 syntax transpiled to ES5 with Webpack and Gulp for cross-browser compatibility."
           ]
         },
         {
           "type": "bullets",
           "lines": [
-            "Worked as part of a geographically distributed team across Guadalajara, Aguascalientes, and San Francisco, coordinating daily activities through Scrum ceremonies.",
-            "Collaborated with backend engineers to integrate RESTful APIs into React-based user interfaces."
+            "Collaborated with backend engineers to integrate RESTful APIs into React interfaces as part of a distributed team spanning Guadalajara, Aguascalientes, and San Francisco, coordinating through Scrum ceremonies."
           ]
         }
       ],
       "technologies": ["React", "JavaScript", "Webpack", "Gulp", "REST", "Git"]
+    },
+    {
+      "company": "Ramsal Software",
+      "role": "Fullstack Software Engineer",
+      "startDate": {
+        "year": 2015,
+        "month": 8
+      },
+      "endDate": {
+        "year": 2016,
+        "month": 6
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "lines": [
+            "First professional software engineering role: foundational consultancy experience contributing to Ramsal, a SaaS payroll management platform serving multiple enterprise clients."
+          ]
+        },
+        {
+          "type": "bullets",
+          "lines": [
+            "Built and maintained client-facing web modules with JavaScript and jQuery, delivering responsive interfaces for payroll processing and employee management workflows.",
+            "Collaborated on an integrated Web System consolidating multiple business tools into a cohesive enterprise application, establishing foundational proficiency in Node.js, Angular, and Git."
+          ]
+        }
+      ],
+      "technologies": [
+        "JavaScript",
+        "jQuery",
+        "Node.js",
+        "Angular",
+        "Git",
+        "HTML",
+        "CSS"
+      ]
     }
   ],
   "education": [
@@ -652,7 +663,7 @@
   "projects": [
     {
       "name": "virgenherrera",
-      "description": "GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines — orchestrated with pnpm workspaces, AI-driven.",
+      "description": "GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines, orchestrated with pnpm workspaces, AI-driven.",
       "url": "https://github.com/virgenherrera/virgenherrera",
       "technologies": [
         "TypeScript",
@@ -896,12 +907,7 @@
   "graph": {
     "bySkill": {
       "typescript": {
-        "experiences": [
-          "Independent Contractor",
-          "PwC",
-          "Globant",
-          "EPAM Systems"
-        ],
+        "experiences": ["VASS", "PwC", "Globant", "EPAM Systems"],
         "projects": [
           "virgenherrera",
           "nest-base",
@@ -913,7 +919,7 @@
       },
       "javascript": {
         "experiences": [
-          "Independent Contractor",
+          "VASS",
           "PwC",
           "EPAM Systems",
           "3Pillar Global (formerly Tiempo Development)",
@@ -925,7 +931,7 @@
       },
       "nodejs": {
         "experiences": [
-          "Independent Contractor",
+          "VASS",
           "PwC",
           "Globant",
           "EPAM Systems",
@@ -937,7 +943,7 @@
       },
       "angular": {
         "experiences": [
-          "Independent Contractor",
+          "VASS",
           "PwC",
           "Globant",
           "Unosquare",
@@ -947,73 +953,73 @@
         "years": 7.3
       },
       "java": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "golang": {
-        "experiences": ["Independent Contractor", "Unosquare"],
+        "experiences": ["VASS", "Unosquare"],
         "projects": [],
         "years": 2.2
       },
       "docker": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "openshift": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "llm-orchestration": {
-        "experiences": ["Independent Contractor", "PwC"],
+        "experiences": ["VASS", "PwC"],
         "projects": [],
         "years": 2
       },
       "prompt-engineering": {
-        "experiences": ["Independent Contractor", "PwC"],
+        "experiences": ["VASS", "PwC"],
         "projects": [],
         "years": 2
       },
       "context-engineering": {
-        "experiences": ["Independent Contractor", "PwC"],
+        "experiences": ["VASS", "PwC"],
         "projects": [],
         "years": 2
       },
       "ci-cd": {
-        "experiences": ["Independent Contractor", "PwC"],
+        "experiences": ["VASS", "PwC"],
         "projects": [],
         "years": 2
       },
       "dotnet": {
-        "experiences": ["Independent Contractor", "Unosquare", "EPAM Systems"],
+        "experiences": ["VASS", "Unosquare", "EPAM Systems"],
         "projects": [],
         "years": 3.5
       },
       "azure-service-bus": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "iot": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "scada": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
       "rag": {
-        "experiences": ["Independent Contractor", "PwC"],
+        "experiences": ["VASS", "PwC"],
         "projects": [],
         "years": 2
       },
       "react": {
         "experiences": [
-          "Independent Contractor",
+          "VASS",
           "PwC",
           "Globant",
           "EPAM Systems",
@@ -1023,12 +1029,12 @@
         "years": 6.9
       },
       "vue": {
-        "experiences": ["Independent Contractor", "PwC", "Globant"],
+        "experiences": ["VASS", "PwC", "Globant"],
         "projects": [],
         "years": 5.3
       },
       "svelte": {
-        "experiences": ["Independent Contractor"],
+        "experiences": ["VASS"],
         "projects": [],
         "years": 1
       },
@@ -1301,7 +1307,7 @@
       }
     },
     "byExperience": {
-      "Independent Contractor": [
+      "VASS": [
         "typescript",
         "javascript",
         "nodejs",
@@ -1373,7 +1379,21 @@
         "fiber",
         "playwright"
       ],
-      "EPAM Systems": [],
+      "EPAM Systems": [
+        "javascript",
+        "typescript",
+        "nodejs",
+        "react",
+        "apollo-graphql",
+        "aws-lambda",
+        "aws-sns",
+        "dynamodb",
+        "mocha",
+        "chai",
+        "istanbul",
+        "dotnet",
+        "aws-step-functions"
+      ],
       "3Pillar Global (formerly Tiempo Development)": [
         "javascript",
         "nodejs",

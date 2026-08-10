@@ -1,6 +1,6 @@
 ---
-company: Independent Contractor
-role: Fullstack AI Engineer
+company: VASS
+role: Senior Fullstack AI Engineer
 startDate: '2025-08'
 skills:
   - typescript
@@ -36,7 +36,7 @@ engagements:
       - ci-cd
     description:
       - 'Enterprise clients in financial services and healthcare required modernization of core systems, including migration from legacy .NET services to Java, containerization on OpenShift, integration with national payment infrastructure, and cloud readiness assessment for monolithic platforms.'
-      - '*Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.'
+      - '*Drove frontend modernization with Angular and supported backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.'
       - '*Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements.'
       - '*Instrumented platform services with OpenTelemetry for observability baseline and delivered architecture proposals identifying candidate services for microservice extraction.'
   - title: AI & Industrial IoT Platforms
@@ -60,10 +60,10 @@ engagements:
       - ci-cd
     description:
       - 'Multinational energy consortium and cloud infrastructure clients required fullstack platforms combining real-time industrial telemetry monitoring with AI-powered automation: SCADA dashboards and conversational reporting to intelligent infrastructure provisioning.'
-      - '*Built a fullstack Industrial IoT / SCADA monitoring platform with .NET, Angular, and Docker, consuming well telemetry through Azure Service Bus and rendering stock-exchange-density real-time dashboards with configurable thresholds and alerting.'
+      - '*Contributed to a fullstack Industrial IoT / SCADA monitoring platform with .NET, Angular, and Docker, consuming well telemetry through Azure Service Bus and rendering stock-exchange-density real-time dashboards with configurable thresholds and alerting.'
       - '*Designed and implemented a Retrieval-Augmented Generation (RAG) reporting chatbot that translates operational telemetry and historical well data into natural-language answers for engineering and operations teams.'
       - '*Built AI-powered Infrastructure as Code pipelines for intelligent configuration generation, template standardization, and compliance validation across multi-tenant environments.'
-      - '*Built 4 framework-specific SDKs (React, Angular, Vue, Svelte) exposing a floating chatbot widget for embedding the reporting assistant across client applications with consistent behavior and styling.'
+      - '*Contributed to 4 framework-specific SDKs (React, Angular, Vue, Svelte) exposing a floating chatbot widget for embedding the reporting assistant across client applications with consistent behavior and styling.'
 ---
 
-Mexico-based independent software engineering practice delivering fullstack and AI integration projects for enterprise clients through consulting partners across healthcare, financial services, cloud infrastructure, and industrial IoT.
+Consulting engagement at VASS, a global IT consulting firm, delivering fullstack and AI integration projects for enterprise clients across healthcare, financial services, cloud infrastructure, and industrial IoT.

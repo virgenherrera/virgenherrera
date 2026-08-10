@@ -204,7 +204,7 @@ export class PdfGeneratorService {
       doc.setFontSize(FONT_SIZES.body);
       doc.text(exp.role, MARGIN, cursorY);
 
-      const dateRange = `${this.fmtDate(exp.startDate)} — ${this.fmtDate(exp.endDate)}`;
+      const dateRange = `${this.fmtDate(exp.startDate)} - ${this.fmtDate(exp.endDate)}`;
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(COLORS.textMuted);
       const dateWidth = doc.getTextWidth(dateRange);
@@ -286,7 +286,7 @@ export class PdfGeneratorService {
       if (eng.domain || eng.client) {
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(COLORS.textMuted);
-        const meta = [eng.domain, eng.client].filter(Boolean).join(' — ');
+        const meta = [eng.domain, eng.client].filter(Boolean).join(', ');
         doc.text(meta, engIndent, cursorY);
         cursorY += LINE_HEIGHT;
       }
@@ -340,13 +340,13 @@ export class PdfGeneratorService {
 
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(COLORS.textMuted);
-      const dateRange = `${this.fmtDate(edu.startDate)} – ${this.fmtDate(edu.graduationDate)}`;
+      const dateRange = `${this.fmtDate(edu.startDate)} - ${this.fmtDate(edu.graduationDate)}`;
       const yearWidth = doc.getTextWidth(dateRange);
       doc.text(dateRange, PAGE_WIDTH - MARGIN - yearWidth, cursorY);
       cursorY += LINE_HEIGHT;
 
       doc.setFontSize(FONT_SIZES.small);
-      doc.text(`${edu.institution} — ${edu.location}`, MARGIN, cursorY);
+      doc.text(`${edu.institution}, ${edu.location}`, MARGIN, cursorY);
       cursorY += LINE_HEIGHT;
 
       if (edu.honors) {
@@ -428,7 +428,7 @@ export class PdfGeneratorService {
     languages: readonly LanguageData[],
   ): number {
     const text = languages
-      .map((lang) => `${lang.language} — ${lang.proficiency}`)
+      .map((lang) => `${lang.language}: ${lang.proficiency}`)
       .join('    ');
     doc.text(text, MARGIN, cursorY);
 

@@ -3,45 +3,53 @@ label: LinkedIn Profile
 extends: default
 
 headline: >-
-  Senior Fullstack Engineer | TypeScript, Angular, Node.js, NestJS | AI
-  Engineering: RAG, LLM Orchestration, Context Engineering | Clean
-  Architecture & Design Systems | 11+ Years to Production
+  Senior Fullstack Engineer | 11+ Years | Angular, React, TypeScript |
+  Node.js, NestJS | System Design & Microservices | AI Engineering: RAG,
+  LLM Orchestration
 
 summary: >-
-  I build production software systems, from frontend architecture and
-  design systems to AI-powered platforms, for companies that need
-  reliable engineering, not demos. 11+ years shipping TypeScript and
-  Node.js systems for PwC, Globant, and enterprise clients across
-  banking, healthcare, energy, and industrial IoT.
+  Consulting-forged engineer, not a single-product specialist. 11 years
+  inside PwC, Globant, EPAM, and 5 other consulting firms taught me
+  something product engineers rarely learn: how to walk into an
+  unfamiliar codebase, an unfamiliar industry, and an unfamiliar team,
+  then ship production software on a client deadline. Eight industries
+  (banking, healthcare, energy, pharma, IoT, insurance, telecom, SaaS)
+  and 6 primary stack pivots later, that pattern-matching is the skill I
+  bring to every new problem.
 
-  • Led a backend team of 4-6 engineers at Globant building NestJS +
-  GraphQL services handling 50K+ daily API requests, with SDKs (Angular,
-  React, Vue) adopted by 10+ third-party integrators.
+  • At PwC, designed and built an AI agent orchestration platform
+  (NestJS, LangChain, OpenAI API) with RAG pipelines, function calling,
+  and a dedicated context engineering service, replacing manual
+  multi-platform HR workflows with one conversational interface across
+  enterprise systems.
 
-  • Designed and built an AI agent orchestration platform at PwC using
-  NestJS, LangChain, and the OpenAI API (RAG, function calling, and a
-  dedicated context engineering service), replacing manual multi-platform
-  HR workflows with one conversational interface.
+  • At Globant, led a backend team of 4 to 6 engineers building NestJS +
+  GraphQL microservices handling 50K+ daily API requests, with SDKs
+  (Angular, React, Vue) adopted by 10+ third-party integrators, applying
+  system design principles to support scale and extensibility.
 
-  • Built fullstack Industrial IoT / SCADA monitoring and AI-powered
-  infrastructure platforms: real-time telemetry dashboards, RAG
-  reporting chatbots, and 4 framework-specific SDKs (React, Angular,
-  Vue, Svelte) for enterprise clients in energy and cloud infrastructure.
+  • Built fullstack Industrial IoT and SCADA monitoring platforms with
+  real-time telemetry dashboards, RAG-powered reporting chatbots, and 4
+  framework-specific SDKs (React, Angular, Vue, Svelte) for enterprise
+  clients in energy and cloud infrastructure.
 
   • Led enterprise platform modernization across financial services and
   healthcare: Angular frontend rebuilds, .NET to Java/Golang backend
-  migrations on OpenShift, and SPEI interbank payment processing with
-  strict audit trail requirements.
+  migrations on Kubernetes (OpenShift), SQL-backed SPEI interbank
+  payment processing with strict audit trails, and Agile delivery across
+  distributed teams.
 
-  My stack centers on TypeScript, Angular, and React on the frontend,
-  Node.js and NestJS on the backend, clean architecture and design
-  systems for structure, backed by PostgreSQL and MongoDB for data,
-  Playwright and Jest for test automation, and Docker/CI-CD pipelines
-  for reliable delivery.
+  My stack follows my strengths: frontend architecture (Angular, React,
+  TypeScript) first, backend systems (Node.js, NestJS, PostgreSQL,
+  MongoDB) second, AI engineering (RAG, LLM orchestration, context
+  engineering) as the active growth vector, and cloud infrastructure
+  (AWS, Azure, Docker, Kubernetes) underneath. Unit testing with Jest,
+  E2E automation with Playwright, and CI/CD pipelines are
+  non-negotiable on every project.
 
-  Open to senior and staff engineering roles building production systems
-  at the intersection of full-stack engineering and applied AI. Let's
-  talk.
+  Open to senior and staff engineering roles where fullstack depth meets
+  applied AI. If your team needs someone who can own system design
+  across the stack and ship, let's talk.
 
 skills:
   priority:
@@ -113,7 +121,7 @@ skills:
 
 experience:
   weights:
-    Independent Contractor: 1.0
+    VASS: 1.0
     PwC: 0.95
     Globant: 0.85
     EPAM Systems: 0.55
@@ -126,8 +134,8 @@ experience:
     AI & Industrial IoT Platforms: 1.0
     Enterprise Platform Modernization: 0.92
     Workflow Automation & Enterprise AI Evangelism: 0.95
-    Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem: 0.75
-    Fortune 500 Pharmaceutical — Post-Incident Cloud Modernization: 0.6
+    'Enterprise SaaS Platform: Backend Architecture & SDK Ecosystem': 0.75
+    'Fortune 500 Pharmaceutical: Post-Incident Cloud Modernization': 0.6
     Digital Banking Platform Migration & A11y Compliance: 0.5
   maxDisplayed: 8
 
