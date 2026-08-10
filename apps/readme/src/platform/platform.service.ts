@@ -17,20 +17,10 @@ const PERSONA_ID = 'linkedin';
 const BANNER_WIDTH = 80;
 const HEADER_WIDTH = 82;
 
-const MONTH_NAMES = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-] as const;
+const MONTH_FORMAT = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric',
+});
 
 type SnapshotExperience = ProfileSnapshotData['experience'][number];
 type SnapshotEngagement = NonNullable<
@@ -174,7 +164,7 @@ export class PlatformService {
   }
 
   private formatYearMonth({ year, month }: YearMonth): string {
-    return `${MONTH_NAMES[month - 1]} ${year}`;
+    return MONTH_FORMAT.format(new Date(year, month - 1));
   }
 
   private renderDescriptionBlocks(blocks: readonly DescriptionBlock[]): string {
