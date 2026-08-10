@@ -2,18 +2,18 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ReadmeService } from './readme.service';
-import { LinkedinModule } from './linkedin/linkedin.module';
-import { LinkedinService } from './linkedin/linkedin.service';
+import { PlatformModule } from './platform/platform.module';
+import { PlatformService } from './platform/platform.service';
 
 async function bootstrap(): Promise<void> {
   const command = process.argv[2];
 
-  if (command === 'linkedin') {
-    const app = await NestFactory.createApplicationContext(LinkedinModule, {
+  if (command === 'profile') {
+    const app = await NestFactory.createApplicationContext(PlatformModule, {
       logger: ['error', 'warn', 'log'],
     });
 
-    const service = app.get(LinkedinService);
+    const service = app.get(PlatformService);
     service.generate();
 
     await app.close();
