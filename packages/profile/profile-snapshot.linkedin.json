@@ -1,7 +1,7 @@
 {
   "name": "Hugo Enrique Virgen Herrera",
-  "headline": "Senior Fullstack Engineer | TypeScript | Angular | Node.js | AI Engineering | Clean Architecture | Design Systems",
-  "summary": "Senior Fullstack Engineer with 10+ years of hands-on experience in TypeScript and JavaScript, building scalable frontend architectures with Angular and React, and high-performance backend systems with Node.js and NestJS. Deep expertise in clean architecture, component-driven design systems, and monorepo-based development, enforcing service boundaries, dependency inversion, and automated quality gates across large-scale applications. Experienced in AI engineering: building RAG pipelines, LLM orchestration layers, and context engineering services that power conversational platforms integrating enterprise systems. Strong database and API design background with PostgreSQL, MongoDB, REST, and GraphQL. Proven track record in containerized deployments with Docker and cloud infrastructure on AWS and Azure, CI/CD automation, and end-to-end testing with Playwright and Jest.",
+  "headline": "Senior Fullstack Engineer | TypeScript, Angular, Node.js, NestJS | AI Engineering: RAG, LLM Orchestration, Context Engineering | Clean Architecture & Design Systems | 11+ Years to Production",
+  "summary": "I build production software systems, from frontend architecture and design systems to AI-powered platforms, for companies that need reliable engineering, not demos. 11+ years shipping TypeScript and Node.js systems for PwC, Globant, and enterprise clients across banking, healthcare, energy, and industrial IoT.\n• Led a backend team of 4-6 engineers at Globant building NestJS + GraphQL services handling 50K+ daily API requests, with SDKs (Angular, React, Vue) adopted by 10+ third-party integrators.\n• Designed and built an AI agent orchestration platform at PwC using NestJS, LangChain, and the OpenAI API (RAG, function calling, and a dedicated context engineering service), replacing manual multi-platform HR workflows with one conversational interface.\n• Built fullstack Industrial IoT / SCADA monitoring and AI-powered infrastructure platforms: real-time telemetry dashboards, RAG reporting chatbots, and 4 framework-specific SDKs (React, Angular, Vue, Svelte) for enterprise clients in energy and cloud infrastructure.\n• Led enterprise platform modernization across financial services and healthcare: Angular frontend rebuilds, .NET to Java/Golang backend migrations on OpenShift, and SPEI interbank payment processing with strict audit trail requirements.\nMy stack centers on TypeScript, Angular, and React on the frontend, Node.js and NestJS on the backend, clean architecture and design systems for structure, backed by PostgreSQL and MongoDB for data, Playwright and Jest for test automation, and Docker/CI-CD pipelines for reliable delivery.\nOpen to senior and staff engineering roles building production systems at the intersection of full-stack engineering and applied AI. Let's talk.",
   "location": "Mexico",
   "links": [
     {
@@ -81,36 +81,6 @@
       ],
       "engagements": [
         {
-          "title": "Enterprise Platform Modernization",
-          "domain": "Financial Services & Healthcare",
-          "skills": [],
-          "description": [
-            {
-              "type": "paragraph",
-              "lines": [
-                "Enterprise clients in financial services and healthcare required modernization of core systems, including migration from legacy .NET services to Java, containerization on OpenShift, integration with national payment infrastructure, and cloud readiness assessment for monolithic platforms."
-              ]
-            },
-            {
-              "type": "bullets",
-              "lines": [
-                "Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.",
-                "Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements.",
-                "Instrumented platform services with OpenTelemetry for observability baseline and delivered architecture proposals identifying candidate services for microservice extraction."
-              ]
-            }
-          ],
-          "technologies": [
-            "Angular",
-            "Java",
-            "Golang",
-            "Node.js",
-            "Docker",
-            "OpenShift",
-            "CI/CD"
-          ]
-        },
-        {
           "title": "AI & Industrial IoT Platforms",
           "domain": "Industrial IoT, Energy & Cloud AI",
           "skills": [],
@@ -147,6 +117,36 @@
             "React",
             "Vue",
             "Svelte",
+            "CI/CD"
+          ]
+        },
+        {
+          "title": "Enterprise Platform Modernization",
+          "domain": "Financial Services & Healthcare",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "Enterprise clients in financial services and healthcare required modernization of core systems, including migration from legacy .NET services to Java, containerization on OpenShift, integration with national payment infrastructure, and cloud readiness assessment for monolithic platforms."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Led frontend modernization with Angular and backend migration from .NET to Java, deploying containerized services on OpenShift with enterprise-grade orchestration.",
+                "Implemented Golang microservices for SPEI interbank payment transaction processing with Docker-based deployment pipelines and strict audit trail requirements.",
+                "Instrumented platform services with OpenTelemetry for observability baseline and delivered architecture proposals identifying candidate services for microservice extraction."
+              ]
+            }
+          ],
+          "technologies": [
+            "Angular",
+            "Java",
+            "Golang",
+            "Node.js",
+            "Docker",
+            "OpenShift",
             "CI/CD"
           ]
         }
@@ -267,6 +267,28 @@
       ],
       "engagements": [
         {
+          "title": "Workflow Automation & Enterprise AI Evangelism",
+          "domain": "Process Automation",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "The client needed to automate multi-step backend workflows still running with manual intervention. Simultaneously, enterprise AI adoption was in its early \"taboo\" phase — leadership was cautious and there were no internal guidelines for responsible AI integration."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Implemented workflow orchestration using AWS Step Functions for business process automation — replacing manual sequential workflows with fault-tolerant state machines across 3 distributed services.",
+                "Championed enterprise AI adoption when LLM usage was organizationally discouraged — evangelized best practices for responsible AI integration in enterprise contexts, covering data governance, prompt safety, and cost control.",
+                "Contributed to internal AI readiness assessment, evaluating integration patterns and tooling that informed the team's approach to generative AI adoption."
+              ]
+            }
+          ],
+          "technologies": ["AWS Step Functions", "Agentic Workflows"]
+        },
+        {
           "title": "Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem",
           "domain": "B2B Platform Services",
           "client": "US-based Enterprise SaaS Provider",
@@ -300,97 +322,38 @@
             "TypeScript",
             "Node.js"
           ]
-        },
-        {
-          "title": "Workflow Automation & Enterprise AI Evangelism",
-          "domain": "Process Automation",
-          "skills": [],
-          "description": [
-            {
-              "type": "paragraph",
-              "lines": [
-                "The client needed to automate multi-step backend workflows still running with manual intervention. Simultaneously, enterprise AI adoption was in its early \"taboo\" phase — leadership was cautious and there were no internal guidelines for responsible AI integration."
-              ]
-            },
-            {
-              "type": "bullets",
-              "lines": [
-                "Implemented workflow orchestration using AWS Step Functions for business process automation — replacing manual sequential workflows with fault-tolerant state machines across 3 distributed services.",
-                "Championed enterprise AI adoption when LLM usage was organizationally discouraged — evangelized best practices for responsible AI integration in enterprise contexts, covering data governance, prompt safety, and cost control.",
-                "Contributed to internal AI readiness assessment, evaluating integration patterns and tooling that informed the team's approach to generative AI adoption."
-              ]
-            }
-          ],
-          "technologies": ["AWS Step Functions", "Agentic Workflows"]
         }
       ]
     },
     {
-      "company": "Unosquare",
-      "role": "Lead Full Stack JavaScript Engineer",
+      "company": "EPAM Systems",
+      "role": "Resources Manager (Leadership Development)",
       "startDate": {
-        "year": 2020,
-        "month": 3
+        "year": 2019,
+        "month": 5
       },
       "endDate": {
-        "year": 2021,
-        "month": 5
+        "year": 2020,
+        "month": 2
       },
       "description": [
         {
           "type": "paragraph",
           "lines": [
-            "Led a cross-functional team of 5+ engineers in the migration of a banking web application to Angular 11, while also contributing to backend services in C#/.NET, cloud-native architecture on Azure, and microservices in Golang."
+            "Additional leadership development role alongside primary engineering responsibilities."
           ]
         },
         {
           "type": "bullets",
           "lines": [
-            "Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with Angular-based frontends and enterprise data sources.",
-            "Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity.",
-            "Contributed to cloud-native architectures on Azure, including Azure Kubernetes Service and Azure Functions, supporting scalable and resilient microservices.",
-            "Developed lightweight microservices using Golang and Fiber, optimizing performance and service scalability within distributed systems."
+            "Acted as point of contact for engineers, supporting career growth, performance assessments, structured feedback, and one-on-one meetings.",
+            "Conducted technical interviews to evaluate candidates on engineering fundamentals, problem-solving skills, and system design.",
+            "Produced technical evaluation reports and hiring recommendations for HR and engineering leadership.",
+            "Delivered technical talks and knowledge-sharing sessions for colleagues and engineering students, contributing to internal training initiatives."
           ]
         }
       ],
-      "technologies": [
-        "Angular",
-        "C#",
-        ".NET",
-        ".NET Core",
-        "Azure DevOps",
-        "Azure Kubernetes Service",
-        "Azure Functions",
-        "Golang",
-        "Fiber"
-      ],
-      "engagements": [
-        {
-          "title": "Digital Banking Platform Migration & A11y Compliance",
-          "domain": "Financial Services",
-          "client": "Major US Digital Bank",
-          "skills": [],
-          "description": [
-            {
-              "type": "paragraph",
-              "lines": [
-                "The client had a legacy Angular 1.6 banking application serving 20K+ active users that needed migration to modern Angular. Additionally, the platform faced ADA Title III compliance pressure requiring full WCAG accessibility remediation under legal deadline."
-              ]
-            },
-            {
-              "type": "bullets",
-              "lines": [
-                "Led a team of 5+ engineers in migrating Angular 1.6 to Angular 10/11 using hybrid compilation mode, delivering zero downtime for 20K+ active banking users.",
-                "Defined the team's test strategy and built a test automation framework with Playwright within 6 weeks of its public release (January 31, 2020), positioning the QA stack ahead of industry adoption and validating that migrated flows behaved identically to legacy.",
-                "Led an accessibility compliance initiative under active ADA Title III legal pressure — trained all developers and QA engineers on WCAG standards and tooling, remediated existing accessibility debt, and integrated automated accessibility checks into the Playwright e2e suite.",
-                "Implemented state management with NgRx/Store and component testing with Spectator across the Angular SDK architecture.",
-                "Contributed to backend modernization across legacy .NET and .NET Core services using CQRS and Event Sourcing patterns."
-              ]
-            }
-          ],
-          "technologies": ["Angular", "Playwright", ".NET", ".NET Core"]
-        }
-      ]
+      "technologies": []
     },
     {
       "company": "EPAM Systems",
@@ -482,34 +445,71 @@
       ]
     },
     {
-      "company": "EPAM Systems",
-      "role": "Resources Manager (Leadership Development)",
+      "company": "Unosquare",
+      "role": "Lead Full Stack JavaScript Engineer",
       "startDate": {
-        "year": 2019,
-        "month": 5
+        "year": 2020,
+        "month": 3
       },
       "endDate": {
-        "year": 2020,
-        "month": 2
+        "year": 2021,
+        "month": 5
       },
       "description": [
         {
           "type": "paragraph",
           "lines": [
-            "Additional leadership development role alongside primary engineering responsibilities."
+            "Led a cross-functional team of 5+ engineers in the migration of a banking web application to Angular 11, while also contributing to backend services in C#/.NET, cloud-native architecture on Azure, and microservices in Golang."
           ]
         },
         {
           "type": "bullets",
           "lines": [
-            "Acted as point of contact for engineers, supporting career growth, performance assessments, structured feedback, and one-on-one meetings.",
-            "Conducted technical interviews to evaluate candidates on engineering fundamentals, problem-solving skills, and system design.",
-            "Produced technical evaluation reports and hiring recommendations for HR and engineering leadership.",
-            "Delivered technical talks and knowledge-sharing sessions for colleagues and engineering students, contributing to internal training initiatives."
+            "Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with Angular-based frontends and enterprise data sources.",
+            "Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity.",
+            "Contributed to cloud-native architectures on Azure, including Azure Kubernetes Service and Azure Functions, supporting scalable and resilient microservices.",
+            "Developed lightweight microservices using Golang and Fiber, optimizing performance and service scalability within distributed systems."
           ]
         }
       ],
-      "technologies": []
+      "technologies": [
+        "Angular",
+        "C#",
+        ".NET",
+        ".NET Core",
+        "Azure DevOps",
+        "Azure Kubernetes Service",
+        "Azure Functions",
+        "Golang",
+        "Fiber"
+      ],
+      "engagements": [
+        {
+          "title": "Digital Banking Platform Migration & A11y Compliance",
+          "domain": "Financial Services",
+          "client": "Major US Digital Bank",
+          "skills": [],
+          "description": [
+            {
+              "type": "paragraph",
+              "lines": [
+                "The client had a legacy Angular 1.6 banking application serving 20K+ active users that needed migration to modern Angular. Additionally, the platform faced ADA Title III compliance pressure requiring full WCAG accessibility remediation under legal deadline."
+              ]
+            },
+            {
+              "type": "bullets",
+              "lines": [
+                "Led a team of 5+ engineers in migrating Angular 1.6 to Angular 10/11 using hybrid compilation mode, delivering zero downtime for 20K+ active banking users.",
+                "Defined the team's test strategy and built a test automation framework with Playwright within 6 weeks of its public release (January 31, 2020), positioning the QA stack ahead of industry adoption and validating that migrated flows behaved identically to legacy.",
+                "Led an accessibility compliance initiative under active ADA Title III legal pressure — trained all developers and QA engineers on WCAG standards and tooling, remediated existing accessibility debt, and integrated automated accessibility checks into the Playwright e2e suite.",
+                "Implemented state management with NgRx/Store and component testing with Spectator across the Angular SDK architecture.",
+                "Contributed to backend modernization across legacy .NET and .NET Core services using CQRS and Event Sourcing patterns."
+              ]
+            }
+          ],
+          "technologies": ["Angular", "Playwright", ".NET", ".NET Core"]
+        }
+      ]
     },
     {
       "company": "3Pillar Global (formerly Tiempo Development)",
@@ -629,43 +629,6 @@
         }
       ],
       "technologies": ["React", "JavaScript", "Webpack", "Gulp", "REST", "Git"]
-    },
-    {
-      "company": "Ramsal Software",
-      "role": "Fullstack Software Engineer",
-      "startDate": {
-        "year": 2015,
-        "month": 8
-      },
-      "endDate": {
-        "year": 2016,
-        "month": 6
-      },
-      "description": [
-        {
-          "type": "paragraph",
-          "lines": [
-            "First professional software engineering role, contributing to the development of Ramsal, a SaaS payroll management platform serving multiple enterprise clients."
-          ]
-        },
-        {
-          "type": "bullets",
-          "lines": [
-            "Built and maintained client-facing web modules using JavaScript and jQuery, delivering responsive interfaces for payroll processing and employee management workflows.",
-            "Collaborated in developing an integrated Web System that consolidated multiple business tools into a cohesive enterprise application.",
-            "Acquired foundational proficiency in Node.js, Angular, and Git, establishing a strong base for full-stack development."
-          ]
-        }
-      ],
-      "technologies": [
-        "JavaScript",
-        "jQuery",
-        "Node.js",
-        "Angular",
-        "Git",
-        "HTML",
-        "CSS"
-      ]
     }
   ],
   "education": [
@@ -742,18 +705,6 @@
           "level": 5
         },
         {
-          "name": "JavaScript",
-          "level": 5
-        },
-        {
-          "name": "HTML",
-          "level": 4
-        },
-        {
-          "name": "CSS",
-          "level": 4
-        },
-        {
           "name": "Angular",
           "level": 5
         },
@@ -768,32 +719,12 @@
         {
           "name": "Svelte",
           "level": 2
-        },
-        {
-          "name": "jQuery",
-          "level": 1
         }
       ]
     },
     {
       "category": "Backend",
       "skills": [
-        {
-          "name": "C#",
-          "level": 3
-        },
-        {
-          "name": "Golang",
-          "level": 3
-        },
-        {
-          "name": "PHP",
-          "level": 2
-        },
-        {
-          "name": "Java",
-          "level": 2
-        },
         {
           "name": "Node.js",
           "level": 5
@@ -803,81 +734,23 @@
           "level": 5
         },
         {
-          "name": "Express.js",
-          "level": 4
-        },
-        {
           "name": ".NET",
           "level": 3
         },
         {
-          "name": ".NET Framework",
-          "level": 2
-        },
-        {
-          "name": ".NET Core",
+          "name": "Golang",
           "level": 3
         },
         {
-          "name": ".NET 8",
+          "name": "Express.js",
+          "level": 4
+        },
+        {
+          "name": "C#",
           "level": 3
         },
         {
-          "name": "Fiber",
-          "level": 2
-        }
-      ]
-    },
-    {
-      "category": "Databases",
-      "skills": [
-        {
-          "name": "PostgreSQL",
-          "level": 4
-        },
-        {
-          "name": "MySQL",
-          "level": 2
-        },
-        {
-          "name": "MariaDB",
-          "level": 1
-        },
-        {
-          "name": "MongoDB",
-          "level": 4
-        },
-        {
-          "name": "DynamoDB",
-          "level": 2
-        },
-        {
-          "name": "Redis",
-          "level": 2
-        }
-      ]
-    },
-    {
-      "category": "APIs & Protocols",
-      "skills": [
-        {
-          "name": "REST",
-          "level": 5
-        },
-        {
-          "name": "GraphQL",
-          "level": 4
-        },
-        {
-          "name": "gRPC",
-          "level": 1
-        },
-        {
-          "name": "WebSocket",
-          "level": 3
-        },
-        {
-          "name": "Apollo GraphQL",
+          "name": "Java",
           "level": 2
         }
       ]
@@ -898,85 +771,16 @@
           "level": 4
         },
         {
-          "name": "OpenShift",
-          "level": 2
-        },
-        {
           "name": "CI/CD",
           "level": 4
-        },
-        {
-          "name": "Jenkins",
-          "level": 3
-        },
-        {
-          "name": "Azure DevOps",
-          "level": 3
-        },
-        {
-          "name": "Azure Kubernetes Service",
-          "level": 2
-        },
-        {
-          "name": "Azure Functions",
-          "level": 3
-        },
-        {
-          "name": "Azure Service Bus",
-          "level": 2
-        },
-        {
-          "name": "AWS Lambda",
-          "level": 3
-        },
-        {
-          "name": "AWS SNS",
-          "level": 3
-        },
-        {
-          "name": "AWS SQS",
-          "level": 3
-        },
-        {
-          "name": "AWS Cognito",
-          "level": 3
         },
         {
           "name": "AWS Step Functions",
           "level": 3
         },
         {
-          "name": "AWS CodeBuild",
-          "level": 2
-        },
-        {
-          "name": "AWS CodeDeploy",
-          "level": 2
-        },
-        {
-          "name": "AWS CodePipeline",
-          "level": 2
-        }
-      ]
-    },
-    {
-      "category": "ORMs & ODMs",
-      "skills": [
-        {
-          "name": "Prisma",
-          "level": 4
-        },
-        {
-          "name": "TypeORM",
-          "level": 4
-        },
-        {
-          "name": "Sequelize",
-          "level": 2
-        },
-        {
-          "name": "Mongoose",
-          "level": 2
+          "name": "Azure Functions",
+          "level": 3
         }
       ]
     },
@@ -992,11 +796,19 @@
           "level": 4
         },
         {
+          "name": "RAG",
+          "level": 4
+        },
+        {
           "name": "LLM Orchestration",
           "level": 4
         },
         {
-          "name": "RAG",
+          "name": "Agentic Workflows",
+          "level": 3
+        },
+        {
+          "name": "Context Engineering",
           "level": 4
         },
         {
@@ -1004,28 +816,37 @@
           "level": 4
         },
         {
-          "name": "Context Engineering",
-          "level": 4
-        },
-        {
           "name": "Function Calling",
-          "level": 3
-        },
-        {
-          "name": "Agentic Workflows",
           "level": 3
         }
       ]
     },
     {
-      "category": "IoT & Industrial Systems",
+      "category": "APIs & Protocols",
       "skills": [
         {
-          "name": "IoT",
-          "level": 3
+          "name": "GraphQL",
+          "level": 4
         },
         {
-          "name": "SCADA",
+          "name": "REST",
+          "level": 5
+        }
+      ]
+    },
+    {
+      "category": "Databases",
+      "skills": [
+        {
+          "name": "PostgreSQL",
+          "level": 4
+        },
+        {
+          "name": "MongoDB",
+          "level": 4
+        },
+        {
+          "name": "DynamoDB",
           "level": 2
         }
       ]
@@ -1040,51 +861,6 @@
         {
           "name": "Jest",
           "level": 4
-        },
-        {
-          "name": "Vitest",
-          "level": 2
-        },
-        {
-          "name": "Mocha",
-          "level": 3
-        },
-        {
-          "name": "Chai",
-          "level": 3
-        },
-        {
-          "name": "Istanbul",
-          "level": 3
-        }
-      ]
-    },
-    {
-      "category": "Architecture & Patterns",
-      "skills": [
-        {
-          "name": "Monorepo (pnpm workspaces)",
-          "level": 4
-        },
-        {
-          "name": "Design Systems",
-          "level": 4
-        },
-        {
-          "name": "Angular Signals",
-          "level": 4
-        },
-        {
-          "name": "DI Multi-Provider",
-          "level": 4
-        },
-        {
-          "name": "SSR/SSG",
-          "level": 3
-        },
-        {
-          "name": "Clean Architecture",
-          "level": 4
         }
       ]
     },
@@ -1094,38 +870,15 @@
         {
           "name": "Git",
           "level": 5
-        },
+        }
+      ]
+    },
+    {
+      "category": "IoT & Industrial Systems",
+      "skills": [
         {
-          "name": "Zod",
-          "level": 4
-        },
-        {
-          "name": "pnpm",
-          "level": 4
-        },
-        {
-          "name": "ESLint",
+          "name": "IoT",
           "level": 3
-        },
-        {
-          "name": "Prettier",
-          "level": 3
-        },
-        {
-          "name": "GitHub Actions",
-          "level": 4
-        },
-        {
-          "name": "GitHub Pages",
-          "level": 3
-        },
-        {
-          "name": "Webpack",
-          "level": 2
-        },
-        {
-          "name": "Gulp",
-          "level": 1
         }
       ]
     }
@@ -1767,5 +1520,30 @@
     "languages",
     "links"
   ],
-  "personaId": "default"
+  "technologyHighlights": [
+    "TypeScript",
+    "Node.js",
+    "NestJS",
+    "Angular",
+    "React",
+    "AWS",
+    "Azure",
+    "Docker",
+    "LangChain",
+    "OpenAI API",
+    "RAG",
+    "GraphQL"
+  ],
+  "skillHighlights": [
+    "TypeScript",
+    "Node.js",
+    "NestJS",
+    "LangChain",
+    "OpenAI API"
+  ],
+  "meta": {
+    "description": "Senior Fullstack Engineer with 11+ years building frontend architectures, backend systems, and AI-powered platforms. TypeScript, Angular, Node.js, NestJS, clean architecture, design systems, and LLM orchestration with RAG and context engineering.",
+    "ogTitle": "Hugo Virgen | Senior Fullstack Engineer | AI Engineering & Clean Architecture"
+  },
+  "personaId": "linkedin"
 }

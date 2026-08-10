@@ -3,46 +3,44 @@ label: LinkedIn Profile
 extends: default
 
 headline: >-
-  Senior Software Engineer | TypeScript, Node.js, NestJS, Angular | AI
-  Engineering: RAG, LangChain, Agent Orchestration | AWS & Azure Cloud |
-  11+ Years Full-Stack to Production LLM Systems
+  Senior Fullstack Engineer | TypeScript, Angular, Node.js, NestJS | AI
+  Engineering: RAG, LLM Orchestration, Context Engineering | Clean
+  Architecture & Design Systems | 11+ Years to Production
 
 summary: >-
-  I build production software systems — from full-stack web platforms to
-  enterprise LLM agent orchestration — for companies that need reliable
-  engineering, not demos. 11+ years shipping TypeScript and Node.js
-  systems for PwC, Globant, and enterprise clients across banking,
-  healthcare, and industrial IoT.
+  I build production software systems, from frontend architecture and
+  design systems to AI-powered platforms, for companies that need
+  reliable engineering, not demos. 11+ years shipping TypeScript and
+  Node.js systems for PwC, Globant, and enterprise clients across
+  banking, healthcare, energy, and industrial IoT.
 
   • Led a backend team of 4-6 engineers at Globant building NestJS +
   GraphQL services handling 50K+ daily API requests, with SDKs (Angular,
   React, Vue) adopted by 10+ third-party integrators.
 
   • Designed and built an AI agent orchestration platform at PwC using
-  NestJS, LangChain, and the OpenAI API — RAG, function calling, and a
-  dedicated context engineering service — replacing manual multi-platform
+  NestJS, LangChain, and the OpenAI API (RAG, function calling, and a
+  dedicated context engineering service), replacing manual multi-platform
   HR workflows with one conversational interface.
 
-  • Built a fullstack Industrial IoT / SCADA monitoring platform with a
-  RAG reporting chatbot and 4 framework-specific SDKs (React, Angular,
-  Vue, Svelte) for a multinational energy consortium.
+  • Built fullstack Industrial IoT / SCADA monitoring and AI-powered
+  infrastructure platforms: real-time telemetry dashboards, RAG
+  reporting chatbots, and 4 framework-specific SDKs (React, Angular,
+  Vue, Svelte) for enterprise clients in energy and cloud infrastructure.
 
-  • Implemented AWS Step Functions state machines replacing manual
-  sequential workflows across 3 distributed services, and championed
-  enterprise AI adoption before it was organizationally encouraged.
+  • Led enterprise platform modernization across financial services and
+  healthcare: Angular frontend rebuilds, .NET to Java/Golang backend
+  migrations on OpenShift, and SPEI interbank payment processing with
+  strict audit trail requirements.
 
-  • Migrated core banking services from .NET to Java and Golang
-  microservices deployed on OpenShift for SPEI interbank payment
-  processing at a Mexican financial institution.
-
-  My stack centers on TypeScript, Node.js, and NestJS on the backend,
-  Angular and React on the frontend, and AWS/Azure for cloud-native
-  deployment — backed by PostgreSQL and MongoDB for data, Playwright and
-  Jest for test automation, and Docker/CI-CD pipelines for reliable
-  delivery.
+  My stack centers on TypeScript, Angular, and React on the frontend,
+  Node.js and NestJS on the backend, clean architecture and design
+  systems for structure, backed by PostgreSQL and MongoDB for data,
+  Playwright and Jest for test automation, and Docker/CI-CD pipelines
+  for reliable delivery.
 
   Open to senior and staff engineering roles building production systems
-  at the intersection of full-stack engineering and applied AI — let's
+  at the intersection of full-stack engineering and applied AI. Let's
   talk.
 
 skills:
@@ -125,11 +123,9 @@ experience:
     Ramsal Software: 0.05
   engagementWeights:
     Enterprise AI Conversational Platform: 0.98
-    AI-Driven Infrastructure Automation: 1.0
-    Core Banking Platform Modernization: 0.9
-    Industrial IoT Monitoring & AI Reporting Platform: 0.92
+    AI & Industrial IoT Platforms: 1.0
+    Enterprise Platform Modernization: 0.92
     Workflow Automation & Enterprise AI Evangelism: 0.95
-    Healthcare Platform Cloud Migration: 0.85
     Enterprise SaaS Platform — Backend Architecture & SDK Ecosystem: 0.75
     Fortune 500 Pharmaceutical — Post-Incident Cloud Modernization: 0.6
     Digital Banking Platform Migration & A11y Compliance: 0.5
@@ -151,8 +147,8 @@ technologyHighlights:
 
 meta:
   description: >-
-    Senior Software Engineer with 11+ years building full-stack,
-    cloud-native, and AI-powered systems — TypeScript, Node.js, NestJS,
-    Angular, AWS, Azure, and LLM agent orchestration with LangChain and
-    the OpenAI API.
-  ogTitle: 'Hugo Virgen — Senior Software Engineer | Full-Stack & AI Engineering'
+    Senior Fullstack Engineer with 11+ years building frontend
+    architectures, backend systems, and AI-powered platforms.
+    TypeScript, Angular, Node.js, NestJS, clean architecture, design
+    systems, and LLM orchestration with RAG and context engineering.
+  ogTitle: 'Hugo Virgen | Senior Fullstack Engineer | AI Engineering & Clean Architecture'
