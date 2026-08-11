@@ -19,6 +19,22 @@ skills:
   - aws-codebuild
   - aws-codedeploy
   - aws-codepipeline
+  - rxjs
+  - microservices
+  - event-driven
+  - api-design
+  - server-architecture
+  - linux
+  - openapi
+  - api-security
+  - middleware-patterns
+  - api-integration
+  - postgresql
+  - data-modeling
+  - testing-patterns
+  - jest
+  - design-systems
+  - clean-architecture
 engagements:
   - title: 'Enterprise SaaS Platform: Backend Architecture & SDK Ecosystem'
     domain: B2B Platform Services

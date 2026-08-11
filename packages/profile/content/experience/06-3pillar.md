@@ -16,6 +16,11 @@ skills:
   - mocha
   - chai
   - istanbul
+  - api-design
+  - openapi
+  - middleware-patterns
+  - postgresql
+  - typeorm
 engagements:
   - title: Senior Living Emergency Response System
     domain: Healthcare / Assisted Living

@@ -10,6 +10,7 @@ skills:
   - gulp
   - rest
   - git
+  - http
 ---
 
 Built React components for an insurance platform, using ES6 syntax transpiled to ES5 with Webpack and Gulp for cross-browser compatibility.

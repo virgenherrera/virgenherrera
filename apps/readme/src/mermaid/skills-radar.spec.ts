@@ -1,5 +1,5 @@
 import type { SkillCategoryData } from '@vh/profile';
-import { PRIVATE_PROFILE } from '@vh/profile/data';
+import { getRadarSkills } from '@vh/profile/server';
 import { buildSkillsRadar } from './skills-radar';
 import { RADAR_TARGETS } from './radar-targets';
 
@@ -111,7 +111,7 @@ describe('radar target validation', () => {
   }
 
   const skillsByCategory = new Map<string, SkillCategoryData>(
-    PRIVATE_PROFILE.skills.map((c) => [c.category, c]),
+    getRadarSkills().map((c) => [c.category, c]),
   );
 
   it.each(Object.entries(RADAR_TARGETS))(

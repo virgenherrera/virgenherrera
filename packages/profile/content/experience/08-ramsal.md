@@ -11,6 +11,8 @@ skills:
   - git
   - html
   - css
+  - rxjs
+  - http
 ---
 
 First professional software engineering role: foundational consultancy experience contributing to Ramsal, a SaaS payroll management platform serving multiple enterprise clients.
