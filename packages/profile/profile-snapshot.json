@@ -86,7 +86,21 @@
         "RAG",
         "React",
         "Vue",
-        "Svelte"
+        "Svelte",
+        "RxJS",
+        "Microservices",
+        "Event-Driven Architecture",
+        "Server Architecture",
+        "Kubernetes",
+        "Linux",
+        "Industrial Protocols",
+        "Monorepo (pnpm workspaces)",
+        "Design Systems",
+        "Angular Signals",
+        "DI Multi-Provider",
+        "CLI Tooling",
+        "Zod",
+        "GitHub Actions"
       ],
       "engagements": [
         {
@@ -195,7 +209,20 @@
         ".NET 8",
         "Azure",
         "Azure Functions",
-        "CI/CD"
+        "CI/CD",
+        "RxJS",
+        "Microservices",
+        "API Design",
+        "Server Architecture",
+        "Linux",
+        "OpenAPI/Swagger",
+        "API Security",
+        "API Integration",
+        "Prisma",
+        "Testing Patterns",
+        "Jest",
+        "Clean Architecture",
+        "CLI Tooling"
       ],
       "engagements": [
         {
@@ -272,7 +299,23 @@
         "AWS Step Functions",
         "AWS CodeBuild",
         "AWS CodeDeploy",
-        "AWS CodePipeline"
+        "AWS CodePipeline",
+        "RxJS",
+        "Microservices",
+        "Event-Driven Architecture",
+        "API Design",
+        "Server Architecture",
+        "Linux",
+        "OpenAPI/Swagger",
+        "API Security",
+        "Middleware Patterns",
+        "API Integration",
+        "PostgreSQL",
+        "Data Modeling",
+        "Testing Patterns",
+        "Jest",
+        "Design Systems",
+        "Clean Architecture"
       ],
       "engagements": [
         {
@@ -371,7 +414,11 @@
         "Azure Kubernetes Service",
         "Azure Functions",
         "Golang",
-        "Fiber"
+        "Fiber",
+        "RxJS",
+        "Kubernetes",
+        "Data Modeling",
+        "Entity Framework"
       ],
       "engagements": [
         {
@@ -438,7 +485,12 @@
         "Mocha",
         "Chai",
         "Istanbul",
-        ".NET"
+        ".NET",
+        "Event-Driven Architecture",
+        "API Security",
+        "Middleware Patterns",
+        "TypeORM",
+        "Testing Patterns"
       ],
       "engagements": [
         {
@@ -527,7 +579,12 @@
         "Jenkins",
         "Mocha",
         "Chai",
-        "Istanbul"
+        "Istanbul",
+        "API Design",
+        "OpenAPI/Swagger",
+        "Middleware Patterns",
+        "PostgreSQL",
+        "TypeORM"
       ],
       "engagements": [
         {
@@ -612,7 +669,15 @@
           ]
         }
       ],
-      "technologies": ["React", "JavaScript", "Webpack", "Gulp", "REST", "Git"]
+      "technologies": [
+        "React",
+        "JavaScript",
+        "Webpack",
+        "Gulp",
+        "REST",
+        "Git",
+        "HTTP/HTTPS"
+      ]
     },
     {
       "company": "Ramsal Software",
@@ -647,7 +712,9 @@
         "Angular",
         "Git",
         "HTML",
-        "CSS"
+        "CSS",
+        "RxJS",
+        "HTTP/HTTPS"
       ]
     }
   ],
@@ -741,7 +808,7 @@
         },
         {
           "name": "HTML",
-          "level": 4
+          "level": 5
         },
         {
           "name": "CSS",
@@ -753,11 +820,15 @@
         },
         {
           "name": "React",
-          "level": 4
+          "level": 5
         },
         {
           "name": "Vue",
           "level": 3
+        },
+        {
+          "name": "RxJS",
+          "level": 5
         },
         {
           "name": "Svelte",
@@ -798,7 +869,7 @@
         },
         {
           "name": "Express.js",
-          "level": 4
+          "level": 5
         },
         {
           "name": ".NET",
@@ -819,6 +890,22 @@
         {
           "name": "Fiber",
           "level": 2
+        },
+        {
+          "name": "Microservices",
+          "level": 5
+        },
+        {
+          "name": "Event-Driven Architecture",
+          "level": 5
+        },
+        {
+          "name": "API Design",
+          "level": 5
+        },
+        {
+          "name": "Server Architecture",
+          "level": 4
         }
       ]
     },
@@ -827,7 +914,7 @@
       "skills": [
         {
           "name": "PostgreSQL",
-          "level": 4
+          "level": 5
         },
         {
           "name": "MySQL",
@@ -848,6 +935,10 @@
         {
           "name": "Redis",
           "level": 2
+        },
+        {
+          "name": "SQL Server",
+          "level": 4
         }
       ]
     },
@@ -860,7 +951,7 @@
         },
         {
           "name": "GraphQL",
-          "level": 4
+          "level": 5
         },
         {
           "name": "gRPC",
@@ -873,6 +964,26 @@
         {
           "name": "Apollo GraphQL",
           "level": 2
+        },
+        {
+          "name": "OpenAPI/Swagger",
+          "level": 5
+        },
+        {
+          "name": "API Security",
+          "level": 5
+        },
+        {
+          "name": "HTTP/HTTPS",
+          "level": 5
+        },
+        {
+          "name": "Middleware Patterns",
+          "level": 5
+        },
+        {
+          "name": "API Integration",
+          "level": 4
         }
       ]
     },
@@ -950,6 +1061,14 @@
         {
           "name": "AWS CodePipeline",
           "level": 2
+        },
+        {
+          "name": "Kubernetes",
+          "level": 4
+        },
+        {
+          "name": "Linux",
+          "level": 5
         }
       ]
     },
@@ -958,11 +1077,11 @@
       "skills": [
         {
           "name": "Prisma",
-          "level": 4
+          "level": 5
         },
         {
           "name": "TypeORM",
-          "level": 4
+          "level": 5
         },
         {
           "name": "Sequelize",
@@ -971,6 +1090,14 @@
         {
           "name": "Mongoose",
           "level": 2
+        },
+        {
+          "name": "Data Modeling",
+          "level": 5
+        },
+        {
+          "name": "Entity Framework",
+          "level": 4
         }
       ]
     },
@@ -1003,7 +1130,7 @@
         },
         {
           "name": "Function Calling",
-          "level": 3
+          "level": 4
         },
         {
           "name": "Agentic Workflows",
@@ -1021,6 +1148,10 @@
         {
           "name": "SCADA",
           "level": 2
+        },
+        {
+          "name": "Industrial Protocols",
+          "level": 4
         }
       ]
     },
@@ -1029,11 +1160,11 @@
       "skills": [
         {
           "name": "Playwright",
-          "level": 4
+          "level": 5
         },
         {
           "name": "Jest",
-          "level": 4
+          "level": 5
         },
         {
           "name": "Vitest",
@@ -1050,6 +1181,10 @@
         {
           "name": "Istanbul",
           "level": 3
+        },
+        {
+          "name": "Testing Patterns",
+          "level": 4
         }
       ]
     },
@@ -1120,6 +1255,10 @@
         {
           "name": "Gulp",
           "level": 1
+        },
+        {
+          "name": "CLI Tooling",
+          "level": 5
         }
       ]
     }
@@ -1268,6 +1407,82 @@
         "projects": [],
         "years": 0.9
       },
+      "rxjs": {
+        "experiences": [
+          "VASS",
+          "PwC",
+          "Globant",
+          "Unosquare",
+          "Ramsal Software"
+        ],
+        "projects": [],
+        "years": 7.2
+      },
+      "microservices": {
+        "experiences": ["VASS", "PwC", "Globant"],
+        "projects": [],
+        "years": 5.3
+      },
+      "event-driven": {
+        "experiences": ["VASS", "Globant", "EPAM Systems"],
+        "projects": [],
+        "years": 5.6
+      },
+      "server-architecture": {
+        "experiences": ["VASS", "PwC", "Globant"],
+        "projects": [],
+        "years": 5.3
+      },
+      "kubernetes": {
+        "experiences": ["VASS", "Unosquare"],
+        "projects": [],
+        "years": 2.1
+      },
+      "linux": {
+        "experiences": ["VASS", "PwC", "Globant"],
+        "projects": [],
+        "years": 5.3
+      },
+      "industrial-protocols": {
+        "experiences": ["VASS"],
+        "projects": [],
+        "years": 0.9
+      },
+      "monorepo-pnpm": {
+        "experiences": ["VASS"],
+        "projects": [],
+        "years": 0.9
+      },
+      "design-systems": {
+        "experiences": ["VASS", "Globant"],
+        "projects": [],
+        "years": 4.3
+      },
+      "angular-signals": {
+        "experiences": ["VASS"],
+        "projects": [],
+        "years": 0.9
+      },
+      "di-multi-provider": {
+        "experiences": ["VASS"],
+        "projects": [],
+        "years": 0.9
+      },
+      "cli-tooling": {
+        "experiences": ["VASS", "PwC"],
+        "projects": [],
+        "years": 1.9
+      },
+      "zod": {
+        "experiences": ["VASS"],
+        "projects": ["virgenherrera", "nest-base"],
+        "years": 0.9
+      },
+      "github-actions": {
+        "experiences": ["VASS"],
+        "projects": ["virgenherrera", "lan-file-share"],
+        "years": 0.9
+      },
       "nestjs": {
         "experiences": ["PwC", "Globant"],
         "projects": [
@@ -1307,6 +1522,54 @@
         "experiences": ["PwC", "Unosquare"],
         "projects": [],
         "years": 2.2
+      },
+      "api-design": {
+        "experiences": [
+          "PwC",
+          "Globant",
+          "3Pillar Global (formerly Tiempo Development)"
+        ],
+        "projects": [],
+        "years": 6.3
+      },
+      "openapi": {
+        "experiences": [
+          "PwC",
+          "Globant",
+          "3Pillar Global (formerly Tiempo Development)"
+        ],
+        "projects": [],
+        "years": 6.3
+      },
+      "api-security": {
+        "experiences": ["PwC", "Globant", "EPAM Systems"],
+        "projects": [],
+        "years": 5.7
+      },
+      "api-integration": {
+        "experiences": ["PwC", "Globant"],
+        "projects": [],
+        "years": 4.3
+      },
+      "prisma": {
+        "experiences": ["PwC"],
+        "projects": [],
+        "years": 1
+      },
+      "testing-patterns": {
+        "experiences": ["PwC", "Globant", "EPAM Systems"],
+        "projects": [],
+        "years": 5.7
+      },
+      "jest": {
+        "experiences": ["PwC", "Globant"],
+        "projects": ["nest-base", "lan-file-share", "typescript-base"],
+        "years": 4.3
+      },
+      "clean-architecture": {
+        "experiences": ["PwC", "Globant"],
+        "projects": [],
+        "years": 4.3
       },
       "graphql": {
         "experiences": [
@@ -1356,6 +1619,28 @@
         "projects": [],
         "years": 3.3
       },
+      "middleware-patterns": {
+        "experiences": [
+          "Globant",
+          "EPAM Systems",
+          "3Pillar Global (formerly Tiempo Development)"
+        ],
+        "projects": [],
+        "years": 6.7
+      },
+      "postgresql": {
+        "experiences": [
+          "Globant",
+          "3Pillar Global (formerly Tiempo Development)"
+        ],
+        "projects": [],
+        "years": 5.3
+      },
+      "data-modeling": {
+        "experiences": ["Globant", "Unosquare"],
+        "projects": [],
+        "years": 4.4
+      },
       "agentic-workflows": {
         "experiences": ["Globant"],
         "projects": [],
@@ -1382,6 +1667,11 @@
         "years": 1.2
       },
       "fiber": {
+        "experiences": ["Unosquare"],
+        "projects": [],
+        "years": 1.2
+      },
+      "entity-framework": {
         "experiences": ["Unosquare"],
         "projects": [],
         "years": 1.2
@@ -1418,6 +1708,14 @@
         "years": 3.3
       },
       "istanbul": {
+        "experiences": [
+          "EPAM Systems",
+          "3Pillar Global (formerly Tiempo Development)"
+        ],
+        "projects": [],
+        "years": 3.3
+      },
+      "typeorm": {
         "experiences": [
           "EPAM Systems",
           "3Pillar Global (formerly Tiempo Development)"
@@ -1480,6 +1778,11 @@
         "projects": [],
         "years": 1.1
       },
+      "http": {
+        "experiences": ["Hitss México", "Ramsal Software"],
+        "projects": [],
+        "years": 1.1
+      },
       "jquery": {
         "experiences": ["Ramsal Software"],
         "projects": [],
@@ -1495,16 +1798,6 @@
         "projects": [],
         "years": 0.8
       },
-      "zod": {
-        "experiences": [],
-        "projects": ["virgenherrera", "nest-base"],
-        "years": 0
-      },
-      "github-actions": {
-        "experiences": [],
-        "projects": ["virgenherrera", "lan-file-share"],
-        "years": 0
-      },
       "github-pages": {
         "experiences": [],
         "projects": ["virgenherrera"],
@@ -1513,11 +1806,6 @@
       "pnpm": {
         "experiences": [],
         "projects": ["virgenherrera", "nest-base", "tl-assistant"],
-        "years": 0
-      },
-      "jest": {
-        "experiences": [],
-        "projects": ["nest-base", "lan-file-share", "typescript-base"],
         "years": 0
       },
       "eslint": {
@@ -1557,7 +1845,21 @@
         "rag",
         "react",
         "vue",
-        "svelte"
+        "svelte",
+        "rxjs",
+        "microservices",
+        "event-driven",
+        "server-architecture",
+        "kubernetes",
+        "linux",
+        "industrial-protocols",
+        "monorepo-pnpm",
+        "design-systems",
+        "angular-signals",
+        "di-multi-provider",
+        "cli-tooling",
+        "zod",
+        "github-actions"
       ],
       "PwC": [
         "javascript",
@@ -1575,6 +1877,19 @@
         "azure",
         "azure-functions",
         "ci-cd",
+        "rxjs",
+        "microservices",
+        "api-design",
+        "server-architecture",
+        "linux",
+        "openapi",
+        "api-security",
+        "api-integration",
+        "prisma",
+        "testing-patterns",
+        "jest",
+        "clean-architecture",
+        "cli-tooling",
         "angular",
         "react",
         "vue"
@@ -1595,6 +1910,22 @@
         "aws-codebuild",
         "aws-codedeploy",
         "aws-codepipeline",
+        "rxjs",
+        "microservices",
+        "event-driven",
+        "api-design",
+        "server-architecture",
+        "linux",
+        "openapi",
+        "api-security",
+        "middleware-patterns",
+        "api-integration",
+        "postgresql",
+        "data-modeling",
+        "testing-patterns",
+        "jest",
+        "design-systems",
+        "clean-architecture",
         "agentic-workflows"
       ],
       "Unosquare": [
@@ -1607,6 +1938,10 @@
         "azure-functions",
         "golang",
         "fiber",
+        "rxjs",
+        "kubernetes",
+        "data-modeling",
+        "entity-framework",
         "playwright"
       ],
       "EPAM Systems": [
@@ -1622,6 +1957,11 @@
         "chai",
         "istanbul",
         "dotnet",
+        "event-driven",
+        "api-security",
+        "middleware-patterns",
+        "typeorm",
+        "testing-patterns",
         "aws-step-functions"
       ],
       "3Pillar Global (formerly Tiempo Development)": [
@@ -1637,9 +1977,22 @@
         "mocha",
         "chai",
         "istanbul",
+        "api-design",
+        "openapi",
+        "middleware-patterns",
+        "postgresql",
+        "typeorm",
         "websocket"
       ],
-      "Hitss México": ["react", "javascript", "webpack", "gulp", "rest", "git"],
+      "Hitss México": [
+        "react",
+        "javascript",
+        "webpack",
+        "gulp",
+        "rest",
+        "git",
+        "http"
+      ],
       "Ramsal Software": [
         "javascript",
         "jquery",
@@ -1647,7 +2000,9 @@
         "angular",
         "git",
         "html",
-        "css"
+        "css",
+        "rxjs",
+        "http"
       ]
     },
     "byProject": {
@@ -1680,6 +2035,7 @@
       "angular": "Angular",
       "react": "React",
       "vue": "Vue",
+      "rxjs": "RxJS",
       "svelte": "Svelte",
       "jquery": "jQuery",
       "csharp": "C#",
@@ -1694,17 +2050,27 @@
       "dotnet-core": ".NET Core",
       "dotnet-8": ".NET 8",
       "fiber": "Fiber",
+      "microservices": "Microservices",
+      "event-driven": "Event-Driven Architecture",
+      "api-design": "API Design",
+      "server-architecture": "Server Architecture",
       "postgresql": "PostgreSQL",
       "mysql": "MySQL",
       "mariadb": "MariaDB",
       "mongodb": "MongoDB",
       "dynamodb": "DynamoDB",
       "redis": "Redis",
+      "sql-server": "SQL Server",
       "rest": "REST",
       "graphql": "GraphQL",
       "grpc": "gRPC",
       "websocket": "WebSocket",
       "apollo-graphql": "Apollo GraphQL",
+      "openapi": "OpenAPI/Swagger",
+      "api-security": "API Security",
+      "http": "HTTP/HTTPS",
+      "middleware-patterns": "Middleware Patterns",
+      "api-integration": "API Integration",
       "aws": "AWS",
       "azure": "Azure",
       "docker": "Docker",
@@ -1723,10 +2089,14 @@
       "aws-codebuild": "AWS CodeBuild",
       "aws-codedeploy": "AWS CodeDeploy",
       "aws-codepipeline": "AWS CodePipeline",
+      "kubernetes": "Kubernetes",
+      "linux": "Linux",
       "prisma": "Prisma",
       "typeorm": "TypeORM",
       "sequelize": "Sequelize",
       "mongoose": "Mongoose",
+      "data-modeling": "Data Modeling",
+      "entity-framework": "Entity Framework",
       "langchain": "LangChain",
       "openai-api": "OpenAI API",
       "llm-orchestration": "LLM Orchestration",
@@ -1737,12 +2107,14 @@
       "agentic-workflows": "Agentic Workflows",
       "iot": "IoT",
       "scada": "SCADA",
+      "industrial-protocols": "Industrial Protocols",
       "playwright": "Playwright",
       "jest": "Jest",
       "vitest": "Vitest",
       "mocha": "Mocha",
       "chai": "Chai",
       "istanbul": "Istanbul",
+      "testing-patterns": "Testing Patterns",
       "monorepo-pnpm": "Monorepo (pnpm workspaces)",
       "design-systems": "Design Systems",
       "angular-signals": "Angular Signals",
@@ -1757,7 +2129,8 @@
       "github-actions": "GitHub Actions",
       "github-pages": "GitHub Pages",
       "webpack": "Webpack",
-      "gulp": "Gulp"
+      "gulp": "Gulp",
+      "cli-tooling": "CLI Tooling"
     }
   },
   "sectionOrder": [
