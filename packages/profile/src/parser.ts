@@ -8,25 +8,14 @@ import {
   type SkillEntryData,
 } from './schema';
 
-/**
- * A single canonical entry from `content/skills-registry.yaml`.
- * `slug` is the cross-reference key used by every other content file;
- * `display` is the human-readable name that ends up in `ProfileData`;
- * `level` is a 1-5 proficiency rating.
- */
 interface SkillRegistryEntry {
   readonly slug: string;
   readonly display: string;
   readonly category: string;
   readonly level: number;
+  readonly radar: boolean;
 }
 
-/**
- * Skills authored before the proficiency model (D5) don't declare `level` in
- * `content/skills-registry.yaml` yet — it is backfilled in Phase 2. Until
- * then, entries missing `level` fall back to this mid-scale rating so
- * `skillEntrySchema` (which requires an int 1-5) still validates.
- */
 const DEFAULT_SKILL_LEVEL = 3;
 
 interface RawMeta {
@@ -86,11 +75,6 @@ const CERTIFICATION_FIELDS = [
   'badge',
 ] as const;
 
-/**
- * Reads a `content/` directory (Markdown + YAML) and produces a `ProfileData`
- * object validated against `profileSchema` — the same shape previously
- * produced by `profileSchema.parse(profileJson)`.
- */
 export function parseContent(contentDir: string): ProfileData {
   const registry = readSkillsRegistry(join(contentDir, 'skills-registry.yaml'));
   const lookup = buildSkillLookup(registry);
@@ -131,6 +115,12 @@ export function parseContent(contentDir: string): ProfileData {
   };
 
   return profileSchema.parse(raw);
+}
+
+export function parseRadarSkills(contentDir: string): SkillCategoryData[] {
+  const registry = readSkillsRegistry(join(contentDir, 'skills-registry.yaml'));
+
+  return groupSkillsByCategory(registry, { radarOnly: true });
 }
 
 // ── file & frontmatter primitives ───────────────────────────────────────────
@@ -194,7 +184,6 @@ function safeMatter(
   }
 }
 
-/** Parses the frontmatter + body of a Markdown file, with descriptive errors on malformed YAML. */
 function parseFrontmatter(filePath: string): {
   data: Record<string, unknown>;
   content: string;
@@ -205,22 +194,12 @@ function parseFrontmatter(filePath: string): {
   return { data: asRecord(data, filePath, 'frontmatter'), content };
 }
 
-/**
- * Parses a standalone `.yaml` file (no frontmatter delimiters) by reusing
- * gray-matter's public API: wrapping the raw text as a frontmatter block and
- * reading back `.data`. Works for both object and top-level array YAML roots.
- */
 function parseYamlFile(filePath: string): unknown {
   const raw = readFileOrThrow(filePath);
 
   return safeMatter(`---\n${raw}\n---`, filePath, 'YAML').data;
 }
 
-/**
- * Reads a standalone `.yaml` content file whose array lives under a named
- * top-level key (e.g. `projects:`, `links:`, `languages:`) — the same
- * wrapping convention used by `skills-registry.yaml`'s `skills:` key.
- */
 function readYamlArray(filePath: string, field: string): unknown[] {
   const data = asRecord(parseYamlFile(filePath), filePath, 'root');
   const entries = data[field];
@@ -269,12 +248,6 @@ function optionalString(
     : undefined;
 }
 
-/**
- * Reads an integer `level` field when present and valid; otherwise
- * `undefined` so the caller can fall back to `DEFAULT_SKILL_LEVEL`. Range
- * validation (1-5) is left to `skillEntrySchema` inside `profileSchema.parse`
- * so the error surfaces with a consistent Zod message.
- */
 function optionalInteger(
   record: Record<string, unknown>,
   field: string,
@@ -284,6 +257,15 @@ function optionalInteger(
   return typeof value === 'number' && Number.isInteger(value)
     ? value
     : undefined;
+}
+
+function optionalBoolean(
+  record: Record<string, unknown>,
+  field: string,
+): boolean | undefined {
+  const value = record[field];
+
+  return typeof value === 'boolean' ? value : undefined;
 }
 
 function requireStringArray(
@@ -351,6 +333,7 @@ function readSkillsRegistry(filePath: string): SkillRegistryEntry[] {
       display: requireString(entryRecord, 'display', context),
       category: requireString(entryRecord, 'category', context),
       level: optionalInteger(entryRecord, 'level') ?? DEFAULT_SKILL_LEVEL,
+      radar: optionalBoolean(entryRecord, 'radar') ?? true,
     };
   });
 }
@@ -394,11 +377,16 @@ function resolveDisplayNames(
 
 function groupSkillsByCategory(
   registry: readonly SkillRegistryEntry[],
+  options?: { readonly radarOnly?: boolean },
 ): SkillCategoryData[] {
+  const entries = options?.radarOnly
+    ? registry.filter((entry) => entry.radar)
+    : registry;
+
   const categoryOrder: string[] = [];
   const byCategory = new Map<string, SkillEntryData[]>();
 
-  for (const entry of registry) {
+  for (const entry of entries) {
     let skills = byCategory.get(entry.category);
 
     if (!skills) {

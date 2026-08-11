@@ -19,6 +19,19 @@ skills:
   - azure
   - azure-functions
   - ci-cd
+  - rxjs
+  - microservices
+  - api-design
+  - server-architecture
+  - linux
+  - openapi
+  - api-security
+  - api-integration
+  - prisma
+  - testing-patterns
+  - jest
+  - clean-architecture
+  - cli-tooling
 engagements:
   - title: Enterprise AI Conversational Platform
     domain: Enterprise Operations

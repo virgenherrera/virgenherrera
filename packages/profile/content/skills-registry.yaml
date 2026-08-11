@@ -13,7 +13,7 @@ skills:
   - slug: html
     display: HTML
     category: Frontend
-    level: 4
+    level: 5
   - slug: css
     display: CSS
     category: Frontend
@@ -26,37 +26,48 @@ skills:
   - slug: react
     display: React
     category: Frontend
-    level: 4
+    level: 5
   - slug: vue
     display: Vue
     category: Frontend
     level: 3
+    radar: false
+  - slug: rxjs
+    display: RxJS
+    category: Frontend
+    level: 5
   - slug: svelte
     display: Svelte
     category: Frontend
     level: 2
+    radar: false
   - slug: jquery
     display: jQuery
     category: Frontend
     level: 1
+    radar: false
 
   # --- Backend ---
   - slug: csharp
     display: 'C#'
     category: Backend
     level: 3
+    radar: false
   - slug: golang
     display: Golang
     category: Backend
     level: 3
+    radar: false
   - slug: php
     display: PHP
     category: Backend
     level: 2
+    radar: false
   - slug: java
     display: Java
     category: Backend
     level: 2
+    radar: false
   - slug: nodejs
     display: Node.js
     category: Backend
@@ -68,43 +79,66 @@ skills:
   - slug: expressjs
     display: Express.js
     category: Backend
-    level: 4
+    level: 5
   - slug: dotnet
     display: .NET
     category: Backend
     level: 3
     aliases: ['.NET Core', '.NET Framework', '.NET 8', 'dotnet-core']
     children: [dotnet-framework, dotnet-core, dotnet-8]
+    radar: false
   - slug: dotnet-framework
     display: .NET Framework
     category: Backend
     level: 2
+    radar: false
   - slug: dotnet-core
     display: .NET Core
     category: Backend
     level: 3
+    radar: false
   - slug: dotnet-8
     display: .NET 8
     category: Backend
     level: 3
+    radar: false
   - slug: fiber
     display: Fiber
     category: Backend
     level: 2
+    radar: false
+  - slug: microservices
+    display: Microservices
+    category: Backend
+    level: 5
+  - slug: event-driven
+    display: Event-Driven Architecture
+    category: Backend
+    level: 5
+  - slug: api-design
+    display: API Design
+    category: Backend
+    level: 5
+  - slug: server-architecture
+    display: Server Architecture
+    category: Backend
+    level: 4
 
   # --- Databases ---
   - slug: postgresql
     display: PostgreSQL
     category: Databases
-    level: 4
+    level: 5
   - slug: mysql
     display: MySQL
     category: Databases
     level: 2
+    radar: false
   - slug: mariadb
     display: MariaDB
     category: Databases
     level: 1
+    radar: false
   - slug: mongodb
     display: MongoDB
     category: Databases
@@ -113,10 +147,17 @@ skills:
     display: DynamoDB
     category: Databases
     level: 2
+    radar: false
   - slug: redis
     display: Redis
     category: Databases
     level: 2
+    radar: false
+  - slug: sql-server
+    display: SQL Server
+    category: Databases
+    level: 4
+    radar: false
 
   # --- APIs & Protocols ---
   - slug: rest
@@ -127,19 +168,42 @@ skills:
   - slug: graphql
     display: GraphQL
     category: APIs & Protocols
-    level: 4
+    level: 5
   - slug: grpc
     display: gRPC
     category: APIs & Protocols
     level: 1
+    radar: false
   - slug: websocket
     display: WebSocket
     category: APIs & Protocols
     level: 3
+    radar: false
   - slug: apollo-graphql
     display: Apollo GraphQL
     category: APIs & Protocols
     level: 2
+    radar: false
+  - slug: openapi
+    display: OpenAPI/Swagger
+    category: APIs & Protocols
+    level: 5
+  - slug: api-security
+    display: API Security
+    category: APIs & Protocols
+    level: 5
+  - slug: http
+    display: HTTP/HTTPS
+    category: APIs & Protocols
+    level: 5
+  - slug: middleware-patterns
+    display: Middleware Patterns
+    category: APIs & Protocols
+    level: 5
+  - slug: api-integration
+    display: API Integration
+    category: APIs & Protocols
+    level: 4
 
   # --- Cloud & DevOps ---
   - slug: aws
@@ -170,6 +234,7 @@ skills:
     display: OpenShift
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: ci-cd
     display: CI/CD
     category: Cloud & DevOps
@@ -182,69 +247,99 @@ skills:
     display: Azure DevOps
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: azure-aks
     display: Azure Kubernetes Service
     category: Cloud & DevOps
     level: 2
     aliases: [AKS]
+    radar: false
   - slug: azure-functions
     display: Azure Functions
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: azure-service-bus
     display: Azure Service Bus
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-lambda
     display: AWS Lambda
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-sns
     display: AWS SNS
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-sqs
     display: AWS SQS
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-cognito
     display: AWS Cognito
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-step-functions
     display: AWS Step Functions
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-codebuild
     display: AWS CodeBuild
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-codedeploy
     display: AWS CodeDeploy
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-codepipeline
     display: AWS CodePipeline
     category: Cloud & DevOps
     level: 2
+    radar: false
+  - slug: kubernetes
+    display: Kubernetes
+    category: Cloud & DevOps
+    level: 4
+  - slug: linux
+    display: Linux
+    category: Cloud & DevOps
+    level: 5
 
   # --- ORMs & ODMs ---
   - slug: prisma
     display: Prisma
     category: ORMs & ODMs
-    level: 4
+    level: 5
   - slug: typeorm
     display: TypeORM
     category: ORMs & ODMs
-    level: 4
+    level: 5
   - slug: sequelize
     display: Sequelize
     category: ORMs & ODMs
     level: 2
+    radar: false
   - slug: mongoose
     display: Mongoose
     category: ORMs & ODMs
     level: 2
+    radar: false
+  - slug: data-modeling
+    display: Data Modeling
+    category: ORMs & ODMs
+    level: 5
+  - slug: entity-framework
+    display: Entity Framework
+    category: ORMs & ODMs
+    level: 4
 
   # --- AI Engineering ---
   - slug: langchain
@@ -275,7 +370,7 @@ skills:
   - slug: function-calling
     display: Function Calling
     category: AI Engineering
-    level: 3
+    level: 4
   - slug: agentic-workflows
     display: Agentic Workflows
     category: AI Engineering
@@ -291,32 +386,45 @@ skills:
     display: SCADA
     category: IoT & Industrial Systems
     level: 2
+    radar: false
+  - slug: industrial-protocols
+    display: Industrial Protocols
+    category: IoT & Industrial Systems
+    level: 4
 
   # --- Testing & QA ---
   - slug: playwright
     display: Playwright
     category: Testing & QA
-    level: 4
+    level: 5
   - slug: jest
     display: Jest
     category: Testing & QA
-    level: 4
+    level: 5
   - slug: vitest
     display: Vitest
     category: Testing & QA
     level: 2
+    radar: false
   - slug: mocha
     display: Mocha
     category: Testing & QA
     level: 3
+    radar: false
   - slug: chai
     display: Chai
     category: Testing & QA
     level: 3
+    radar: false
   - slug: istanbul
     display: Istanbul
     category: Testing & QA
     level: 3
+    radar: false
+  - slug: testing-patterns
+    display: Testing Patterns
+    category: Testing & QA
+    level: 4
 
   # --- Architecture & Patterns ---
   - slug: monorepo-pnpm
@@ -339,6 +447,7 @@ skills:
     display: SSR/SSG
     category: Architecture & Patterns
     level: 3
+    radar: false
   - slug: clean-architecture
     display: Clean Architecture
     category: Architecture & Patterns
@@ -357,14 +466,17 @@ skills:
     display: pnpm
     category: Developer Tooling
     level: 4
+    radar: false
   - slug: eslint
     display: ESLint
     category: Developer Tooling
     level: 3
+    radar: false
   - slug: prettier
     display: Prettier
     category: Developer Tooling
     level: 3
+    radar: false
   - slug: github-actions
     display: GitHub Actions
     category: Developer Tooling
@@ -373,11 +485,18 @@ skills:
     display: GitHub Pages
     category: Developer Tooling
     level: 3
+    radar: false
   - slug: webpack
     display: Webpack
     category: Developer Tooling
     level: 2
+    radar: false
   - slug: gulp
     display: Gulp
     category: Developer Tooling
     level: 1
+    radar: false
+  - slug: cli-tooling
+    display: CLI Tooling
+    category: Developer Tooling
+    level: 5

@@ -13,6 +13,10 @@ skills:
   - azure-functions
   - golang
   - fiber
+  - rxjs
+  - kubernetes
+  - data-modeling
+  - entity-framework
 engagements:
   - title: Digital Banking Platform Migration & A11y Compliance
     domain: Financial Services

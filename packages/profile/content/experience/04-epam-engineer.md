@@ -16,6 +16,11 @@ skills:
   - chai
   - istanbul
   - dotnet
+  - event-driven
+  - api-security
+  - middleware-patterns
+  - typeorm
+  - testing-patterns
 engagements:
   - title: 'Fortune 500 Pharmaceutical: Post-Incident Cloud Modernization'
     domain: Pharmaceutical / Cybersecurity Recovery

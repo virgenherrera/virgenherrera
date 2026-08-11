@@ -123,12 +123,10 @@ export function renderSummary(profile: ProfileData): string {
   return `## 👤 About\n\n> ${condensed}\n\n**Spoken Languages:**&nbsp;\n${languageBadges}`;
 }
 
-export function renderSkills(skills: readonly SkillCategoryData[]): string {
-  if (skills.length === 0) return '';
-
-  const radar = buildSkillsRadar(skills);
-
-  return `## 🛠️ Skills\n\n${radar}`;
+export function renderSkills(
+  radarSkills: readonly SkillCategoryData[],
+): string {
+  return `## 🛠️ Skills\n\n${buildSkillsRadar(radarSkills)}`;
 }
 
 export function renderFeaturedProjects(

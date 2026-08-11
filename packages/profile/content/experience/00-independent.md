@@ -23,6 +23,20 @@ skills:
   - react
   - vue
   - svelte
+  - rxjs
+  - microservices
+  - event-driven
+  - server-architecture
+  - kubernetes
+  - linux
+  - industrial-protocols
+  - monorepo-pnpm
+  - design-systems
+  - angular-signals
+  - di-multi-provider
+  - cli-tooling
+  - zod
+  - github-actions
 engagements:
   - title: Enterprise Platform Modernization
     domain: Financial Services & Healthcare

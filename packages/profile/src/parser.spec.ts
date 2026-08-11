@@ -1,5 +1,5 @@
 import { vol } from 'memfs';
-import { parseContent } from './parser';
+import { parseContent, parseRadarSkills } from './parser';
 
 /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
 jest.mock('node:fs', () => require('memfs').fs);
@@ -421,6 +421,103 @@ graduationDate: '2018-05'
       );
 
       expect(leadership?.engagements).toBeUndefined();
+    });
+  });
+
+  describe('parseRadarSkills @structural', () => {
+    beforeEach(() => {
+      vol.fromJSON({
+        '/radar-content/skills-registry.yaml': `skills:
+  - slug: typescript
+    display: TypeScript
+    category: Frontend
+    level: 5
+  - slug: jquery
+    display: jQuery
+    category: Frontend
+    level: 1
+    radar: false
+  - slug: dotnet
+    display: .NET
+    category: Backend
+    level: 3
+  - slug: dotnet-8
+    display: .NET 8
+    category: Backend
+    level: 3
+    radar: false
+  - slug: scada
+    display: SCADA
+    category: IoT
+    level: 2
+    radar: false`,
+      });
+    });
+
+    it('excludes entries marked "radar: false" from the grouped output', () => {
+      const radarSkills = parseRadarSkills('/radar-content');
+      const backend = radarSkills.find((c) => c.category === 'Backend');
+
+      expect(backend?.skills).toEqual([{ name: '.NET', level: 3 }]);
+    });
+
+    it('defaults entries with no "radar" field to radar-eligible (true)', () => {
+      const radarSkills = parseRadarSkills('/radar-content');
+      const frontend = radarSkills.find((c) => c.category === 'Frontend');
+
+      expect(frontend?.skills).toEqual([{ name: 'TypeScript', level: 5 }]);
+    });
+
+    it('drops a category entirely when every entry in it is "radar: false"', () => {
+      const radarSkills = parseRadarSkills('/radar-content');
+      const iot = radarSkills.find((c) => c.category === 'IoT');
+
+      expect(iot).toBeUndefined();
+    });
+
+    it('leaves the full "skills" field from parseContent() unaffected by radar filtering', () => {
+      vol.fromJSON({
+        '/radar-content/meta.md': `---
+name: Ada Lovelace
+headline: Senior Fullstack Engineer
+summary: Senior engineer with a decade of experience building scalable systems.
+location: Mexico
+---`,
+        '/radar-content/projects.yaml': 'projects: []',
+        '/radar-content/links.yaml': `links:
+  - label: GitHub
+    url: https://github.com/example`,
+        '/radar-content/languages.yaml': `languages:
+  - language: English
+    proficiency: Native`,
+        '/radar-content/certifications.yaml': 'certifications: []',
+        '/radar-content/experience/01-x.md': `---
+company: PwC
+role: Senior Software Developer
+startDate: '2024-08'
+skills: []
+---
+
+A description paragraph that has enough content to parse correctly.`,
+        '/radar-content/education/01-x.md': `---
+degree: B.S. in Computer Science
+degreeTranslation: Licenciatura en Ciencias Computacionales
+institution: MIT
+location: Cambridge, MA
+startDate: '2014-08'
+graduationDate: '2018-05'
+---`,
+      });
+
+      const profile = parseContent('/radar-content');
+      const backend = profile.skills.find((c) => c.category === 'Backend');
+
+      expect(backend?.skills).toEqual(
+        expect.arrayContaining([
+          { name: '.NET', level: 3 },
+          { name: '.NET 8', level: 3 },
+        ]),
+      );
     });
   });
 
