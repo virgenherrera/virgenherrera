@@ -3,6 +3,7 @@ import type {
   LinkData,
   SkillCategoryData,
   ProjectData,
+  CertificationData,
 } from '@vh/profile';
 import type { RepoStats } from '../github/github.schemas';
 import { buildSkillsRadar, buildLanguagesChart } from '../mermaid';
@@ -13,6 +14,11 @@ const LANGUAGE_COLORS: Record<string, string> = {
 };
 
 interface LinkBadgeConfig {
+  logo: string;
+  color: string;
+}
+
+interface CredentialBadgeConfig {
   logo: string;
   color: string;
 }
@@ -34,6 +40,10 @@ const LINK_BADGE_CONFIG: Record<string, LinkBadgeConfig> = {
   GitHub: { logo: 'github', color: '181717' },
   LinkedIn: { logo: 'linkedin', color: '0A66C2' },
   Resume: { logo: 'googlechrome', color: '4285F4' },
+};
+
+const CREDENTIAL_BADGE_CONFIG: Record<string, CredentialBadgeConfig> = {
+  Toptal: { logo: 'toptal', color: '3863A0' },
 };
 
 export function renderHeader(profile: ProfileData): string {
@@ -154,6 +164,31 @@ export function renderGitHubStats(stats: RepoStats): string {
   ].join('\n');
 
   return `## 📈 GitHub Stats\n\n| Metric | Value |\n|:---|:---:|\n${rows}`;
+}
+
+export function renderCredentials(
+  certifications: readonly CertificationData[],
+): string {
+  const badges = certifications
+    .filter((c) => c.badge && c.url)
+    .map((c) => {
+      const config = CREDENTIAL_BADGE_CONFIG[c.issuer];
+      const logo = config?.logo ?? c.issuer.toLowerCase();
+      const color = config?.color ?? '555555';
+      const label = toShieldsLabel(`${c.issuer} — ${c.name}`).replace(
+        /%/g,
+        '%25',
+      );
+      const badgeUrl =
+        `https://img.shields.io/badge/${label}-${color}` +
+        `?style=for-the-badge&logo=${logo}&logoColor=white`;
+
+      return `[![${c.issuer} — ${c.name}](${badgeUrl})](${c.url})`;
+    });
+
+  if (badges.length === 0) return '';
+
+  return `## 🏆 Credentials\n\n<div align="center">\n\n${badges.join('&nbsp;\n')}\n\n</div>`;
 }
 
 export function renderCTA(

@@ -51,13 +51,13 @@ radar-beta
 
 ## 🚀 Featured Projects
 
-| Project | Description | Stars |
-|:---|:---|:---:|
-| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera) | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines, orchestrated with pnpm workspaces, AI-driven. | ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐) |
-| [**nest-base**](https://github.com/virgenherrera/nest-base) | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows. | ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐) |
-| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share) | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices. | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐) |
-| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development. | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
-| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant) | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions. | ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐) |
+| Project                                                                 | Description                                                                                                                                                                                                                                                                                                                                                   |                                                 Stars                                                  |
+| :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------: |
+| [**virgenherrera**](https://github.com/virgenherrera/virgenherrera)     | GitHub special profile repo: Angular {{angularVersion}} resume app (SSR/SSG) deployed to GitHub Pages, NestJS-powered profile README generator, native RAG pipeline with semantic retrieval over a Markdown+YAML content layer, shared design system, Playwright e2e suite, and GitHub Actions CI/CD pipelines, orchestrated with pnpm workspaces, AI-driven. |  ![Stars](https://img.shields.io/github/stars/virgenherrera/virgenherrera?style=flat-square&label=⭐)  |
+| [**nest-base**](https://github.com/virgenherrera/nest-base)             | Starter template for building NestJS 11 HTTP services with typed environment configuration, ready-made OpenAPI documentation, and a local test pipeline that mirrors CI workflows.                                                                                                                                                                            |    ![Stars](https://img.shields.io/github/stars/virgenherrera/nest-base?style=flat-square&label=⭐)    |
+| [**lan-file-share**](https://github.com/virgenherrera/lan-file-share)   | Application for sharing files across devices on the same Local Area Network via HTTP, featuring a NestJS backend and Angular frontend with QR code connectivity for mobile devices.                                                                                                                                                                           | ![Stars](https://img.shields.io/github/stars/virgenherrera/lan-file-share?style=flat-square&label=⭐)  |
+| [**typescript-base**](https://github.com/virgenherrera/typescript-base) | Starter template for TypeScript projects with ESLint, Prettier, Jest, and VS Code configurations for Node.js development.                                                                                                                                                                                                                                     | ![Stars](https://img.shields.io/github/stars/virgenherrera/typescript-base?style=flat-square&label=⭐) |
+| [**tl-assistant**](https://github.com/virgenherrera/tl-assistant)       | TypeScript-based assistant application built with NestJS, featuring agent-based functionality and spec-driven development conventions.                                                                                                                                                                                                                        |  ![Stars](https://img.shields.io/github/stars/virgenherrera/tl-assistant?style=flat-square&label=⭐)   |
 
 ---
 
@@ -75,11 +75,21 @@ xychart-beta
 
 ## 📈 GitHub Stats
 
-| Metric | Value |
-|:---|:---:|
-| Public Repos | 63 |
-| Total Stars | ⭐ 5 |
-| Total Forks | 🍴 6 |
+| Metric       | Value |
+| :----------- | :---: |
+| Public Repos |  63   |
+| Total Stars  | ⭐ 5  |
+| Total Forks  | 🍴 6  |
+
+---
+
+## 🏆 Credentials
+
+<div align="center">
+
+[![Toptal — Top 3% Talent](https://img.shields.io/badge/Toptal_—_Top_3%25_Talent-3863A0?style=for-the-badge&logo=toptal&logoColor=white)](https://topt.al/AjcJrA)
+
+</div>
 
 ---
 
@@ -108,6 +118,6 @@ Looking for architecture details, local setup, or contribution guidelines?
 
 <div align="center">
 
-*Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)*
+_Generated by [virgenherrera](https://github.com/virgenherrera/virgenherrera)_
 
 </div>

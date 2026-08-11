@@ -23,6 +23,15 @@
       "cta": true
     },
     {
+      "label": "Toptal",
+      "url": "https://topt.al/AjcJrA",
+      "icon": "globe",
+      "target": "blank",
+      "visibility": "public",
+      "type": "professional",
+      "cta": false
+    },
+    {
       "label": "Schedule a Call",
       "url": "https://calendar.app.google/M1VWHaWxfspB7Zst6",
       "icon": "calendar",
@@ -47,7 +56,7 @@
       "role": "Senior Fullstack AI Engineer",
       "startDate": {
         "year": 2025,
-        "month": 8
+        "month": 9
       },
       "description": [
         {
@@ -244,7 +253,7 @@
         {
           "type": "paragraph",
           "lines": [
-            "Joined Globant, a global IT consulting firm, as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer over a 3+ year tenure, leading a team of 4-6 engineers across two major client-facing engagements for a US-based enterprise SaaS provider. Work spanned NestJS and GraphQL backend architecture, a multi-framework SDK ecosystem (Angular, React, Vue), and workflow automation, all supported by AWS-based cloud infrastructure."
+            "Joined Globant, a digitally native technology services company, as Senior Fullstack Node.js Developer and was promoted to Lead Backend Developer over a 3+ year tenure, leading a team of 4-6 engineers across two major client-facing engagements for a US-based enterprise SaaS provider. Work spanned NestJS and GraphQL backend architecture, a multi-framework SDK ecosystem (Angular, React, Vue), and workflow automation, all supported by AWS-based cloud infrastructure."
           ]
         }
       ],
@@ -346,7 +355,7 @@
         {
           "type": "bullets",
           "lines": [
-            "Designed and developed backend services using C# and .NET / .NET Core, integrating seamlessly with the Angular-based frontend and enterprise data sources.",
+            "Designed and developed backend services using C# and .NET / .NET Core, integrating with the Angular-based frontend and enterprise data sources.",
             "Implemented CI/CD pipelines using Azure DevOps, improving deployment reliability, automation, and release velocity for the client engagement.",
             "Deployed cloud-native architecture on Azure, including Azure Kubernetes Service and Azure Functions, backing scalable and resilient microservices.",
             "Built lightweight microservices using Golang and Fiber, contributing to performance and service scalability within the broader distributed system."
@@ -659,7 +668,18 @@
       "honors": "Graduated with Honors (GPA-based)"
     }
   ],
-  "certifications": [],
+  "certifications": [
+    {
+      "name": "Top 3% Talent",
+      "issuer": "Toptal",
+      "date": {
+        "year": 2026,
+        "month": 7
+      },
+      "url": "https://topt.al/AjcJrA",
+      "badge": true
+    }
+  ],
   "projects": [
     {
       "name": "virgenherrera",
@@ -1125,7 +1145,7 @@
           "typescript-base",
           "tl-assistant"
         ],
-        "years": 6.7
+        "years": 6.6
       },
       "javascript": {
         "experiences": [
@@ -1137,7 +1157,7 @@
           "Ramsal Software"
         ],
         "projects": [],
-        "years": 6.4
+        "years": 6.3
       },
       "nodejs": {
         "experiences": [
@@ -1149,7 +1169,7 @@
           "Ramsal Software"
         ],
         "projects": ["nest-base", "typescript-base"],
-        "years": 9.5
+        "years": 9.4
       },
       "angular": {
         "experiences": [
@@ -1160,72 +1180,72 @@
           "Ramsal Software"
         ],
         "projects": ["virgenherrera", "lan-file-share"],
-        "years": 7.3
+        "years": 7.2
       },
       "java": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "golang": {
         "experiences": ["VASS", "Unosquare"],
         "projects": [],
-        "years": 2.2
+        "years": 2.1
       },
       "docker": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "openshift": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "llm-orchestration": {
         "experiences": ["VASS", "PwC"],
         "projects": [],
-        "years": 2
+        "years": 1.9
       },
       "prompt-engineering": {
         "experiences": ["VASS", "PwC"],
         "projects": [],
-        "years": 2
+        "years": 1.9
       },
       "context-engineering": {
         "experiences": ["VASS", "PwC"],
         "projects": [],
-        "years": 2
+        "years": 1.9
       },
       "ci-cd": {
         "experiences": ["VASS", "PwC"],
         "projects": [],
-        "years": 2
+        "years": 1.9
       },
       "dotnet": {
         "experiences": ["VASS", "Unosquare", "EPAM Systems"],
         "projects": [],
-        "years": 3.5
+        "years": 3.4
       },
       "azure-service-bus": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "iot": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "scada": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "rag": {
         "experiences": ["VASS", "PwC"],
         "projects": [],
-        "years": 2
+        "years": 1.9
       },
       "react": {
         "experiences": [
@@ -1236,7 +1256,7 @@
           "Hitss México"
         ],
         "projects": [],
-        "years": 6.9
+        "years": 6.8
       },
       "vue": {
         "experiences": ["VASS", "PwC", "Globant"],
@@ -1246,7 +1266,7 @@
       "svelte": {
         "experiences": ["VASS"],
         "projects": [],
-        "years": 1
+        "years": 0.9
       },
       "nestjs": {
         "experiences": ["PwC", "Globant"],

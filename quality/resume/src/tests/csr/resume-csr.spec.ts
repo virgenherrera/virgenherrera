@@ -215,7 +215,7 @@ test.describe('IT: CSR Resume page (client-side hydration)', () => {
         resumePage.contactLinks.filter({ hasText: 'Phone' }),
       ).toBeAttached();
       const linkCount = await resumePage.contactLinks.count();
-      expect(linkCount).toBe(6);
+      expect(linkCount).toBe(7);
     });
 
     test(should.noTargetOnTelLinks, async ({ resumePage }) => {

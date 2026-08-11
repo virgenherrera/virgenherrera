@@ -231,6 +231,12 @@ honors: Graduated with Honors (GPA-based)
     proficiency: Native
   - language: English
     proficiency: C1`,
+        '/content/certifications.yaml': `certifications:
+  - name: Certified Kubernetes Administrator
+    issuer: CNCF
+    date: '2023-05'
+    url: https://example.com/cka
+    badge: true`,
         // Legacy fixture: `skills-registry.yaml` entries with no `level`
         // field, mirroring `content/skills-registry.yaml` pre-Phase 2 —
         // exercises the DEFAULT_SKILL_LEVEL fallback in `readSkillsRegistry`.
@@ -271,6 +277,7 @@ graduationDate: '2018-05'
         '/content-legacy/languages.yaml': `languages:
   - language: English
     proficiency: Native`,
+        '/content-legacy/certifications.yaml': 'certifications: []',
       });
     });
 
@@ -285,7 +292,15 @@ graduationDate: '2018-05'
       expect(profile.links.length).toBeGreaterThan(0);
       expect(profile.experience.length).toBeGreaterThan(0);
       expect(profile.education.length).toBeGreaterThan(0);
-      expect(profile.certifications).toEqual([]);
+      expect(profile.certifications).toEqual([
+        {
+          name: 'Certified Kubernetes Administrator',
+          issuer: 'CNCF',
+          date: { year: 2023, month: 5 },
+          url: 'https://example.com/cka',
+          badge: true,
+        },
+      ]);
       expect(profile.projects.length).toBeGreaterThan(0);
       expect(profile.skills.length).toBeGreaterThan(0);
       expect(profile.languages.length).toBeGreaterThan(0);
