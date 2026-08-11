@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import {
+  CredentialBadgeComponent,
   ExperienceListComponent,
   FileActionComponent,
   JumbotronComponent,
@@ -23,6 +24,7 @@ import { APP_VERSION } from '../../version.token';
     StickyScrollDirective,
     FileActionComponent,
     VersionBadgeComponent,
+    CredentialBadgeComponent,
   ],
   templateUrl: './resume-page.html',
   styleUrl: './resume-page.css',
