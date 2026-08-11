@@ -69,6 +69,7 @@ export const certificationSchema = z
     issuer: z.string().min(1),
     date: yearMonth,
     url: z.url().optional(),
+    badge: z.boolean().optional().default(false),
   })
   .readonly();
 
@@ -203,6 +204,7 @@ const parsedCertificationSchema = z
     issuer: z.string().min(1),
     date: parsedYearMonth,
     url: z.url().optional(),
+    badge: z.boolean().optional().default(false),
   })
   .readonly();
 

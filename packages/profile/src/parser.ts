@@ -78,6 +78,14 @@ const LINK_FIELDS = [
 
 const LANGUAGE_FIELDS = ['language', 'proficiency'] as const;
 
+const CERTIFICATION_FIELDS = [
+  'name',
+  'issuer',
+  'date',
+  'url',
+  'badge',
+] as const;
+
 /**
  * Reads a `content/` directory (Markdown + YAML) and produces a `ProfileData`
  * object validated against `profileSchema` — the same shape previously
@@ -103,6 +111,12 @@ export function parseContent(contentDir: string): ProfileData {
     LANGUAGE_FIELDS,
     ['language', 'proficiency'],
   );
+  const certifications = parseRecordArray(
+    join(contentDir, 'certifications.yaml'),
+    'certifications',
+    CERTIFICATION_FIELDS,
+    ['name', 'issuer', 'date'],
+  );
   const skills = groupSkillsByCategory(registry);
 
   const raw: Record<string, unknown> = {
@@ -110,7 +124,7 @@ export function parseContent(contentDir: string): ProfileData {
     links,
     experience,
     education,
-    certifications: [],
+    certifications,
     projects,
     skills,
     languages,
