@@ -11,6 +11,7 @@ links:
     cta: true
   - label: Toptal
     url: https://topt.al/AjcJrA
+    icon: globe
     type: professional
     cta: false
   - label: Schedule a Call

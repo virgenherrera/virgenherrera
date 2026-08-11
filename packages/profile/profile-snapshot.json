@@ -25,6 +25,7 @@
     {
       "label": "Toptal",
       "url": "https://topt.al/AjcJrA",
+      "icon": "globe",
       "target": "blank",
       "visibility": "public",
       "type": "professional",
