@@ -132,12 +132,14 @@ export class PdfGeneratorService {
     }
     if (data.phone) {
       const digits = data.phone.replace(/\D/g, '');
-      const waText = encodeURIComponent(
+      const waUrl = new URL(`https://wa.me/${digits}`);
+      waUrl.searchParams.set(
+        'text',
         'Hi Hugo, I found your resume and would like to connect.',
       );
       items.push({
-        text: data.phone,
-        url: `https://wa.me/${digits}?text=${waText}`,
+        text: digits.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})$/, '+$1 $2 $3 $4'),
+        url: waUrl.toString(),
       });
     }
     for (const link of data.links) {
