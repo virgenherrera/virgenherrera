@@ -41,7 +41,7 @@
 radar-beta
   title Skills Coverage
   axis Frontend, Backend, Databases, APIs, Cloud, ORMs, AI, IoT, Testing, Architecture, Tooling
-  curve Breadth{4.3, 3.6, 4, 4, 3.3, 4, 3.8, 3, 3.4, 3.8, 3.7}
+  curve Breadth{4.9, 4.9, 4.5, 4.9, 3.9, 4.8, 3.9, 3.5, 4.7, 4, 4.5}
   graticule polygon
   max 5
   min 0
