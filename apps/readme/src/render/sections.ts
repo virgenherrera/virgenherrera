@@ -123,10 +123,16 @@ export function renderSummary(profile: ProfileData): string {
   return `## 👤 About\n\n> ${condensed}\n\n**Spoken Languages:**&nbsp;\n${languageBadges}`;
 }
 
-export function renderSkills(skills: readonly SkillCategoryData[]): string {
-  if (skills.length === 0) return '';
+// `radarSkills` is the radar-eligible subset (see `@vh/profile/server`'s
+// `getRadarSkills()`) — deliberately NOT `profile.skills`, which contains
+// every registered skill. The radar chart only makes sense over the curated
+// subset; children/niche skills would clutter the axes.
+export function renderSkills(
+  radarSkills: readonly SkillCategoryData[],
+): string {
+  const radar = buildSkillsRadar(radarSkills);
 
-  const radar = buildSkillsRadar(skills);
+  if (!radar) return '';
 
   return `## 🛠️ Skills\n\n${radar}`;
 }

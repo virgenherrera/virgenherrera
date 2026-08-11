@@ -6,7 +6,7 @@
  * returned data, the description transform output, and field-level invariants
  * that data.spec.ts does not assert directly on the getProfile path.
  */
-import { getProfile } from './get-profile';
+import { getProfile, getRadarSkills } from './get-profile';
 
 describe('UT: get-profile @critical', () => {
   class should {
@@ -18,6 +18,8 @@ describe('UT: get-profile @critical', () => {
       'return experience dates as { year, month } objects';
     static readonly returnNonEmptySkillCategories =
       'return at least one skill category with non-empty skills';
+    static readonly returnFewerRadarSkillsThanFullSkills =
+      'return a radar skill set that is a strict subset of the full skill set';
   }
 
   describe('structural shape', () => {
@@ -82,6 +84,30 @@ describe('UT: get-profile @critical', () => {
       expect(profile.skills.length).toBeGreaterThan(0);
 
       for (const category of profile.skills) {
+        expect(category.category.length).toBeGreaterThan(0);
+        expect(category.skills.length).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  describe('getRadarSkills()', () => {
+    it(`${should.returnFewerRadarSkillsThanFullSkills}`, () => {
+      const profile = getProfile();
+      const radarSkills = getRadarSkills();
+
+      const fullSkillCount = profile.skills.reduce(
+        (sum, category) => sum + category.skills.length,
+        0,
+      );
+      const radarSkillCount = radarSkills.reduce(
+        (sum, category) => sum + category.skills.length,
+        0,
+      );
+
+      expect(radarSkillCount).toBeGreaterThan(0);
+      expect(radarSkillCount).toBeLessThan(fullSkillCount);
+
+      for (const category of radarSkills) {
         expect(category.category.length).toBeGreaterThan(0);
         expect(category.skills.length).toBeGreaterThan(0);
       }

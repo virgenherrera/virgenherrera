@@ -1,7 +1,7 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { getProfile } from '@vh/profile/server';
+import { getProfile, getRadarSkills } from '@vh/profile/server';
 import { GitHubService } from './github/github.service';
 import { parseGitHubUsername } from './github/parse-repo-url';
 import { RenderService } from './render/render.service';
@@ -18,6 +18,7 @@ export class ReadmeService {
 
   async generate(): Promise<void> {
     const profile = getProfile();
+    const radarSkills = getRadarSkills();
 
     const rootPkgPath = resolve(REPO_ROOT, 'package.json');
     const rootPkg = JSON.parse(readFileSync(rootPkgPath, 'utf-8')) as {
@@ -39,10 +40,12 @@ export class ReadmeService {
       totalForks: repos.reduce((sum, r) => sum + r.forks_count, 0),
     };
 
-    const markdown = this.renderer.render(profile, username ?? '', {
-      languages,
-      stats,
-    });
+    const markdown = this.renderer.render(
+      profile,
+      radarSkills,
+      username ?? '',
+      { languages, stats },
+    );
 
     const outputPath = resolve(REPO_ROOT, 'README.md');
     writeFileSync(outputPath, markdown, 'utf-8');

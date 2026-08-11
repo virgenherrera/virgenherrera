@@ -35,10 +35,12 @@ skills:
     display: Svelte
     category: Frontend
     level: 2
+    radar: false
   - slug: jquery
     display: jQuery
     category: Frontend
     level: 1
+    radar: false
 
   # --- Backend ---
   - slug: csharp
@@ -53,10 +55,12 @@ skills:
     display: PHP
     category: Backend
     level: 2
+    radar: false
   - slug: java
     display: Java
     category: Backend
     level: 2
+    radar: false
   - slug: nodejs
     display: Node.js
     category: Backend
@@ -79,18 +83,22 @@ skills:
     display: .NET Framework
     category: Backend
     level: 2
+    radar: false
   - slug: dotnet-core
     display: .NET Core
     category: Backend
     level: 3
+    radar: false
   - slug: dotnet-8
     display: .NET 8
     category: Backend
     level: 3
+    radar: false
   - slug: fiber
     display: Fiber
     category: Backend
     level: 2
+    radar: false
 
   # --- Databases ---
   - slug: postgresql
@@ -101,10 +109,12 @@ skills:
     display: MySQL
     category: Databases
     level: 2
+    radar: false
   - slug: mariadb
     display: MariaDB
     category: Databases
     level: 1
+    radar: false
   - slug: mongodb
     display: MongoDB
     category: Databases
@@ -113,10 +123,12 @@ skills:
     display: DynamoDB
     category: Databases
     level: 2
+    radar: false
   - slug: redis
     display: Redis
     category: Databases
     level: 2
+    radar: false
 
   # --- APIs & Protocols ---
   - slug: rest
@@ -132,6 +144,7 @@ skills:
     display: gRPC
     category: APIs & Protocols
     level: 1
+    radar: false
   - slug: websocket
     display: WebSocket
     category: APIs & Protocols
@@ -140,6 +153,7 @@ skills:
     display: Apollo GraphQL
     category: APIs & Protocols
     level: 2
+    radar: false
 
   # --- Cloud & DevOps ---
   - slug: aws
@@ -170,6 +184,7 @@ skills:
     display: OpenShift
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: ci-cd
     display: CI/CD
     category: Cloud & DevOps
@@ -182,51 +197,63 @@ skills:
     display: Azure DevOps
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: azure-aks
     display: Azure Kubernetes Service
     category: Cloud & DevOps
     level: 2
     aliases: [AKS]
+    radar: false
   - slug: azure-functions
     display: Azure Functions
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: azure-service-bus
     display: Azure Service Bus
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-lambda
     display: AWS Lambda
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-sns
     display: AWS SNS
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-sqs
     display: AWS SQS
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-cognito
     display: AWS Cognito
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-step-functions
     display: AWS Step Functions
     category: Cloud & DevOps
     level: 3
+    radar: false
   - slug: aws-codebuild
     display: AWS CodeBuild
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-codedeploy
     display: AWS CodeDeploy
     category: Cloud & DevOps
     level: 2
+    radar: false
   - slug: aws-codepipeline
     display: AWS CodePipeline
     category: Cloud & DevOps
     level: 2
+    radar: false
 
   # --- ORMs & ODMs ---
   - slug: prisma
@@ -241,10 +268,12 @@ skills:
     display: Sequelize
     category: ORMs & ODMs
     level: 2
+    radar: false
   - slug: mongoose
     display: Mongoose
     category: ORMs & ODMs
     level: 2
+    radar: false
 
   # --- AI Engineering ---
   - slug: langchain
@@ -291,6 +320,7 @@ skills:
     display: SCADA
     category: IoT & Industrial Systems
     level: 2
+    radar: false
 
   # --- Testing & QA ---
   - slug: playwright
@@ -305,6 +335,7 @@ skills:
     display: Vitest
     category: Testing & QA
     level: 2
+    radar: false
   - slug: mocha
     display: Mocha
     category: Testing & QA
@@ -377,7 +408,9 @@ skills:
     display: Webpack
     category: Developer Tooling
     level: 2
+    radar: false
   - slug: gulp
     display: Gulp
     category: Developer Tooling
     level: 1
+    radar: false
