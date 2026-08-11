@@ -247,11 +247,13 @@ export const mockProfile: ProfileData = {
       name: 'Order of St. Sava',
       issuer: 'Kingdom of Serbia',
       date: { year: 1892, month: 6 },
+      badge: false,
     },
     {
       name: 'Elliott Cresson Medal',
       issuer: 'Franklin Institute',
       date: { year: 1894, month: 1 },
+      badge: false,
     },
   ],
   projects: [],
