@@ -8,15 +8,6 @@ import {
   type SkillEntryData,
 } from './schema';
 
-/**
- * A single canonical entry from `content/skills-registry.yaml`.
- * `slug` is the cross-reference key used by every other content file;
- * `display` is the human-readable name that ends up in `ProfileData`;
- * `level` is a 1-5 proficiency rating;
- * `radar` marks whether the entry is eligible for the skills radar chart
- * (children/niche skills are excluded via `radar: false` in the registry —
- * see `groupSkillsByCategory`'s `radarOnly` option).
- */
 interface SkillRegistryEntry {
   readonly slug: string;
   readonly display: string;
@@ -25,12 +16,6 @@ interface SkillRegistryEntry {
   readonly radar: boolean;
 }
 
-/**
- * Skills authored before the proficiency model (D5) don't declare `level` in
- * `content/skills-registry.yaml` yet — it is backfilled in Phase 2. Until
- * then, entries missing `level` fall back to this mid-scale rating so
- * `skillEntrySchema` (which requires an int 1-5) still validates.
- */
 const DEFAULT_SKILL_LEVEL = 3;
 
 interface RawMeta {
@@ -90,11 +75,6 @@ const CERTIFICATION_FIELDS = [
   'badge',
 ] as const;
 
-/**
- * Reads a `content/` directory (Markdown + YAML) and produces a `ProfileData`
- * object validated against `profileSchema` — the same shape previously
- * produced by `profileSchema.parse(profileJson)`.
- */
 export function parseContent(contentDir: string): ProfileData {
   const registry = readSkillsRegistry(join(contentDir, 'skills-registry.yaml'));
   const lookup = buildSkillLookup(registry);
@@ -137,12 +117,6 @@ export function parseContent(contentDir: string): ProfileData {
   return profileSchema.parse(raw);
 }
 
-/**
- * Reads `content/skills-registry.yaml` and groups only radar-eligible
- * entries (`radar !== false`) by category — the input the skills radar
- * chart needs. Kept separate from `parseContent()`/`ProfileData.skills`,
- * which must always contain the full, unfiltered skill set.
- */
 export function parseRadarSkills(contentDir: string): SkillCategoryData[] {
   const registry = readSkillsRegistry(join(contentDir, 'skills-registry.yaml'));
 
@@ -210,7 +184,6 @@ function safeMatter(
   }
 }
 
-/** Parses the frontmatter + body of a Markdown file, with descriptive errors on malformed YAML. */
 function parseFrontmatter(filePath: string): {
   data: Record<string, unknown>;
   content: string;
@@ -221,22 +194,12 @@ function parseFrontmatter(filePath: string): {
   return { data: asRecord(data, filePath, 'frontmatter'), content };
 }
 
-/**
- * Parses a standalone `.yaml` file (no frontmatter delimiters) by reusing
- * gray-matter's public API: wrapping the raw text as a frontmatter block and
- * reading back `.data`. Works for both object and top-level array YAML roots.
- */
 function parseYamlFile(filePath: string): unknown {
   const raw = readFileOrThrow(filePath);
 
   return safeMatter(`---\n${raw}\n---`, filePath, 'YAML').data;
 }
 
-/**
- * Reads a standalone `.yaml` content file whose array lives under a named
- * top-level key (e.g. `projects:`, `links:`, `languages:`) — the same
- * wrapping convention used by `skills-registry.yaml`'s `skills:` key.
- */
 function readYamlArray(filePath: string, field: string): unknown[] {
   const data = asRecord(parseYamlFile(filePath), filePath, 'root');
   const entries = data[field];
@@ -285,12 +248,6 @@ function optionalString(
     : undefined;
 }
 
-/**
- * Reads an integer `level` field when present and valid; otherwise
- * `undefined` so the caller can fall back to `DEFAULT_SKILL_LEVEL`. Range
- * validation (1-5) is left to `skillEntrySchema` inside `profileSchema.parse`
- * so the error surfaces with a consistent Zod message.
- */
 function optionalInteger(
   record: Record<string, unknown>,
   field: string,
@@ -302,12 +259,6 @@ function optionalInteger(
     : undefined;
 }
 
-/**
- * Reads an optional boolean field. Returns `undefined` (rather than a
- * hardcoded default) when absent or of the wrong type, so callers decide
- * their own fallback — e.g. `radar` defaults to `true` (radar-eligible
- * unless explicitly opted out).
- */
 function optionalBoolean(
   record: Record<string, unknown>,
   field: string,
@@ -424,15 +375,6 @@ function resolveDisplayNames(
   });
 }
 
-/**
- * Groups registry entries by category, preserving first-seen category order.
- * Pass `{ radarOnly: true }` to keep only radar-eligible entries (`radar !==
- * false`) — used to build the input for the skills radar chart, which should
- * exclude children/niche skills. Categories left with zero entries after
- * filtering are dropped entirely (a radar axis with no skills makes no
- * sense). The default (no options) includes every entry, which is what the
- * full `ProfileData.skills` field requires.
- */
 function groupSkillsByCategory(
   registry: readonly SkillRegistryEntry[],
   options?: { readonly radarOnly?: boolean },
