@@ -1,5 +1,7 @@
 import type { SkillCategoryData } from '@vh/profile';
+import { PRIVATE_PROFILE } from '@vh/profile/data';
 import { buildSkillsRadar } from './skills-radar';
+import { RADAR_TARGETS } from './radar-targets';
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -89,4 +91,41 @@ describe('buildSkillsRadar', () => {
 
     expect(chart).toContain('axis Frontend, Backend, Databases');
   });
+});
+
+describe('radar target validation', () => {
+  // Mirrors `averageLevel()` in `./skills-radar.ts` exactly. Not imported
+  // because the original is not exported — duplicated here so this test
+  // stays a faithful reproduction of the production computation instead of
+  // silently drifting if the internals change.
+  const RADAR_LEVEL_THRESHOLD = 3;
+
+  function averageLevel(levels: readonly number[]): number {
+    const eligible = levels.filter((l) => l >= RADAR_LEVEL_THRESHOLD);
+
+    if (eligible.length === 0) return 0;
+
+    const sum = eligible.reduce((acc, level) => acc + level, 0);
+
+    return Math.round((sum / eligible.length) * 10) / 10;
+  }
+
+  const skillsByCategory = new Map<string, SkillCategoryData>(
+    PRIVATE_PROFILE.skills.map((c) => [c.category, c]),
+  );
+
+  it.each(Object.entries(RADAR_TARGETS))(
+    '%s computes to its target value (%d) from real profile data',
+    (categoryName, target) => {
+      const categoryData = skillsByCategory.get(categoryName);
+
+      expect(categoryData).toBeDefined();
+
+      const computed = averageLevel(
+        (categoryData as SkillCategoryData).skills.map((s) => s.level),
+      );
+
+      expect(computed).toBe(target);
+    },
+  );
 });
