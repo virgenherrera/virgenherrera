@@ -104,8 +104,21 @@ describe('QA: README Generation', () => {
       expect(writtenContent).toContain('## 🛠️ Skills');
       expect(writtenContent).toContain("## 🤝 Let's Connect");
       expect(writtenContent).toContain('## 📈 GitHub Stats');
+      expect(writtenContent).toContain('## 🏆 Credentials');
       expect(writtenContent).toContain('## 🧑‍💻 For Developers');
       expect(writtenContent).toContain('CONTRIBUTING.md');
+    });
+
+    it('should render the Toptal credential badge linking to the badge URL', async () => {
+      await service.generate();
+
+      const writtenContent = mockWriteFileSync.mock.calls[0][1] as string;
+
+      expect(writtenContent).toContain('## 🏆 Credentials');
+      expect(writtenContent).toContain(
+        'https://img.shields.io/badge/Toptal_—_Top_3%25_Talent-3863A0',
+      );
+      expect(writtenContent).toContain('](https://topt.al/AjcJrA)');
     });
 
     it('should include profile projects in featured projects', async () => {
