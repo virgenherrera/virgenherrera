@@ -23,6 +23,14 @@
       "cta": true
     },
     {
+      "label": "Toptal",
+      "url": "https://topt.al/AjcJrA",
+      "target": "blank",
+      "visibility": "public",
+      "type": "professional",
+      "cta": false
+    },
+    {
       "label": "Schedule a Call",
       "url": "https://calendar.app.google/M1VWHaWxfspB7Zst6",
       "icon": "calendar",
