@@ -12,13 +12,17 @@ import {
  * A single canonical entry from `content/skills-registry.yaml`.
  * `slug` is the cross-reference key used by every other content file;
  * `display` is the human-readable name that ends up in `ProfileData`;
- * `level` is a 1-5 proficiency rating.
+ * `level` is a 1-5 proficiency rating;
+ * `radar` marks whether the entry is eligible for the skills radar chart
+ * (children/niche skills are excluded via `radar: false` in the registry —
+ * see `groupSkillsByCategory`'s `radarOnly` option).
  */
 interface SkillRegistryEntry {
   readonly slug: string;
   readonly display: string;
   readonly category: string;
   readonly level: number;
+  readonly radar: boolean;
 }
 
 /**
@@ -131,6 +135,18 @@ export function parseContent(contentDir: string): ProfileData {
   };
 
   return profileSchema.parse(raw);
+}
+
+/**
+ * Reads `content/skills-registry.yaml` and groups only radar-eligible
+ * entries (`radar !== false`) by category — the input the skills radar
+ * chart needs. Kept separate from `parseContent()`/`ProfileData.skills`,
+ * which must always contain the full, unfiltered skill set.
+ */
+export function parseRadarSkills(contentDir: string): SkillCategoryData[] {
+  const registry = readSkillsRegistry(join(contentDir, 'skills-registry.yaml'));
+
+  return groupSkillsByCategory(registry, { radarOnly: true });
 }
 
 // ── file & frontmatter primitives ───────────────────────────────────────────
@@ -286,6 +302,21 @@ function optionalInteger(
     : undefined;
 }
 
+/**
+ * Reads an optional boolean field. Returns `undefined` (rather than a
+ * hardcoded default) when absent or of the wrong type, so callers decide
+ * their own fallback — e.g. `radar` defaults to `true` (radar-eligible
+ * unless explicitly opted out).
+ */
+function optionalBoolean(
+  record: Record<string, unknown>,
+  field: string,
+): boolean | undefined {
+  const value = record[field];
+
+  return typeof value === 'boolean' ? value : undefined;
+}
+
 function requireStringArray(
   record: Record<string, unknown>,
   field: string,
@@ -351,6 +382,7 @@ function readSkillsRegistry(filePath: string): SkillRegistryEntry[] {
       display: requireString(entryRecord, 'display', context),
       category: requireString(entryRecord, 'category', context),
       level: optionalInteger(entryRecord, 'level') ?? DEFAULT_SKILL_LEVEL,
+      radar: optionalBoolean(entryRecord, 'radar') ?? true,
     };
   });
 }
@@ -392,13 +424,27 @@ function resolveDisplayNames(
   });
 }
 
+/**
+ * Groups registry entries by category, preserving first-seen category order.
+ * Pass `{ radarOnly: true }` to keep only radar-eligible entries (`radar !==
+ * false`) — used to build the input for the skills radar chart, which should
+ * exclude children/niche skills. Categories left with zero entries after
+ * filtering are dropped entirely (a radar axis with no skills makes no
+ * sense). The default (no options) includes every entry, which is what the
+ * full `ProfileData.skills` field requires.
+ */
 function groupSkillsByCategory(
   registry: readonly SkillRegistryEntry[],
+  options?: { readonly radarOnly?: boolean },
 ): SkillCategoryData[] {
+  const entries = options?.radarOnly
+    ? registry.filter((entry) => entry.radar)
+    : registry;
+
   const categoryOrder: string[] = [];
   const byCategory = new Map<string, SkillEntryData[]>();
 
-  for (const entry of registry) {
+  for (const entry of entries) {
     let skills = byCategory.get(entry.category);
 
     if (!skills) {
